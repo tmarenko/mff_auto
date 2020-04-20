@@ -1,0 +1,404 @@
+[
+  {
+    "EQ_STUPID_X_MEN_STAGE": {
+      "text_rect": {
+        "x1": 0.45728929384965833,
+        "y1": 0.8714574898785425,
+        "x2": 0.5449886104783599,
+        "y2": 0.8977732793522267
+      },
+      "button_rect": {
+        "x1": 0.464123006833713,
+        "y1": 0.7074898785425101,
+        "x2": 0.5353075170842825,
+        "y2": 0.8319838056680162
+      },
+      "text": "STUPID X-MEN",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_stupid_x_men_stage",
+      "definition": "Epic Quest : X-Force: Stupid X-Men stage."
+    }
+  },
+  {
+    "EQ_STUPID_X_MEN_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.05296127562642369,
+        "y1": 0.02327935222672065,
+        "x2": 0.20273348519362186,
+        "y2": 0.0708502024291498
+      },
+      "button_rect": null,
+      "text": "STUPID X-MEN",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_stupid_x_men_stage_label",
+      "definition": "Epic Quest : X-Force: Stupid X-Men stage text (to detect if it's loaded)."
+    }
+  },
+  {
+    "EQ_THE_BIG_TWIN_STAGE_LABEL": {
+      "text_rect": {"x1": 0.050520833333333334, "y1": 0.022222222222222223, "x2": 0.19583333333333333, "y2": 0.075},
+      "button_rect": null,
+      "text": "THE BIG TWIN",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_the_big_twin_stage_label",
+      "definition": "Epic Quest : X-Force: The Big Twin stage text (to detect if it's loaded)."
+    }
+  },
+  {
+    "EQ_NEW_FACES_STAGE_LABEL": {
+      "text_rect": {"x1": 0.053125, "y1": 0.025925925925925925, "x2": 0.1703125, "y2": 0.07592592592592592},
+      "button_rect": null,
+      "text": "NEW FACES",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_new_faces_stage_label",
+      "definition": "Epic Quest : First Family: New Faces stage text (to detect if it's loaded)."
+    }
+  },
+  {
+    "EQ_TWISTED_WORLD_STAGE_LABEL": {
+      "text_rect": {"x1": 0.053125, "y1": 0.025925925925925925, "x2": 0.22291666666666668, "y2": 0.07592592592592592},
+      "button_rect": null,
+      "text": "TWISTED WORLD",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_twisted_world_stage_label",
+      "definition": "Epic Quest : First Family: Twisted World stage text (to detect if it's loaded)."
+    }
+  },
+  {
+    "EQ_DARK_DIMENSION_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.050683371298405465,
+        "y1": 0.019230769230769232,
+        "x2": 0.23348519362186787,
+        "y2": 0.0728744939271255
+      },
+      "button_rect": null,
+      "text": "DARK DIMENSION",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_dark_dimension_stage_label",
+      "definition": "Epic Quest : Sorcerer Supreme: Dark Dimension stage text (to detect if it's loaded)."
+    }
+  },
+  {
+    "EQ_RECOMMENDED_LVL": {
+      "text_rect": {
+        "x1": 0.5791571753986332,
+        "y1": 0.728744939271255,
+        "x2": 0.7164009111617312,
+        "y2": 0.7692307692307693
+      },
+      "button_rect": null,
+      "text": "RECOMMENDED LV",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_recommended_lvl",
+      "definition": "Epic Quest : X-Force: Stupid X-Men recommended lvl (to detect if menu is loaded)."
+    }
+  },
+  {
+    "EQ_STUPID_X_MEN_STAGE_1": {
+      "text_rect": {
+        "x1": 0.3354214123006834,
+        "y1": 0.6902834008097166,
+        "x2": 0.37471526195899774,
+        "y2": 0.7257085020242915
+      },
+      "button_rect": {
+        "x1": 0.2864464692482916,
+        "y1": 0.3714574898785425,
+        "x2": 0.4185649202733485,
+        "y2": 0.6072874493927125
+      },
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_stupid_x_men_stage_1",
+      "definition": "Epic Quest : X-Force: Stupid X-Men stage #1."
+    }
+  },
+  {
+    "EQ_STUPID_X_MEN_STAGE_2": {
+      "text_rect": {
+        "x1": 0.6304100227790432,
+        "y1": 0.6892712550607287,
+        "x2": 0.6674259681093394,
+        "y2": 0.7267206477732794
+      },
+      "button_rect": {
+        "x1": 0.5882687927107062,
+        "y1": 0.3714574898785425,
+        "x2": 0.7118451025056948,
+        "y2": 0.5951417004048583
+      },
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_stupid_x_men_stage_2",
+      "definition": "Epic Quest : X-Force: Stupid X-Men stage #2."
+    }
+  },
+  {
+    "EQ_THE_BIG_TWIN_STAGE_1": {
+      "text_rect": {"x1": 0.33697916666666666, "y1": 0.6907407407407408, "x2": 0.3697916666666667, "y2": 0.725},
+      "button_rect": {"x1": 0.2984375, "y1": 0.375, "x2": 0.4125, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_the_big_twin_stage_1",
+      "definition": "Epic Quest : X-Force: The Big Twin stage #1."
+    }
+  },
+  {
+    "EQ_THE_BIG_TWIN_STAGE_2": {
+      "text_rect": {"x1": 0.6302083333333334, "y1": 0.6907407407407408, "x2": 0.6614583333333334, "y2": 0.725},
+      "button_rect": {"x1": 0.5885416666666666, "y1": 0.375, "x2": 0.7015625, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_the_big_twin_stage_2",
+      "definition": "Epic Quest : X-Force: The Big Twin stage #2."
+    }
+  },
+  {
+    "EQ_NEW_FACES_STAGE_1": {
+      "text_rect": {"x1": 0.33697916666666666, "y1": 0.6907407407407408, "x2": 0.3697916666666667, "y2": 0.725},
+      "button_rect": {"x1": 0.2984375, "y1": 0.375, "x2": 0.4125, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_new_faces_stage_1",
+      "definition": "Epic Quest : X-Force: New Faces stage #1."
+    }
+  },
+  {
+    "EQ_NEW_FACES_STAGE_2": {
+      "text_rect": {"x1": 0.6302083333333334, "y1": 0.6907407407407408, "x2": 0.6614583333333334, "y2": 0.725},
+      "button_rect": {"x1": 0.5885416666666666, "y1": 0.375, "x2": 0.7015625, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_new_faces_stage_2",
+      "definition": "Epic Quest : X-Force: New Faces stage #2."
+    }
+  },
+  {
+    "EQ_TWISTED_WORLD_STAGE_1": {
+      "text_rect": {"x1": 0.33697916666666666, "y1": 0.6907407407407408, "x2": 0.3697916666666667, "y2": 0.725},
+      "button_rect": {"x1": 0.2984375, "y1": 0.375, "x2": 0.4125, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_twisted_world_stage_1",
+      "definition": "Epic Quest : First Family: Twisted World stage #1."
+    }
+  },
+  {
+    "EQ_TWISTED_WORLD_STAGE_2": {
+      "text_rect": {"x1": 0.6302083333333334, "y1": 0.6907407407407408, "x2": 0.6614583333333334, "y2": 0.725},
+      "button_rect": {"x1": 0.5885416666666666, "y1": 0.375, "x2": 0.7015625, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_twisted_world_stage_2",
+      "definition": "Epic Quest : First Family: Twisted World stage #2."
+    }
+  },
+  {
+    "EQ_VEILED_SECRET_STAGE_1": {
+      "text_rect": {"x1": 0.33697916666666666, "y1": 0.6907407407407408, "x2": 0.3697916666666667, "y2": 0.725},
+      "button_rect": {"x1": 0.2984375, "y1": 0.375, "x2": 0.4125, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_veiled_secret_stage_1",
+      "definition": "Epic Quest : Rise Of The X-Men: Veiled Secret stage #1."
+    }
+  },
+  {
+    "EQ_VEILED_SECRET_STAGE_2": {
+      "text_rect": {"x1": 0.6302083333333334, "y1": 0.6907407407407408, "x2": 0.6614583333333334, "y2": 0.725},
+      "button_rect": {"x1": 0.5885416666666666, "y1": 0.375, "x2": 0.7015625, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_veiled_secret_stage_2",
+      "definition": "Epic Quest : Rise Of The X-Men: Veiled Secret stage #2."
+    }
+  },
+  {
+    "EQ_DARK_DIMENSION_STAGE": {
+      "text_rect": {
+        "x1": 0.6429384965831435,
+        "y1": 0.8694331983805668,
+        "x2": 0.7465831435079726,
+        "y2": 0.8987854251012146
+      },
+      "button_rect": {
+        "x1": 0.6583143507972665,
+        "y1": 0.7054655870445344,
+        "x2": 0.7329157175398633,
+        "y2": 0.8340080971659919
+      },
+      "text": "DARK DIMENSION",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_dark_dimension_stage",
+      "definition": "Epic Quest : Sorcerer Supreme: Dark Dimension stage."
+    }
+  },
+  {
+    "EQ_DARK_DIMENSION_STAGE_1": {
+      "text_rect": {
+        "x1": 0.9629840546697038,
+        "y1": 0.9453441295546559,
+        "x2": 0.9937357630979499,
+        "y2": 0.978744939271255
+      },
+      "button_rect": {
+        "x1": 0.2864464692482916,
+        "y1": 0.3714574898785425,
+        "x2": 0.4185649202733485,
+        "y2": 0.6072874493927125
+      },
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_dark_dimension_stage_1",
+      "definition": "Epic Quest : Sorcerer Supreme: Dark Dimension stage #1."
+    }
+  },
+  {
+    "EQ_DARK_DIMENSION_STAGE_2": {
+      "text_rect": {
+        "x1": 0.9629840546697038,
+        "y1": 0.9453441295546559,
+        "x2": 0.9937357630979499,
+        "y2": 0.978744939271255
+      },
+      "button_rect": {"x1": 0.590625, "y1": 0.4166666666666667, "x2": 0.6989583333333333, "y2": 0.5925925925925926},
+      "text": null,
+      "image_threshold": 95,
+      "chars": "0123456789/",
+      "image_save_file": "eq_dark_dimension_stage_2",
+      "definition": "Epic Quest : Sorcerer Supreme: Dark Dimension stage #2."
+    }
+  },
+  {
+    "EQ_MUTUAL_ENEMY_STAGE_LABEL": {
+      "text_rect": {"x1": 0.646875, "y1": 0.8703703703703703, "x2": 0.7416666666666667, "y2": 0.8972222222222223},
+      "button_rect": {"x1": 0.6625, "y1": 0.7231481481481481, "x2": 0.7244791666666667, "y2": 0.8240740740740741},
+      "text": "MUTUAL ENEMY",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_mutual_enemy_stage",
+      "definition": "Epic Quest : Rise of the X-men : Mutual Enemy stage button and text."
+    }
+  },
+    {
+    "EQ_MUTUAL_ENEMY_STAGE": {
+      "text_rect": {"x1": 0.15572916666666667, "y1": 0.9092592592592592, "x2": 0.19166666666666668, "y2": 0.9527777777777777},
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 120,
+      "chars": "0123456789/",
+      "image_save_file": "eq_mutual_enemy_stage",
+      "definition": "Epic Quest : Rise of the X-men : Mutual Enemy stage counter."
+    }
+  },
+  {
+    "EQ_VEILED_SECRET_STAGE_LABEL": {
+      "text_rect": {"x1": 0.0515625, "y1": 0.025925925925925925, "x2": 0.20625, "y2": 0.07592592592592592},
+      "button_rect": null,
+      "text": "VEILED SECRET",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_veiled_secret_stage",
+      "definition": "Epic Quest : Rise of the X-men : Veiled Secret stage button and text."
+    }
+  },
+  {
+    "EQ_BEGINNING_OF_THE_CHAOS_STAGE_LABEL": {
+      "text_rect": null,
+      "button_rect": null,
+      "text": "BEGINNING OF THE CHAOS",
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Epic Quest : X-Force : Beginning Of The Chaos stage button and text."
+    }
+  },
+  {
+    "EQ_DOOMSDAY_STAGE_LABEL": {
+      "text_rect": null,
+      "button_rect": null,
+      "text": "DOOM'S DAY",
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Epic Quest : First Family : Doom's Day stage."
+    }
+  },
+  {
+    "EQ_MEMORY_MISSION_STAGE_LABEL": {
+      "text_rect": {"x1": 0.051041666666666666, "y1": 0.022222222222222223, "x2": 0.23958333333333334, "y2": 0.07407407407407407},
+      "button_rect": null,
+      "text": "MEMORY MISSION",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_memory_mission",
+      "definition": "Epic Quest : Sorcerer Supreme : Memory Mission stage."
+    }
+  },
+  {
+    "EQ_MEMORY_MISSION_MORDO": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.15833333333333333, "y1": 0.2972222222222222, "x2": 0.28125, "y2": 0.6305555555555555},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Epic Quest : Sorcerer Supreme : Memory Mission: Mordo stage."
+    }
+  },
+  {
+    "EQ_MEMORY_MISSION_WONG": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.3453125, "y1": 0.2972222222222222, "x2": 0.46770833333333334, "y2": 0.6305555555555555},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Epic Quest : Sorcerer Supreme : Memory Mission: Wong stage."
+    }
+  },
+  {
+    "EQ_MEMORY_MISSION_ANCIENT_ONE": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.534375, "y1": 0.2972222222222222, "x2": 0.65625, "y2": 0.6305555555555555},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Epic Quest : Sorcerer Supreme : Memory Mission: Ancient One stage."
+    }
+  },
+  {
+    "EQ_MEMORY_MISSION_KAECILIUS": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.7208333333333333, "y1": 0.2972222222222222, "x2": 0.84375, "y2": 0.6305555555555555},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Epic Quest : Sorcerer Supreme : Memory Mission: Kaecilius stage."
+    }
+  }
+]
+
+

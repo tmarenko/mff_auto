@@ -1,0 +1,8 @@
+autoit
+numpy
+opencv-python
+pillow
+pytesseract
+scipy
+pywin32
+win32gui

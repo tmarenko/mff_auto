@@ -1,0 +1,183 @@
+from lib.functions import wait_until
+from lib.missions import Missions
+from lib.battle_bot import AutoBattleBot
+import logging
+import time
+
+logger = logging.getLogger(__name__)
+
+
+class DimensionMissions(Missions):
+    """Class for working with Dimension Missions."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param game.Game game: instance of the game.
+        """
+        super().__init__(game, 'SM_LABEL')
+
+    def go_to_dm(self):
+        """Go to Dimension Missions.
+
+        :return: True or False: is Dimension Missions open.
+        """
+        self.game.go_to_mission_selection()
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_MISSION']):
+            self.player.click_button(self.ui['DM_MISSION'].button)
+            self.game.close_ads(timeout=5)
+            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL'])
+        return False
+
+    @property
+    def stage_level(self):
+        """Get current stage level.
+
+        :return: current stage level.
+        """
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL']):
+            stage_str = self.player.get_screen_text(ui_element=self.ui['DM_LEVEL'])
+            try:
+                stage_int = int(stage_str)
+            except ValueError:
+                logger.critical(f"Dimension Missions: cannot convert stage to integer: {stage_str}")
+                stage_int = 0
+            return stage_int
+        return 0
+
+    def increase_stage_level(self):
+        """Increase current stage level"""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+            logger.info("Dimension Missions: increasing stage difficulty level.")
+            self.player.click_button(self.ui['DM_LEVEL_PLUS'].button)
+
+    def decrease_stage_level(self):
+        """Decrease current stage level"""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+            logger.info("Dimension Missions: decreasing stage difficulty level.")
+            self.player.click_button(self.ui['DM_LEVEL_MINUS'].button)
+
+    def select_stage_level(self, level_num=10):
+        """Select stage level.
+
+        :param level_num: level to select.
+        """
+        if level_num > 10 or level_num <= 0:
+            logger.error(f"Dimension Missions: stage level should be between 1 and 10, got {level_num} instead.")
+            return
+        if self.stage_level == 0:
+            logger.critical("Dimensions Missions: something went wrong with stage level acquiring.")
+            return
+        while self.stage_level != level_num:
+            if self.stage_level > level_num:
+                self.decrease_stage_level()
+            if self.stage_level < level_num:
+                self.increase_stage_level()
+
+    def select_team(self):
+        """Select team for missions."""
+        team_element = self.ui[f'DM_SELECT_TEAM_{self.game.mission_team}']
+        logger.debug(f"Selecting team: {team_element.name}")
+        self.player.click_button(team_element.button)
+
+    def get_ready(self):
+        """Get ready for mission.
+
+        :return: (bool) is mission menu is opened.
+        """
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+            logger.info("Dimension Missions: clicking READY to mission button.")
+            self.player.click_button(self.ui['DM_LEVEL_READY'].button)
+            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_START_BUTTON'])
+
+    def do_missions(self, times=0, difficulty=10):
+        """Do missions."""
+        self.start_missions(times=times, difficulty=difficulty)
+        self.acquire_rewards()
+        self.end_missions()
+
+    def end_missions(self):
+        """End missions."""
+        if not self.game.is_main_menu():
+            self.game.player.click_button(self.ui['HOME'].button)
+            self.close_after_mission_notifications()
+            self.game.close_ads()
+
+    def start_missions(self, times=0, difficulty=10):
+        """Start Dimension Missions.
+
+        :param times:
+        :param difficulty: name of UI element that contains info about difficulty of stage.
+        """
+        logger.info(f"Starting Dimensions Missions for {times} times.")
+        if not self.go_to_dm():
+            logger.warning("Dimension Mission: can't get in mission lobby.")
+            return
+        self.select_stage_level(level_num=difficulty)
+        while times > 0:
+            if self.get_ready():
+                time.sleep(1)
+                if not self.is_stage_startable():
+                    logger.error("Cannot start Dimension Mission battle, not enough boost points.")
+                    return
+                if not self.press_start_button(start_button_ui='DM_START_BUTTON'):
+                    logger.error("Cannot start Dimension Mission battle, exiting.")
+                    return
+                AutoBattleBot(self.game).fight()
+                times -= 1
+                self.close_mission_notifications()
+                if times > 0:
+                    self.press_repeat_button()
+                else:
+                    self.press_home_button()
+                    self.close_after_mission_notifications()
+        logger.info("No more stages for Dimension Missions.")
+
+    def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui=None):
+        """Press repeat button of the mission."""
+        logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
+        self.player.click_button(self.ui[repeat_button_ui].button)
+        while not self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+            self.close_after_mission_notifications(timeout=1)
+        return True
+
+    def acquire_rewards(self):
+        """Acquire all Dimension rewards."""
+        def is_reward_to_acquire_exists():
+            return self.player.is_ui_element_on_screen(ui_element=self.ui['DM_ACQUIRE_NEXT_REWARD']) or \
+                   self.player.is_ui_element_on_screen(ui_element=self.ui['DM_REWARD_ACQUIRED_OK'])
+
+        # TODO: inventory full check
+        logger.info("Dimension Missions: acquiring rewards.")
+        if not self.go_to_dm():
+            logger.warning("Dimension Mission: can't get in mission lobby.")
+            return
+        self.player.click_button(self.ui['DM_ACQUIRE_REWARD'].button)
+        while wait_until(is_reward_to_acquire_exists, timeout=3):
+            self.acquire_reward()
+        logger.info("Dimension Missions: no more rewards to acquire.")
+
+    def acquire_reward(self):
+        """Acquire one reward."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_ACQUIRE_NEXT_REWARD']):
+            self.player.click_button(self.ui['DM_ACQUIRE_NEXT_REWARD'].button)
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_REWARD_ACQUIRED_OK']):
+            self.player.click_button(self.ui['DM_REWARD_ACQUIRED_OK'].button)
+
+    @property
+    def energy_cost(self):
+        """Energy cost of the mission.
+
+        :return: energy cost.
+        """
+        cost = self.player.get_screen_text(self.ui['DM_ENERGY_COST'])
+        return int(cost) if cost.isdigit() else None
+
+    @property
+    def boost_cost(self):
+        """Boost points cost of the mission.
+
+        :return: boost points cost.
+        """
+        cost = self.player.get_screen_text(self.ui['DM_BOOST_COST'])
+        return int(cost) if cost.isdigit() else None

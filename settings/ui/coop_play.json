@@ -1,0 +1,248 @@
+[
+  {
+    "COOP_PLAY_LABEL": {
+      "text_rect": {
+        "x1": 0.07857142857142857,
+        "y1": 0.29733163913595934,
+        "x2": 0.18428571428571427,
+        "y2": 0.3392630241423126
+      },
+      "button_rect": null,
+      "text": "CO-OP PLAY",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "coop_play_label",
+      "definition": "CO-OP label in mission selection."
+    }
+  },
+  {
+    "COOP_PLAY_MENU_LABEL": {
+      "text_rect": {
+        "x1": 0.05142857142857143,
+        "y1": 0.021601016518424398,
+        "x2": 0.125,
+        "y2": 0.07115628970775095
+      },
+      "button_rect": null,
+      "text": "LOBBY",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "coop_play_menu_label",
+      "definition": "CO-OP LOBBY label at the top left corner of CO-OP menu."
+    }
+  },
+  {
+    "COOP_STAGE_PERCENTAGE": {
+      "text_rect": {
+        "x1": 0.705,
+        "y1": 0.7674714104193139,
+        "x2": 0.745,
+        "y2": 0.795425667090216
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 160,
+      "chars": "0123456789%",
+      "image_save_file": "coop_stage_percentage",
+      "definition": "CO-OP stage percentage."
+    }
+  },
+  {
+    "COOP_DEPLOY_CHARACTER": {
+      "text_rect": {
+        "x1": 0.3942857142857143,
+        "y1": 0.3875476493011436,
+        "x2": 0.6078571428571429,
+        "y2": 0.4485387547649301
+      },
+      "button_rect": null,
+      "text": "Deploy a Character.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "coop_deploy_character",
+      "definition": "Deploy character message that shown if you haven't deployed a character."
+    }
+  },
+  {
+    "COOP_USER_NAME": {
+      "text_rect": {
+        "x1": 0.42857142857142855,
+        "y1": 0.6200762388818297,
+        "x2": 0.4857142857142857,
+        "y2": 0.6531130876747141
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 110,
+      "chars": null,
+      "image_save_file": "coop_user_name",
+      "definition": "Player username that shown if you have deployed a character."
+    }
+  },
+  {
+    "COOP_FIRST_CHAR": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.016428571428571428,
+        "y1": 0.7509529860228716,
+        "x2": 0.10428571428571429,
+        "y2": 0.9580686149936467
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "First available character to deploy."
+    }
+  },
+  {
+    "COOP_START_BUTTON": {
+      "text_rect": {
+        "x1": 0.825,
+        "y1": 0.9085133418043202,
+        "x2": 0.9842857142857143,
+        "y2": 0.97712833545108
+      },
+      "button_rect": {
+        "x1": 0.8664285714285714,
+        "y1": 0.9199491740787802,
+        "x2": 0.94,
+        "y2": 0.9669631512071156
+      },
+      "text": "START",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "coop_start_button",
+      "definition": "COOP start button."
+    }
+  },
+  {
+    "COOP_START_BUTTON_ACQUIRE": {
+      "text_rect": {
+        "x1": 0.825,
+        "y1": 0.9085133418043202,
+        "x2": 0.9842857142857143,
+        "y2": 0.97712833545108
+      },
+      "button_rect": {
+        "x1": 0.8664285714285714,
+        "y1": 0.9199491740787802,
+        "x2": 0.94,
+        "y2": 0.9669631512071156
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "coop_start_button_acquire",
+      "definition": "DEPRECATED: COOP start button."
+    }
+  },
+  {
+    "COOP_REWARD": {
+      "text_rect": {
+        "x1": 0.8285714285714286,
+        "y1": 0.9212198221092758,
+        "x2": 0.9778571428571429,
+        "y2": 0.9682337992376112
+      },
+      "button_rect": {
+        "x1": 0.825,
+        "y1": 0.9085133418043202,
+        "x2": 0.9842857142857143,
+        "y2": 0.97712833545108
+      },
+      "text": "Reward Acquired",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "coop_reward",
+      "definition": "COOP get reward button."
+    }
+  },
+  {
+    "COOP_REWARD_ACQUIRE": {
+      "text_rect": {
+        "x1": 0.4785714285714286,
+        "y1": 0.7878017789072427,
+        "x2": 0.5242857142857142,
+        "y2": 0.8335451080050826
+      },
+      "button_rect": {
+        "x1": 0.44357142857142856,
+        "y1": 0.7814485387547649,
+        "x2": 0.5585714285714286,
+        "y2": 0.8398983481575604
+      },
+      "text": "OK",
+      "image_threshold": 120,
+      "chars": "OK",
+      "image_save_file": "coop_reward_acquire",
+      "definition": "COOP reward acquire windows with OK button to close it."
+    }
+  },
+  {
+    "COOP_REWARD_ACQUIRE_CONFIRM": {
+      "text_rect": {
+        "x1": 0.5357142857142857,
+        "y1": 0.7306226175349428,
+        "x2": 0.6214285714285714,
+        "y2": 0.7750952986022872
+      },
+      "button_rect": {
+        "x1": 0.5157142857142857,
+        "y1": 0.7268106734434562,
+        "x2": 0.6428571428571429,
+        "y2": 0.7827191867852605
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 160,
+      "chars": null,
+      "image_save_file": "coop_reward_acquire_confirm",
+      "definition": "COOP reward acquire confirm window (for first reward)."
+    }
+  },
+  {
+    "COOP_REWARD_ACQUIRE_CONFIRM_TICKETS": {
+      "text_rect": {
+        "x1": 0.6,
+        "y1": 0.7331639135959339,
+        "x2": 0.6785714285714286,
+        "y2": 0.7776365946632783
+      },
+      "button_rect": {
+        "x1": 0.4835714285714286,
+        "y1": 0.7242693773824651,
+        "x2": 0.6835714285714286,
+        "y2": 0.7801778907242694
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 160,
+      "chars": null,
+      "image_save_file": "coop_reward_acquire_confirm_tickets",
+      "definition": "COOP reward acquire confirm window with tickets (for others reward)."
+    }
+  },
+  {
+    "COOP_REPEAT_TOGGLE": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.83125, "y1": 0.7694444444444445, "x2": 0.8505208333333333, "y2": 0.8027777777777778},
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "repeat_toggle_coop",
+      "definition": "Toggle for repeat."
+    }
+  },
+  {
+    "COOP_QUICK_MATCH_TOGGLE": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.83125, "y1": 0.8342592592592593, "x2": 0.8505208333333333, "y2": 0.8694444444444445},
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "quick_match_toggle_coop",
+      "definition": "Toggle for quick match."
+    }
+  }
+]
