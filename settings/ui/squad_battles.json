@@ -1,0 +1,187 @@
+[
+  {
+    "SB_LABEL": {
+      "text_rect": {"x1": 0.0515625, "y1": 0.020370370370370372, "x2": 0.20520833333333333, "y2": 0.07777777777777778},
+      "button_rect": null,
+      "text": "SQUAD BATTLE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_label",
+      "definition": "Squad Battle label in mission selection."
+    }
+  },
+  {
+    "SQUAD_BATTLE": {
+      "text_rect": {"x1": 0.3203125, "y1": 0.2953703703703704, "x2": 0.45260416666666664, "y2": 0.3472222222222222},
+      "button_rect": {"x1": 0.3125, "y1": 0.425, "x2": 0.4552083333333333, "y2": 0.6944444444444444},
+      "text": "SQUAD BATTLE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "squad_battle",
+      "definition": "Squad Battle mode entry in Challenges menu."
+    }
+  },
+  {
+    "SB_RANK_CHANGED": {
+      "text_rect": {"x1": 0.40625, "y1": 0.5925925925925926, "x2": 0.4588541666666667, "y2": 0.6370370370370371},
+      "button_rect": {"x1": 0.34375, "y1": 0.2777777777777778, "x2": 0.7333333333333333, "y2": 0.7453703703703703},
+      "text": "RANK",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_rank_changed",
+      "definition": "Rank message when your rank is changed."
+    }
+  },
+  {
+    "SB_BATTLE_1": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.065625, "y1": 0.3101851851851852, "x2": 0.2515625, "y2": 0.3962962962962963},
+      "text": null,
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_1",
+      "definition": "Squad Battle #1."
+    }
+  },
+    {
+    "SB_BATTLE_2": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.11197916666666667, "y1": 0.5111111111111111, "x2": 0.2989583333333333, "y2": 0.5981481481481481},
+      "text": null,
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_2",
+      "definition": "Squad Battle #2."
+    }
+  },
+    {
+    "SB_BATTLE_3": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.15729166666666666, "y1": 0.7037037037037037, "x2": 0.34322916666666664, "y2": 0.7898148148148149},
+      "text": null,
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_3",
+      "definition": "Squad Battle #3."
+    }
+  },
+    {
+    "SB_BATTLE_4": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.7536458333333333, "y1": 0.30648148148148147, "x2": 0.9395833333333333, "y2": 0.39351851851851855},
+      "text": null,
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_4",
+      "definition": "Squad Battle #4."
+    }
+  },
+    {
+    "SB_BATTLE_5": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.7005208333333334, "y1": 0.5055555555555555, "x2": 0.8875, "y2": 0.5916666666666667},
+      "text": null,
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_5",
+      "definition": "Squad Battle #5."
+    }
+  },
+    {
+    "SB_BATTLE_6": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.65625, "y1": 0.7055555555555556, "x2": 0.8427083333333333, "y2": 0.7916666666666666},
+      "text": null,
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_6",
+      "definition": "Squad Battle #6."
+    }
+  },
+    {
+    "SB_START_BUTTON": {
+      "text_rect": {"x1": 0.51875, "y1": 0.8694444444444445, "x2": 0.6973958333333333, "y2": 0.925},
+      "button_rect": {"x1": 0.51875, "y1": 0.8694444444444445, "x2": 0.6973958333333333, "y2": 0.925},
+      "text": "START",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_start_button",
+      "definition": "Squad Battle start button."
+    }
+  },{
+    "SB_REPEAT_BUTTON": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.5494791666666666, "y1": 0.8944444444444445, "x2": 0.5927083333333333, "y2": 0.9657407407407408},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "sb_repeat_button",
+      "definition": "Squad Battle repeat button."
+    }
+  },{
+    "SB_HOME_BUTTON": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.4083333333333333, "y1": 0.8962962962962963, "x2": 0.4515625, "y2": 0.9675925925925926},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "sb_home_button",
+      "definition": "Squad Battle home button."
+    }
+  },
+    {
+    "SB_EMPTY_TEAM_NOTIFICATION": {
+      "text_rect": {"x1": 0.37395833333333334, "y1": 0.44351851851851853, "x2": 0.6302083333333334, "y2": 0.5185185185185185},
+      "button_rect": {"x1": 0.47291666666666665, "y1": 0.7268518518518519, "x2": 0.5307291666666667, "y2": 0.7833333333333333},
+      "text": "All squad slots must be filled.",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_empty_team_notification",
+      "definition": "Squad Battle notification when you started a battle without setting up a team."
+    }
+  },
+    {
+    "SB_BATTLE_POINTS": {
+      "text_rect": {"x1": 0.309375, "y1": 0.3055555555555556, "x2": 0.44427083333333334, "y2": 0.35555555555555557},
+      "button_rect": null,
+      "text": "BATTLE POINTS",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_battle_points",
+      "definition": "Squad Battle points at the end of the battle.."
+    }
+  },
+    {
+    "SB_CHARACTER_1": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.6614583333333334, "y1": 0.30833333333333335, "x2": 0.7395833333333334, "y2": 0.4444444444444444},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Squad Battle character selector: char #1."
+    }
+  },
+  {
+    "SB_CHARACTER_2": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.7552083333333334, "y1": 0.30833333333333335, "x2": 0.8333333333333334, "y2": 0.4444444444444444},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Squad Battle character selector: char #2."
+    }
+  },
+  {
+    "SB_CHARACTER_3": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.8520833333333333, "y1": 0.30833333333333335, "x2": 0.9270833333333334, "y2": 0.4444444444444444},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Squad Battle character selector: char #3."
+    }
+  }
+]

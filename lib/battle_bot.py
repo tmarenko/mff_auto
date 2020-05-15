@@ -51,7 +51,9 @@ class BattleBot:
                     self.player.is_ui_element_on_screen(self.ui['TIMELINE_POINTS']) or \
                     self.player.is_ui_element_on_screen(self.ui['INVASION_SLOT_CHEST']) or \
                     self.player.is_ui_element_on_screen(self.ui['INVASION_FAILED']) or \
-                    self.player.is_ui_element_on_screen(self.ui['CANNOT_ENTER']):
+                    self.player.is_ui_element_on_screen(self.ui['CANNOT_ENTER']) or \
+                    self.player.is_ui_element_on_screen(self.ui['SB_RANK_CHANGED']) or \
+                    self.player.is_ui_element_on_screen(self.ui['SB_BATTLE_POINTS']):
                 return True
             if self.player.is_image_on_screen(self.ui['HOME_BUTTON']) or \
                     self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
