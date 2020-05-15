@@ -57,13 +57,13 @@ class DimensionMissions(Missions):
             logger.info("Dimension Missions: decreasing stage difficulty level.")
             self.player.click_button(self.ui['DM_LEVEL_MINUS'].button)
 
-    def select_stage_level(self, level_num=10):
+    def select_stage_level(self, level_num=15):
         """Select stage level.
 
         :param level_num: level to select.
         """
-        if level_num > 10 or level_num <= 0:
-            logger.error(f"Dimension Missions: stage level should be between 1 and 10, got {level_num} instead.")
+        if level_num > 15 or level_num <= 0:
+            logger.error(f"Dimension Missions: stage level should be between 1 and 15, got {level_num} instead.")
             return
         if self.stage_level == 0:
             logger.critical("Dimensions Missions: something went wrong with stage level acquiring.")
@@ -90,7 +90,7 @@ class DimensionMissions(Missions):
             self.player.click_button(self.ui['DM_LEVEL_READY'].button)
             return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_START_BUTTON'])
 
-    def do_missions(self, times=0, difficulty=10):
+    def do_missions(self, times=0, difficulty=15):
         """Do missions."""
         self.start_missions(times=times, difficulty=difficulty)
         self.acquire_rewards()
@@ -103,7 +103,7 @@ class DimensionMissions(Missions):
             self.close_after_mission_notifications()
             self.game.close_ads()
 
-    def start_missions(self, times=0, difficulty=10):
+    def start_missions(self, times=0, difficulty=15):
         """Start Dimension Missions.
 
         :param times:
