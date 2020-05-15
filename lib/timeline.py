@@ -2,6 +2,7 @@ from lib.battle_bot import AutoBattleBot
 from lib.missions import Missions
 from lib.functions import wait_until
 import logging
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,7 @@ class TimelineBattle(Missions):
         if self.stages > 0:
             self.go_to_timeline_battle()
             while self.stages > 0:
+                self.search_new_opponent()
                 self.fight()
         logger.info("No more stages for timeline battles.")
 
@@ -47,6 +49,13 @@ class TimelineBattle(Missions):
                     self.player.click_button(self.ui['TL_REPEAT_TOGGLE'].button)
                 self.select_team()
                 self.player.click_button(self.ui['TL_SEARCH_BUTTON'].button)
+
+    def search_new_opponent(self):
+        """Search new opponents to minimize lose points."""
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_SEARCH_NEW_OPPONENT']):
+            for _ in range(3):
+                self.player.click_button(self.ui['TL_SEARCH_NEW_OPPONENT'].button)
+                time.sleep(1)
 
     def fight(self):
         """Go to fight screen and fight."""

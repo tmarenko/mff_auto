@@ -234,5 +234,16 @@
       "image_save_file": "repeat_toggle_timeline",
       "definition": "Toggle for repeat."
     }
+  },
+    {
+    "TL_SEARCH_NEW_OPPONENT": {
+      "text_rect": {"x1": 0.5114583333333333, "y1": 0.8101851851851852, "x2": 0.615625, "y2": 0.8814814814814815},
+      "button_rect": {"x1": 0.5114583333333333, "y1": 0.8101851851851852, "x2": 0.615625, "y2": 0.8814814814814815},
+      "text": "SEARCH NEW OPPONENT",
+      "image_threshold": 160,
+      "chars": null,
+      "image_save_file": "tl_search_new_opponent",
+      "definition": "Timeline search new opponent button."
+    }
   }
 ]
