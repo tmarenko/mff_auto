@@ -59,17 +59,6 @@
     }
   },
   {
-    "MAIN_MENU_AD_4": {
-      "text_rect": {"x1": 0.8489583333333334, "y1": 0.11388888888888889, "x2": 0.8802083333333334, "y2": 0.1685185185185185},
-      "button_rect": {"x1": 0.8489583333333334, "y1": 0.11388888888888889, "x2": 0.8802083333333334, "y2": 0.1685185185185185},
-      "text": "X",
-      "image_threshold": 120,
-      "chars": "X",
-      "image_save_file": "close_ad_x_button_4",
-      "definition": "The X-button of closing ads in main menu."
-    }
-  },
-  {
     "ENTER_MISSIONS": {
       "text_rect": {
         "x1": 0.8542141230068337,

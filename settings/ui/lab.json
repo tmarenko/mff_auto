@@ -11,17 +11,6 @@
     }
   },
   {
-    "LAB_ANTIMATTER_GENERATOR_LABEL": {
-      "text_rect": {"x1": 0.35520833333333335, "y1": 0.8324074074074074, "x2": 0.6427083333333333, "y2": 0.8861111111111111},
-      "button_rect": null,
-      "text": "ANTI-MATTER GENERATOR LV.1",
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "lab_antimatter_generator_label",
-      "definition": "Shield Lab anti-matter generator label."
-    }
-  },
-  {
     "LAB_ANTIMATTER_GENERATOR_COLLECT_1": {
       "text_rect": {"x1": 0.5333333333333333, "y1": 0.9111111111111111, "x2": 0.6234375, "y2": 0.9648148148148148},
       "button_rect": {"x1": 0.6104166666666667, "y1": 0.9111111111111111, "x2": 0.7005208333333334, "y2": 0.9648148148148148},
