@@ -185,5 +185,16 @@
       "image_save_file": "dm_reward_acquired_ok",
       "definition": "Dimensions Missions: OK button at the end of acquiring last reward."
     }
+  },
+  {
+    "DM_TICKET_NOTIFICATION": {
+      "text_rect": {"x1": 0.5609339407744874, "y1": 0.7338056680161943, "x2": 0.5979498861047836, "y2": 0.7793522267206477},
+      "button_rect": {"x1": 0.5199316628701595, "y1": 0.7307692307692307, "x2": 0.6412300683371298, "y2": 0.7854251012145749},
+      "text": "USE",
+      "image_threshold": 175,
+      "chars": "USE",
+      "image_save_file": "dm_ticket_notification",
+      "definition": "Notification of you need to use hidden tickets. Leads to OK (use tickets) button."
+    }
   }
 ]

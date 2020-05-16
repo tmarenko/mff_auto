@@ -132,8 +132,8 @@ class Missions:
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
                 self.player.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=2,
-                          ui_element=self.ui['SM_TICKET_NOTIFICATION']):
-                self.player.click_button(self.ui['SM_TICKET_NOTIFICATION'].button)
+                          ui_element=self.ui['DM_TICKET_NOTIFICATION']):
+                self.player.click_button(self.ui['DM_TICKET_NOTIFICATION'].button)
             return True
         logger.warning("Unable to press START button.")
         return False
