@@ -32,7 +32,7 @@ class SquadBattles(Missions):
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SQUAD_BATTLE']):
             self.player.click_button(self.ui['SQUAD_BATTLE'].button)
             self.game.close_ads(timeout=5)
-            self.close_rank_change_notification()
+            self.close_after_battle_notifications()
             return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SB_LABEL'])
         return False
 
@@ -41,6 +41,17 @@ class SquadBattles(Missions):
         if self.player.is_ui_element_on_screen(ui_element=self.ui['SB_RANK_CHANGED']):
             logger.info("Squad Battles: closing rank change notification.")
             self.player.click_button(self.ui['SB_RANK_CHANGED'].button)
+            return True
+        return False
+
+    def close_after_battle_notifications(self, timeout=5):
+        """Close after battle notifications at the end of the battle.
+
+        :param timeout: timeout of waiting for notifications.
+        """
+        for _ in range(timeout):
+            notification_closed = wait_until(self.close_rank_change_notification, timeout=1)
+            logger.debug(f"After mission notifications was closed: {notification_closed}")
 
     def do_missions(self, mode=MODE.DAILY_RANDOM):
         """Do missions."""
@@ -67,7 +78,8 @@ class SquadBattles(Missions):
             for battle_num in range(1, 7):
                 logger.info(f"Squad Battles: starting battle with number: {battle_num}.")
                 self.start_squad_battle(battle_num=f"SB_BATTLE_{battle_num}")
-                self.press_repeat_button()
+                if not self.press_repeat_button():
+                    logger.error("Squad Battles: Something went wrong after clicking REPEAT button.")
 
     def end_missions(self, home_button="HOME"):
         """End missions."""
@@ -84,7 +96,7 @@ class SquadBattles(Missions):
         if self.select_squad_battle(squad_battle_ui=self.ui[battle_num]):
             self.press_start_button()
             AutoBattleBot(self.game).fight()
-            self.close_rank_change_notification()
+            self.close_after_battle_notifications()
 
     def select_squad_battle(self, squad_battle_ui):
         """Select squad battle.
@@ -111,7 +123,7 @@ class SquadBattles(Missions):
     def press_repeat_button(self, repeat_button_ui='SB_REPEAT_BUTTON', start_button_ui=None):
         """Press repeat button of the mission."""
         self.player.click_button(self.ui[repeat_button_ui].button)
-        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SB_LABEL'])
+        return wait_until(self.player.is_ui_element_on_screen, timeout=10, ui_element=self.ui['SB_LABEL'])
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""
