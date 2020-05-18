@@ -68,7 +68,14 @@ class DimensionMissions(Missions):
         if self.stage_level == 0:
             logger.critical("Dimensions Missions: something went wrong with stage level acquiring.")
             return
+        safe_counter = 0
+        diff = abs(level_num - self.stage_level)
         while self.stage_level != level_num:
+            if safe_counter > diff:
+                logger.warning(f"Dimensions Missions: stage level was changed more than {safe_counter}. "
+                               f"Your max stage level probably lesser than {level_num}.")
+                break
+            safe_counter += 1
             if self.stage_level > level_num:
                 self.decrease_stage_level()
             if self.stage_level < level_num:
