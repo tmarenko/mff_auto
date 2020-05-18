@@ -34,10 +34,10 @@
   },
   {
     "INVASION_MANAGE_CHESTS": {
-      "text_rect": null,
+      "text_rect": {"x1": 0.7885416666666667, "y1": 0.7194444444444444, "x2": 0.9307291666666667, "y2": 0.7657407407407407},
       "button_rect": {"x1": 0.7885416666666667, "y1": 0.7194444444444444, "x2": 0.9307291666666667, "y2": 0.7657407407407407},
-      "text": null,
-      "image_threshold": null,
+      "text": "MANAGE SUPPLIES",
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": null,
       "definition": "WBI Manage Supplies button."

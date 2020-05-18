@@ -55,7 +55,9 @@ class WorldBossInvasion(Missions):
         self.game.go_to_coop()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_LABEL']):
             self.player.click_button(self.ui['INVASION_LABEL'].button)
-            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_MENU_LABEL'])
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_MENU_LABEL']):
+                return wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['INVASION_MANAGE_CHESTS'])
         return False
 
     def _get_chests_count(self):
@@ -102,7 +104,7 @@ class WorldBossInvasion(Missions):
                     return False
         logger.debug("All chests obtained, going back to WBI.")
         self.player.click_button(self.ui['MENU_BACK'].button)
-        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_MENU_LABEL'])
+        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_MANAGE_CHESTS'])
 
     def acquire_chest(self, chest_index):
         """Acquire chest by chest index.
