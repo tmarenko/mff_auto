@@ -154,7 +154,7 @@
         "y2": 0.6528340080971661
       },
       "text": null,
-      "image_threshold": 155,
+      "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_1",
       "definition": "#1 skill button."
@@ -175,7 +175,7 @@
         "y2": 0.7742914979757085
       },
       "text": null,
-      "image_threshold": 155,
+      "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_2",
       "definition": "#2 skill button."
@@ -196,7 +196,7 @@
         "y2": 0.6578947368421053
       },
       "text": null,
-      "image_threshold": 155,
+      "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_3",
       "definition": "#3 skill button."
@@ -217,7 +217,7 @@
         "y2": 0.9311740890688259
       },
       "text": null,
-      "image_threshold": 155,
+      "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_4",
       "definition": "#4 skill button."
@@ -238,10 +238,78 @@
         "y2": 0.9311740890688259
       },
       "text": null,
-      "image_threshold": 155,
+      "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_5",
       "definition": "#5 skill button."
+    }
+  },
+  {
+    "SKILL_6": {
+      "text_rect": {"x1": 0.6875, "y1": 0.7203703703703703, "x2": 0.7234375, "y2": 0.7851851851851852},
+      "button_rect": {"x1": 0.6875, "y1": 0.7203703703703703, "x2": 0.7234375, "y2": 0.7851851851851852},
+      "text": null,
+      "image_threshold": 170,
+      "chars": "0123456789",
+      "image_save_file": "skill_6",
+      "definition": "#6 skill button."
+    }
+  },
+  {
+    "SKILL_6_LOCKED": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.6875, "y1": 0.7203703703703703, "x2": 0.7234375, "y2": 0.7851851851851852},
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_save_file": "skill_6_locked",
+      "image_path": "skill_6_locked.png",
+      "definition": "#6 skill button when locked."
+    }
+  },
+  {
+    "SKILL_6_LABEL": {
+      "text_rect": {"x1": 0.6729166666666667, "y1": 0.6814814814814815, "x2": 0.6875, "y2": 0.7148148148148148},
+      "button_rect": null,
+      "text": "6",
+      "image_threshold": 155,
+      "chars": "6",
+      "image_save_file": "skill_6_label",
+      "definition": "#6 skill label text at the left top corner."
+    }
+  },
+  {
+    "SKILL_T3": {
+      "text_rect": {"x1": 0.6083333333333333, "y1": 0.8787037037037037, "x2": 0.646875, "y2": 0.9444444444444444},
+      "button_rect": {"x1": 0.6083333333333333, "y1": 0.8787037037037037, "x2": 0.646875, "y2": 0.9444444444444444},
+      "text": null,
+      "image_threshold": 170,
+      "chars": "0123456789.%",
+      "image_save_file": "skill_t3",
+      "definition": "T3 skill button."
+    }
+  },
+  {
+    "SKILL_T3_LOCKED": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.6083333333333333, "y1": 0.8787037037037037, "x2": 0.646875, "y2": 0.9444444444444444},
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_save_file": "t3_locked",
+      "image_path": "t3_locked.png",
+      "definition": "T3 skill button when locked."
+    }
+  },
+    {
+    "SKILL_T3_LABEL": {
+      "text_rect": {"x1": 0.5953125, "y1": 0.8444444444444444, "x2": 0.6083333333333333, "y2": 0.8740740740740741},
+      "button_rect": null,
+      "text": "6",
+      "image_threshold": 155,
+      "chars": "6",
+      "image_save_file": "skill_t3_label",
+      "definition": "T3 skill label text at the left top corner."
     }
   },
   {
@@ -288,6 +356,17 @@
       "chars": null,
       "image_save_file": "cannot_enter",
       "definition": "The 'Cannot enter' message at the end of the mission."
+    }
+  },
+  {
+    "CURRENT_CHARACTER": {
+      "text_rect": {"x1": 0.0390625, "y1": 0.07314814814814814, "x2": 0.09427083333333333, "y2": 0.17407407407407408},
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 0.5,
+      "chars": null,
+      "image_save_file": "current_character",
+      "definition": "Current (top) character on top left selector in battle."
     }
   }
 ]
