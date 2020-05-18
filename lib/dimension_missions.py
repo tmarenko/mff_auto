@@ -49,13 +49,13 @@ class DimensionMissions(Missions):
         """Increase current stage level"""
         if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
             logger.info("Dimension Missions: increasing stage difficulty level.")
-            self.player.click_button(self.ui['DM_LEVEL_PLUS'].button)
+            self.player.click_button(self.ui['DM_LEVEL_PLUS'].button, min_duration=0.01, max_duration=0.01)
 
     def decrease_stage_level(self):
         """Decrease current stage level"""
         if self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
             logger.info("Dimension Missions: decreasing stage difficulty level.")
-            self.player.click_button(self.ui['DM_LEVEL_MINUS'].button)
+            self.player.click_button(self.ui['DM_LEVEL_MINUS'].button, min_duration=0.01, max_duration=0.01)
 
     def select_stage_level(self, level_num=15):
         """Select stage level.
