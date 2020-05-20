@@ -1,4 +1,5 @@
 from lib.player import NoxWindow
+from lib.alliance_battles import AllianceBattles
 from lib.legendary_battle import LegendaryBattle
 from lib.dimension_missions import DimensionMissions
 from lib.epic_quests import StupidXMen, DarkDimension, MutualEnemy, BeginningOfTheChaos, DoomsDay, NewFaces, \
@@ -8,6 +9,7 @@ from lib.timeline import TimelineBattle
 from lib.invasion import WorldBossInvasion
 from lib.routines import DailyMissions, DailyTrivia, ShieldLab
 from lib.squad_battles import SquadBattles
+from lib.world_bosses import WorldBosses
 from lib.game import Game
 import time
 from lib.functions import sleep
@@ -44,5 +46,11 @@ if __name__ == '__main__':
     # MemoryMission.DIFFICULTY
     # Use MemoryMission.DIFFICULTY.STAGE_1 up to MemoryMission.DIFFICULTY.STAGE_6 for difficulty
     mm = MemoryMission(game).do_missions(MemoryMission.ANCIENT_ONE, MemoryMission.DIFFICULTY.STAGE_6)
+
+    # Available: AllianceBattles.MODE.NORMAL or AllianceBattles.MODE.ALL_BATTLES
+    ab = AllianceBattles(game).do_missions(AllianceBattles.MODE.ALL_BATTLES)
+
+    # Available: WorldBosses.MODE.BEGINNER or WorldBosses.MODE.NORMAL or WorldBosses.MODE.ULTIMATE
+    wb = WorldBosses(game).do_missions(mode=WorldBosses.MODE.ULTIMATE, difficulty=1)
 
     dm = DimensionMissions(game).do_missions(times=20, difficulty=10)

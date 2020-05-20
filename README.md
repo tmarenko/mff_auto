@@ -4,7 +4,7 @@ Game bot for [Marvel Future Fight](https://play.google.com/store/apps/details?id
 ## FAQ
 Q: What this bot can do?
 
-A: **mff_auto** can play several game modes: Co-op missions, Dimension missions, Timeline battles, Legendary battles.
+A: **mff_auto** can play several game modes: World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, World Boss Invasions, Epic Quests.
 
 Q: Which Android emulators are supported?
 
@@ -47,6 +47,7 @@ in `settings\ui\main_menu.json`. This values should be calculated for your emula
 - Legendary Battle contains only one free battle. Can be changed in JSON's settings.
 - Co-op missions do not check if you have characters for all 5 stages.
 - Timeline battle do not check if your team is available for battle.
+- Alliance and World Boss battles do not check if your characters can do these modes.
 
 If you want to run any kind of mission regardless of libraries realisation:
 - Open mission screen in emulator (the screen with `START` button at right bottom corner)
