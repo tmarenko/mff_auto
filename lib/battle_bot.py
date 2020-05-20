@@ -51,7 +51,8 @@ class BattleBot:
                     self.player.is_ui_element_on_screen(self.ui['CANNOT_ENTER']) or \
                     self.player.is_ui_element_on_screen(self.ui['SB_RANK_CHANGED']) or \
                     self.player.is_ui_element_on_screen(self.ui['SB_BATTLE_POINTS']) or \
-                    self.player.is_ui_element_on_screen(self.ui['AB_YOUR_SCORE']):
+                    self.player.is_ui_element_on_screen(self.ui['AB_YOUR_SCORE']) or \
+                    self.player.is_ui_element_on_screen(self.ui['WB_SCORE']):
                 return True
             if self.player.is_image_on_screen(self.ui['HOME_BUTTON']) or \
                     self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
