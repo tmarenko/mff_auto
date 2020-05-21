@@ -85,6 +85,7 @@ class CoopPlay(Missions):
                     self.press_home_button()
                 return
         logger.warning("Something went wrong while waiting for other players.")
+        self.player.click_button(self.ui['WAITING_FOR_OTHER_PLAYERS'].button)
 
     def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui=None):
         """Press repeat button of the mission."""
