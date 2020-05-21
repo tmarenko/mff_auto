@@ -251,5 +251,16 @@
       "image_save_file": "wb_score",
       "definition": "World Boss: score at the end of the battle."
     }
+  },
+  {
+    "WB_RESPAWN": {
+      "text_rect": {"x1": 0.30625, "y1": 0.125, "x2": 0.6880208333333333, "y2": 0.23148148148148148},
+      "button_rect": {"x1": 0.36354166666666665, "y1": 0.8111111111111111, "x2": 0.4046875, "y2": 0.8814814814814815},
+      "text": "Respawn and try again?",
+      "image_threshold": 160,
+      "chars": null,
+      "image_save_file": "wb_respawn",
+      "definition": "World Boss: respawn at the end of the battle if you lost."
+    }
   }
 ]
