@@ -99,7 +99,7 @@ class WorldBosses(Missions):
                 if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['WB_NOT_FULL_ALLY_TEAM']):
                     self.player.click_button(self.ui['WB_NOT_FULL_ALLY_TEAM'].button)
-                    ManualBattleBot(self.game).fight()
+                    ManualBattleBot(self.game).fight(move_around=True)
                     self.close_mission_notifications()
 
     def deploy_characters(self):
