@@ -1,5 +1,6 @@
 import time
 import logging
+from itertools import cycle
 from lib.functions import wait_until
 
 logger = logging.getLogger(__name__)
@@ -168,6 +169,10 @@ class LockedSkill(BattleBot):
 class ManualBattleBot(BattleBot):
     """Class for working with manual battles."""
 
+    DEFAULT_SKILL = 5  # best non locked skill
+    T3_SKILL = "T3"
+    AWAKENING_SKILL = "6"
+
     def __init__(self, game):
         """Class initialization.
 
@@ -178,34 +183,51 @@ class ManualBattleBot(BattleBot):
         self.current_character = None
         self.t3_skill = LockedSkill(game, skill_ui="SKILL_T3", skill_locked_ui="SKILL_T3_LOCKED",
                                     skill_label_ui="SKILL_T3_LABEL")
-        self.skill_6 = LockedSkill(game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
-                                   skill_label_ui="SKILL_6_LABEL")
+        self.awakening_skill = LockedSkill(game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
+                                           skill_label_ui="SKILL_6_LABEL")
+        self.cached_available_skill = self.DEFAULT_SKILL
+        self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
+                                       "MOVE_AROUND_POS_UP", "MOVE_AROUND_POS_RIGHT"])
+        self.moving_position_from = next(self.moving_positions)
 
-    def fight(self):
-        """Start battle and use skills until the end of battle."""
+    def fight(self, move_around=False):
+        """Start battle and use skills until the end of battle.
+
+        :param move_around: move around if skills are unavailable to cast.
+        """
         logger.info("Battle is started")
-        first_time = False
         while not self.is_battle_over():
             if self.is_battle():
                 if self.current_character is None:
                     self.load_character()
                 if not self.skill_images:
                     self.load_skills()
-                was_reloaded = self.reload_skills_if_character_dead()
-                if first_time or was_reloaded:
-                    best_available_skill = 5
-                    first_time = False
-                else:
-                    best_available_skill = self.get_best_available_skill()
+                if self.reload_skills_if_character_dead():
+                    self.cached_available_skill = self.DEFAULT_SKILL
+
+                best_available_skill = self.get_best_available_skill()
                 if not best_available_skill:
-                    time.sleep(0.1)
                     continue
-                self.cast_skill(best_available_skill)
-                time_to_sleep = 5 if best_available_skill in ["T3", "6"] else 1
-                time.sleep(time_to_sleep)
+                if self.cast_skill(best_available_skill):
+                    logger.debug(f"Successfully casted {best_available_skill} skill.")
+                    time_to_sleep = 5 if best_available_skill in [self.T3_SKILL, self.AWAKENING_SKILL] else 1
+                    time.sleep(time_to_sleep)
+                else:
+                    self.cached_available_skill = self.DEFAULT_SKILL
+                    if move_around:
+                        self.move_character()
+                        self.move_character()
             else:
                 self.skip_cutscene()
         logger.info("Battle is over")
+
+    def move_character(self):
+        """Move character around."""
+        logger.debug("Moving around.")
+        next_position_from, next_position_to = self.moving_position_from, next(self.moving_positions)
+        self.player.drag(from_rect=self.ui[next_position_from].button, to_rect=self.ui[next_position_to].button,
+                         duration=0.5)
+        self.moving_position_from = next_position_to
 
     def load_character(self):
         """Load character image."""
@@ -224,8 +246,8 @@ class ManualBattleBot(BattleBot):
             logger.debug("Current character is dead. Switching to new one.")
             self.t3_skill = LockedSkill(self.game, skill_ui="SKILL_T3", skill_locked_ui="SKILL_T3_LOCKED",
                                         skill_label_ui="SKILL_T3_LABEL")
-            self.skill_6 = LockedSkill(self.game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
-                                       skill_label_ui="SKILL_6_LABEL")
+            self.awakening_skill = LockedSkill(self.game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
+                                               skill_label_ui="SKILL_6_LABEL")
             self.load_character()
             self.load_skills()
             return True
@@ -238,49 +260,44 @@ class ManualBattleBot(BattleBot):
             skill_image = self.player.get_screen_image(rect=self.ui[f"SKILL_{skill_id}"].rect)
             self.ui[f"SKILL_{skill_id}"].image = skill_image
             self.skill_images.append(skill_image)
-        if not self.skill_6.locked:
-            self.skill_6.check_skill_is_ready(forced=True)
+        if not self.awakening_skill.locked:
+            self.awakening_skill.check_skill_is_ready(forced=True)
 
     def is_skill_available(self, skill_id):
         """Check if skill is available to cast.
-        
+
         :param skill_id: skill identifier.
         """
         return self.player.is_image_on_screen(self.ui[f"SKILL_{skill_id}"])
 
     def get_best_available_skill(self):
         """Get best available skill to cast.
-        T3 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1
+        cached skill -> T3 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1
         """
+        if self.cached_available_skill:
+            skill = self.cached_available_skill
+            self.cached_available_skill = None
+            return skill
         if self.t3_skill.is_skill_available():
-            return "T3"
-        if self.skill_6.is_skill_available():
-            return "6"
+            return self.T3_SKILL
+        if self.awakening_skill.is_skill_available():
+            return self.AWAKENING_SKILL
         for skill_id in reversed(range(1, 6)):
             if self.is_skill_available(skill_id=skill_id):
                 return skill_id
 
-    def cast_skill(self, skill_id, max_attempts=3):
+    def cast_skill(self, skill_id):
         """Cast character's skill.
 
         :param skill_id: skill identifier.
-        :param max_attempts: max attempts of trying to cast skill.
-
         :return: was skill casted.
         """
         logger.debug(f"Casting {skill_id}-th skill.")
         skill_ui = self.ui[f'SKILL_{skill_id}']
-        self.player.click_button(skill_ui.button)
-        attempts = 1
-        time.sleep(0.05)
-        while self.is_skill_available(skill_id) and self.is_battle():
-            if attempts > max_attempts:
-                return False
-            else:
-                attempts += 1
-                self.player.click_button(skill_ui.button)
-                time.sleep(0.05)
-        return True
+        self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
+        self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
+        self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
+        return not self.is_skill_available(skill_id=skill_id)
 
     def skip_cutscene(self):
         """Skip battle cutscene."""

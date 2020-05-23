@@ -368,6 +368,49 @@
       "image_save_file": "current_character",
       "definition": "Current (top) character on top left selector in battle."
     }
+  },
+  {
+    "MOVE_AROUND_POS_DOWN": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.14010416666666667, "y1": 0.8694444444444445, "x2": 0.15104166666666666, "y2": 0.8898148148148148},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Moving around: down."
+    }
+  },
+  {
+    "MOVE_AROUND_POS_LEFT": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.08958333333333333, "y1": 0.7861111111111111, "x2": 0.10052083333333334, "y2": 0.8055555555555556},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Moving around: left."
+    }
+  },
+  {
+    "MOVE_AROUND_POS_UP": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.140625, "y1": 0.6944444444444444, "x2": 0.1515625, "y2": 0.7129629629629629},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Moving around: up."
+    }
+  },
+  {
+    "MOVE_AROUND_POS_RIGHT": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.19166666666666668, "y1": 0.7824074074074074, "x2": 0.20260416666666667, "y2": 0.8018518518518518},
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "definition": "Moving around: right."
+    }
   }
 ]
-
