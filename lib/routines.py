@@ -54,7 +54,7 @@ class DailyMissions(Missions):
                 if not self.press_start_button():
                     logger.error("Cannot start Daily Mission battle, exiting.")
                     return
-                AutoBattleBot(self.game).fight()
+                AutoBattleBot(self.game, self.battle_over_conditions).fight()
                 self.stages -= 1
                 self.close_mission_notifications()
                 if self.stages > 0:

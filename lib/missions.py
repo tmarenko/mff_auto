@@ -68,6 +68,45 @@ class Missions:
         if self.mode_name in self.game.modes:
             self.game.modes[self.mode_name]['stages'] = value
 
+    @property
+    def battle_over_conditions(self):
+        def one_star():
+            return self.player.is_image_on_screen(self.ui['ONE_STAR_MISSION_COMPLETE'])
+
+        def char_exp():
+            return self.player.is_ui_element_on_screen(self.ui['CHAR_EXP'])
+
+        def cannot_enter():
+            return self.player.is_ui_element_on_screen(self.ui['CANNOT_ENTER'])
+
+        def home_button():
+            if self.player.is_image_on_screen(self.ui['HOME_BUTTON']) or \
+                    self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
+                    self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_3']):
+                logger.debug("Found HOME button image on screen.")
+                return True
+
+        return [one_star, char_exp, cannot_enter, home_button]
+
+    @property
+    def disconnect_conditions(self):
+        def disconnect():
+            if self.player.is_ui_element_on_screen(self.ui['DISCONNECT_FROM_SERVER']):
+                self.player.click_button(self.ui['DISCONNECT_FROM_SERVER'].button)
+                return True
+
+        def new_opponent():
+            if self.player.is_ui_element_on_screen(self.ui['DISCONNECT_NEW_OPPONENT']):
+                self.player.click_button(self.ui['DISCONNECT_NEW_OPPONENT'].button)
+                return True
+
+        def kicked():
+            if self.player.is_ui_element_on_screen(self.ui['KICKED_FROM_THE_SYSTEM']):
+                self.player.click_button(self.ui['KICKED_FROM_THE_SYSTEM'].button)
+                return True
+
+        return [disconnect, new_opponent, kicked]
+
     def start_missions(self):
         """Start missions."""
         pass
@@ -101,7 +140,7 @@ class Missions:
             if not self.press_start_button():
                 logger.error("Cannot start missions while repeating them, exiting.")
                 return
-            AutoBattleBot(self.game).fight()
+            AutoBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_mission_notifications()
             repeat_button_ui = None
             if wait_until(self.player.is_image_on_screen, timeout=2,

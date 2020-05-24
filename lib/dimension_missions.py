@@ -130,7 +130,7 @@ class DimensionMissions(Missions):
                 if not self.press_start_button(start_button_ui='DM_START_BUTTON'):
                     logger.error("Cannot start Dimension Mission battle, exiting.")
                     return
-                AutoBattleBot(self.game).fight()
+                AutoBattleBot(self.game, self.battle_over_conditions).fight()
                 times -= 1
                 self.close_mission_notifications()
                 if times > 0:

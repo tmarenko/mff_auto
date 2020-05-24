@@ -17,6 +17,13 @@ class LegendaryBattle(Missions):
         """
         super().__init__(game, 'LB_LABEL')
 
+    @property
+    def battle_over_conditions(self):
+        def score():
+            return self.player.is_ui_element_on_screen(self.ui['LEGENDARY_SCORE'])
+
+        return [score]
+
     def start_missions(self):
         """Start Legendary Battle missions."""
         logger.info(f"Legendary battles: {self.stages} stages available")
@@ -34,7 +41,7 @@ class LegendaryBattle(Missions):
                 if not self.press_start_button():
                     logger.error("Cannot start legendary battle, exiting")
                     return
-                ManualBattleBot(self.game).fight()
+                ManualBattleBot(self.game, self.battle_over_conditions).fight()
                 self.stages -= 1
                 if self.stages > 0:
                     self.press_repeat_button(repeat_button_ui='LB_REPEAT_BUTTON', start_button_ui='LB_START_BUTTON')

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class BattleBot:
     """Class for working with game battles."""
 
-    def __init__(self, game):
+    def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
         """Class initialization.
 
         :param game.Game game: instance of the game.
@@ -17,50 +17,33 @@ class BattleBot:
         self.game = game
         self.ui = game.ui
         self.player = game.player
+        self._is_battle_cached = None
+        self._battle_over_conditions = battle_over_conditions if battle_over_conditions else []
+        self._disconnect_conditions = disconnect_conditions if disconnect_conditions else []
 
     def is_battle(self):
-        """Check if battle is on screen.
+        """Check if battle is going.
 
         :return: True or False.
         """
-        return self.player.is_image_on_screen(self.ui['MELEE_BUTTON']) and not self.player.is_ui_element_on_screen(
-            ui_element=self.ui['INVASION_FIGHT_WAITING_IN_BATTLE'])
+        is_battle = self.player.is_image_on_screen(self.ui['MELEE_BUTTON'])
+        self._is_battle_cached = is_battle
+        return is_battle
 
     def is_battle_over(self):
         """Check if battle is over.
 
         :return: True or False.
         """
-        if self.player.is_ui_element_on_screen(self.ui['DISCONNECT_FROM_SERVER']):
-            self.player.click_button(self.ui['DISCONNECT_FROM_SERVER'].button)
-            return True
-        if self.player.is_ui_element_on_screen(self.ui['DISCONNECT_NEW_OPPONENT']):
-            self.player.click_button(self.ui['DISCONNECT_NEW_OPPONENT'].button)
-            return True
-        if self.player.is_ui_element_on_screen(self.ui['KICKED_FROM_THE_SYSTEM']):
-            self.player.click_button(self.ui['KICKED_FROM_THE_SYSTEM'].button)
-            return True
-        if not self.is_battle():
-            if self.player.is_image_on_screen(self.ui['ONE_STAR_MISSION_COMPLETE']):
+        for condition in self._disconnect_conditions:
+            if condition():
                 return True
-            if self.player.is_ui_element_on_screen(self.ui['CHAR_EXP']) or \
-                    self.player.is_ui_element_on_screen(self.ui['LEGENDARY_SCORE']) or \
-                    self.player.is_ui_element_on_screen(self.ui['COOP_COMPLETION']) or \
-                    self.player.is_ui_element_on_screen(self.ui['TIMELINE_POINTS']) or \
-                    self.player.is_ui_element_on_screen(self.ui['INVASION_SLOT_CHEST']) or \
-                    self.player.is_ui_element_on_screen(self.ui['INVASION_FAILED']) or \
-                    self.player.is_ui_element_on_screen(self.ui['CANNOT_ENTER']) or \
-                    self.player.is_ui_element_on_screen(self.ui['SB_RANK_CHANGED']) or \
-                    self.player.is_ui_element_on_screen(self.ui['SB_BATTLE_POINTS']) or \
-                    self.player.is_ui_element_on_screen(self.ui['AB_YOUR_SCORE']) or \
-                    self.player.is_ui_element_on_screen(self.ui['WB_SCORE']) or \
-                    self.player.is_ui_element_on_screen(self.ui['WB_RESPAWN']):
-                return True
-            if self.player.is_image_on_screen(self.ui['HOME_BUTTON']) or \
-                    self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
-                    self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_3']):
-                logger.debug("Found HOME button image on screen.")
-                return True
+        is_battle = self.is_battle() if not self._is_battle_cached else self._is_battle_cached
+        if not is_battle:
+            for condition in self._battle_over_conditions:
+                if condition():
+                    return True
+        self._is_battle_cached = None
         return False
 
 
@@ -97,7 +80,7 @@ class AutoBattleBot(BattleBot):
         return False
 
 
-class LockedSkill(BattleBot):
+class LockedSkill:
     """Class for working with locked skills (T3 and Awakening skills)."""
 
     def __init__(self, game, skill_ui, skill_locked_ui, skill_label_ui):
@@ -105,7 +88,8 @@ class LockedSkill(BattleBot):
 
         :param game.Game game: instance of game.
         """
-        super().__init__(game)
+        self.ui = game.ui
+        self.player = game.player
         self._locked = None
         self._skill = None
         self.history = {}
@@ -173,12 +157,12 @@ class ManualBattleBot(BattleBot):
     T3_SKILL = "T3"
     AWAKENING_SKILL = "6"
 
-    def __init__(self, game):
+    def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
         """Class initialization.
 
         :param game.Game game: instance of game.
         """
-        super().__init__(game)
+        super().__init__(game, battle_over_conditions, disconnect_conditions)
         self.skill_images = []
         self.current_character = None
         self.t3_skill = LockedSkill(game, skill_ui="SKILL_T3", skill_locked_ui="SKILL_T3_LOCKED",

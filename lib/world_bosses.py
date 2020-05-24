@@ -22,6 +22,16 @@ class WorldBosses(Missions):
         """
         super().__init__(game, 'WB_LABEL')
 
+    @property
+    def battle_over_conditions(self):
+        def score():
+            return self.player.is_ui_element_on_screen(self.ui['WB_SCORE'])
+
+        def respawn():
+            return self.player.is_ui_element_on_screen(self.ui['WB_RESPAWN'])
+
+        return [score, respawn]
+
     def do_missions(self, mode=MODE.ULTIMATE, difficulty=0):
         """Do missions."""
         if mode == self.MODE.ULTIMATE and difficulty == 0:
@@ -99,7 +109,7 @@ class WorldBosses(Missions):
                 if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['WB_NOT_FULL_ALLY_TEAM']):
                     self.player.click_button(self.ui['WB_NOT_FULL_ALLY_TEAM'].button)
-                    ManualBattleBot(self.game).fight(move_around=True)
+                    ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                     self.close_mission_notifications()
 
     def deploy_characters(self):

@@ -18,6 +18,13 @@ class CoopPlay(Missions):
         super().__init__(game, 'COOP_PLAY_LABEL')
         game.ui['COOP_USER_NAME'].text = game.user_name
 
+    @property
+    def battle_over_conditions(self):
+        def coop_completion():
+            return self.player.is_ui_element_on_screen(self.ui['COOP_COMPLETION'])
+
+        return [coop_completion]
+
     def start_missions(self):
         """Start available missions."""
         logger.info(f"Coop play: {self.stages} stages available")
@@ -78,7 +85,8 @@ class CoopPlay(Missions):
                     logger.debug("Got disconnected. Finding new opponent.")
                     self.player.click_button(self.ui['DISCONNECT_NEW_OPPONENT'].button)
                     return self.press_start_button(check_inventory=False)
-                AutoBattleBot(self.game).fight()
+                AutoBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions).fight()
+                time.sleep(2)   # wait progress bar animation
                 if self.stages > 0:
                     self.press_repeat_button()
                 else:

@@ -23,6 +23,16 @@ class SquadBattles(Missions):
         """
         super().__init__(game, 'SB_LABEL')
 
+    @property
+    def battle_over_conditions(self):
+        def rank():
+            return self.player.is_ui_element_on_screen(self.ui['SB_RANK_CHANGED'])
+
+        def points():
+            return self.player.is_ui_element_on_screen(self.ui['SB_BATTLE_POINTS'])
+
+        return [rank, points]
+
     def go_to_sb(self):
         """Go to Squad Battles.
 
@@ -44,7 +54,7 @@ class SquadBattles(Missions):
             return True
         return False
 
-    def close_after_battle_notifications(self, timeout=5):
+    def close_after_battle_notifications(self, timeout=10):
         """Close after battle notifications at the end of the battle.
 
         :param timeout: timeout of waiting for notifications.
@@ -95,7 +105,7 @@ class SquadBattles(Missions):
         """
         if self.select_squad_battle(squad_battle_ui=self.ui[battle_num]):
             self.press_start_button()
-            AutoBattleBot(self.game).fight()
+            AutoBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_after_battle_notifications()
 
     def select_squad_battle(self, squad_battle_ui):

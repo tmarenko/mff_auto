@@ -22,6 +22,13 @@ class AllianceBattles(Missions):
         """
         super().__init__(game, 'AB_LABEL')
 
+    @property
+    def battle_over_conditions(self):
+        def score():
+            return self.player.is_ui_element_on_screen(self.ui['AB_YOUR_SCORE'])
+
+        return [score]
+
     def do_missions(self, mode=MODE.ALL_BATTLES):
         """Do missions."""
         if self.stages > 0:
@@ -70,7 +77,7 @@ class AllianceBattles(Missions):
             time.sleep(2)
             self.deploy_characters()
             self.player.click_button(self.ui[start_button].button)
-            ManualBattleBot(self.game).fight()
+            ManualBattleBot(self.game, self.battle_over_conditions).fight()
             self.player.click_button(self.ui[home_or_next_button].button)
             self.close_mission_notifications()
 

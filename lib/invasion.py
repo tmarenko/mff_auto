@@ -21,6 +21,16 @@ class WorldBossInvasion(Missions):
         self._chests = None
         self._max_chests = None
 
+    @property
+    def battle_over_conditions(self):
+        def chest():
+            return self.player.is_ui_element_on_screen(self.ui['INVASION_SLOT_CHEST'])
+
+        def failed():
+            return self.player.is_ui_element_on_screen(self.ui['INVASION_FAILED'])
+
+        return [chest, failed]
+
     def do_missions(self):
         """Do missions."""
         self.start_missions()
@@ -214,7 +224,7 @@ class WorldBossInvasion(Missions):
 
     def manual_bot_start(self):
         """Start manual bot for the fight."""
-        ManualBattleBot(self.game).fight()
+        ManualBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions).fight()
         if self.player.is_ui_element_on_screen(ui_element=self.ui['INVASION_SLOT_CHEST']):
             self.player.click_button(self.ui['INVASION_SLOT_CHEST'].button)
             self._chests += 1

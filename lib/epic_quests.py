@@ -34,7 +34,7 @@ class EpicQuests(Missions):
         if not self.press_start_button():
             logger.error(f"Cannot start Epic Quest stage {stage_button}, exiting.")
             return 0
-        auto_battle_bot = AutoBattleBot(self.game)
+        auto_battle_bot = AutoBattleBot(self.game, self.battle_over_conditions)
         ally_appeared = auto_battle_bot.wait_until_shifter_appeared() if farm_shifter_bios else True
         if ally_appeared:
             auto_battle_bot.fight()
@@ -485,7 +485,7 @@ class MemoryMission(Missions):
                 if not self.press_start_button():
                     logger.error("Cannot start Memory Missions, exiting.")
                     return
-                AutoBattleBot(self.game).fight()
+                AutoBattleBot(self.game, self.battle_over_conditions).fight()
                 self.stages -= 1
                 self.close_mission_notifications()
                 if self.stages > 0:

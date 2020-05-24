@@ -17,6 +17,13 @@ class TimelineBattle(Missions):
         """
         super().__init__(game, 'TL_LABEL')
 
+    @property
+    def battle_over_conditions(self):
+        def points():
+            return self.player.is_ui_element_on_screen(self.ui['TIMELINE_POINTS'])
+
+        return [points]
+
     def select_team(self):
         """Select team for missions."""
         team_element = self.ui[f'TL_SELECT_TEAM_{self.game.timeline_team}']
@@ -61,7 +68,7 @@ class TimelineBattle(Missions):
         """Go to fight screen and fight."""
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_FIGHT_BUTTON']):
             self.player.click_button(self.ui['TL_FIGHT_BUTTON'].button)
-            AutoBattleBot(self.game).fight()
+            AutoBattleBot(self.game, self.battle_over_conditions).fight()
             self.stages -= 1
             if self.stages > 0:
                 self.press_repeat_button(repeat_button_ui='TL_REPEAT_BUTTON', start_button_ui='TL_FIGHT_BUTTON')
