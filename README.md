@@ -38,6 +38,8 @@ For now installation isn't released but you can run it manually from source code
 
 Check `example.py` for examples of running any modes.
 
+Check `autoplay.py` for activating `Autoplay` in any battles (Shadowland, Danger Room, etc.).
+
 ## Development
 
 At current state Marvel Future Fight bot is at alpha stage.
