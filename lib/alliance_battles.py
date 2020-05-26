@@ -78,8 +78,8 @@ class AllianceBattles(Missions):
             self.deploy_characters()
             self.player.click_button(self.ui[start_button].button)
             ManualBattleBot(self.game, self.battle_over_conditions).fight()
-            self.player.click_button(self.ui[home_or_next_button].button)
             self.close_mission_notifications()
+            self.player.click_button(self.ui[home_or_next_button].button)
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""
