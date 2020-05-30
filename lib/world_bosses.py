@@ -71,59 +71,73 @@ class WorldBosses(Missions):
             self.player.click_button(self.ui['WB_ULTIMATE_MODE'].button)
             self.select_stage_level(level_num=difficulty)
 
-        deploy_characters = True
         while self.stages > 0:
-            self.start_world_boss_battle(deploy_characters=deploy_characters)
+            if not self.start_world_boss_battle():
+                return self.game.go_to_main_menu()
             if self.player.is_ui_element_on_screen(ui_element=self.ui['WB_RESPAWN']):
                 logger.info("World Boss: lost battle. Respawning.")
                 self.player.click_button(self.ui['WB_RESPAWN'].button)
                 if not wait_until(self.player.is_ui_element_on_screen, timeout=10, ui_element=self.ui['WB_SCORE']):
                     logger.warning("World Boss: something went wrong while respawning after lost battle.")
-                deploy_characters = False
             else:
                 self.stages -= 1
-                deploy_characters = True
             if self.stages > 0:
                 self.press_repeat_button(repeat_button_ui="WB_REPEAT_BUTTON", start_button_ui="WB_READY_BUTTON")
             else:
                 self.press_home_button(home_button="WB_HOME_BUTTON")
         logger.info("No more stages for World Bosses.")
 
-    def start_world_boss_battle(self, deploy_characters=False):
+    def start_world_boss_battle(self, check_inventory=True):
         """Start World Boss battle.
 
         :param: deploy characters or not.
         """
         self.player.click_button(self.ui['WB_READY_BUTTON'].button)
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_SET_TEAM']):
-            if deploy_characters:
-                self.player.click_button(self.ui['WB_CHARACTER_FILTER'].button, min_duration=1, max_duration=1)
-                # selecting ALL filter for top characters
-                self.player.click_button(self.ui['WB_CHARACTER_FILTER'].button, min_duration=1, max_duration=1)
-                self.deploy_characters()
+            self.deploy_characters()
             self.player.click_button(self.ui['WB_SET_TEAM'].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_START_BUTTON']):
-                if deploy_characters:
-                    self.deploy_allies()
+                self.deploy_allies()
                 self.player.click_button(self.ui['WB_START_BUTTON'].button)
+                if check_inventory and wait_until(self.player.is_ui_element_on_screen, timeout=2,
+                                                  ui_element=self.ui['INVENTORY_FULL']):
+                    logger.warning("World Boss: stopping battle because inventory is full.")
+                    self.player.click_button(self.ui['INVENTORY_FULL'].button)
+                    self.stages *= 0
+                    return False
                 if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['WB_NOT_FULL_ALLY_TEAM']):
                     self.player.click_button(self.ui['WB_NOT_FULL_ALLY_TEAM'].button)
-                    ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
-                    self.close_mission_notifications()
+                ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
+                self.close_mission_notifications()
+                return True
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""
-        self.player.click_button(self.ui['WB_NON_FEATURED_CHARACTER_1'].button)
-        self.player.click_button(self.ui['WB_NON_FEATURED_CHARACTER_2'].button)
-        self.player.click_button(self.ui['WB_NON_FEATURED_CHARACTER_3'].button)
+        no_main = self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_MAIN'])
+        no_left = self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_LEFT'])
+        no_right = self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_RIGHT'])
+        if no_main or no_left or no_right:
+            self.player.click_button(self.ui['WB_CHARACTER_FILTER'].button, min_duration=1, max_duration=1)
+            # selecting ALL filter for top characters
+            self.player.click_button(self.ui['WB_CHARACTER_FILTER'].button, min_duration=1, max_duration=1)
+        if no_main:
+            self.player.click_button(self.ui['WB_NON_FEATURED_CHARACTER_1'].button)
+        if no_left:
+            self.player.click_button(self.ui['WB_NON_FEATURED_CHARACTER_2'].button)
+        if no_right:
+            self.player.click_button(self.ui['WB_NON_FEATURED_CHARACTER_3'].button)
 
     def deploy_allies(self):
         """Deploy 4 characters as allies to battle."""
-        self.player.click_button(self.ui['WB_ALLY_CHARACTER_1'].button)
-        self.player.click_button(self.ui['WB_ALLY_CHARACTER_2'].button)
-        self.player.click_button(self.ui['WB_ALLY_CHARACTER_3'].button)
-        self.player.click_button(self.ui['WB_ALLY_CHARACTER_4'].button)
+        if self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_ALLY_1']):
+            self.player.click_button(self.ui['WB_ALLY_CHARACTER_1'].button)
+        if self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_ALLY_2']):
+            self.player.click_button(self.ui['WB_ALLY_CHARACTER_2'].button)
+        if self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_ALLY_3']):
+            self.player.click_button(self.ui['WB_ALLY_CHARACTER_3'].button)
+        if self.player.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_ALLY_4']):
+            self.player.click_button(self.ui['WB_ALLY_CHARACTER_4'].button)
 
     @property
     def stage_level(self):

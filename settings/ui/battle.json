@@ -400,5 +400,17 @@
       "image_save_file": null,
       "definition": "Moving around: right."
     }
+  },
+    {
+    "SKILL_COOP": {
+      "text_rect": {"x1": 0.5151041666666667, "y1": 0.8759259259259259, "x2": 0.5520833333333334, "y2": 0.9416666666666667},
+      "button_rect": {"x1": 0.5151041666666667, "y1": 0.8759259259259259, "x2": 0.5520833333333334, "y2": 0.9416666666666667},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "skill_coop.png",
+      "image_save_file": "skill_coop",
+      "definition": "Coop skill button."
+    }
   }
 ]

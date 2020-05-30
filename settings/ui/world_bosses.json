@@ -262,5 +262,101 @@
       "image_save_file": "wb_respawn",
       "definition": "World Boss: respawn at the end of the battle if you lost."
     }
+  },
+  {
+    "WB_NO_CHARACTER_MAIN": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.46041666666666664, "y1": 0.2972222222222222, "x2": 0.553125, "y2": 0.46111111111111114},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_main",
+      "definition": "Empty main character selector in WB team setup."
+    }
+  },
+    {
+    "WB_NO_CHARACTER_LEFT": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.3625, "y1": 0.2972222222222222, "x2": 0.4322916666666667, "y2": 0.4212962962962963},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_left",
+      "definition": "Empty left character selector in WB team setup."
+    }
+  },
+  {
+    "WB_NO_CHARACTER_RIGHT": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.5859375, "y1": 0.29814814814814816, "x2": 0.6552083333333333, "y2": 0.4203703703703704},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_right",
+      "definition": "Empty right character selector in WB team setup."
+    }
+  },
+  {
+    "WB_NO_CHARACTER_ALLY_1": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.35520833333333335, "y1": 0.13148148148148148, "x2": 0.4197916666666667, "y2": 0.24537037037037038},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_ally_1",
+      "definition": "Empty #1 character selector in WB ally setup (from top to down)."
+    }
+  },
+    {
+    "WB_NO_CHARACTER_ALLY_2": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.35520833333333335, "y1": 0.2814814814814815, "x2": 0.4197916666666667, "y2": 0.39537037037037037},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_ally_2",
+      "definition": "Empty #2 character selector in WB ally setup (from top to down)."
+    }
+  },
+    {
+    "WB_NO_CHARACTER_ALLY_3": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.35520833333333335, "y1": 0.43148148148148147, "x2": 0.4197916666666667, "y2": 0.5453703703703704},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_ally_3",
+      "definition": "Empty #3 character selector in WB ally setup (from top to down)."
+    }
+  },
+    {
+    "WB_NO_CHARACTER_ALLY_4": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.35520833333333335, "y1": 0.5814814814814815, "x2": 0.4197916666666667, "y2": 0.6962962962962963},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_ally_4",
+      "definition": "Empty #4 character selector in WB ally setup (from top to down)."
+    }
+  },
+    {
+    "WB_NO_CHARACTER_ALLY_5": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.35520833333333335, "y1": 0.7314814814814815, "x2": 0.4197916666666667, "y2": 0.8462962962962963},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "wb_no_character_ally_5",
+      "definition": "DEPRECATED: Empty #5 character selector in WB ally setup (from top to down)."
+    }
   }
 ]
