@@ -70,9 +70,6 @@ class Missions:
 
     @property
     def battle_over_conditions(self):
-        def one_star():
-            return self.player.is_image_on_screen(self.ui['ONE_STAR_MISSION_COMPLETE'])
-
         def char_exp():
             return self.player.is_ui_element_on_screen(self.ui['CHAR_EXP'])
 
@@ -86,7 +83,7 @@ class Missions:
                 logger.debug("Found HOME button image on screen.")
                 return True
 
-        return [one_star, char_exp, cannot_enter, home_button]
+        return [char_exp, cannot_enter, home_button]
 
     @property
     def disconnect_conditions(self):

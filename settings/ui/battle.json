@@ -336,18 +336,6 @@
     }
   },
   {
-    "ONE_STAR_MISSION_COMPLETE": {
-      "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.05555555555555555, "x2": 0.05, "y2": 0.125},
-      "text": null,
-      "image_threshold": 0.6,
-      "chars": null,
-      "image_path": "one_star.png",
-      "image_save_file": "one_star_mission_complete",
-      "definition": "The left one star when you complete a mission."
-    }
-  },
-  {
     "CANNOT_ENTER": {
       "text_rect": {"x1": 0.4427083333333333, "y1": 0.43425925925925923, "x2": 0.5604166666666667, "y2": 0.4759259259259259},
       "button_rect": null,
