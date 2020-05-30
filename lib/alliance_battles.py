@@ -73,7 +73,7 @@ class AllianceBattles(Missions):
         :param start_button: start button UI.
         :param home_or_next_button: next to extreme button or home button UI.
         """
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[start_button]):
+        if wait_until(self.player.is_ui_element_on_screen, timeout=10, ui_element=self.ui[start_button]):
             time.sleep(2)
             self.deploy_characters()
             self.player.click_button(self.ui[start_button].button)
