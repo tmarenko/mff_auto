@@ -2,8 +2,8 @@ from lib.player import NoxWindow
 from lib.alliance_battles import AllianceBattles
 from lib.legendary_battle import LegendaryBattle
 from lib.dimension_missions import DimensionMissions
-from lib.epic_quests import StupidXMen, DarkDimension, MutualEnemy, BeginningOfTheChaos, DoomsDay, NewFaces, \
-    TwistedWorld, TheBigTwin, VeiledSecret, MemoryMission
+from lib.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
+    TwistedWorld, TheBigTwin, VeiledSecret
 from lib.coop import CoopPlay
 from lib.timeline import TimelineBattle
 from lib.invasion import WorldBossInvasion
@@ -28,11 +28,7 @@ if __name__ == '__main__':
     dd = DoomsDay(game).do_missions()
     botc = BeginningOfTheChaos(game).do_missions()
     xm = MutualEnemy(game).do_missions()
-    nf = NewFaces(game).do_missions()
     tw = TwistedWorld(game).do_missions()
-    # Available: DarkDimension.SATANA, DarkDimension.HELLSTORM
-    ss = DarkDimension(game).do_missions(DarkDimension.SATANA)
-
     sx = StupidXMen(game).do_missions()
     bt = TheBigTwin(game).do_missions()
     vs = VeiledSecret(game).do_missions()
@@ -41,11 +37,6 @@ if __name__ == '__main__':
     lb = LegendaryBattle(game).do_missions()
     # Available: SquadBattles.MODE.DAILY_RANDOM and SquadBattles.MODE.ALL_BATTLES
     sb = SquadBattles(game).do_missions(mode=SquadBattles.MODE.DAILY_RANDOM)
-
-    # Available: MemoryMission.MORDO, MemoryMission.WONG, MemoryMission.ANCIENT_ONE, MemoryMission.KAECILIUS,
-    # MemoryMission.DIFFICULTY
-    # Use MemoryMission.DIFFICULTY.STAGE_1 up to MemoryMission.DIFFICULTY.STAGE_6 for difficulty
-    mm = MemoryMission(game).do_missions(MemoryMission.ANCIENT_ONE, MemoryMission.DIFFICULTY.STAGE_6)
 
     # Available: AllianceBattles.MODE.NORMAL or AllianceBattles.MODE.ALL_BATTLES
     ab = AllianceBattles(game).do_missions(AllianceBattles.MODE.ALL_BATTLES)
