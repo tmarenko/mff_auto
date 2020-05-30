@@ -156,6 +156,7 @@ class ManualBattleBot(BattleBot):
     DEFAULT_SKILL = 5  # best non locked skill
     T3_SKILL = "T3"
     AWAKENING_SKILL = "6"
+    COOP_SKILL = "COOP"
 
     def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
         """Class initialization.
@@ -169,6 +170,7 @@ class ManualBattleBot(BattleBot):
                                     skill_label_ui="SKILL_T3_LABEL")
         self.awakening_skill = LockedSkill(game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
                                            skill_label_ui="SKILL_6_LABEL")
+        self.coop_skill = LockedSkill(game, skill_ui="SKILL_COOP", skill_locked_ui="SKILL_COOP", skill_label_ui=None)
         self.cached_available_skill = self.DEFAULT_SKILL
         self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
                                        "MOVE_AROUND_POS_UP", "MOVE_AROUND_POS_RIGHT"])
@@ -246,6 +248,8 @@ class ManualBattleBot(BattleBot):
             self.skill_images.append(skill_image)
         if not self.awakening_skill.locked:
             self.awakening_skill.check_skill_is_ready(forced=True)
+        self.coop_skill._locked = self.player.is_image_on_screen(ui_element=self.ui['SKILL_COOP'])
+        self.coop_skill.check_skill_is_ready(forced=True)
 
     def is_skill_available(self, skill_id):
         """Check if skill is available to cast.
@@ -256,7 +260,7 @@ class ManualBattleBot(BattleBot):
 
     def get_best_available_skill(self):
         """Get best available skill to cast.
-        cached skill -> T3 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1
+        cached skill -> T3 -> 6 -> COOP -> 5 -> 4 -> 3 -> 2 -> 1
         """
         if self.cached_available_skill:
             skill = self.cached_available_skill
@@ -266,6 +270,8 @@ class ManualBattleBot(BattleBot):
             return self.T3_SKILL
         if self.awakening_skill.is_skill_available():
             return self.AWAKENING_SKILL
+        if self.coop_skill.is_skill_available():
+            return self.COOP_SKILL
         for skill_id in reversed(range(1, 6)):
             if self.is_skill_available(skill_id=skill_id):
                 return skill_id
