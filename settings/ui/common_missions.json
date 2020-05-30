@@ -474,28 +474,6 @@
     }
   },
   {
-    "DIFFICULTY_DRAG_FROM": {
-      "text_rect": null,
-      "button_rect": {"x1": 0.5541666666666667, "y1": 0.7157407407407408, "x2": 0.5890625, "y2": 0.7518518518518519},
-      "text": null,
-      "image_threshold": null,
-      "chars": null,
-      "image_save_file": null,
-      "definition": "Difficulty of the mission: drag position (bottom) to scroll the list."
-    }
-  },
-  {
-    "DIFFICULTY_DRAG_TO": {
-      "text_rect": null,
-      "button_rect": {"x1": 0.5541666666666667, "y1": 0.20833333333333334, "x2": 0.5890625, "y2": 0.24537037037037038},
-      "text": null,
-      "image_threshold": null,
-      "chars": null,
-      "image_save_file": null,
-      "definition": "Difficulty of the mission: drag position (top) to scroll the list."
-    }
-  },
-  {
     "SKIP_CUTSCENE": {
       "text_rect": {"x1": 0.9057291666666667, "y1": 0.03796296296296296, "x2": 0.9552083333333333, "y2": 0.08518518518518518},
       "button_rect": {"x1": 0.9057291666666667, "y1": 0.03796296296296296, "x2": 0.9552083333333333, "y2": 0.08518518518518518},

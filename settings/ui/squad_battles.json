@@ -18,7 +18,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "squad_battle",
-      "definition": "Squad Battle mode entry in Challenges menu."
+      "definition": "DEPRECATED: Squad Battle mode entry in Challenges menu."
     }
   },
   {

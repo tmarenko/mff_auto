@@ -491,7 +491,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "invasion_fight_waiting_in_battle",
-      "definition": "WBI waiting for players in boss fight."
+      "definition": "DEPRECATED: WBI waiting for players in boss fight."
     }
   },
   {

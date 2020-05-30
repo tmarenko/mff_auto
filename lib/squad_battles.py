@@ -38,13 +38,10 @@ class SquadBattles(Missions):
 
         :return: True or False: is Squad Battles open.
         """
-        self.game.go_to_challenge_selection()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SQUAD_BATTLE']):
-            self.player.click_button(self.ui['SQUAD_BATTLE'].button)
-            self.game.close_ads(timeout=5)
-            self.close_after_battle_notifications()
-            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SB_LABEL'])
-        return False
+        self.game.select_mode(self.mode_name)
+        self.game.close_ads(timeout=5)
+        self.close_after_battle_notifications()
+        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SB_LABEL'])
 
     def close_rank_change_notification(self):
         """Close rank change notification."""
