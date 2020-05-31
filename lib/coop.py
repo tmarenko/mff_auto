@@ -71,11 +71,6 @@ class CoopPlay(Missions):
     def press_start_button(self, check_inventory=True):
         """Start Co-op mission stage."""
         self.player.click_button(self.ui['COOP_START_BUTTON'].button)
-        if check_inventory and wait_until(self.player.is_ui_element_on_screen, timeout=2,
-                                          ui_element=self.ui['INVENTORY_FULL']):
-            self.player.click_button(self.ui['INVENTORY_FULL'].button)
-            self.stages *= 0
-            return
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WAITING_FOR_OTHER_PLAYERS']):
             logger.debug("Waiting for other players.")
             if wait_until(self.player.is_ui_element_on_screen, timeout=60, condition=False,
@@ -92,6 +87,11 @@ class CoopPlay(Missions):
                 else:
                     self.press_home_button()
                 return
+        if check_inventory and wait_until(self.player.is_ui_element_on_screen, timeout=2,
+                                          ui_element=self.ui['INVENTORY_FULL']):
+            self.player.click_button(self.ui['INVENTORY_FULL'].button)
+            self.stages *= 0
+            return
         logger.warning("Something went wrong while waiting for other players.")
         self.player.click_button(self.ui['WAITING_FOR_OTHER_PLAYERS'].button)
 

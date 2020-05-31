@@ -43,7 +43,7 @@ class Game:
         """player.click_button decorator."""
         def wrapped(*args, **kwargs):
             if self.is_loading_circle():
-                time.sleep(0.1)
+                time.sleep(1)
             return func(*args, **kwargs)
         return wrapped
 
