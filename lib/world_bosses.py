@@ -93,6 +93,8 @@ class WorldBosses(Missions):
         :param: deploy characters or not.
         """
         self.player.click_button(self.ui['WB_READY_BUTTON'].button)
+        self.close_mission_notifications()
+        self.close_after_mission_notifications()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_SET_TEAM']):
             self.deploy_characters()
             self.player.click_button(self.ui['WB_SET_TEAM'].button)
