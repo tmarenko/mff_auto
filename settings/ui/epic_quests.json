@@ -236,6 +236,39 @@
       "image_save_file": null,
       "definition": "Epic Quest : First Family : Doom's Day stage."
     }
+  },
+  {
+    "EQ_THE_FAULT_STAGE_LABEL": {
+      "text_rect": {"x1": 0.052083333333333336, "y1": 0.013888888888888888, "x2": 0.16614583333333333, "y2": 0.0824074074074074},
+      "button_rect": null,
+      "text": "THE FAULT",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_the_fault_stage_label",
+      "definition": "Epic Quest : The Galactic Imperative: The Fault stage text (to detect if it's loaded)."
+    }
+  },
+    {
+    "EQ_THE_FAULT_STAGE_1": {
+      "text_rect": {"x1": 0.33697916666666666, "y1": 0.6907407407407408, "x2": 0.3697916666666667, "y2": 0.725},
+      "button_rect": {"x1": 0.2984375, "y1": 0.375, "x2": 0.4125, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 150,
+      "chars": "0123456789/",
+      "image_save_file": "eq_the_fault_stage_1",
+      "definition": "Epic Quest : The Galactic Imperative: The Fault stage #1."
+    }
+  },
+  {
+    "EQ_THE_FAULT_STAGE_2": {
+      "text_rect": {"x1": 0.6302083333333334, "y1": 0.6907407407407408, "x2": 0.6614583333333334, "y2": 0.725},
+      "button_rect": {"x1": 0.5885416666666666, "y1": 0.375, "x2": 0.7015625, "y2": 0.6527777777777778},
+      "text": null,
+      "image_threshold": 120,
+      "chars": "0123456789/",
+      "image_save_file": "eq_the_fault_stage_2",
+      "definition": "Epic Quest : The Galactic Imperative: The Fault stage #2."
+    }
   }
 ]
 

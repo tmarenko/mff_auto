@@ -352,3 +352,58 @@ class VeiledSecret(EpicQuests):
                     stage_1_int = 0
                     stage_2_int = 0
                 return stage_1_int, stage_2_int
+
+
+class TheFault(EpicQuests):
+    """Class for working with Epic Quest mission: The Fault."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param game.Game game: instance of the game.
+        """
+        super().__init__(game, 'EQ_THE_FAULT_STAGE_LABEL')
+        self.stages = super().stages
+
+    def start_missions(self, farm_shifter_bios=False):
+        """Start The Fault missions."""
+        logger.info(f"The Fault: {self.stages} stages available")
+        if self.stages > 0:
+            self.game.select_mode(self.mode_name)
+            stage_1_num, stage_2_num = self.the_fault_stages
+            logger.info(f"The Fault: Available stages: {stage_1_num} and {stage_2_num}")
+            if stage_1_num + stage_2_num > self.stages:
+                logging.debug(f"Stages count {self.stages} is lesser than available stages. Second stage is locked.")
+                stage_2_num = 0
+            if stage_1_num > 0 or stage_2_num > 0:
+                while stage_1_num > 0 and self.stages > 0:
+                    stage_1_num = self.start_stage(self.ui['EQ_THE_FAULT_STAGE_1'].button, stage_1_num,
+                                                   farm_shifter_bios=farm_shifter_bios)
+                    self.stages = stage_1_num + stage_2_num
+                if self.game.is_main_menu():
+                    self.game.select_mode(self.mode_name)
+                while stage_2_num > 0 and self.stages > 0:
+                    stage_2_num = self.start_stage(self.ui['EQ_THE_FAULT_STAGE_2'].button, stage_2_num,
+                                                   farm_shifter_bios=farm_shifter_bios)
+                    self.stages = stage_1_num + stage_2_num
+        logger.info("No more stages for The Fault.")
+
+    @property
+    def the_fault_stages(self):
+        """Stages of The Fault missions."""
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['EQ_THE_FAULT_STAGE_LABEL']):
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_RECOMMENDED_LVL']):
+                stage_1 = self.player.get_screen_text(self.ui['EQ_THE_FAULT_STAGE_1'])
+                stage_2 = self.player.get_screen_text(self.ui['EQ_THE_FAULT_STAGE_2'])
+                stage_1_num = re.findall(stages_regexp, stage_1)
+                stage_2_num = re.findall(stages_regexp, stage_2)
+                logger.debug(f"Found stage 1: {stage_1_num}; stage 2: {stage_2_num}")
+                try:
+                    stage_1_int = int(stage_1_num[0])
+                    stage_2_int = int(stage_2_num[0])
+                except ValueError:
+                    logger.critical(f"The Fault: cannot convert stages to integers: {stage_1} and {stage_2}")
+                    stage_1_int = 0
+                    stage_2_int = 0
+                return stage_1_int, stage_2_int
