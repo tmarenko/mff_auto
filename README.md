@@ -19,6 +19,7 @@ Video footage of all game modes running by **mff_auto**: https://youtu.be/QcgZcA
 For now installation isn't released but you can run it manually from source code with Python3:
 
 - Install [NoxPlayer](https://bignox.com) then install and run [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb&hl=ru).
+- Set [NoxPlayer](https://bignox.com) graphics rendering mode to `Speed (DirectX)`: [Tutorial](https://www.bignox.com/blog/change-graphics-rendering-mode-noxplayer/)
 - Install [Tesseract ORC](https://github.com/tesseract-ocr/tesseract) and add path to Tesseract to your ```PATH``` environment.
 - Download source code and install all requirements: ```pip install -r requirements.txt```
 - Add ```lib``` folder to your ```PYTHONPATH``` or mark it as lib source.
