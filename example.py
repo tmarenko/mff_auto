@@ -7,7 +7,7 @@ from lib.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsD
 from lib.coop import CoopPlay
 from lib.timeline import TimelineBattle
 from lib.invasion import WorldBossInvasion
-from lib.routines import DailyMissions, DailyTrivia, ShieldLab
+from lib.routines import DailyTrivia, ShieldLab
 from lib.squad_battles import SquadBattles
 from lib.world_bosses import WorldBosses
 from lib.game import Game
