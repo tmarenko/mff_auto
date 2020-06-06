@@ -3,7 +3,7 @@ from lib.alliance_battles import AllianceBattles
 from lib.legendary_battle import LegendaryBattle
 from lib.dimension_missions import DimensionMissions
 from lib.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
-    TwistedWorld, TheBigTwin, VeiledSecret
+    TwistedWorld, TheBigTwin, VeiledSecret, TheFault
 from lib.coop import CoopPlay
 from lib.timeline import TimelineBattle
 from lib.invasion import WorldBossInvasion
@@ -32,6 +32,7 @@ if __name__ == '__main__':
     sx = StupidXMen(game).do_missions()
     bt = TheBigTwin(game).do_missions()
     vs = VeiledSecret(game).do_missions()
+    tf = TheFault(game).do_missions()
     cp = CoopPlay(game).do_missions()
     tb = TimelineBattle(game).do_missions()
     lb = LegendaryBattle(game).do_missions()
