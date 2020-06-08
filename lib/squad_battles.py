@@ -26,7 +26,7 @@ class SquadBattles(Missions):
     @property
     def battle_over_conditions(self):
         def rank():
-            return self.player.is_ui_element_on_screen(self.ui['SB_RANK_CHANGED'])
+            return self.player.is_ui_element_on_screen(self.ui['SB_RANK_CHANGED_1'])
 
         def points():
             return self.player.is_ui_element_on_screen(self.ui['SB_BATTLE_POINTS'])
@@ -41,13 +41,16 @@ class SquadBattles(Missions):
         self.game.select_mode(self.mode_name)
         self.game.close_ads(timeout=5)
         self.close_after_battle_notifications()
+        if not self.player.is_ui_element_on_screen(ui_element=self.ui['SB_LABEL']):
+            self.player.click_button(self.ui['SB_RANK_CHANGED_2'].button)
         return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SB_LABEL'])
 
     def close_rank_change_notification(self):
         """Close rank change notification."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['SB_RANK_CHANGED']):
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['SB_RANK_CHANGED_1']) or \
+                self.player.is_ui_element_on_screen(ui_element=self.ui['SB_RANK_CHANGED_2']):
             logger.info("Squad Battles: closing rank change notification.")
-            self.player.click_button(self.ui['SB_RANK_CHANGED'].button)
+            self.player.click_button(self.ui['SB_RANK_CHANGED_1'].button)
             return True
         return False
 

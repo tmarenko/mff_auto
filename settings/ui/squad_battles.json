@@ -22,14 +22,25 @@
     }
   },
   {
-    "SB_RANK_CHANGED": {
+    "SB_RANK_CHANGED_1": {
       "text_rect": {"x1": 0.40625, "y1": 0.5925925925925926, "x2": 0.4588541666666667, "y2": 0.6370370370370371},
       "button_rect": {"x1": 0.34375, "y1": 0.2777777777777778, "x2": 0.7333333333333333, "y2": 0.7453703703703703},
       "text": "RANK",
       "image_threshold": 150,
       "chars": null,
-      "image_save_file": "sb_rank_changed",
-      "definition": "Rank message when your rank is changed."
+      "image_save_file": "sb_rank_changed_1",
+      "definition": "Rank message when your rank is changed (usually after battles during week)."
+    }
+  },
+  {
+    "SB_RANK_CHANGED_2": {
+      "text_rect": {"x1": 0.41302083333333334, "y1": 0.6101851851851852, "x2": 0.4671875, "y2": 0.6546296296296297},
+      "button_rect": {"x1": 0.34375, "y1": 0.2777777777777778, "x2": 0.7333333333333333, "y2": 0.7453703703703703},
+      "text": "RANK",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "sb_rank_changed_2",
+      "definition": "Rank message when your rank is changed (usually after end of the week during league change)."
     }
   },
   {
