@@ -83,7 +83,9 @@ class Missions:
                 logger.debug("Found HOME button image on screen.")
                 return True
 
-        return [char_exp, cannot_enter, home_button]
+        return [char_exp, cannot_enter, home_button, self.close_lvl_up_notification,
+                self.close_stages_done_notification, self.close_items_def_notification, self.close_rank_up_notification,
+                self.close_shield_lvl_up_notification, self.close_recruit_character_notification]
 
     @property
     def disconnect_conditions(self):
