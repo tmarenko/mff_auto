@@ -46,6 +46,16 @@ class BattleBot:
         self._is_battle_cached = None
         return False
 
+    def skip_cutscene(self):
+        """Skip battle cutscene."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']):
+            logger.debug("Skipping cutscene.")
+            self.player.click_button(self.ui['SKIP_CUTSCENE'].button)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=0.2, period=0.1,
+                      ui_element=self.ui['SKIP_TAP_THE_SCREEN']):
+            logger.debug("Skipping TAP THE SCREEN.")
+            self.player.click_button(self.ui['SKIP_TAP_THE_SCREEN'].button)
+
 
 class AutoBattleBot(BattleBot):
     """Class for working with AutoPlay battles."""
@@ -60,7 +70,10 @@ class AutoBattleBot(BattleBot):
             logging.debug("Found AUTO PLAY toggle inactive. Clicking it.")
             self.player.click_button(self.ui['AUTOPLAY_TOGGLE'].button)
         while not self.is_battle_over():
-            time.sleep(0.75)
+            if self.is_battle():
+                time.sleep(0.75)
+            else:
+                self.skip_cutscene()
         logger.info("Battle is over")
 
     def wait_until_shifter_appeared(self):
@@ -288,13 +301,3 @@ class ManualBattleBot(BattleBot):
         self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
         self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
         return not self.is_skill_available(skill_id=skill_id)
-
-    def skip_cutscene(self):
-        """Skip battle cutscene."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']):
-            logger.debug("Skipping cutscene.")
-            self.player.click_button(self.ui['SKIP_CUTSCENE'].button)
-        if wait_until(self.player.is_ui_element_on_screen, timeout=0.2, period=0.1,
-                      ui_element=self.ui['SKIP_TAP_THE_SCREEN']):
-            logger.debug("Skipping TAP THE SCREEN.")
-            self.player.click_button(self.ui['SKIP_TAP_THE_SCREEN'].button)
