@@ -119,5 +119,41 @@
       "image_save_file": null,
       "definition": "Alliance Battle: home button at the end of the battle."
     }
+  },
+    {
+    "AB_NO_CHARACTER_MAIN": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.23645833333333333, "y1": 0.3037037037037037, "x2": 0.3307291666666667, "y2": 0.4675925925925926},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "ab_no_character_main",
+      "definition": "Empty main character selector in AB team setup."
+    }
+  },
+    {
+    "AB_NO_CHARACTER_LEFT": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.09010416666666667, "y1": 0.31296296296296294, "x2": 0.18020833333333333, "y2": 0.4685185185185185},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "ab_no_character_left",
+      "definition": "Empty left character selector in AB team setup."
+    }
+  },
+  {
+    "AB_NO_CHARACTER_RIGHT": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.3828125, "y1": 0.31296296296296294, "x2": 0.47239583333333335, "y2": 0.4685185185185185},
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "ab_no_character_right",
+      "definition": "Empty right character selector in AB team setup."
+    }
   }
 ]
