@@ -407,3 +407,26 @@ class TheFault(EpicQuests):
                     stage_1_int = 0
                     stage_2_int = 0
                 return stage_1_int, stage_2_int
+
+
+class FateOfTheUniverse(EpicQuests):
+    """Class for working with Epic Quest mission: Fate of the Universe."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param game.Game game: instance of the game.
+        """
+        super().__init__(game, 'EQ_FATE_OF_THE_UNIVERSE_STAGE_LABEL')
+        self.stages = super().stages
+
+    def start_missions(self, farm_shifter_bios=False):
+        """Start Fate of the Universe missions."""
+        logger.info(f"Fate of the Universe: {self.stages} stages available")
+        if self.stages > 0:
+            self.game.select_mode(self.mode_name)
+            stage_num = self.stages
+            while stage_num > 0:
+                stage_num = self.start_stage(self.ui['EQ_FATE_OF_THE_UNIVERSE_STAGE_LABEL'].button, stage_num,
+                                             farm_shifter_bios=farm_shifter_bios)
+        logger.info("No more stages for Fate of the Universe.")

@@ -269,6 +269,17 @@
       "image_save_file": "eq_the_fault_stage_2",
       "definition": "Epic Quest : The Galactic Imperative: The Fault stage #2."
     }
+  },
+    {
+    "EQ_FATE_OF_THE_UNIVERSE_STAGE_LABEL": {
+      "text_rect": {"x1": 0.646875, "y1": 0.8703703703703703, "x2": 0.7416666666666667, "y2": 0.8972222222222223},
+      "button_rect": {"x1": 0.6625, "y1": 0.7231481481481481, "x2": 0.7244791666666667, "y2": 0.8240740740740741},
+      "text": "FATE OF THE UNIVERSE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_fate_of_the_universe_stage_label",
+      "definition": "Epic Quest : The Galactic Imperative : Fate of the Universe stage button and text."
+    }
   }
 ]
 
