@@ -1,6 +1,6 @@
-import logging
+import lib.logger as logging
 from lib.functions import wait_until
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class HeroicQuests:

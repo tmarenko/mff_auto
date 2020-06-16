@@ -1,8 +1,8 @@
-import logging
+import lib.logger as logging
 from lib.functions import wait_until
-from lib.battle_bot import AutoBattleBot
-from lib.heroic_quests import HeroicQuests
-logger = logging.getLogger(__name__)
+from lib.game.battle_bot import AutoBattleBot
+from lib.game.heroic_quests import HeroicQuests
+logger = logging.get_logger(__name__)
 
 
 class Missions:

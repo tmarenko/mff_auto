@@ -1,27 +1,27 @@
-from lib.player import NoxWindow
-from lib.alliance_battles import AllianceBattles
-from lib.legendary_battle import LegendaryBattle
-from lib.dimension_missions import DimensionMissions
-from lib.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
+from lib.players.nox_player import NoxWindow
+from lib.game.missions.legendary_battle import LegendaryBattle
+from lib.game.missions.alliance_battles import AllianceBattles
+from lib.game.missions.dimension_missions import DimensionMissions
+from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
     TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse
-from lib.coop import CoopPlay
-from lib.timeline import TimelineBattle
-from lib.invasion import WorldBossInvasion
-from lib.routines import DailyTrivia, ShieldLab
-from lib.squad_battles import SquadBattles
-from lib.world_bosses import WorldBosses
-from lib.game import Game
-import time
-from lib.functions import sleep
+from lib.game.missions.coop import CoopPlay
+from lib.game.missions.timeline import TimelineBattle
+from lib.game.missions.invasion import WorldBossInvasion
+from lib.game.missions.squad_battles import SquadBattles
+from lib.game.missions.world_bosses import WorldBosses
+from lib.game.routines import DailyTrivia
+from lib.game.game import Game
 
-time.sleep = sleep
+import lib.logger as logging
+logger = logging.get_logger(__name__)
+
 
 if __name__ == '__main__':
 
     nox = NoxWindow("NoxPlayer")              # Use your window's name of emulator to get a handle
 
     game = Game(nox)
-    game.set_mission_team(5)                  # Setup your team for common missions to get EXP
+    game.set_mission_team(1)                  # Setup your team for common missions to get EXP
     game.set_timeline_team(2)                 # Setup your team for PVP missions
     game.ACQUIRE_HEROIC_QUEST_REWARDS = True  # Setup ability to collect Heroic Quest rewards
 

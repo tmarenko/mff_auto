@@ -1,10 +1,9 @@
-from lib.functions import wait_until
-from lib.missions import Missions
-from lib.battle_bot import AutoBattleBot
-import logging
-import time
+from lib.functions import wait_until, r_sleep
+from lib.game.missions.missions import Missions
+from lib.game.battle_bot import AutoBattleBot
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class DimensionMissions(Missions):
@@ -123,7 +122,7 @@ class DimensionMissions(Missions):
         self.select_stage_level(level_num=difficulty)
         while times > 0:
             if self.get_ready():
-                time.sleep(1)
+                r_sleep(1)
                 if not self.is_stage_startable():
                     logger.error("Cannot start Dimension Mission battle, not enough boost points.")
                     return

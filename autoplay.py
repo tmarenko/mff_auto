@@ -1,9 +1,8 @@
-from lib.player import NoxWindow
-from lib.battle_bot import ManualBattleBot
-from lib.game import Game
-import time
-from lib.functions import sleep as random_sleep
-time.sleep = random_sleep
+from lib.players.nox_player import NoxWindow
+from lib.game.battle_bot import ManualBattleBot
+from lib.game.game import Game
+import lib.logger as logging
+logger = logging.get_logger(__name__)
 
 
 if __name__ == '__main__':

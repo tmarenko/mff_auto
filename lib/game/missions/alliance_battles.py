@@ -1,10 +1,9 @@
-from lib.battle_bot import ManualBattleBot
-from lib.missions import Missions
-from lib.functions import wait_until
-import logging
-import time
+from lib.game.battle_bot import ManualBattleBot
+from lib.game.missions.missions import Missions
+from lib.functions import wait_until, r_sleep
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class AllianceBattles(Missions):
@@ -74,7 +73,7 @@ class AllianceBattles(Missions):
         :param home_or_next_button: next to extreme button or home button UI.
         """
         if wait_until(self.player.is_ui_element_on_screen, timeout=10, ui_element=self.ui[start_button]):
-            time.sleep(2)
+            r_sleep(2)
             self.deploy_characters()
             self.player.click_button(self.ui[start_button].button)
             ManualBattleBot(self.game, self.battle_over_conditions).fight()

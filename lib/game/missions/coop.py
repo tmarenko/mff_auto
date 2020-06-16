@@ -1,10 +1,9 @@
-from lib.battle_bot import AutoBattleBot
-from lib.missions import Missions
-from lib.functions import wait_until
-import time
-import logging
+from lib.game.battle_bot import AutoBattleBot
+from lib.game.missions.missions import Missions
+from lib.functions import wait_until, r_sleep
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class CoopPlay(Missions):
@@ -39,7 +38,7 @@ class CoopPlay(Missions):
                 self.player.click_button(self.ui['COOP_QUICK_MATCH_TOGGLE'].button)
             while self.stages > 0:
                 if not self.deploy_character():
-                    logging.warning("Can't deploy character for COOP. Probably you run out of available. Exiting")
+                    logger.warning("Can't deploy character for COOP. Probably you run out of available. Exiting")
                     self.stages *= 0
                     break
                 self.press_start_button()
@@ -81,7 +80,7 @@ class CoopPlay(Missions):
                     self.player.click_button(self.ui['DISCONNECT_NEW_OPPONENT'].button)
                     return self.press_start_button(check_inventory=False)
                 AutoBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions).fight()
-                time.sleep(2)   # wait progress bar animation
+                r_sleep(2)   # wait progress bar animation
                 if self.stages > 0:
                     self.press_repeat_button()
                 else:
@@ -113,7 +112,7 @@ class CoopPlay(Missions):
                 self.stages -= 1
                 if wait_until(self.player.is_ui_element_on_screen, timeout=10,
                               ui_element=self.ui['COOP_REWARD_ACQUIRE']):
-                    time.sleep(4)
+                    r_sleep(4)
                     self.player.click_button(self.ui['COOP_REWARD_ACQUIRE'].button)
 
     def _check_or_acquire_rewards(self):

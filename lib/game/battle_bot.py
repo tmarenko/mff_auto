@@ -1,9 +1,8 @@
-import time
-import logging
+import lib.logger as logging
 from itertools import cycle
-from lib.functions import wait_until
+from lib.functions import wait_until, r_sleep
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class BattleBot:
@@ -67,11 +66,11 @@ class AutoBattleBot(BattleBot):
         else:
             logger.warning("Can't find MELEE button on screen after starting a battle.")
         if not wait_until(self.player.is_image_on_screen, timeout=2, ui_element=self.ui['AUTOPLAY_TOGGLE']):
-            logging.debug("Found AUTO PLAY toggle inactive. Clicking it.")
+            logger.debug("Found AUTO PLAY toggle inactive. Clicking it.")
             self.player.click_button(self.ui['AUTOPLAY_TOGGLE'].button)
         while not self.is_battle_over():
             if self.is_battle():
-                time.sleep(0.75)
+                r_sleep(0.75)
             else:
                 self.skip_cutscene()
         logger.info("Battle is over")
@@ -88,7 +87,7 @@ class AutoBattleBot(BattleBot):
                 logger.debug("Shifter appeared.")
                 return True
             else:
-                time.sleep(0.25)
+                r_sleep(0.25)
         logger.debug("Shifter didn't appeared.")
         return False
 
@@ -210,7 +209,7 @@ class ManualBattleBot(BattleBot):
                 if self.cast_skill(best_available_skill):
                     logger.debug(f"Successfully casted {best_available_skill} skill.")
                     time_to_sleep = 5 if best_available_skill in [self.T3_SKILL, self.AWAKENING_SKILL] else 1
-                    time.sleep(time_to_sleep)
+                    r_sleep(time_to_sleep)
                 else:
                     self.cached_available_skill = self.DEFAULT_SKILL
                     if move_around:

@@ -1,10 +1,9 @@
-from lib.functions import wait_until
-from lib.missions import Missions
-from lib.battle_bot import ManualBattleBot
-import logging
-import time
+from lib.functions import wait_until, r_sleep
+from lib.game.missions.missions import Missions
+from lib.game.battle_bot import ManualBattleBot
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class LegendaryBattle(Missions):
@@ -65,7 +64,7 @@ class LegendaryBattle(Missions):
         else:
             logger.debug("Ragnarok Battle isn't selecting, trying to found it.")
             self.player.drag(self.ui['LB_DRAG_FROM'].button, self.ui['LB_DRAG_TO'].button)
-            time.sleep(1)
+            r_sleep(1)
             if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['LB_RAGNAROK_BATTLE']):
                 logger.debug("Found RAGNAROK battle. Selecting and entering.")
                 self.player.click_button(self.ui['LB_RAGNAROK_BATTLE'].button)

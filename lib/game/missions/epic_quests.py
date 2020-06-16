@@ -1,10 +1,10 @@
 from lib.functions import wait_until
-from lib.battle_bot import AutoBattleBot
-from lib.missions import Missions
+from lib.game.battle_bot import AutoBattleBot
+from lib.game.missions.missions import Missions
 import re
-import logging
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 stages_regexp = re.compile(r"(\d*)/\d*")
 
@@ -114,7 +114,7 @@ class TwoStageEpicQuest(EpicQuests):
             stage_1_num, stage_2_num = self.separate_stages
             logger.info(f"{self.mode_name}: available stages: {stage_1_num} and {stage_2_num}")
             if stage_1_num + stage_2_num > self.stages:
-                logging.debug(f"Stages count {self.stages} is lesser than available stages. Second stage is locked.")
+                logger.debug(f"Stages count {self.stages} is lesser than available stages. Second stage is locked.")
                 stage_2_num = 0
             if stage_1_num > 0 or stage_2_num > 0:
                 while stage_1_num > 0 and self.stages > 0:

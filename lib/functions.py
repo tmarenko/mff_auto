@@ -7,9 +7,6 @@ from PIL import Image
 from numpy import array, concatenate
 from lib.structural_similarity.ssim import compare_ssim
 
-# Saving normal sleep function
-old_sleep = time.sleep
-
 
 def get_text_from_image(image, threshold, chars=None, save_file=None, psm=13):
     """Get text from image using Tesseract OCR.
@@ -26,7 +23,7 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, psm=13):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     ret, threshold_img = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     if save_file:
-        cv2.imwrite(f"screenshots/{save_file}.png", threshold_img)
+        cv2.imwrite(f"logs/tesseract/{save_file}.png", threshold_img)
     whitelist = f"-c tessedit_char_whitelist={chars}" if chars else ""
     psm = f"--psm {psm} " if chars else ""
     text = pytesseract.image_to_string(threshold_img, config=f"{whitelist} {psm}")
@@ -80,7 +77,7 @@ def wait_until(predicate, timeout, period=0.25, condition=True, *args, **kwargs)
     while time.time() < time_limit:
         if predicate(*args, **kwargs) == condition:
             return True
-        old_sleep(period)
+        time.sleep(period)
     return False
 
 
@@ -107,14 +104,14 @@ def get_position_inside_rectangle(rect, mean_mod=2, sigma_mod=5):
     return normal_x, normal_y
 
 
-def sleep(seconds, radius_modifier=15.0):
+def r_sleep(seconds, radius_modifier=15.0):
     """Random sleep with radius.
 
     :param seconds: how much seconds to sleep.
     :param radius_modifier: random radius offset.
     """
     offset = float(seconds) / radius_modifier
-    old_sleep(random.uniform(seconds - offset, seconds + offset))
+    time.sleep(random.uniform(seconds - offset, seconds + offset))
 
 
 def load_image(path):

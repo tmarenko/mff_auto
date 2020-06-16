@@ -1,10 +1,9 @@
-from lib.battle_bot import AutoBattleBot
-from lib.missions import Missions
-from lib.functions import wait_until
-import logging
-import time
+from lib.game.battle_bot import AutoBattleBot
+from lib.game.missions.missions import Missions
+from lib.functions import wait_until, r_sleep
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class TimelineBattle(Missions):
@@ -62,7 +61,7 @@ class TimelineBattle(Missions):
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_SEARCH_NEW_OPPONENT']):
             for _ in range(3):
                 self.player.click_button(self.ui['TL_SEARCH_NEW_OPPONENT'].button)
-                time.sleep(1)
+                r_sleep(1)
 
     def fight(self):
         """Go to fight screen and fight."""

@@ -1,11 +1,8 @@
 from lib.functions import wait_until, is_strings_similar
-from lib.missions import Missions
-from lib.battle_bot import AutoBattleBot
-from lib.ui import load_daily_trivia
-import logging
-import time
+from lib.game.ui import load_daily_trivia
+import lib.logger as logging
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class DailyTrivia:

@@ -1,10 +1,10 @@
-from lib.battle_bot import ManualBattleBot
-from lib.missions import Missions
+from lib.game.battle_bot import ManualBattleBot
+from lib.game.missions.missions import Missions
 from lib.functions import wait_until
-import logging
+import lib.logger as logging
 import re
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 stages_regexp = re.compile(r"(\d*)/(\d*)")
 

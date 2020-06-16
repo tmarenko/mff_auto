@@ -6,7 +6,7 @@ from PIL import Image
 from ctypes import windll
 from numpy import array
 from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
-    is_color_similar
+    is_color_similar, r_sleep
 
 
 class NoxWindow(object):
@@ -198,10 +198,10 @@ class NoxWindow(object):
         :param max_duration: maximum duration between clicking.
         """
         duration = random.uniform(min_duration, max_duration)
-        time.sleep(duration)
+        r_sleep(duration)
         x, y = self.get_position_inside_screen_rectangle(button_rect)
         autoit.control_click_by_handle(self.parent_hwnd, self.hwnd, x=x, y=y)
-        time.sleep(duration * 2)
+        r_sleep(duration * 2)
 
     def press_key(self, key, system_key=False):
         """Press key (keys should be configured inside player).

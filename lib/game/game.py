@@ -1,10 +1,9 @@
 import re
-import time
-from lib.functions import wait_until, is_strings_similar
-from lib import ui
+from lib.functions import wait_until, is_strings_similar, r_sleep
+from lib.game import ui
 from multiprocessing.pool import ThreadPool
-import logging
-logger = logging.getLogger(__name__)
+import lib.logger as logging
+logger = logging.get_logger(__name__)
 
 energy_regexp = re.compile(r"(\d*) ?/ ?(\d*)")
 
@@ -45,7 +44,7 @@ class Game:
         """player.click_button decorator."""
         def wrapped(*args, **kwargs):
             if self.is_loading_circle():
-                time.sleep(1)
+                r_sleep(1)
             return func(*args, **kwargs)
         return wrapped
 
@@ -55,7 +54,7 @@ class Game:
         if not self._user_name:
             self.go_to_main_menu()
             self._user_name = self.player.get_screen_text(self.ui['USER_NAME'])
-            logging.debug(f"Username: {self._user_name}")
+            logger.debug(f"Username: {self._user_name}")
         return self._user_name
 
     @property
@@ -97,14 +96,14 @@ class Game:
     def set_timeline_team(self, team_number):
         """Set team for Timeline Battles."""
         if team_number < 1 or team_number > 5:
-            logging.error("Timeline team: Team number should be between 1 and 5.")
+            logger.error("Timeline team: Team number should be between 1 and 5.")
         else:
             self.timeline_team = team_number
 
     def set_mission_team(self, team_number):
         """Set team for usual missions."""
         if team_number < 1 or team_number > 5:
-            logging.error("Mission team: Team number should be between 1 and 5.")
+            logger.error("Mission team: Team number should be between 1 and 5.")
         else:
             self.mission_team = team_number
 
@@ -122,7 +121,7 @@ class Game:
         result = self.player.is_color_similar(color=(loading_color[0], loading_color[1], loading_color[2]),
                                               rects=loading_circle_rects)
         if result:
-            logging.debug("Loading circle is on screen.")
+            logger.debug("Loading circle is on screen.")
         return result
 
     def go_to_main_menu(self):
@@ -146,7 +145,7 @@ class Game:
                                               rows=3, cols=4)
         self.player.drag(self.ui['CONTENT_STATUS_DRAG_FROM'].button, self.ui['CONTENT_STATUS_DRAG_TO'].button,
                          duration=0.2)
-        time.sleep(1)
+        r_sleep(1)
         board_2_modes = self._get_board_modes(self.ui['CONTENT_STATUS_BOARD_2'], self.ui['CONTENT_STATUS_ELEMENT_1'],
                                               rows=3, cols=4)
         return {**board_1_modes, **board_2_modes}
@@ -159,10 +158,10 @@ class Game:
         self.go_to_content_status_board()
         mode = self.modes[name]
         if mode['board'] == self.ui['CONTENT_STATUS_BOARD_2'].rect.value:
-            logging.debug(f"Mode {name} is on second board. Dragging")
+            logger.debug(f"Mode {name} is on second board. Dragging")
             self.player.drag(self.ui['CONTENT_STATUS_DRAG_FROM'].button, self.ui['CONTENT_STATUS_DRAG_TO'].button,
                              duration=0.4)
-            time.sleep(1)
+            r_sleep(1)
         self.player.click_button(mode['button'])
 
     def _get_board_modes(self, board, element, rows, cols):
@@ -244,7 +243,7 @@ class Game:
         self.go_to_main_menu()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
             self.player.click_button(self.ui['ENTER_MISSIONS'].button)
-            time.sleep(1)
+            r_sleep(1)
 
     def go_to_challenge_selection(self):
         """DEPRECATED.
@@ -254,9 +253,9 @@ class Game:
         self.go_to_main_menu()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
             self.player.click_button(self.ui['ENTER_MISSIONS'].button)
-            time.sleep(1)
+            r_sleep(1)
             self.player.click_button(self.ui['CHALLENGE_MISSIONS'].button)
-            time.sleep(1)
+            r_sleep(1)
 
     def go_to_arena(self):
         """DEPRECATED.
@@ -266,9 +265,9 @@ class Game:
         self.go_to_main_menu()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
             self.player.click_button(self.ui['ENTER_MISSIONS'].button)
-            time.sleep(1)
+            r_sleep(1)
             self.player.click_button(self.ui['ARENA_MISSIONS'].button)
-            time.sleep(1)
+            r_sleep(1)
 
     def go_to_coop(self):
         """Go to Co-op screen."""
@@ -314,25 +313,14 @@ class Game:
         logger.warning("Failed to restart game")
         return False
 
-    def close_game(self, max_attempts=5):
+    def close_game(self):
         """Close game.
-
-        :param max_attempts: max attempts of closing the game.
 
         :return: True or False: was game closed.
         """
-        attempts = 0
-        self.player.press_key("~")
-        while not self.player.is_ui_element_on_screen(self.ui['GAME_TASK']):
-            if attempts > max_attempts:
-                return False
-            else:
-                self.player.press_key("{PGUP}", True)
-                attempts += 1
-                time.sleep(0.75)
         self.player.press_key("{PGUP}", True)
         if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GAME_TASK']):
-            logging.error("Failed to minimize game task.")
+            logger.error("Failed to minimize game task.")
         self.player.drag(self.ui['GAME_TASK_DRAG_FROM'].button, self.ui['GAME_TASK_DRAG_TO'].button, duration=0.4)
         return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GAME_APP'])
 

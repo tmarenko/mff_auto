@@ -1,11 +1,10 @@
-from lib.functions import wait_until
-from lib.missions import Missions
-from lib.battle_bot import AutoBattleBot
-import logging
+from lib.functions import wait_until, r_sleep
+from lib.game.missions.missions import Missions
+from lib.game.battle_bot import AutoBattleBot
+import lib.logger as logging
 import random
-import time
 
-logger = logging.getLogger(__name__)
+logger = logging.get_logger(__name__)
 
 
 class SquadBattles(Missions):
@@ -126,7 +125,7 @@ class SquadBattles(Missions):
                       ui_element=self.ui['SB_EMPTY_TEAM_NOTIFICATION']):
             logger.warning("Squad Battles: empty team notification. Deploying characters.")
             self.player.click_button(self.ui['SB_EMPTY_TEAM_NOTIFICATION'].button)
-            time.sleep(2)
+            r_sleep(2)
             self.deploy_characters()
             self.player.click_button(self.ui[start_button_ui].button)
 
