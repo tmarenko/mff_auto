@@ -1,8 +1,8 @@
-autoit
 numpy
 opencv-python
 pillow
 pytesseract
 scipy
+pyautoit
 pywin32
 win32gui
