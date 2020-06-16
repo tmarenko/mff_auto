@@ -12,6 +12,8 @@ energy_regexp = re.compile(r"(\d*) ?/ ?(\d*)")
 class Game:
     """Class for working with main game methods."""
 
+    ACQUIRE_HEROIC_QUEST_REWARDS = False
+
     def __init__(self, player, user_name=None, fake_modes=False):
         """Class initialization.
 

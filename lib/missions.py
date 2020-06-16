@@ -1,6 +1,7 @@
 import logging
 from lib.functions import wait_until
 from lib.battle_bot import AutoBattleBot
+from lib.heroic_quests import HeroicQuests
 logger = logging.getLogger(__name__)
 
 
@@ -267,8 +268,12 @@ class Missions:
 
         :return: True or False: was notification closed.
         """
-        if self.player.is_ui_element_on_screen(self.ui['HEROIC_QUEST_NOTIFICATION']):
-            self.player.click_button(self.ui['HEROIC_QUEST_NOTIFICATION'].button)
+        if self.player.is_ui_element_on_screen(self.ui['HQ_NOTIFICATION_OK']):
+            if self.game.ACQUIRE_HEROIC_QUEST_REWARDS:
+                self.player.click_button(self.ui['HQ_NOTIFICATION_OPEN'].button)
+                HeroicQuests(self.game).acquire_reward_and_return_back()
+            else:
+                self.player.click_button(self.ui['HQ_NOTIFICATION_OK'].button)
             return True
         return False
 
