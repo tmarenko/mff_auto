@@ -18,11 +18,13 @@ time.sleep = sleep
 
 if __name__ == '__main__':
 
-    nox = NoxWindow("NoxPlayer")    # Use your window's name of emulator to get a handle
+    nox = NoxWindow("NoxPlayer")              # Use your window's name of emulator to get a handle
 
     game = Game(nox)
-    game.set_mission_team(5)        # Setup your team for common missions to get EXP
-    game.set_timeline_team(2)       # Setup your team for PVP missions
+    game.set_mission_team(5)                  # Setup your team for common missions to get EXP
+    game.set_timeline_team(2)                 # Setup your team for PVP missions
+    game.ACQUIRE_HEROIC_QUEST_REWARDS = True  # Setup ability to collect Heroic Quest rewards
+
     wbi = WorldBossInvasion(game).do_missions()
     dt = DailyTrivia(game).do_trivia()
     dd = DoomsDay(game).do_missions()
