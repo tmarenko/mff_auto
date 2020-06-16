@@ -16,10 +16,22 @@ Video footage of all game modes running by **mff_auto**: https://youtu.be/QcgZcA
 
 ## Installation and usage
 
-For now installation isn't released but you can run it manually from source code with Python3:
+For now installation isn't ready but you can run it manually from source code with Python3 or check out existing releases:
 
-- Install [NoxPlayer](https://bignox.com) then install and run [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb&hl=ru).
+#### Install and setup game emulator
+
+- Install [NoxPlayer](https://bignox.com) and then install and run [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb&hl=ru).
 - Set [NoxPlayer](https://bignox.com) graphics rendering mode to `Speed (DirectX)`: [Tutorial](https://www.bignox.com/blog/change-graphics-rendering-mode-noxplayer/)
+
+#### From releases
+
+Check available releases of compiled Python/Tesseract binaries for **mff_auto**: [Link to releases](https://github.com/tmarenko/mff_auto/releases)
+
+- Edit `app.py` file to change algorithm of **mff_auto**.
+- Run `start.bat` and enjoy.
+
+#### From source code
+
 - Install [Tesseract ORC](https://github.com/tesseract-ocr/tesseract) and add path to Tesseract to your ```PATH``` environment.
 - Download source code and install all requirements: ```pip install -r requirements.txt```
 - Add ```lib``` folder to your ```PYTHONPATH``` or mark it as lib source.
@@ -36,6 +48,8 @@ For now installation isn't released but you can run it manually from source code
     CoopPlay(game).do_missions()
     ```
 - Run Python script and enjoy.
+
+#### Examples
 
 Check `example.py` for examples of running any modes.
 
