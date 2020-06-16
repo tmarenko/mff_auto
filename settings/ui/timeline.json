@@ -12,7 +12,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "tl_label",
-      "definition": "Timeline label in mission selection."
+      "description": "Timeline label in mission selection."
     }
   },
   {
@@ -33,7 +33,7 @@
       "image_threshold": 115,
       "chars": "avilbe0123456789",
       "image_save_file": "tl_stages",
-      "definition": "DEPRECATED: Timeline stages."
+      "description": "DEPRECATED: Timeline stages."
     }
   },
   {
@@ -54,12 +54,17 @@
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "tl_league_notification",
-      "definition": "Timeline league notification if you've been promoted to new league level."
+      "description": "Timeline league notification if you've been promoted to new league level."
     }
   },
   {
     "TL_RESTRICTED_NOTIFICATION": {
-      "text_rect": {"x1": 0.4671875, "y1": 0.8861111111111111, "x2": 0.5421875, "y2": 0.9361111111111111},
+      "text_rect": {
+        "x1": 0.4671875,
+        "y1": 0.8861111111111111,
+        "x2": 0.5421875,
+        "y2": 0.9361111111111111
+      },
       "button_rect": {
         "x1": 0.429757343550447,
         "y1": 0.875,
@@ -70,7 +75,7 @@
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "tl_restricted_notification",
-      "definition": "Timeline restricted character notification."
+      "description": "Timeline restricted character notification."
     }
   },
   {
@@ -91,7 +96,7 @@
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "tl_get_ready_button",
-      "definition": "Timeline get ready button (before fight)."
+      "description": "Timeline get ready button (before fight)."
     }
   },
   {
@@ -112,7 +117,7 @@
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "tl_search_button",
-      "definition": "Timeline search opponent button."
+      "description": "Timeline search opponent button."
     }
   },
   {
@@ -133,7 +138,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "tl_fight_button",
-      "definition": "Timeline fight button."
+      "description": "Timeline fight button."
     }
   },
   {
@@ -149,7 +154,7 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Timeline repeat button."
+      "description": "Timeline repeat button."
     }
   },
   {
@@ -165,85 +170,125 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Timeline home button."
+      "description": "Timeline home button."
     }
   },
   {
     "TL_SELECT_TEAM_1": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.13148148148148148, "x2": 0.052083333333333336, "y2": 0.19907407407407407},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.13148148148148148,
+        "x2": 0.052083333333333336,
+        "y2": 0.19907407407407407
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is first team."
+      "description": "Team selector is first team."
     }
   },
   {
     "TL_SELECT_TEAM_2": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.2351851851851852, "x2": 0.052083333333333336, "y2": 0.30462962962962964},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.2351851851851852,
+        "x2": 0.052083333333333336,
+        "y2": 0.30462962962962964
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is second team."
+      "description": "Team selector is second team."
     }
   },
   {
     "TL_SELECT_TEAM_3": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.34074074074074073, "x2": 0.052083333333333336, "y2": 0.40925925925925927},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.34074074074074073,
+        "x2": 0.052083333333333336,
+        "y2": 0.40925925925925927
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is third team."
+      "description": "Team selector is third team."
     }
   },
   {
     "TL_SELECT_TEAM_4": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.4444444444444444, "x2": 0.052083333333333336, "y2": 0.5120370370370371},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.4444444444444444,
+        "x2": 0.052083333333333336,
+        "y2": 0.5120370370370371
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is fourth team."
+      "description": "Team selector is fourth team."
     }
   },
   {
     "TL_SELECT_TEAM_5": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.549074074074074, "x2": 0.052083333333333336, "y2": 0.6175925925925926},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.549074074074074,
+        "x2": 0.052083333333333336,
+        "y2": 0.6175925925925926
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is fifth team."
+      "description": "Team selector is fifth team."
     }
   },
   {
     "TL_REPEAT_TOGGLE": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7552083333333334, "y1": 0.8296296296296296, "x2": 0.7776041666666667, "y2": 0.8694444444444445},
+      "button_rect": {
+        "x1": 0.7552083333333334,
+        "y1": 0.8296296296296296,
+        "x2": 0.7776041666666667,
+        "y2": 0.8694444444444445
+      },
       "text": null,
       "image_threshold": 0.7,
       "chars": null,
       "image_path": "repeat_toggle.png",
       "image_save_file": "repeat_toggle_timeline",
-      "definition": "Toggle for repeat."
+      "description": "Toggle for repeat."
     }
   },
-    {
+  {
     "TL_SEARCH_NEW_OPPONENT": {
-      "text_rect": {"x1": 0.5114583333333333, "y1": 0.8101851851851852, "x2": 0.615625, "y2": 0.8814814814814815},
-      "button_rect": {"x1": 0.5114583333333333, "y1": 0.8101851851851852, "x2": 0.615625, "y2": 0.8814814814814815},
+      "text_rect": {
+        "x1": 0.5114583333333333,
+        "y1": 0.8101851851851852,
+        "x2": 0.615625,
+        "y2": 0.8814814814814815
+      },
+      "button_rect": {
+        "x1": 0.5114583333333333,
+        "y1": 0.8101851851851852,
+        "x2": 0.615625,
+        "y2": 0.8814814814814815
+      },
       "text": "SEARCH NEW OPPONENT",
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "tl_search_new_opponent",
-      "definition": "Timeline search new opponent button."
+      "description": "Timeline search new opponent button."
     }
   }
 ]

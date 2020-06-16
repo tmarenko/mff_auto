@@ -12,7 +12,7 @@
       "image_threshold": 155,
       "chars": null,
       "image_save_file": "main_menu_team",
-      "definition": "Team button in main menu. Main identifier that main menu is opened."
+      "description": "Team button in main menu. Main identifier that main menu is opened."
     }
   },
   {
@@ -33,29 +33,49 @@
       "image_threshold": 120,
       "chars": "X",
       "image_save_file": "close_ad_x_button",
-      "definition": "The X-button of closing ads in main menu."
+      "description": "The X-button of closing ads in main menu."
     }
   },
   {
     "MAIN_MENU_AD_2": {
-      "text_rect": {"x1": 0.8484375, "y1": 0.11203703703703703, "x2": 0.8802083333333334, "y2": 0.1685185185185185},
-      "button_rect": {"x1": 0.8484375, "y1": 0.11203703703703703, "x2": 0.8802083333333334, "y2": 0.1685185185185185},
+      "text_rect": {
+        "x1": 0.8484375,
+        "y1": 0.11203703703703703,
+        "x2": 0.8802083333333334,
+        "y2": 0.1685185185185185
+      },
+      "button_rect": {
+        "x1": 0.8484375,
+        "y1": 0.11203703703703703,
+        "x2": 0.8802083333333334,
+        "y2": 0.1685185185185185
+      },
       "text": "X",
       "image_threshold": 120,
       "chars": "X",
       "image_save_file": "close_ad_x_button_2",
-      "definition": "The X-button of closing ads in main menu."
+      "description": "The X-button of closing ads in main menu."
     }
   },
   {
     "MAIN_MENU_AD_3": {
-      "text_rect": {"x1": 0.915625, "y1": 0.037037037037037035, "x2": 0.9494791666666667, "y2": 0.09537037037037037},
-      "button_rect": {"x1": 0.915625, "y1": 0.037037037037037035, "x2": 0.9494791666666667, "y2": 0.09537037037037037},
+      "text_rect": {
+        "x1": 0.915625,
+        "y1": 0.037037037037037035,
+        "x2": 0.9494791666666667,
+        "y2": 0.09537037037037037
+      },
+      "button_rect": {
+        "x1": 0.915625,
+        "y1": 0.037037037037037035,
+        "x2": 0.9494791666666667,
+        "y2": 0.09537037037037037
+      },
       "text": "X",
       "image_threshold": 120,
       "chars": "X",
       "image_save_file": "close_ad_x_button_3",
-      "definition": "The X-button of closing ads in main menu."
+      "description": "The X-button of closing ads in main menu."
     }
   },
   {
@@ -76,7 +96,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "enter_missions",
-      "definition": "The ENTER button in main menu, that opens missions selection."
+      "description": "The ENTER button in main menu, that opens missions selection."
     }
   },
   {
@@ -92,7 +112,7 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": "challenge_missions",
-      "definition": "CHALLENGE button in mission selection."
+      "description": "CHALLENGE button in mission selection."
     }
   },
   {
@@ -108,51 +128,76 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": "arena_missions",
-      "definition": "ARENA button in mission selection."
+      "description": "ARENA button in mission selection."
     }
   },
   {
     "COOP_MISSIONS": {
-      "text_rect": {"x1": 0.8151041666666666, "y1": 0.17962962962962964, "x2": 0.875, "y2": 0.22037037037037038},
-      "button_rect": {"x1": 0.8151041666666666, "y1": 0.17962962962962964, "x2": 0.875, "y2": 0.22037037037037038},
+      "text_rect": {
+        "x1": 0.8151041666666666,
+        "y1": 0.17962962962962964,
+        "x2": 0.875,
+        "y2": 0.22037037037037038
+      },
+      "button_rect": {
+        "x1": 0.8151041666666666,
+        "y1": 0.17962962962962964,
+        "x2": 0.875,
+        "y2": 0.22037037037037038
+      },
       "text": "CO-OP",
       "image_threshold": 130,
       "chars": "CO-OP",
       "image_save_file": "coop_missions",
-      "definition": "COOP button in mission selection."
+      "description": "COOP button in mission selection."
     }
   },
   {
     "GAME_TASK": {
-      "text_rect": {"x1": 0.34375, "y1": 0.19722222222222222, "x2": 0.43020833333333336, "y2": 0.2361111111111111},
+      "text_rect": {
+        "x1": 0.34375,
+        "y1": 0.19722222222222222,
+        "x2": 0.43020833333333336,
+        "y2": 0.2361111111111111
+      },
       "button_rect": null,
       "text": "Future Fight",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "game_task",
-      "definition": "The name of the app that you should see if you open task manager of emulator. Determines that you can close app by swipe."
+      "description": "The name of the app that you should see if you open task manager of emulator. Determines that you can close app by swipe."
     }
   },
   {
     "GAME_TASK_DRAG_FROM": {
       "text_rect": null,
-      "button_rect": {"x1": 0.4739583333333333, "y1": 0.5407407407407407, "x2": 0.5020833333333333, "y2": 0.5888888888888889},
+      "button_rect": {
+        "x1": 0.4739583333333333,
+        "y1": 0.5407407407407407,
+        "x2": 0.5020833333333333,
+        "y2": 0.5888888888888889
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position of app in task manager where you need to start swipe."
+      "description": "Position of app in task manager where you need to start swipe."
     }
   },
   {
     "GAME_TASK_DRAG_TO": {
       "text_rect": null,
-      "button_rect": {"x1": 0.853125, "y1": 0.5407407407407407, "x2": 0.8807291666666667, "y2": 0.5888888888888889},
+      "button_rect": {
+        "x1": 0.853125,
+        "y1": 0.5407407407407407,
+        "x2": 0.8807291666666667,
+        "y2": 0.5888888888888889
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "The end position of swipe to close the app."
+      "description": "The end position of swipe to close the app."
     }
   },
   {
@@ -173,7 +218,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "news_on_start_game",
-      "definition": "News that can be shown at game loading. You can close it."
+      "description": "News that can be shown at game loading. You can close it."
     }
   },
   {
@@ -194,7 +239,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "maintenance_notice",
-      "definition": "Maintenance notification on game start."
+      "description": "Maintenance notification on game start."
     }
   },
   {
@@ -215,7 +260,7 @@
       "image_threshold": 175,
       "chars": "OK",
       "image_save_file": "close_ad_ok_button",
-      "definition": "Position of OK-button when you are trying to close ad in main menu."
+      "description": "Position of OK-button when you are trying to close ad in main menu."
     }
   },
   {
@@ -231,7 +276,7 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Home button in top navigation bar that leads you to main menu."
+      "description": "Home button in top navigation bar that leads you to main menu."
     }
   },
   {
@@ -252,10 +297,10 @@
       "image_threshold": 125,
       "chars": null,
       "image_save_file": "game_desktop",
-      "definition": "Position of the app name on emulator's desktop."
+      "description": "Position of the app name on emulator's desktop."
     }
   },
-    {
+  {
     "USER_NAME": {
       "text_rect": {
         "x1": 0.005714285714285714,
@@ -268,7 +313,7 @@
       "image_threshold": 155,
       "chars": null,
       "image_save_file": "user_name",
-      "definition": "Position of user name in top navigation bar."
+      "description": "Position of user name in top navigation bar."
     }
   },
   {
@@ -284,7 +329,7 @@
       "image_threshold": 225,
       "chars": "0123456789/",
       "image_save_file": "energy",
-      "definition": "Position of energy counter in top navigation bar."
+      "description": "Position of energy counter in top navigation bar."
     }
   },
   {
@@ -300,7 +345,7 @@
       "image_threshold": 165,
       "chars": "0123456789,",
       "image_save_file": "gold",
-      "definition": "Position of gold counter in top navigation bar."
+      "description": "Position of gold counter in top navigation bar."
     }
   },
   {
@@ -316,249 +361,384 @@
       "image_threshold": 170,
       "chars": "0123456789",
       "image_save_file": "boost",
-      "definition": "Position of boost counter in top navigation bar."
+      "description": "Position of boost counter in top navigation bar."
     }
   },
   {
     "CONTENT_STATUS_BOARD_BUTTON": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7296875, "y1": 0.9, "x2": 0.771875, "y2": 0.9777777777777777},
+      "button_rect": {
+        "x1": 0.7296875,
+        "y1": 0.9,
+        "x2": 0.771875,
+        "y2": 0.9777777777777777
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Button to content status board in main menu."
+      "description": "Button to content status board in main menu."
     }
   },
   {
     "CONTENT_STATUS_BOARD_LABEL": {
-      "text_rect": {"x1": 0.052083333333333336, "y1": 0.003703703703703704, "x2": 0.23125, "y2": 0.09259259259259259},
+      "text_rect": {
+        "x1": 0.052083333333333336,
+        "y1": 0.003703703703703704,
+        "x2": 0.23125,
+        "y2": 0.09259259259259259
+      },
       "button_rect": null,
       "text": "CONTENT STATUS BOARD",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "content_status_board_label",
-      "definition": "Label of content status board."
+      "description": "Label of content status board."
     }
   },
   {
     "CONTENT_STATUS_BOARD_1": {
-      "text_rect": {"x1": 0.05625, "y1": 0.23703703703703705, "x2": 0.9432291666666667, "y2": 0.8574074074074074},
+      "text_rect": {
+        "x1": 0.05625,
+        "y1": 0.23703703703703705,
+        "x2": 0.9432291666666667,
+        "y2": 0.8574074074074074
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "content_status_board_1",
-      "definition": "Position of first half of content status board. Contains info about stages."
+      "description": "Position of first half of content status board. Contains info about stages."
     }
   },
   {
     "CONTENT_STATUS_BOARD_2": {
-      "text_rect": {"x1": 0.0546875, "y1": 0.2962962962962963, "x2": 0.94375, "y2": 0.9138888888888889},
+      "text_rect": {
+        "x1": 0.0546875,
+        "y1": 0.2962962962962963,
+        "x2": 0.94375,
+        "y2": 0.9138888888888889
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "content_status_board_2",
-      "definition": "Position of second half of content status board. Contains info about stages."
+      "description": "Position of second half of content status board. Contains info about stages."
     }
   },
   {
     "CONTENT_STATUS_ELEMENT_1": {
-      "text_rect": {"x1": 0.0, "y1": 0.0, "x2": 0.3258954785672343, "y2": 0.23880597014925373},
-      "button_rect": {"x1": 0.0, "y1": 0.0, "x2": 0.011395184967704051, "y2": 0.016417910447761194},
+      "text_rect": {
+        "x1": 0.0,
+        "y1": 0.0,
+        "x2": 0.3258954785672343,
+        "y2": 0.23880597014925373
+      },
+      "button_rect": {
+        "x1": 0.0,
+        "y1": 0.0,
+        "x2": 0.011395184967704051,
+        "y2": 0.016417910447761194
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "content_status_element",
-      "definition": "Local position of any element in content status board 1. Can be translated to any col/row. Button rect contains offset info for col/row."
+      "description": "Local position of any element in content status board 1. Can be translated to any col/row. Button rect contains offset info for col/row."
     }
   },
   {
     "CONTENT_STATUS_ELEMENT_LABEL": {
-      "text_rect": {"x1": 0.025225225225225224, "y1": 0.08125, "x2": 0.6639639639639639, "y2": 0.41875},
-      "button_rect":null,
+      "text_rect": {
+        "x1": 0.025225225225225224,
+        "y1": 0.08125,
+        "x2": 0.6639639639639639,
+        "y2": 0.41875
+      },
+      "button_rect": null,
       "text": null,
       "image_threshold": 140,
       "chars": null,
       "image_save_file": "content_status_element_label",
-      "definition": "Local position of stage label and button inside content status element."
+      "description": "Local position of stage label and button inside content status element."
     }
   },
   {
     "CONTENT_STATUS_ELEMENT_COMPLETE": {
-      "text_rect": {"x1": 0.718132854578097, "y1": 0.13125, "x2": 0.9874326750448833, "y2": 0.40625},
+      "text_rect": {
+        "x1": 0.718132854578097,
+        "y1": 0.13125,
+        "x2": 0.9874326750448833,
+        "y2": 0.40625
+      },
       "button_rect": null,
       "text": "COMPLETE",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "content_status_element_complete",
-      "definition": "Local position of stage COMPLETE text inside content status element."
+      "description": "Local position of stage COMPLETE text inside content status element."
     }
   },
   {
     "CONTENT_STATUS_ELEMENT_STAGE": {
-      "text_rect": {"x1": 0.6660682226211849, "y1": 0.525, "x2": 0.8384201077199281, "y2": 0.8125},
+      "text_rect": {
+        "x1": 0.6660682226211849,
+        "y1": 0.525,
+        "x2": 0.8384201077199281,
+        "y2": 0.8125
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 160,
       "chars": "1234567890/",
       "image_save_file": "content_status_element_stage",
-      "definition": "Local position of stage counter inside content status element."
+      "description": "Local position of stage counter inside content status element."
     }
   },
-    {
+  {
     "CONTENT_STATUS_DRAG_FROM": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7640625, "y1": 0.6462962962962963, "x2": 0.8104166666666667, "y2": 0.725925925925926},
+      "button_rect": {
+        "x1": 0.7640625,
+        "y1": 0.6462962962962963,
+        "x2": 0.8104166666666667,
+        "y2": 0.725925925925926
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Start position of dragging board to see others elements."
+      "description": "Start position of dragging board to see others elements."
     }
   },
   {
     "CONTENT_STATUS_DRAG_TO": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7640625, "y1": 0.2659259259259259, "x2": 0.8104166666666667, "y2": 0.34555555555555557},
+      "button_rect": {
+        "x1": 0.7640625,
+        "y1": 0.2659259259259259,
+        "x2": 0.8104166666666667,
+        "y2": 0.34555555555555557
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "End position of dragging board to see others elements."
+      "description": "End position of dragging board to see others elements."
     }
   },
   {
     "MENU_BACK": {
       "text_rect": null,
-      "button_rect": {"x1": 0.013541666666666667, "y1": 0.024074074074074074, "x2": 0.041666666666666664, "y2": 0.07407407407407407},
+      "button_rect": {
+        "x1": 0.013541666666666667,
+        "y1": 0.024074074074074074,
+        "x2": 0.041666666666666664,
+        "y2": 0.07407407407407407
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Back button in menus."
+      "description": "Back button in menus."
     }
   },
   {
     "LOADING_CIRCLE_1": {
-      "text_rect": {"x1": 0.5, "y1": 0.4537037037037037, "x2": 0.5, "y2": 0.4537037037037037},
-      "button_rect": {"x1": 255, "y1": 140, "x2": 0, "y2": 1},
+      "text_rect": {
+        "x1": 0.5,
+        "y1": 0.4537037037037037,
+        "x2": 0.5,
+        "y2": 0.4537037037037037
+      },
+      "button_rect": {
+        "x1": 255,
+        "y1": 140,
+        "x2": 0,
+        "y2": 1
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color. Button contains RGBA color value of circle."
+      "description": "Position in the loading circle for checking the color. Button contains RGBA color value of circle."
     }
   },
   {
     "LOADING_CIRCLE_2": {
-      "text_rect": {"x1": 0.5, "y1": 0.5462962962962963, "x2": 0.5, "y2": 0.5462962962962963},
+      "text_rect": {
+        "x1": 0.5,
+        "y1": 0.5462962962962963,
+        "x2": 0.5,
+        "y2": 0.5462962962962963
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "LOADING_CIRCLE_3": {
-      "text_rect": {"x1": 0.4739583333333333, "y1": 0.5, "x2": 0.4739583333333333, "y2": 0.5},
+      "text_rect": {
+        "x1": 0.4739583333333333,
+        "y1": 0.5,
+        "x2": 0.4739583333333333,
+        "y2": 0.5
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "LOADING_CIRCLE_4": {
-      "text_rect": {"x1": 0.5260416666666666, "y1": 0.5, "x2": 0.5260416666666666, "y2": 0.5},
+      "text_rect": {
+        "x1": 0.5260416666666666,
+        "y1": 0.5,
+        "x2": 0.5260416666666666,
+        "y2": 0.5
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "LOADING_CIRCLE_5": {
-      "text_rect": {"x1": 0.4817708333333333, "y1": 0.46296296296296297, "x2": 0.4817708333333333, "y2": 0.46296296296296297},
+      "text_rect": {
+        "x1": 0.4817708333333333,
+        "y1": 0.46296296296296297,
+        "x2": 0.4817708333333333,
+        "y2": 0.46296296296296297
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "LOADING_CIRCLE_6": {
-      "text_rect": {"x1": 0.5182291666666666, "y1": 0.46296296296296297, "x2": 0.5182291666666666, "y2": 0.46296296296296297},
+      "text_rect": {
+        "x1": 0.5182291666666666,
+        "y1": 0.46296296296296297,
+        "x2": 0.5182291666666666,
+        "y2": 0.46296296296296297
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "LOADING_CIRCLE_7": {
-      "text_rect": {"x1": 0.5208333333333334, "y1": 0.5277777777777778, "x2": 0.5208333333333334, "y2": 0.5277777777777778},
+      "text_rect": {
+        "x1": 0.5208333333333334,
+        "y1": 0.5277777777777778,
+        "x2": 0.5208333333333334,
+        "y2": 0.5277777777777778
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "LOADING_CIRCLE_8": {
-      "text_rect": {"x1": 0.4791666666666667, "y1": 0.5277777777777778, "x2": 0.4791666666666667, "y2": 0.5277777777777778},
+      "text_rect": {
+        "x1": 0.4791666666666667,
+        "y1": 0.5277777777777778,
+        "x2": 0.4791666666666667,
+        "y2": 0.5277777777777778
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Position in the loading circle for checking the color."
+      "description": "Position in the loading circle for checking the color."
     }
   },
   {
     "MAIN_MENU": {
-      "text_rect": {"x1": 0.9536458333333333, "y1": 0.030555555555555555, "x2": 0.98125, "y2": 0.07685185185185185},
-      "button_rect": {"x1": 0.9536458333333333, "y1": 0.030555555555555555, "x2": 0.98125, "y2": 0.07685185185185185},
+      "text_rect": {
+        "x1": 0.9536458333333333,
+        "y1": 0.030555555555555555,
+        "x2": 0.98125,
+        "y2": 0.07685185185185185
+      },
+      "button_rect": {
+        "x1": 0.9536458333333333,
+        "y1": 0.030555555555555555,
+        "x2": 0.98125,
+        "y2": 0.07685185185185185
+      },
       "text": "X",
       "image_threshold": 120,
       "chars": "X",
       "image_save_file": "main_menu",
-      "definition": "Main Menu button."
+      "description": "Main Menu button."
     }
   },
   {
     "MAIN_MENU_CHALLENGES": {
-      "text_rect": {"x1": 0.8864583333333333, "y1": 0.6074074074074074, "x2": 0.9697916666666667, "y2": 0.6453703703703704},
-      "button_rect": {"x1": 0.9020833333333333, "y1": 0.5018518518518519, "x2": 0.95625, "y2": 0.5898148148148148},
+      "text_rect": {
+        "x1": 0.8864583333333333,
+        "y1": 0.6074074074074074,
+        "x2": 0.9697916666666667,
+        "y2": 0.6453703703703704
+      },
+      "button_rect": {
+        "x1": 0.9020833333333333,
+        "y1": 0.5018518518518519,
+        "x2": 0.95625,
+        "y2": 0.5898148148148148
+      },
       "text": "CHALLENGES",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "main_menu_challenges",
-      "definition": "Main Menu Challenges button."
+      "description": "Main Menu Challenges button."
     }
   },
   {
     "MAIN_MENU_LAB": {
-      "text_rect": {"x1": 0.7947916666666667, "y1": 0.6083333333333333, "x2": 0.828125, "y2": 0.6453703703703704},
-      "button_rect": {"x1": 0.7880208333333333, "y1": 0.5055555555555555, "x2": 0.8375, "y2": 0.5861111111111111},
+      "text_rect": {
+        "x1": 0.7947916666666667,
+        "y1": 0.6083333333333333,
+        "x2": 0.828125,
+        "y2": 0.6453703703703704
+      },
+      "button_rect": {
+        "x1": 0.7880208333333333,
+        "y1": 0.5055555555555555,
+        "x2": 0.8375,
+        "y2": 0.5861111111111111
+      },
       "text": "LAB",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "main_menu_lab",
-      "definition": "Main Menu Lab button."
+      "description": "Main Menu Lab button."
     }
   }
 ]

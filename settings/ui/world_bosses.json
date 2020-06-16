@@ -1,362 +1,557 @@
 [
   {
     "WB_LABEL": {
-      "text_rect": {"x1": 0.0515625, "y1": 0.01574074074074074, "x2": 0.18333333333333332, "y2": 0.07962962962962963},
+      "text_rect": {
+        "x1": 0.0515625,
+        "y1": 0.01574074074074074,
+        "x2": 0.18333333333333332,
+        "y2": 0.07962962962962963
+      },
       "button_rect": null,
       "text": "WORLD BOSS",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "wb_label",
-      "definition": "World Boss label in lobby."
+      "description": "World Boss label in lobby."
     }
   },
   {
     "WB_MISSION_BUTTON": {
-      "text_rect": {"x1": 0.7958333333333333, "y1": 0.8925925925925926, "x2": 0.9390625, "y2": 0.9675925925925926},
-      "button_rect": {"x1": 0.7958333333333333, "y1": 0.8925925925925926, "x2": 0.9390625, "y2": 0.9675925925925926},
+      "text_rect": {
+        "x1": 0.7958333333333333,
+        "y1": 0.8925925925925926,
+        "x2": 0.9390625,
+        "y2": 0.9675925925925926
+      },
+      "button_rect": {
+        "x1": 0.7958333333333333,
+        "y1": 0.8925925925925926,
+        "x2": 0.9390625,
+        "y2": 0.9675925925925926
+      },
       "text": "MISSION",
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "wb_mission_button",
-      "definition": "World Boss MISSION button in lobby."
+      "description": "World Boss MISSION button in lobby."
     }
   },
   {
     "WB_READY_BUTTON": {
-      "text_rect": {"x1": 0.6828125, "y1": 0.8657407407407407, "x2": 0.7635416666666667, "y2": 0.9314814814814815},
-      "button_rect": {"x1": 0.6828125, "y1": 0.8657407407407407, "x2": 0.7635416666666667, "y2": 0.9314814814814815},
+      "text_rect": {
+        "x1": 0.6828125,
+        "y1": 0.8657407407407407,
+        "x2": 0.7635416666666667,
+        "y2": 0.9314814814814815
+      },
+      "button_rect": {
+        "x1": 0.6828125,
+        "y1": 0.8657407407407407,
+        "x2": 0.7635416666666667,
+        "y2": 0.9314814814814815
+      },
       "text": "READY",
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "wb_ready_button",
-      "definition": "World Boss READY button in Boss team set up."
+      "description": "World Boss READY button in Boss team set up."
     }
   },
   {
     "WB_START_BUTTON": {
-      "text_rect": {"x1": 0.7317708333333334, "y1": 0.8925925925925926, "x2": 0.8119791666666667, "y2": 0.9592592592592593},
-      "button_rect": {"x1": 0.7317708333333334, "y1": 0.8925925925925926, "x2": 0.8119791666666667, "y2": 0.9592592592592593},
+      "text_rect": {
+        "x1": 0.7317708333333334,
+        "y1": 0.8925925925925926,
+        "x2": 0.8119791666666667,
+        "y2": 0.9592592592592593
+      },
+      "button_rect": {
+        "x1": 0.7317708333333334,
+        "y1": 0.8925925925925926,
+        "x2": 0.8119791666666667,
+        "y2": 0.9592592592592593
+      },
       "text": "START",
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "wb_start_button",
-      "definition": "World Boss START button in Boss allies set up."
+      "description": "World Boss START button in Boss allies set up."
     }
   },
-    {
+  {
     "WB_REPEAT_BUTTON": {
       "text_rect": null,
-      "button_rect": {"x1": 0.8588541666666667, "y1": 0.899074074074074, "x2": 0.9072916666666667, "y2": 0.9666666666666667},
+      "button_rect": {
+        "x1": 0.8588541666666667,
+        "y1": 0.899074074074074,
+        "x2": 0.9072916666666667,
+        "y2": 0.9666666666666667
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss: REPEAT button."
+      "description": "World Boss: REPEAT button."
     }
   },
   {
     "WB_HOME_BUTTON": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7177083333333333, "y1": 0.8972222222222223, "x2": 0.7661458333333333, "y2": 0.9648148148148148},
+      "button_rect": {
+        "x1": 0.7177083333333333,
+        "y1": 0.8972222222222223,
+        "x2": 0.7661458333333333,
+        "y2": 0.9648148148148148
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss: HOME button."
+      "description": "World Boss: HOME button."
     }
   },
   {
     "WB_ULTIMATE_STAGE": {
-      "text_rect": {"x1": 0.7026041666666667, "y1": 0.5583333333333333, "x2": 0.7296875, "y2": 0.6083333333333333},
+      "text_rect": {
+        "x1": 0.7026041666666667,
+        "y1": 0.5583333333333333,
+        "x2": 0.7296875,
+        "y2": 0.6083333333333333
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 170,
       "chars": "0123456789",
       "image_save_file": "wb_ultimate_stage",
-      "definition": "World Boss Ultimate: stage counter."
+      "description": "World Boss Ultimate: stage counter."
     }
   },
   {
     "WB_ULTIMATE_MINUS": {
       "text_rect": null,
-      "button_rect": {"x1": 0.6546875, "y1": 0.562962962962963, "x2": 0.6791666666666667, "y2": 0.6046296296296296},
+      "button_rect": {
+        "x1": 0.6546875,
+        "y1": 0.562962962962963,
+        "x2": 0.6791666666666667,
+        "y2": 0.6046296296296296
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss Ultimate: stage counter MINUS button."
+      "description": "World Boss Ultimate: stage counter MINUS button."
     }
   },
-    {
+  {
     "WB_ULTIMATE_PLUS": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7541666666666667, "y1": 0.562962962962963, "x2": 0.778125, "y2": 0.6046296296296296},
+      "button_rect": {
+        "x1": 0.7541666666666667,
+        "y1": 0.562962962962963,
+        "x2": 0.778125,
+        "y2": 0.6046296296296296
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss Ultimate: stage counter PLUS button."
+      "description": "World Boss Ultimate: stage counter PLUS button."
     }
   },
   {
     "WB_BEGINNER_MODE": {
       "text_rect": null,
-      "button_rect": {"x1": 0.2171875, "y1": 0.20277777777777778, "x2": 0.3541666666666667, "y2": 0.5314814814814814},
+      "button_rect": {
+        "x1": 0.2171875,
+        "y1": 0.20277777777777778,
+        "x2": 0.3541666666666667,
+        "y2": 0.5314814814814814
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss mode selector: Beginner."
+      "description": "World Boss mode selector: Beginner."
     }
   },
   {
     "WB_NORMAL_MODE": {
       "text_rect": null,
-      "button_rect": {"x1": 0.4359375, "y1": 0.20277777777777778, "x2": 0.5729166666666666, "y2": 0.5314814814814814},
+      "button_rect": {
+        "x1": 0.4359375,
+        "y1": 0.20277777777777778,
+        "x2": 0.5729166666666666,
+        "y2": 0.5314814814814814
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss mode selector: Normal."
+      "description": "World Boss mode selector: Normal."
     }
   },
   {
     "WB_ULTIMATE_MODE": {
       "text_rect": null,
-      "button_rect": {"x1": 0.6505208333333333, "y1": 0.20277777777777778, "x2": 0.7890625, "y2": 0.5314814814814814},
+      "button_rect": {
+        "x1": 0.6505208333333333,
+        "y1": 0.20277777777777778,
+        "x2": 0.7890625,
+        "y2": 0.5314814814814814
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss mode selector: Ultimate."
+      "description": "World Boss mode selector: Ultimate."
     }
   },
   {
     "WB_SET_TEAM": {
-      "text_rect": {"x1": 0.7, "y1": 0.9064814814814814, "x2": 0.8463541666666666, "y2": 0.9703703703703703},
-      "button_rect": {"x1": 0.7, "y1": 0.9064814814814814, "x2": 0.8463541666666666, "y2": 0.9703703703703703},
+      "text_rect": {
+        "x1": 0.7,
+        "y1": 0.9064814814814814,
+        "x2": 0.8463541666666666,
+        "y2": 0.9703703703703703
+      },
+      "button_rect": {
+        "x1": 0.7,
+        "y1": 0.9064814814814814,
+        "x2": 0.8463541666666666,
+        "y2": 0.9703703703703703
+      },
       "text": "SET ALLY TEAM",
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "wb_set_team",
-      "definition": "World Boss: set ally team button."
+      "description": "World Boss: set ally team button."
     }
   },
   {
     "WB_CHARACTER_FILTER": {
-      "text_rect": {"x1": 0.6661458333333333, "y1": 0.2212962962962963, "x2": 0.73125, "y2": 0.26296296296296295},
-      "button_rect": {"x1": 0.6661458333333333, "y1": 0.2212962962962963, "x2": 0.73125, "y2": 0.26296296296296295},
+      "text_rect": {
+        "x1": 0.6661458333333333,
+        "y1": 0.2212962962962963,
+        "x2": 0.73125,
+        "y2": 0.26296296296296295
+      },
+      "button_rect": {
+        "x1": 0.6661458333333333,
+        "y1": 0.2212962962962963,
+        "x2": 0.73125,
+        "y2": 0.26296296296296295
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "wb_character_filter",
-      "definition": "World Boss: character filter button."
+      "description": "World Boss: character filter button."
     }
   },
   {
     "WB_NON_FEATURED_CHARACTER_1": {
       "text_rect": null,
-      "button_rect": {"x1": 0.6770833333333334, "y1": 0.4666666666666667, "x2": 0.7395833333333334, "y2": 0.5675925925925925},
+      "button_rect": {
+        "x1": 0.6770833333333334,
+        "y1": 0.4666666666666667,
+        "x2": 0.7395833333333334,
+        "y2": 0.5675925925925925
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss character selector: char #1 without LIKE icon."
+      "description": "World Boss character selector: char #1 without LIKE icon."
     }
   },
   {
     "WB_NON_FEATURED_CHARACTER_2": {
       "text_rect": null,
-      "button_rect": {"x1": 0.7708333333333334, "y1": 0.4666666666666667, "x2": 0.8229166666666666, "y2": 0.5675925925925925},
+      "button_rect": {
+        "x1": 0.7708333333333334,
+        "y1": 0.4666666666666667,
+        "x2": 0.8229166666666666,
+        "y2": 0.5675925925925925
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss character selector: char #2 without LIKE icon."
+      "description": "World Boss character selector: char #2 without LIKE icon."
     }
   },
   {
     "WB_NON_FEATURED_CHARACTER_3": {
       "text_rect": null,
-      "button_rect": {"x1": 0.8625, "y1": 0.4666666666666667, "x2": 0.9244791666666666, "y2": 0.5675925925925925},
+      "button_rect": {
+        "x1": 0.8625,
+        "y1": 0.4666666666666667,
+        "x2": 0.9244791666666666,
+        "y2": 0.5675925925925925
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss character selector: char #3 without LIKE icon."
+      "description": "World Boss character selector: char #3 without LIKE icon."
     }
   },
   {
     "WB_ALLY_CHARACTER_1": {
       "text_rect": null,
-      "button_rect": {"x1": 0.4546875, "y1": 0.29074074074074074, "x2": 0.9302083333333333, "y2": 0.42314814814814816},
+      "button_rect": {
+        "x1": 0.4546875,
+        "y1": 0.29074074074074074,
+        "x2": 0.9302083333333333,
+        "y2": 0.42314814814814816
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss ally selector: char #1."
+      "description": "World Boss ally selector: char #1."
     }
   },
-    {
+  {
     "WB_ALLY_CHARACTER_2": {
       "text_rect": null,
-      "button_rect": {"x1": 0.4546875, "y1": 0.45, "x2": 0.9302083333333333, "y2": 0.5787037037037037},
+      "button_rect": {
+        "x1": 0.4546875,
+        "y1": 0.45,
+        "x2": 0.9302083333333333,
+        "y2": 0.5787037037037037
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss ally selector: char #2."
+      "description": "World Boss ally selector: char #2."
     }
   },
-    {
+  {
     "WB_ALLY_CHARACTER_3": {
       "text_rect": null,
-      "button_rect": {"x1": 0.4546875, "y1": 0.6064814814814815, "x2": 0.9302083333333333, "y2": 0.7342592592592593},
+      "button_rect": {
+        "x1": 0.4546875,
+        "y1": 0.6064814814814815,
+        "x2": 0.9302083333333333,
+        "y2": 0.7342592592592593
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss ally selector: char #3."
+      "description": "World Boss ally selector: char #3."
     }
   },
-    {
+  {
     "WB_ALLY_CHARACTER_4": {
       "text_rect": null,
-      "button_rect": {"x1": 0.4546875, "y1": 0.7574074074074074, "x2": 0.9302083333333333, "y2": 0.8555555555555555},
+      "button_rect": {
+        "x1": 0.4546875,
+        "y1": 0.7574074074074074,
+        "x2": 0.9302083333333333,
+        "y2": 0.8555555555555555
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "World Boss ally selector: char #4."
+      "description": "World Boss ally selector: char #4."
     }
   },
   {
     "WB_NOT_FULL_ALLY_TEAM": {
-      "text_rect": {"x1": 0.3651041666666667, "y1": 0.3731481481481482, "x2": 0.6348958333333333, "y2": 0.44537037037037036},
-      "button_rect": {"x1": 0.5328125, "y1": 0.7287037037037037, "x2": 0.6208333333333333, "y2": 0.7824074074074074},
+      "text_rect": {
+        "x1": 0.3651041666666667,
+        "y1": 0.3731481481481482,
+        "x2": 0.6348958333333333,
+        "y2": 0.44537037037037036
+      },
+      "button_rect": {
+        "x1": 0.5328125,
+        "y1": 0.7287037037037037,
+        "x2": 0.6208333333333333,
+        "y2": 0.7824074074074074
+      },
       "text": "You have not filled all Ally slots.",
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "wb_not_full_ally_team",
-      "definition": "World Boss ally selector: notification when team is not filled. Button lead to START."
+      "description": "World Boss ally selector: notification when team is not filled. Button lead to START."
     }
   },
   {
     "WB_SCORE": {
-      "text_rect": {"x1": 0.7416666666666667, "y1": 0.3574074074074074, "x2": 0.7859375, "y2": 0.3925925925925926},
+      "text_rect": {
+        "x1": 0.7416666666666667,
+        "y1": 0.3574074074074074,
+        "x2": 0.7859375,
+        "y2": 0.3925925925925926
+      },
       "button_rect": null,
       "text": "SCORE",
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "wb_score",
-      "definition": "World Boss: score at the end of the battle."
+      "description": "World Boss: score at the end of the battle."
     }
   },
   {
     "WB_RESPAWN": {
-      "text_rect": {"x1": 0.30625, "y1": 0.125, "x2": 0.6880208333333333, "y2": 0.23148148148148148},
-      "button_rect": {"x1": 0.36354166666666665, "y1": 0.8111111111111111, "x2": 0.4046875, "y2": 0.8814814814814815},
+      "text_rect": {
+        "x1": 0.30625,
+        "y1": 0.125,
+        "x2": 0.6880208333333333,
+        "y2": 0.23148148148148148
+      },
+      "button_rect": {
+        "x1": 0.36354166666666665,
+        "y1": 0.8111111111111111,
+        "x2": 0.4046875,
+        "y2": 0.8814814814814815
+      },
       "text": "Respawn and try again?",
       "image_threshold": 160,
       "chars": null,
       "image_save_file": "wb_respawn",
-      "definition": "World Boss: respawn at the end of the battle if you lost."
+      "description": "World Boss: respawn at the end of the battle if you lost."
     }
   },
   {
     "WB_NO_CHARACTER_MAIN": {
       "text_rect": null,
-      "button_rect": {"x1": 0.46041666666666664, "y1": 0.2972222222222222, "x2": 0.553125, "y2": 0.46111111111111114},
+      "button_rect": {
+        "x1": 0.46041666666666664,
+        "y1": 0.2972222222222222,
+        "x2": 0.553125,
+        "y2": 0.46111111111111114
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_main",
-      "definition": "Empty main character selector in WB team setup."
+      "description": "Empty main character selector in WB team setup."
     }
   },
-    {
+  {
     "WB_NO_CHARACTER_LEFT": {
       "text_rect": null,
-      "button_rect": {"x1": 0.3625, "y1": 0.2972222222222222, "x2": 0.4322916666666667, "y2": 0.4212962962962963},
+      "button_rect": {
+        "x1": 0.3625,
+        "y1": 0.2972222222222222,
+        "x2": 0.4322916666666667,
+        "y2": 0.4212962962962963
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_left",
-      "definition": "Empty left character selector in WB team setup."
+      "description": "Empty left character selector in WB team setup."
     }
   },
   {
     "WB_NO_CHARACTER_RIGHT": {
       "text_rect": null,
-      "button_rect": {"x1": 0.5859375, "y1": 0.29814814814814816, "x2": 0.6552083333333333, "y2": 0.4203703703703704},
+      "button_rect": {
+        "x1": 0.5859375,
+        "y1": 0.29814814814814816,
+        "x2": 0.6552083333333333,
+        "y2": 0.4203703703703704
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_right",
-      "definition": "Empty right character selector in WB team setup."
+      "description": "Empty right character selector in WB team setup."
     }
   },
   {
     "WB_NO_CHARACTER_ALLY_1": {
       "text_rect": null,
-      "button_rect": {"x1": 0.35520833333333335, "y1": 0.13148148148148148, "x2": 0.4197916666666667, "y2": 0.24537037037037038},
+      "button_rect": {
+        "x1": 0.35520833333333335,
+        "y1": 0.13148148148148148,
+        "x2": 0.4197916666666667,
+        "y2": 0.24537037037037038
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_1",
-      "definition": "Empty #1 character selector in WB ally setup (from top to down)."
+      "description": "Empty #1 character selector in WB ally setup (from top to down)."
     }
   },
-    {
+  {
     "WB_NO_CHARACTER_ALLY_2": {
       "text_rect": null,
-      "button_rect": {"x1": 0.35520833333333335, "y1": 0.2814814814814815, "x2": 0.4197916666666667, "y2": 0.39537037037037037},
+      "button_rect": {
+        "x1": 0.35520833333333335,
+        "y1": 0.2814814814814815,
+        "x2": 0.4197916666666667,
+        "y2": 0.39537037037037037
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_2",
-      "definition": "Empty #2 character selector in WB ally setup (from top to down)."
+      "description": "Empty #2 character selector in WB ally setup (from top to down)."
     }
   },
-    {
+  {
     "WB_NO_CHARACTER_ALLY_3": {
       "text_rect": null,
-      "button_rect": {"x1": 0.35520833333333335, "y1": 0.43148148148148147, "x2": 0.4197916666666667, "y2": 0.5453703703703704},
+      "button_rect": {
+        "x1": 0.35520833333333335,
+        "y1": 0.43148148148148147,
+        "x2": 0.4197916666666667,
+        "y2": 0.5453703703703704
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_3",
-      "definition": "Empty #3 character selector in WB ally setup (from top to down)."
+      "description": "Empty #3 character selector in WB ally setup (from top to down)."
     }
   },
-    {
+  {
     "WB_NO_CHARACTER_ALLY_4": {
       "text_rect": null,
-      "button_rect": {"x1": 0.35520833333333335, "y1": 0.5814814814814815, "x2": 0.4197916666666667, "y2": 0.6962962962962963},
+      "button_rect": {
+        "x1": 0.35520833333333335,
+        "y1": 0.5814814814814815,
+        "x2": 0.4197916666666667,
+        "y2": 0.6962962962962963
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_4",
-      "definition": "Empty #4 character selector in WB ally setup (from top to down)."
+      "description": "Empty #4 character selector in WB ally setup (from top to down)."
     }
   },
-    {
+  {
     "WB_NO_CHARACTER_ALLY_5": {
       "text_rect": null,
-      "button_rect": {"x1": 0.35520833333333335, "y1": 0.7314814814814815, "x2": 0.4197916666666667, "y2": 0.8462962962962963},
+      "button_rect": {
+        "x1": 0.35520833333333335,
+        "y1": 0.7314814814814815,
+        "x2": 0.4197916666666667,
+        "y2": 0.8462962962962963
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_5",
-      "definition": "DEPRECATED: Empty #5 character selector in WB ally setup (from top to down)."
+      "description": "DEPRECATED: Empty #5 character selector in WB ally setup (from top to down)."
     }
   }
 ]

@@ -121,7 +121,7 @@ class UIElement:
                                                                    button_rect['x2'], button_rect['y2'])
             return UIElement(name=key, text=data['text'], threshold=data['image_threshold'], chars=data['chars'],
                              save_file=data['image_save_file'], image=image, text_rect=text_rect,
-                             button_rect=button_rect, description=data['definition'])
+                             button_rect=button_rect, description=data['description'])
 
 
 def load_ui_settings(path="settings/ui", path_to_images="images"):

@@ -1,7 +1,12 @@
 [
   {
     "DISCONNECT_FROM_SERVER": {
-      "text_rect": {"x1": 0.37744533947065595, "y1": 0.4534288638689867, "x2": 0.6260069044879172, "y2": 0.5015353121801432},
+      "text_rect": {
+        "x1": 0.37744533947065595,
+        "y1": 0.4534288638689867,
+        "x2": 0.6260069044879172,
+        "y2": 0.5015353121801432
+      },
       "button_rect": {
         "x1": 0.44649021864211735,
         "y1": 0.7256908904810645,
@@ -12,29 +17,49 @@
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "disconnect_from_server",
-      "definition": "Disconnect from the server when you got disconnect notification in Coop mission."
+      "description": "Disconnect from the server when you got disconnect notification in Coop mission."
     }
   },
   {
     "DISCONNECT_NEW_OPPONENT": {
-      "text_rect": {"x1": 0.5098958333333333, "y1": 0.7018518518518518, "x2": 0.66875, "y2": 0.7574074074074074},
-      "button_rect": {"x1": 0.5098958333333333, "y1": 0.7018518518518518, "x2": 0.66875, "y2": 0.7574074074074074},
+      "text_rect": {
+        "x1": 0.5098958333333333,
+        "y1": 0.7018518518518518,
+        "x2": 0.66875,
+        "y2": 0.7574074074074074
+      },
+      "button_rect": {
+        "x1": 0.5098958333333333,
+        "y1": 0.7018518518518518,
+        "x2": 0.66875,
+        "y2": 0.7574074074074074
+      },
       "text": "Find new opponent",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "disconnect_new_opponent",
-      "definition": "Find new opponent button when you got disconnect notification in starting Coop mission."
+      "description": "Find new opponent button when you got disconnect notification in starting Coop mission."
     }
   },
   {
     "KICKED_FROM_THE_SYSTEM": {
-      "text_rect": {"x1": 0.3359375, "y1": 0.4425925925925926, "x2": 0.6614583333333334, "y2": 0.5138888888888888},
-      "button_rect": {"x1": 0.4739583333333333, "y1": 0.7296296296296296, "x2": 0.5348958333333333, "y2": 0.7833333333333333},
+      "text_rect": {
+        "x1": 0.3359375,
+        "y1": 0.4425925925925926,
+        "x2": 0.6614583333333334,
+        "y2": 0.5138888888888888
+      },
+      "button_rect": {
+        "x1": 0.4739583333333333,
+        "y1": 0.7296296296296296,
+        "x2": 0.5348958333333333,
+        "y2": 0.7833333333333333
+      },
       "text": "You have been kicked from the system.",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "kicked_from_the_system",
-      "definition": "Notification when you're kicked from the system."
+      "description": "Notification when you're kicked from the system."
     }
   },
   {
@@ -50,7 +75,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "char_exp",
-      "definition": "EXP-text under middle character. Determines that we see end of battle screen."
+      "description": "EXP-text under middle character. Determines that we see end of battle screen."
     }
   },
   {
@@ -66,7 +91,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "legendary_score",
-      "definition": "Score text in legendary battle. Determines that we see end of battle screen."
+      "description": "Score text in legendary battle. Determines that we see end of battle screen."
     }
   },
   {
@@ -82,7 +107,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "coop_completion_time",
-      "definition": "Completion time in Coop battles. Determines that we see end of battle screen."
+      "description": "Completion time in Coop battles. Determines that we see end of battle screen."
     }
   },
   {
@@ -98,7 +123,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "timeline_points",
-      "definition": "Points in timeline battles. Determines that we see end of battle screen."
+      "description": "Points in timeline battles. Determines that we see end of battle screen."
     }
   },
   {
@@ -119,7 +144,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "pause_menu_continue",
-      "definition": "DEPRECATED: Continue button in PAUSE menu."
+      "description": "DEPRECATED: Continue button in PAUSE menu."
     }
   },
   {
@@ -136,7 +161,7 @@
       "chars": null,
       "image_save_file": "melee_icon",
       "image_path": "melee.png",
-      "definition": "An image of melee attack button."
+      "description": "An image of melee attack button."
     }
   },
   {
@@ -157,7 +182,7 @@
       "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_1",
-      "definition": "#1 skill button."
+      "description": "#1 skill button."
     }
   },
   {
@@ -178,7 +203,7 @@
       "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_2",
-      "definition": "#2 skill button."
+      "description": "#2 skill button."
     }
   },
   {
@@ -199,7 +224,7 @@
       "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_3",
-      "definition": "#3 skill button."
+      "description": "#3 skill button."
     }
   },
   {
@@ -220,7 +245,7 @@
       "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_4",
-      "definition": "#4 skill button."
+      "description": "#4 skill button."
     }
   },
   {
@@ -241,176 +266,266 @@
       "image_threshold": 0.7,
       "chars": "0123456789",
       "image_save_file": "skill_5",
-      "definition": "#5 skill button."
+      "description": "#5 skill button."
     }
   },
   {
     "SKILL_6": {
-      "text_rect": {"x1": 0.6875, "y1": 0.7203703703703703, "x2": 0.7234375, "y2": 0.7851851851851852},
-      "button_rect": {"x1": 0.6875, "y1": 0.7203703703703703, "x2": 0.7234375, "y2": 0.7851851851851852},
+      "text_rect": {
+        "x1": 0.6875,
+        "y1": 0.7203703703703703,
+        "x2": 0.7234375,
+        "y2": 0.7851851851851852
+      },
+      "button_rect": {
+        "x1": 0.6875,
+        "y1": 0.7203703703703703,
+        "x2": 0.7234375,
+        "y2": 0.7851851851851852
+      },
       "text": null,
       "image_threshold": 170,
       "chars": "0123456789",
       "image_save_file": "skill_6",
-      "definition": "#6 skill button."
+      "description": "#6 skill button."
     }
   },
   {
     "SKILL_6_LOCKED": {
       "text_rect": null,
-      "button_rect": {"x1": 0.6875, "y1": 0.7203703703703703, "x2": 0.7234375, "y2": 0.7851851851851852},
+      "button_rect": {
+        "x1": 0.6875,
+        "y1": 0.7203703703703703,
+        "x2": 0.7234375,
+        "y2": 0.7851851851851852
+      },
       "text": null,
       "image_threshold": 0.7,
       "chars": null,
       "image_save_file": "skill_6_locked",
       "image_path": "skill_6_locked.png",
-      "definition": "#6 skill button when locked."
+      "description": "#6 skill button when locked."
     }
   },
   {
     "SKILL_6_LABEL": {
-      "text_rect": {"x1": 0.6729166666666667, "y1": 0.6814814814814815, "x2": 0.6875, "y2": 0.7148148148148148},
+      "text_rect": {
+        "x1": 0.6729166666666667,
+        "y1": 0.6814814814814815,
+        "x2": 0.6875,
+        "y2": 0.7148148148148148
+      },
       "button_rect": null,
       "text": "6",
       "image_threshold": 155,
       "chars": "6",
       "image_save_file": "skill_6_label",
-      "definition": "#6 skill label text at the left top corner."
+      "description": "#6 skill label text at the left top corner."
     }
   },
   {
     "SKILL_T3": {
-      "text_rect": {"x1": 0.6083333333333333, "y1": 0.8787037037037037, "x2": 0.646875, "y2": 0.9444444444444444},
-      "button_rect": {"x1": 0.6083333333333333, "y1": 0.8787037037037037, "x2": 0.646875, "y2": 0.9444444444444444},
+      "text_rect": {
+        "x1": 0.6083333333333333,
+        "y1": 0.8787037037037037,
+        "x2": 0.646875,
+        "y2": 0.9444444444444444
+      },
+      "button_rect": {
+        "x1": 0.6083333333333333,
+        "y1": 0.8787037037037037,
+        "x2": 0.646875,
+        "y2": 0.9444444444444444
+      },
       "text": null,
       "image_threshold": 170,
       "chars": "0123456789.%",
       "image_save_file": "skill_t3",
-      "definition": "T3 skill button."
+      "description": "T3 skill button."
     }
   },
   {
     "SKILL_T3_LOCKED": {
       "text_rect": null,
-      "button_rect": {"x1": 0.6083333333333333, "y1": 0.8787037037037037, "x2": 0.646875, "y2": 0.9444444444444444},
+      "button_rect": {
+        "x1": 0.6083333333333333,
+        "y1": 0.8787037037037037,
+        "x2": 0.646875,
+        "y2": 0.9444444444444444
+      },
       "text": null,
       "image_threshold": 0.7,
       "chars": null,
       "image_save_file": "t3_locked",
       "image_path": "t3_locked.png",
-      "definition": "T3 skill button when locked."
+      "description": "T3 skill button when locked."
     }
   },
-    {
+  {
     "SKILL_T3_LABEL": {
-      "text_rect": {"x1": 0.5953125, "y1": 0.8444444444444444, "x2": 0.6083333333333333, "y2": 0.8740740740740741},
+      "text_rect": {
+        "x1": 0.5953125,
+        "y1": 0.8444444444444444,
+        "x2": 0.6083333333333333,
+        "y2": 0.8740740740740741
+      },
       "button_rect": null,
       "text": "6",
       "image_threshold": 155,
       "chars": "6",
       "image_save_file": "skill_t3_label",
-      "definition": "T3 skill label text at the left top corner."
+      "description": "T3 skill label text at the left top corner."
     }
   },
   {
     "AUTOPLAY_TOGGLE": {
       "text_rect": null,
-      "button_rect": {"x1": 0.31354166666666666, "y1": 0.9120370370370371, "x2": 0.3328125, "y2": 0.9472222222222222},
+      "button_rect": {
+        "x1": 0.31354166666666666,
+        "y1": 0.9120370370370371,
+        "x2": 0.3328125,
+        "y2": 0.9472222222222222
+      },
       "text": null,
       "image_threshold": 0.6,
       "chars": null,
       "image_path": "autoplay_toggle.png",
       "image_save_file": "autoplay_toggle",
-      "definition": "Toggle for autoplay function in missions."
+      "description": "Toggle for autoplay function in missions."
     }
   },
   {
     "INVASION_FAILED": {
-      "text_rect": {"x1": 0.70625, "y1": 0.04722222222222222, "x2": 0.8265625, "y2": 0.1259259259259259},
+      "text_rect": {
+        "x1": 0.70625,
+        "y1": 0.04722222222222222,
+        "x2": 0.8265625,
+        "y2": 0.1259259259259259
+      },
       "button_rect": null,
       "text": "FAILED",
       "image_threshold": 140,
       "chars": null,
       "image_save_file": "invasion_failed",
-      "definition": "FAILED screen when you failed WBI mission."
+      "description": "FAILED screen when you failed WBI mission."
     }
   },
   {
     "CANNOT_ENTER": {
-      "text_rect": {"x1": 0.4427083333333333, "y1": 0.43425925925925923, "x2": 0.5604166666666667, "y2": 0.4759259259259259},
+      "text_rect": {
+        "x1": 0.4427083333333333,
+        "y1": 0.43425925925925923,
+        "x2": 0.5604166666666667,
+        "y2": 0.4759259259259259
+      },
       "button_rect": null,
       "text": "Cannot enter.",
       "image_threshold": 155,
       "chars": null,
       "image_save_file": "cannot_enter",
-      "definition": "The 'Cannot enter' message at the end of the mission."
+      "description": "The 'Cannot enter' message at the end of the mission."
     }
   },
   {
     "CURRENT_CHARACTER": {
-      "text_rect": {"x1": 0.0390625, "y1": 0.07314814814814814, "x2": 0.09427083333333333, "y2": 0.17407407407407408},
+      "text_rect": {
+        "x1": 0.0390625,
+        "y1": 0.07314814814814814,
+        "x2": 0.09427083333333333,
+        "y2": 0.17407407407407408
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 0.5,
       "chars": null,
       "image_save_file": "current_character",
-      "definition": "Current (top) character on top left selector in battle."
+      "description": "Current (top) character on top left selector in battle."
     }
   },
   {
     "MOVE_AROUND_POS_DOWN": {
       "text_rect": null,
-      "button_rect": {"x1": 0.14010416666666667, "y1": 0.8694444444444445, "x2": 0.15104166666666666, "y2": 0.8898148148148148},
+      "button_rect": {
+        "x1": 0.14010416666666667,
+        "y1": 0.8694444444444445,
+        "x2": 0.15104166666666666,
+        "y2": 0.8898148148148148
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Moving around: down."
+      "description": "Moving around: down."
     }
   },
   {
     "MOVE_AROUND_POS_LEFT": {
       "text_rect": null,
-      "button_rect": {"x1": 0.08958333333333333, "y1": 0.7861111111111111, "x2": 0.10052083333333334, "y2": 0.8055555555555556},
+      "button_rect": {
+        "x1": 0.08958333333333333,
+        "y1": 0.7861111111111111,
+        "x2": 0.10052083333333334,
+        "y2": 0.8055555555555556
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Moving around: left."
+      "description": "Moving around: left."
     }
   },
   {
     "MOVE_AROUND_POS_UP": {
       "text_rect": null,
-      "button_rect": {"x1": 0.140625, "y1": 0.6944444444444444, "x2": 0.1515625, "y2": 0.7129629629629629},
+      "button_rect": {
+        "x1": 0.140625,
+        "y1": 0.6944444444444444,
+        "x2": 0.1515625,
+        "y2": 0.7129629629629629
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Moving around: up."
+      "description": "Moving around: up."
     }
   },
   {
     "MOVE_AROUND_POS_RIGHT": {
       "text_rect": null,
-      "button_rect": {"x1": 0.19166666666666668, "y1": 0.7824074074074074, "x2": 0.20260416666666667, "y2": 0.8018518518518518},
+      "button_rect": {
+        "x1": 0.19166666666666668,
+        "y1": 0.7824074074074074,
+        "x2": 0.20260416666666667,
+        "y2": 0.8018518518518518
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Moving around: right."
+      "description": "Moving around: right."
     }
   },
-    {
+  {
     "SKILL_COOP": {
-      "text_rect": {"x1": 0.5151041666666667, "y1": 0.8759259259259259, "x2": 0.5520833333333334, "y2": 0.9416666666666667},
-      "button_rect": {"x1": 0.5151041666666667, "y1": 0.8759259259259259, "x2": 0.5520833333333334, "y2": 0.9416666666666667},
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
       "text": null,
       "image_threshold": 0.8,
       "chars": null,
       "image_path": "skill_coop.png",
       "image_save_file": "skill_coop",
-      "definition": "Coop skill button."
+      "description": "Coop skill button."
     }
   }
 ]

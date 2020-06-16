@@ -1,200 +1,320 @@
 [
   {
     "DM_LABEL": {
-      "text_rect": {"x1": 0.051041666666666666, "y1": 0.004629629629629629, "x2": 0.1671875, "y2": 0.08796296296296297},
+      "text_rect": {
+        "x1": 0.051041666666666666,
+        "y1": 0.004629629629629629,
+        "x2": 0.1671875,
+        "y2": 0.08796296296296297
+      },
       "button_rect": null,
       "text": "DIMENSION MISSION",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "dimension_missions_label",
-      "definition": "Dimension missions label in lobby."
+      "description": "Dimension missions label in lobby."
     }
   },
   {
     "DM_MISSION": {
-      "text_rect": {"x1": 0.29791666666666666, "y1": 0.2962962962962963, "x2": 0.46979166666666666, "y2": 0.34444444444444444},
-      "button_rect": {"x1": 0.2942708333333333, "y1": 0.41759259259259257, "x2": 0.465625, "y2": 0.6925925925925925},
+      "text_rect": {
+        "x1": 0.29791666666666666,
+        "y1": 0.2962962962962963,
+        "x2": 0.46979166666666666,
+        "y2": 0.34444444444444444
+      },
+      "button_rect": {
+        "x1": 0.2942708333333333,
+        "y1": 0.41759259259259257,
+        "x2": 0.465625,
+        "y2": 0.6925925925925925
+      },
       "text": "DIMENSION MISSION",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "dimension_missions_menu_label",
-      "definition": "Dimension missions label in mission selection."
+      "description": "Dimension missions label in mission selection."
     }
   },
   {
     "DM_LEVEL": {
-      "text_rect": {"x1": 0.48489583333333336, "y1": 0.7981481481481482, "x2": 0.5140625, "y2": 0.8481481481481481},
+      "text_rect": {
+        "x1": 0.48489583333333336,
+        "y1": 0.7981481481481482,
+        "x2": 0.5140625,
+        "y2": 0.8481481481481481
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 150,
       "chars": "1234567890",
       "image_save_file": "dimension_missions_level",
-      "definition": "Dimension missions stage level."
+      "description": "Dimension missions stage level."
     }
   },
   {
     "DM_LEVEL_PLUS": {
       "text_rect": null,
-      "button_rect": {"x1": 0.5380208333333333, "y1": 0.8064814814814815, "x2": 0.5635416666666667, "y2": 0.8444444444444444},
+      "button_rect": {
+        "x1": 0.5380208333333333,
+        "y1": 0.8064814814814815,
+        "x2": 0.5635416666666667,
+        "y2": 0.8444444444444444
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "dimension_missions_level_plus",
-      "definition": "Dimension missions stage level PLUS button."
+      "description": "Dimension missions stage level PLUS button."
     }
   },
   {
     "DM_LEVEL_MINUS": {
       "text_rect": null,
-      "button_rect": {"x1": 0.43385416666666665, "y1": 0.8064814814814815, "x2": 0.45989583333333334, "y2": 0.8435185185185186},
+      "button_rect": {
+        "x1": 0.43385416666666665,
+        "y1": 0.8064814814814815,
+        "x2": 0.45989583333333334,
+        "y2": 0.8435185185185186
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "dimension_missions_level_minus",
-      "definition": "Dimension missions stage level MINUS button."
+      "description": "Dimension missions stage level MINUS button."
     }
   },
   {
     "DM_LEVEL_READY": {
-      "text_rect": {"x1": 0.4661458333333333, "y1": 0.9185185185185185, "x2": 0.5359375, "y2": 0.9694444444444444},
-      "button_rect": {"x1": 0.4661458333333333, "y1": 0.9185185185185185, "x2": 0.5359375, "y2": 0.9694444444444444},
+      "text_rect": {
+        "x1": 0.4661458333333333,
+        "y1": 0.9185185185185185,
+        "x2": 0.5359375,
+        "y2": 0.9694444444444444
+      },
+      "button_rect": {
+        "x1": 0.4661458333333333,
+        "y1": 0.9185185185185185,
+        "x2": 0.5359375,
+        "y2": 0.9694444444444444
+      },
       "text": "READY",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "dimension_missions_level_ready",
-      "definition": "Dimension missions stage level READY button."
+      "description": "Dimension missions stage level READY button."
     }
   },
   {
     "DM_SELECT_TEAM_1": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.13148148148148148, "x2": 0.052083333333333336, "y2": 0.19907407407407407},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.13148148148148148,
+        "x2": 0.052083333333333336,
+        "y2": 0.19907407407407407
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is first team."
+      "description": "Team selector is first team."
     }
   },
   {
     "DM_SELECT_TEAM_2": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.2351851851851852, "x2": 0.052083333333333336, "y2": 0.30462962962962964},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.2351851851851852,
+        "x2": 0.052083333333333336,
+        "y2": 0.30462962962962964
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is second team."
+      "description": "Team selector is second team."
     }
   },
   {
     "DM_SELECT_TEAM_3": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.34074074074074073, "x2": 0.052083333333333336, "y2": 0.40925925925925927},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.34074074074074073,
+        "x2": 0.052083333333333336,
+        "y2": 0.40925925925925927
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is third team."
+      "description": "Team selector is third team."
     }
   },
   {
     "DM_SELECT_TEAM_4": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.4444444444444444, "x2": 0.052083333333333336, "y2": 0.5120370370370371},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.4444444444444444,
+        "x2": 0.052083333333333336,
+        "y2": 0.5120370370370371
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is fourth team."
+      "description": "Team selector is fourth team."
     }
   },
   {
     "DM_SELECT_TEAM_5": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0125, "y1": 0.549074074074074, "x2": 0.052083333333333336, "y2": 0.6175925925925926},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.549074074074074,
+        "x2": 0.052083333333333336,
+        "y2": 0.6175925925925926
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "Team selector is fifth team."
+      "description": "Team selector is fifth team."
     }
   },
   {
     "DM_START_BUTTON": {
-      "text_rect": {"x1": 0.8098958333333334, "y1": 0.9194444444444444, "x2": 0.8729166666666667, "y2": 0.9592592592592593},
-      "button_rect": {"x1": 0.8098958333333334, "y1": 0.9194444444444444, "x2": 0.8729166666666667, "y2": 0.9592592592592593},
+      "text_rect": {
+        "x1": 0.8098958333333334,
+        "y1": 0.9194444444444444,
+        "x2": 0.8729166666666667,
+        "y2": 0.9592592592592593
+      },
+      "button_rect": {
+        "x1": 0.8098958333333334,
+        "y1": 0.9194444444444444,
+        "x2": 0.8729166666666667,
+        "y2": 0.9592592592592593
+      },
       "text": "START",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "dimension_missions_start_button",
-      "definition": "Dimension Missions START button."
+      "description": "Dimension Missions START button."
     }
   },
   {
     "DM_ENERGY_COST": {
-      "text_rect": {"x1": 0.9458333333333333, "y1": 0.9138888888888889, "x2": 0.9734375, "y2": 0.9611111111111111},
+      "text_rect": {
+        "x1": 0.9458333333333333,
+        "y1": 0.9138888888888889,
+        "x2": 0.9734375,
+        "y2": 0.9611111111111111
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 145,
       "chars": "-0123456789",
       "image_save_file": "dm_energy_cost",
-      "definition": "Energy cost of staging the Dimension Mission."
+      "description": "Energy cost of staging the Dimension Mission."
     }
   },
   {
     "DM_BOOST_COST": {
-      "text_rect": {"x1": 0.815625, "y1": 0.8787037037037037, "x2": 0.8401041666666667, "y2": 0.9138888888888889},
+      "text_rect": {
+        "x1": 0.815625,
+        "y1": 0.8787037037037037,
+        "x2": 0.8401041666666667,
+        "y2": 0.9138888888888889
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 225,
       "chars": "0123456789-",
       "image_save_file": "dm_boost_cost",
-      "definition": "Boost cost of staging the Dimension Mission."
+      "description": "Boost cost of staging the Dimension Mission."
     }
   },
   {
     "DM_ACQUIRE_REWARD": {
       "text_rect": null,
-      "button_rect": {"x1": 0.93125, "y1": 0.8805555555555555, "x2": 0.9776041666666667, "y2": 0.950925925925926},
+      "button_rect": {
+        "x1": 0.93125,
+        "y1": 0.8805555555555555,
+        "x2": 0.9776041666666667,
+        "y2": 0.950925925925926
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": "dm_acquire_reward",
-      "definition": "Dimensions Missions: acquire rewards button."
+      "description": "Dimensions Missions: acquire rewards button."
     }
   },
   {
     "DM_ACQUIRE_NEXT_REWARD": {
-      "text_rect": {"x1": 0.5197916666666667, "y1": 0.7601851851851852, "x2": 0.6390625, "y2": 0.8092592592592592},
-      "button_rect": {"x1": 0.5197916666666667, "y1": 0.7601851851851852, "x2": 0.6390625, "y2": 0.8092592592592592},
+      "text_rect": {
+        "x1": 0.5197916666666667,
+        "y1": 0.7601851851851852,
+        "x2": 0.6390625,
+        "y2": 0.8092592592592592
+      },
+      "button_rect": {
+        "x1": 0.5197916666666667,
+        "y1": 0.7601851851851852,
+        "x2": 0.6390625,
+        "y2": 0.8092592592592592
+      },
       "text": "Next Reward",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "dm_acquire_next_reward",
-      "definition": "Dimensions Missions: acquire next reward button."
+      "description": "Dimensions Missions: acquire next reward button."
     }
   },
   {
     "DM_REWARD_ACQUIRED_OK": {
-      "text_rect": {"x1": 0.4822916666666667, "y1": 0.7592592592592593, "x2": 0.5223958333333333, "y2": 0.8101851851851852},
-      "button_rect": {"x1": 0.4822916666666667, "y1": 0.7592592592592593, "x2": 0.5223958333333333, "y2": 0.8101851851851852},
+      "text_rect": {
+        "x1": 0.4822916666666667,
+        "y1": 0.7592592592592593,
+        "x2": 0.5223958333333333,
+        "y2": 0.8101851851851852
+      },
+      "button_rect": {
+        "x1": 0.4822916666666667,
+        "y1": 0.7592592592592593,
+        "x2": 0.5223958333333333,
+        "y2": 0.8101851851851852
+      },
       "text": "OK",
       "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "dm_reward_acquired_ok",
-      "definition": "Dimensions Missions: OK button at the end of acquiring last reward."
+      "description": "Dimensions Missions: OK button at the end of acquiring last reward."
     }
   },
   {
     "DM_TICKET_NOTIFICATION": {
-      "text_rect": {"x1": 0.5609339407744874, "y1": 0.7338056680161943, "x2": 0.5979498861047836, "y2": 0.7793522267206477},
-      "button_rect": {"x1": 0.5199316628701595, "y1": 0.7307692307692307, "x2": 0.6412300683371298, "y2": 0.7854251012145749},
+      "text_rect": {
+        "x1": 0.5609339407744874,
+        "y1": 0.7338056680161943,
+        "x2": 0.5979498861047836,
+        "y2": 0.7793522267206477
+      },
+      "button_rect": {
+        "x1": 0.5199316628701595,
+        "y1": 0.7307692307692307,
+        "x2": 0.6412300683371298,
+        "y2": 0.7854251012145749
+      },
       "text": "USE",
       "image_threshold": 175,
       "chars": "USE",
       "image_save_file": "dm_ticket_notification",
-      "definition": "Notification of you need to use hidden tickets. Leads to OK (use tickets) button."
+      "description": "Notification of you need to use hidden tickets. Leads to OK (use tickets) button."
     }
   }
 ]

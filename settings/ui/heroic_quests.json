@@ -1,57 +1,107 @@
 [
   {
     "HQ_NOTIFICATION_OK": {
-      "text_rect": {"x1": 0.7927083333333333, "y1": 0.7777777777777778, "x2": 0.9213541666666667, "y2": 0.825925925925926},
-      "button_rect": {"x1": 0.8276041666666667, "y1": 0.8722222222222222, "x2": 0.89375, "y2": 0.9231481481481482},
+      "text_rect": {
+        "x1": 0.7927083333333333,
+        "y1": 0.7777777777777778,
+        "x2": 0.9213541666666667,
+        "y2": 0.825925925925926
+      },
+      "button_rect": {
+        "x1": 0.8276041666666667,
+        "y1": 0.8722222222222222,
+        "x2": 0.89375,
+        "y2": 0.9231481481481482
+      },
       "text": "HEROIC QUEST",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "heroic_quest_notification_ok",
-      "definition": "Heroic Quests: notification after completing mission."
+      "description": "Heroic Quests: notification after completing mission."
     }
   },
   {
     "HQ_NOTIFICATION_OPEN": {
-      "text_rect": {"x1": 0.7927083333333333, "y1": 0.7777777777777778, "x2": 0.9213541666666667, "y2": 0.825925925925926},
-      "button_rect": {"x1": 0.7927083333333333, "y1": 0.7777777777777778, "x2": 0.9213541666666667, "y2": 0.825925925925926},
+      "text_rect": {
+        "x1": 0.7927083333333333,
+        "y1": 0.7777777777777778,
+        "x2": 0.9213541666666667,
+        "y2": 0.825925925925926
+      },
+      "button_rect": {
+        "x1": 0.7927083333333333,
+        "y1": 0.7777777777777778,
+        "x2": 0.9213541666666667,
+        "y2": 0.825925925925926
+      },
       "text": "HEROIC QUEST",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "heroic_quest_notification_open",
-      "definition": "Heroic Quests: notification after completing mission."
+      "description": "Heroic Quests: notification after completing mission."
     }
   },
-    {
+  {
     "HQ_ACQUIRE_REWARD": {
-      "text_rect": {"x1": 0.5604166666666667, "y1": 0.8138888888888889, "x2": 0.6458333333333334, "y2": 0.8759259259259259},
-      "button_rect": {"x1": 0.5604166666666667, "y1": 0.8138888888888889, "x2": 0.6458333333333334, "y2": 0.8759259259259259},
+      "text_rect": {
+        "x1": 0.5604166666666667,
+        "y1": 0.8138888888888889,
+        "x2": 0.6458333333333334,
+        "y2": 0.8759259259259259
+      },
+      "button_rect": {
+        "x1": 0.5604166666666667,
+        "y1": 0.8138888888888889,
+        "x2": 0.6458333333333334,
+        "y2": 0.8759259259259259
+      },
       "text": "ACQUIRE",
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "hq_acquire_reward",
-      "definition": "Heroic Quests: acquire reward button."
+      "description": "Heroic Quests: acquire reward button."
     }
   },
-   {
+  {
     "HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL": {
-      "text_rect": {"x1": 0.3375, "y1": 0.875, "x2": 0.4161458333333333, "y2": 0.9351851851851852},
-      "button_rect": {"x1": 0.3375, "y1": 0.875, "x2": 0.4161458333333333, "y2": 0.9351851851851852},
+      "text_rect": {
+        "x1": 0.3375,
+        "y1": 0.875,
+        "x2": 0.4161458333333333,
+        "y2": 0.9351851851851852
+      },
+      "button_rect": {
+        "x1": 0.3375,
+        "y1": 0.875,
+        "x2": 0.4161458333333333,
+        "y2": 0.9351851851851852
+      },
       "text": "CANCEL",
       "image_threshold": 140,
       "chars": null,
       "image_save_file": "hq_crystal_chest_notification_cancel",
-      "definition": "Heroic Quests: CANCEL button in Crystal Chest notification."
+      "description": "Heroic Quests: CANCEL button in Crystal Chest notification."
     }
   },
   {
     "HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK": {
-      "text_rect": {"x1": 0.5567708333333333, "y1": 0.7268518518518519, "x2": 0.6026041666666667, "y2": 0.7842592592592592},
-      "button_rect": {"x1": 0.5567708333333333, "y1": 0.7268518518518519, "x2": 0.6026041666666667, "y2": 0.7842592592592592},
+      "text_rect": {
+        "x1": 0.5567708333333333,
+        "y1": 0.7268518518518519,
+        "x2": 0.6026041666666667,
+        "y2": 0.7842592592592592
+      },
+      "button_rect": {
+        "x1": 0.5567708333333333,
+        "y1": 0.7268518518518519,
+        "x2": 0.6026041666666667,
+        "y2": 0.7842592592592592
+      },
       "text": "OK",
       "image_threshold": 175,
       "chars": "OK",
       "image_save_file": "hq_crystal_chest_notification_cancel_ok",
-      "definition": "Heroic Quests: OK button in Crystal Chest notification cancellation."
+      "description": "Heroic Quests: OK button in Crystal Chest notification cancellation."
     }
   }
 ]

@@ -1,112 +1,197 @@
 [
   {
     "CHALLENGES_STAGE_LABEL": {
-      "text_rect": {"x1": 0.052083333333333336, "y1": 0.022222222222222223, "x2": 0.18541666666666667, "y2": 0.07777777777777778},
+      "text_rect": {
+        "x1": 0.052083333333333336,
+        "y1": 0.022222222222222223,
+        "x2": 0.18541666666666667,
+        "y2": 0.07777777777777778
+      },
       "button_rect": null,
       "text": "CHALLENGES",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "challenges_stage_label",
-      "definition": "Challenges stage label text."
+      "description": "Challenges stage label text."
     }
   },
   {
     "DAILY_TRIVIA_STAGE": {
-      "text_rect": {"x1": 0.4375, "y1": 0.13055555555555556, "x2": 0.5614583333333333, "y2": 0.18888888888888888},
-      "button_rect": {"x1": 0.4375, "y1": 0.13055555555555556, "x2": 0.5614583333333333, "y2": 0.18888888888888888},
+      "text_rect": {
+        "x1": 0.4375,
+        "y1": 0.13055555555555556,
+        "x2": 0.5614583333333333,
+        "y2": 0.18888888888888888
+      },
+      "button_rect": {
+        "x1": 0.4375,
+        "y1": 0.13055555555555556,
+        "x2": 0.5614583333333333,
+        "y2": 0.18888888888888888
+      },
       "text": "DAILY TRIVIA",
       "image_threshold": 190,
       "chars": null,
       "image_save_file": "daily_trivia_stage",
-      "definition": "Daily Trivia stage text and button."
+      "description": "Daily Trivia stage text and button."
     }
   },
   {
     "DAILY_TRIVIA_START_BUTTON": {
-      "text_rect": {"x1": 0.7265625, "y1": 0.8101851851851852, "x2": 0.8192708333333333, "y2": 0.8722222222222222},
-      "button_rect": {"x1": 0.7265625, "y1": 0.8101851851851852, "x2": 0.8192708333333333, "y2": 0.8722222222222222},
+      "text_rect": {
+        "x1": 0.7265625,
+        "y1": 0.8101851851851852,
+        "x2": 0.8192708333333333,
+        "y2": 0.8722222222222222
+      },
+      "button_rect": {
+        "x1": 0.7265625,
+        "y1": 0.8101851851851852,
+        "x2": 0.8192708333333333,
+        "y2": 0.8722222222222222
+      },
       "text": "START",
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "daily_trivia_start_button",
-      "definition": "Daily Trivia start button."
+      "description": "Daily Trivia start button."
     }
   },
   {
     "DAILY_TRIVIA_QUESTION": {
-      "text_rect": {"x1": 0.1109375, "y1": 0.49166666666666664, "x2": 0.5817708333333333, "y2": 0.6555555555555556},
+      "text_rect": {
+        "x1": 0.1109375,
+        "y1": 0.49166666666666664,
+        "x2": 0.5817708333333333,
+        "y2": 0.6555555555555556
+      },
       "button_rect": null,
       "text": null,
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "daily_trivia_question",
-      "definition": "Daily Trivia current question."
+      "description": "Daily Trivia current question."
     }
   },
   {
     "DAILY_TRIVIA_ANSWER_1": {
-      "text_rect": {"x1": 0.6864583333333333, "y1": 0.41203703703703703, "x2": 0.9078125, "y2": 0.4925925925925926},
-      "button_rect": {"x1": 0.6864583333333333, "y1": 0.41203703703703703, "x2": 0.9078125, "y2": 0.4925925925925926},
+      "text_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.41203703703703703,
+        "x2": 0.9078125,
+        "y2": 0.4925925925925926
+      },
+      "button_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.41203703703703703,
+        "x2": 0.9078125,
+        "y2": 0.4925925925925926
+      },
       "text": null,
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "daily_trivia_answer_1",
-      "definition": "Daily Trivia answer: #1."
+      "description": "Daily Trivia answer: #1."
     }
   },
   {
     "DAILY_TRIVIA_ANSWER_2": {
-      "text_rect": {"x1": 0.6864583333333333, "y1": 0.5388888888888889, "x2": 0.9078125, "y2": 0.6175925925925926},
-      "button_rect": {"x1": 0.6864583333333333, "y1": 0.5388888888888889, "x2": 0.9078125, "y2": 0.6175925925925926},
+      "text_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.5388888888888889,
+        "x2": 0.9078125,
+        "y2": 0.6175925925925926
+      },
+      "button_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.5388888888888889,
+        "x2": 0.9078125,
+        "y2": 0.6175925925925926
+      },
       "text": null,
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "daily_trivia_answer_2",
-      "definition": "Daily Trivia answer: #2."
+      "description": "Daily Trivia answer: #2."
     }
   },
   {
     "DAILY_TRIVIA_ANSWER_3": {
-      "text_rect": {"x1": 0.6864583333333333, "y1": 0.6666666666666666, "x2": 0.9078125, "y2": 0.7425925925925926},
-      "button_rect": {"x1": 0.6864583333333333, "y1": 0.6666666666666666, "x2": 0.9078125, "y2": 0.7425925925925926},
+      "text_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.6666666666666666,
+        "x2": 0.9078125,
+        "y2": 0.7425925925925926
+      },
+      "button_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.6666666666666666,
+        "x2": 0.9078125,
+        "y2": 0.7425925925925926
+      },
       "text": null,
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "daily_trivia_answer_3",
-      "definition": "Daily Trivia answer: #3."
+      "description": "Daily Trivia answer: #3."
     }
   },
   {
     "DAILY_TRIVIA_ANSWER_4": {
-      "text_rect": {"x1": 0.6864583333333333, "y1": 0.7861111111111111, "x2": 0.9078125, "y2": 0.8694444444444445},
-      "button_rect": {"x1": 0.6864583333333333, "y1": 0.7861111111111111, "x2": 0.9078125, "y2": 0.8694444444444445},
+      "text_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.7861111111111111,
+        "x2": 0.9078125,
+        "y2": 0.8694444444444445
+      },
+      "button_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.7861111111111111,
+        "x2": 0.9078125,
+        "y2": 0.8694444444444445
+      },
       "text": null,
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "daily_trivia_answer_4",
-      "definition": "Daily Trivia answer: #4."
+      "description": "Daily Trivia answer: #4."
     }
   },
   {
     "DAILY_TRIVIA_TODAY_TEXT": {
-      "text_rect": {"x1": 0.1078125, "y1": 0.4083333333333333, "x2": 0.24895833333333334, "y2": 0.4583333333333333},
+      "text_rect": {
+        "x1": 0.1078125,
+        "y1": 0.4083333333333333,
+        "x2": 0.24895833333333334,
+        "y2": 0.4583333333333333
+      },
       "button_rect": null,
       "text": "TODAY'S TRIVIA",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "daily_trivia_today_text",
-      "definition": "Daily Trivia Today text is Trivia was started."
+      "description": "Daily Trivia Today text is Trivia was started."
     }
   },
   {
     "DAILY_TRIVIA_CLOSE_ANSWER": {
-      "text_rect": {"x1": 0.4630208333333333, "y1": 0.7490740740740741, "x2": 0.5447916666666667, "y2": 0.8138888888888889},
-      "button_rect": {"x1": 0.4630208333333333, "y1": 0.7490740740740741, "x2": 0.5447916666666667, "y2": 0.8138888888888889},
+      "text_rect": {
+        "x1": 0.4630208333333333,
+        "y1": 0.7490740740740741,
+        "x2": 0.5447916666666667,
+        "y2": 0.8138888888888889
+      },
+      "button_rect": {
+        "x1": 0.4630208333333333,
+        "y1": 0.7490740740740741,
+        "x2": 0.5447916666666667,
+        "y2": 0.8138888888888889
+      },
       "text": "CLOSE",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "daily_trivia_close_correct_answer",
-      "definition": "Daily Trivia close button when you selected answer."
+      "description": "Daily Trivia close button when you selected answer."
     }
   }
 ]

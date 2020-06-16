@@ -12,7 +12,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "lb_label",
-      "definition": "Legendary battle label in mission selection."
+      "description": "Legendary battle label in mission selection."
     }
   },
   {
@@ -33,7 +33,7 @@
       "image_threshold": 95,
       "chars": "Remaingwrds0123456789",
       "image_save_file": "lb_stages",
-      "definition": "DEPRECATED: Legendary battle stages text."
+      "description": "DEPRECATED: Legendary battle stages text."
     }
   },
   {
@@ -49,18 +49,28 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "lb_menu_label",
-      "definition": "Legendary battle label at the top left corner of LB menu."
+      "description": "Legendary battle label at the top left corner of LB menu."
     }
   },
   {
     "LB_DIFFICULTY_NORMAL": {
-      "text_rect": {"x1": 0.828125, "y1": 0.9027777777777778, "x2": 0.9364583333333333, "y2": 0.9685185185185186},
-      "button_rect": {"x1": 0.828125, "y1": 0.9027777777777778, "x2": 0.9364583333333333, "y2": 0.9685185185185186},
+      "text_rect": {
+        "x1": 0.828125,
+        "y1": 0.9027777777777778,
+        "x2": 0.9364583333333333,
+        "y2": 0.9685185185185186
+      },
+      "button_rect": {
+        "x1": 0.828125,
+        "y1": 0.9027777777777778,
+        "x2": 0.9364583333333333,
+        "y2": 0.9685185185185186
+      },
       "text": "NORMAL",
       "image_threshold": 140,
       "chars": null,
       "image_save_file": "lb_difficulty_normal",
-      "definition": "Legendary battle normal difficulty button."
+      "description": "Legendary battle normal difficulty button."
     }
   },
   {
@@ -81,7 +91,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "lb_battle_stage_1",
-      "definition": "LB stage #1."
+      "description": "LB stage #1."
     }
   },
   {
@@ -102,7 +112,7 @@
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "lb_start_button",
-      "definition": "LB start button."
+      "description": "LB start button."
     }
   },
   {
@@ -123,7 +133,7 @@
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "lb_ignore_notice",
-      "definition": "Ignore notification if you don't have character or costume."
+      "description": "Ignore notification if you don't have character or costume."
     }
   },
   {
@@ -139,7 +149,7 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "LB repeat button."
+      "description": "LB repeat button."
     }
   },
   {
@@ -155,51 +165,76 @@
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "LB home button."
+      "description": "LB home button."
     }
   },
   {
     "LB_DRAG_FROM": {
       "text_rect": null,
-      "button_rect": {"x1": 0.1, "y1": 0.950925925925926, "x2": 0.12239583333333333, "y2": 0.9842592592592593},
+      "button_rect": {
+        "x1": 0.1,
+        "y1": 0.950925925925926,
+        "x2": 0.12239583333333333,
+        "y2": 0.9842592592592593
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "LB: drag position (bottom) to scroll the list."
+      "description": "LB: drag position (bottom) to scroll the list."
     }
   },
   {
     "LB_DRAG_TO": {
       "text_rect": null,
-      "button_rect": {"x1": 0.1, "y1": 0.10555555555555556, "x2": 0.12239583333333333, "y2": 0.14166666666666666},
+      "button_rect": {
+        "x1": 0.1,
+        "y1": 0.10555555555555556,
+        "x2": 0.12239583333333333,
+        "y2": 0.14166666666666666
+      },
       "text": null,
       "image_threshold": null,
       "chars": null,
       "image_save_file": null,
-      "definition": "LB: drag position (top) to scroll the list."
+      "description": "LB: drag position (top) to scroll the list."
     }
   },
   {
     "LB_RAGNAROK_BATTLE": {
-      "text_rect": {"x1": 0.027083333333333334, "y1": 0.9527777777777777, "x2": 0.19375, "y2": 0.9879629629629629},
-      "button_rect": {"x1": 0.011979166666666667, "y1": 0.8009259259259259, "x2": 0.20677083333333332, "y2": 0.9888888888888889},
+      "text_rect": {
+        "x1": 0.027083333333333334,
+        "y1": 0.9527777777777777,
+        "x2": 0.19375,
+        "y2": 0.9879629629629629
+      },
+      "button_rect": {
+        "x1": 0.011979166666666667,
+        "y1": 0.8009259259259259,
+        "x2": 0.20677083333333332,
+        "y2": 0.9888888888888889
+      },
       "text": "MARVEL'S THOR:RAGNAROK",
       "image_threshold": 115,
       "chars": null,
       "image_save_file": "lb_ragnarok_battle",
-      "definition": "Legendary battle : Ragnarok."
+      "description": "Legendary battle : Ragnarok."
     }
   },
   {
     "LB_RAGNAROK_BATTLE_TITLE": {
-      "text_rect": {"x1": 0.23385416666666667, "y1": 0.1259259259259259, "x2": 0.38177083333333334, "y2": 0.18518518518518517},
+      "text_rect": {
+        "x1": 0.23385416666666667,
+        "y1": 0.1259259259259259,
+        "x2": 0.38177083333333334,
+        "y2": 0.18518518518518517
+      },
       "button_rect": null,
       "text": "RAGNAROK",
       "image_threshold": 120,
       "chars": "RAGNAROK",
       "image_save_file": "lb_ragnarok_battle_title",
-      "definition": "Legendary battle : Ragnarok (title on top)."
+      "description": "Legendary battle : Ragnarok (title on top)."
     }
   }
 ]
