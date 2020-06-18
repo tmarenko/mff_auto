@@ -319,14 +319,14 @@
   {
     "ENERGY": {
       "text_rect": {
-        "x1": 0.34375,
-        "y1": 0.03796296296296296,
-        "x2": 0.39114583333333336,
-        "y2": 0.06018518518518518
+        "x1": 0.32395833333333335,
+        "y1": 0.03333333333333333,
+        "x2": 0.3958333333333333,
+        "y2": 0.06481481481481481
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 225,
+      "image_threshold": 210,
       "chars": "0123456789/",
       "image_save_file": "energy",
       "description": "Position of energy counter in top navigation bar."
@@ -335,14 +335,14 @@
   {
     "GOLD": {
       "text_rect": {
-        "x1": 0.4698177676537585,
-        "y1": 0.0303643724696356,
-        "x2": 0.5609339407744875,
-        "y2": 0.0607287449392713
+        "x1": 0.4578125,
+        "y1": 0.03333333333333333,
+        "x2": 0.5421875,
+        "y2": 0.06481481481481481
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 165,
+      "image_threshold": 150,
       "chars": "0123456789,",
       "image_save_file": "gold",
       "description": "Position of gold counter in top navigation bar."
@@ -351,14 +351,14 @@
   {
     "BOOST": {
       "text_rect": {
-        "x1": 0.7578125,
+        "x1": 0.7244791666666667,
         "y1": 0.03333333333333333,
-        "x2": 0.7859375,
-        "y2": 0.06388888888888888
+        "x2": 0.7682291666666666,
+        "y2": 0.06481481481481481
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "0123456789",
       "image_save_file": "boost",
       "description": "Position of boost counter in top navigation bar."
