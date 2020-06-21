@@ -51,6 +51,7 @@ class AllianceBattles(Missions):
         if mode == self.MODE.ALL_BATTLES:
             logger.info(f"Alliance Battles: starting ALL battles.")
             self.start_alliance_battle(start_button='AB_NORMAL_START_BUTTON', home_or_next_button='AB_NEXT_EXTREME')
+            self.close_after_mission_notifications()
             self.start_alliance_battle(start_button='AB_EXTREME_START_BUTTON', home_or_next_button='AB_HOME')
 
     def go_to_alliance_battle(self):
