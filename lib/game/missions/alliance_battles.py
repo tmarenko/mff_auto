@@ -26,7 +26,13 @@ class AllianceBattles(Missions):
         def score():
             return self.player.is_ui_element_on_screen(self.ui['AB_YOUR_SCORE'])
 
-        return [score]
+        def restart():
+            if self.player.is_ui_element_on_screen(self.ui['AB_RESTART_CANCEL_BUTTON']):
+                self.player.click_button(self.ui['AB_RESTART_CANCEL_BUTTON'].button)
+                return True
+            return False
+
+        return [score, restart]
 
     def do_missions(self, mode=MODE.ALL_BATTLES):
         """Do missions."""

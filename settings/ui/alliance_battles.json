@@ -245,5 +245,16 @@
       "image_save_file": "ab_no_character_right",
       "description": "Empty right character selector in AB team setup."
     }
+  },
+  {
+    "AB_RESTART_CANCEL_BUTTON": {
+      "text_rect": {"x1": 0.3385416666666667, "y1": 0.8731481481481481, "x2": 0.415625, "y2": 0.9287037037037037},
+      "button_rect": {"x1": 0.3385416666666667, "y1": 0.8731481481481481, "x2": 0.415625, "y2": 0.9287037037037037},
+      "text": "CANCEL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "ab_restart_cancel_button",
+      "description": "CANCEL button when battle is lost."
+    }
   }
 ]
