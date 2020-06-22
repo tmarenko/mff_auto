@@ -14,7 +14,7 @@ class DimensionMissions(Missions):
 
         :param game.Game game: instance of the game.
         """
-        super().__init__(game, 'SM_LABEL')
+        super().__init__(game, 'DM_LABEL')
 
     def go_to_dm(self):
         """Go to Dimension Missions.
