@@ -54,20 +54,25 @@ class Missions:
     @property
     def stages_max(self):
         """Maximum stages of the mission."""
-        return self.game.modes[self.mode_name]['stages_max']
+        mode = self.game.get_mode(self.mode_name)
+        if mode:
+            return mode.max_stages
+        return 0
 
     @property
     def stages(self):
         """Available stages of the mission."""
-        if self.mode_name in self.game.modes:
-            return self.game.modes[self.mode_name]['stages']
+        mode = self.game.get_mode(self.mode_name)
+        if mode:
+            return mode.stages
         return 0
 
     @stages.setter
     def stages(self, value):
         """Update available stages value."""
-        if self.mode_name in self.game.modes:
-            self.game.modes[self.mode_name]['stages'] = value
+        mode = self.game.get_mode(self.mode_name)
+        if mode:
+            mode.stages = value
 
     @property
     def battle_over_conditions(self):
@@ -113,11 +118,11 @@ class Missions:
 
     def end_missions(self):
         """End missions."""
+        self.game.clear_modes()
         if not self.game.is_main_menu():
             self.game.player.click_button(self.ui['HOME'].button)
             self.close_after_mission_notifications()
             self.game.close_ads()
-        self.game.update_modes()
 
     def do_missions(self):
         """Do missions."""

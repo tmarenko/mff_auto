@@ -8,5 +8,5 @@ logger = logging.get_logger(__name__)
 if __name__ == '__main__':
 
     nox = NoxWindow("NoxPlayer")
-    game = Game(nox, fake_modes=True)
+    game = Game(nox)
     m = ManualBattleBot(game, battle_over_conditions=None).fight()

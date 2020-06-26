@@ -1,12 +1,9 @@
 from lib.functions import wait_until
 from lib.game.battle_bot import AutoBattleBot
 from lib.game.missions.missions import Missions
-import re
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
-
-stages_regexp = re.compile(r"(\d*)/\d*")
 
 
 class EpicQuests(Missions):
@@ -136,16 +133,9 @@ class TwoStageEpicQuest(EpicQuests):
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_RECOMMENDED_LVL']):
                 stage_1 = self.player.get_screen_text(self.ui[self.stage_1])
                 stage_2 = self.player.get_screen_text(self.ui[self.stage_2])
-                stage_1_num = re.findall(stages_regexp, stage_1)
-                stage_2_num = re.findall(stages_regexp, stage_2)
-                try:
-                    stage_1_int = int(stage_1_num[0])
-                    stage_2_int = int(stage_2_num[0])
-                except ValueError:
-                    logger.critical(f"{self.mode_name}: cannot convert stages to integers: {stage_1} and {stage_2}")
-                    stage_1_int = 0
-                    stage_2_int = 0
-                return stage_1_int, stage_2_int
+                stage_1_current, _ = self.game.get_current_and_max_values_from_text(stage_1)
+                stage_2_current, _ = self.game.get_current_and_max_values_from_text(stage_2)
+                return stage_1_current, stage_2_current
 
 
 class StupidXMen(TwoStageEpicQuest):

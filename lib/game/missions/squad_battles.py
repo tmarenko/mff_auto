@@ -37,6 +37,7 @@ class SquadBattles(Missions):
 
         :return: True or False: is Squad Battles open.
         """
+        self.game.find_mode_on_content_status_board(self.mode_name)
         self.game.select_mode(self.mode_name)
         self.game.close_ads(timeout=5)
         self.close_after_battle_notifications()

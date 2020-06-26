@@ -2,11 +2,8 @@ from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
 from lib.functions import wait_until
 import lib.logger as logging
-import re
 
 logger = logging.get_logger(__name__)
-
-stages_regexp = re.compile(r"(\d*)/(\d*)")
 
 
 class WorldBossInvasion(Missions):
@@ -73,16 +70,10 @@ class WorldBossInvasion(Missions):
     def _get_chests_count(self):
         """Receive current chests and max chests amount."""
         chests_count = self.player.get_screen_text(ui_element=self.ui['INVASION_STAGES'])
-        chests_int = re.findall(stages_regexp, chests_count)
-        logger.debug(f"World Boss Invasion: chest text: {chests_int}")
-        try:
-            self._chests = 5 if int(chests_int[0][0]) > 5 else int(chests_int[0][0])
-            self._max_chests = 5 if int(chests_int[0][1]) > 5 else int(chests_int[0][1])
-        except ValueError:
-            logger.critical(f"World Boss Invasion: cannot convert chests to integers: "
-                            f"{self._chests} of {self._max_chests}")
-            self._chests = 0
-            self._max_chests = 0
+        logger.debug(f"World Boss Invasion: chest text: {chests_count}")
+        current_chest, max_chest = self.game.get_current_and_max_values_from_text(chests_count)
+        self._chests = 5 if current_chest > 5 else current_chest
+        self._max_chests = 5 if max_chest > 5 else max_chest
         logger.info(f"World Boss Invasion: {self._chests} chests out of {self._max_chests} founded.")
 
     @property
