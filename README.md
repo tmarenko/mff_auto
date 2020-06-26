@@ -37,10 +37,10 @@ Check available releases of compiled Python/Tesseract binaries for **mff_auto**:
 - Add ```lib``` folder to your ```PYTHONPATH``` or mark it as lib source.
 - Create Python file and use game modes libraries. Example:
     ```python
-    from player import NoxWindow
-    from game import Game
+    from lib.players.nox_player import NoxWindow
+    from lib.game.game import Game
     
-    from coop import CoopPlay
+    from lib.game.missions.coop import CoopPlay
     
     
     nox = NoxWindow("NoxPlayer")
@@ -70,11 +70,11 @@ If you want to run any kind of mission regardless of libraries realisation:
 - Open mission screen in emulator (the screen with `START` button at right bottom corner)
 - Run example:
     ```python
-    from player import NoxWindow
-    from game import Game
-    from missions import Missions
+    from lib.players.nox_player import NoxWindow
+    from lib.game.game import Game
+    from lib.game.missions.missions import Missions
     
     nox = NoxWindow("NoxPlayer")
-    game = Game(nox, fake_modes=True)
+    game = Game(nox)
     Missions(game, None).repeat_mission(times=20)
     ```
