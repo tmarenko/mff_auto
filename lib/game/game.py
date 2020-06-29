@@ -130,7 +130,8 @@ class Game:
 
     def is_main_menu(self):
         """Check if is current screen is main menu."""
-        return self.player.is_ui_element_on_screen(self.ui['TEAM'])
+        return self.player.is_ui_element_on_screen(self.ui['TEAM']) and self.player.is_ui_element_on_screen(
+            self.ui['STORE'])
 
     def is_loading_circle(self):
         """Check if loading circle is on screen."""
@@ -361,18 +362,24 @@ class Game:
         :return: True or False: was game started.
         """
         def is_game_started():
-            is_started = self.is_main_menu() or self.close_ads()
+            is_started = self.close_maintenance_notice() or self.close_ads() or self.is_main_menu()
             if not is_started and self.player.is_ui_element_on_screen(self.ui['NEWS_ON_START_GAME']):
                 self.player.click_button(self.ui['NEWS_ON_START_GAME'].button)
             return is_started
 
         self.player.click_button(self.ui['GAME_APP'].button)
         if wait_until(is_game_started, timeout=60):
-            if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['MAINTENANCE_NOTICE']):
-                self.player.click_button(self.ui['MAINTENANCE_NOTICE'].button)
+            self.close_maintenance_notice()
             self.close_ads()
             return True
         logger.warning("Failed to start game")
+        return False
+
+    def close_maintenance_notice(self):
+        """Close maintenance notice window."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['MAINTENANCE_NOTICE']):
+            self.player.click_button(self.ui['MAINTENANCE_NOTICE'].button)
+            return True
         return False
 
     def close_ads(self, timeout=2):
