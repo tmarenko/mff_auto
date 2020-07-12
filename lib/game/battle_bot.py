@@ -187,6 +187,7 @@ class ManualBattleBot(BattleBot):
         self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
                                        "MOVE_AROUND_POS_UP", "MOVE_AROUND_POS_RIGHT"])
         self.moving_position_from = next(self.moving_positions)
+        self.shadowland_loaded = False
 
     def fight(self, move_around=False):
         """Start battle and use skills until the end of battle.
@@ -217,6 +218,7 @@ class ManualBattleBot(BattleBot):
                         self.move_character()
             else:
                 self.skip_cutscene()
+                self.shadowland_loaded = False
         logger.info("Battle is over")
 
     def move_character(self):
@@ -253,6 +255,10 @@ class ManualBattleBot(BattleBot):
 
     def load_skills(self):
         """Load images of skills without cooldown layout."""
+        if self.player.is_ui_element_on_screen(self.ui['SHADOWLAND_FLOOR']) and not self.shadowland_loaded:
+            logger.debug("Shadowland's floor was found. Awaiting start battle animation.")
+            self.shadowland_loaded = True
+            r_sleep(4)
         logger.debug("Loading skill's images for the fight.")
         for skill_id in range(1, 6):
             skill_image = self.player.get_screen_image(rect=self.ui[f"SKILL_{skill_id}"].rect)
