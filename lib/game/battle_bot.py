@@ -169,6 +169,13 @@ class ManualBattleBot(BattleBot):
     T3_SKILL = "T3"
     AWAKENING_SKILL = "6"
     COOP_SKILL = "COOP"
+    SKILL_TIMEOUTS = {
+        "1": 1, "2": 1, "3": 1,
+        "4": 1.5,
+        "5": 2,
+        "6": 6, "T3": 6,
+        "COOP": 0
+    }
 
     def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
         """Class initialization.
@@ -209,7 +216,7 @@ class ManualBattleBot(BattleBot):
                     continue
                 if self.cast_skill(best_available_skill):
                     logger.debug(f"Successfully casted {best_available_skill} skill.")
-                    time_to_sleep = 5 if best_available_skill in [self.T3_SKILL, self.AWAKENING_SKILL] else 1
+                    time_to_sleep = self.SKILL_TIMEOUTS[str(best_available_skill)]
                     r_sleep(time_to_sleep)
                 else:
                     self.cached_available_skill = self.DEFAULT_SKILL
