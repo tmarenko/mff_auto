@@ -287,7 +287,7 @@ class ManualBattleBot(BattleBot):
         """Get best available skill to cast.
         cached skill -> T3 -> 6 -> COOP -> 5 -> 4 -> 3 -> 2 -> 1
         """
-        if self.cached_available_skill:
+        if self.cached_available_skill and self.is_skill_available(skill_id=self.cached_available_skill):
             skill = self.cached_available_skill
             self.cached_available_skill = None
             return skill
@@ -310,6 +310,6 @@ class ManualBattleBot(BattleBot):
         logger.debug(f"Casting {skill_id}-th skill.")
         skill_ui = self.ui[f'SKILL_{skill_id}']
         self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
-        self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
-        self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
+        self.player.click_button(skill_ui.button, min_duration=0.03, max_duration=0.03)
+        self.player.click_button(skill_ui.button, min_duration=0.1, max_duration=0.1)
         return not self.is_skill_available(skill_id=skill_id)
