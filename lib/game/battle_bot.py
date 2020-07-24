@@ -273,6 +273,7 @@ class ManualBattleBot(BattleBot):
             self.skill_images.append(skill_image)
         if not self.awakening_skill.locked:
             self.awakening_skill.check_skill_is_ready(forced=True)
+            self.cached_available_skill = self.AWAKENING_SKILL
         self.coop_skill._locked = self.player.is_image_on_screen(ui_element=self.ui['SKILL_COOP'])
         self.coop_skill.check_skill_is_ready(forced=True)
 
