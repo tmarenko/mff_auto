@@ -135,7 +135,7 @@ def load_ui_settings(path="settings/ui", path_to_images="images"):
     """
     ui = {}
     for json_file in [pos_json for pos_json in os.listdir(path) if pos_json.endswith('.json')]:
-        with open(os.path.join(path, json_file)) as json_data:
+        with open(os.path.join(path, json_file), encoding='utf-8') as json_data:
             for setting in json.load(json_data):
                 u = UIElement.from_json(json_data=setting, path_to_images=path_to_images)
                 ui[u.name] = u
@@ -149,7 +149,7 @@ def load_game_modes(path="settings/game_modes.json"):
 
     :return: dictionary of info.
     """
-    with open(path) as json_data:
+    with open(path, encoding='utf-8') as json_data:
         return json.load(json_data)
 
 
@@ -160,5 +160,5 @@ def load_daily_trivia(path="settings/daily_trivia.json"):
 
     :return: dictionary of questions and answers.
     """
-    with open(path) as json_data:
+    with open(path, encoding='utf-8') as json_data:
         return json.load(json_data)
