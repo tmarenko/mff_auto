@@ -84,5 +84,7 @@ class LegendaryBattle(Missions):
             self.player.click_button(self.ui[start_button_ui].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['LB_IGNORE_NOTICE']):
                 self.player.click_button(self.ui['LB_IGNORE_NOTICE'].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['LB_NO_REWARD_NOTICE']):
+                self.player.click_button(self.ui['LB_NO_REWARD_NOTICE'].button)
             return True
         return False

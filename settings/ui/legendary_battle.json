@@ -236,6 +236,27 @@
       "image_save_file": "lb_ragnarok_battle_title",
       "description": "Legendary battle : Ragnarok (title on top)."
     }
+  },
+  {
+    "LB_NO_REWARD_NOTICE": {
+      "text_rect": {
+        "x1": 0.5557291666666667,
+        "y1": 0.7277777777777777,
+        "x2": 0.6010416666666667,
+        "y2": 0.7842592592592592
+      },
+      "button_rect": {
+        "x1": 0.5557291666666667,
+        "y1": 0.7277777777777777,
+        "x2": 0.6010416666666667,
+        "y2": 0.7842592592592592
+      },
+      "text": "OK",
+      "image_threshold": 175,
+      "chars": "OK",
+      "image_save_file": "lb_no_reward_notice",
+      "description": "Legendary battle : no rewards notification before entering the battle."
+    }
   }
 ]
 
