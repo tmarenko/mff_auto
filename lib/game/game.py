@@ -54,7 +54,7 @@ class Game:
     @staticmethod
     def get_current_and_max_values_from_text(text, regexp=cur_slash_max_regexp):
         """Get current and max value from text by regular expression."""
-        result = re.findall(pattern=regexp, string=text)
+        result = regexp.findall(text)
         logger.debug(f"Getting current and max value: {result} from text: {text}")
         try:
             current_value = 0 if not result else int(result[0][0])

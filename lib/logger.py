@@ -19,5 +19,6 @@ root.addHandler(ch)
 root.addHandler(fh)
 
 
-def get_logger(name):
+def get_logger(name) -> logging.Logger:
+    name = name.split(".")[-1]
     return logging.getLogger(name)
