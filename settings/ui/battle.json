@@ -272,16 +272,16 @@
   {
     "SKILL_6": {
       "text_rect": {
-        "x1": 0.6875,
-        "y1": 0.7203703703703703,
-        "x2": 0.7234375,
-        "y2": 0.7851851851851852
+        "x1": 0.6083333333333333,
+        "y1": 0.8787037037037037,
+        "x2": 0.646875,
+        "y2": 0.9444444444444444
       },
       "button_rect": {
-        "x1": 0.6875,
-        "y1": 0.7203703703703703,
-        "x2": 0.7234375,
-        "y2": 0.7851851851851852
+        "x1": 0.6083333333333333,
+        "y1": 0.8787037037037037,
+        "x2": 0.646875,
+        "y2": 0.9444444444444444
       },
       "text": null,
       "image_threshold": 170,
@@ -294,13 +294,13 @@
     "SKILL_6_LOCKED": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.6875,
-        "y1": 0.7203703703703703,
-        "x2": 0.7234375,
-        "y2": 0.7851851851851852
+        "x1": 0.6083333333333333,
+        "y1": 0.8787037037037037,
+        "x2": 0.646875,
+        "y2": 0.9444444444444444
       },
       "text": null,
-      "image_threshold": 0.7,
+      "image_threshold": 0.6,
       "chars": null,
       "image_save_file": "skill_6_locked",
       "image_path": "skill_6_locked.png",
@@ -310,10 +310,10 @@
   {
     "SKILL_6_LABEL": {
       "text_rect": {
-        "x1": 0.6729166666666667,
-        "y1": 0.6814814814814815,
-        "x2": 0.6875,
-        "y2": 0.7148148148148148
+        "x1": 0.5953125,
+        "y1": 0.8444444444444444,
+        "x2": 0.6083333333333333,
+        "y2": 0.8740740740740741
       },
       "button_rect": null,
       "text": "6",
@@ -354,7 +354,7 @@
         "y2": 0.9444444444444444
       },
       "text": null,
-      "image_threshold": 0.7,
+      "image_threshold": 0.6,
       "chars": null,
       "image_save_file": "t3_locked",
       "image_path": "t3_locked.png",
@@ -542,6 +542,35 @@
       "chars": "Floor",
       "image_save_file": "shadowland_floor",
       "description": "Shadowland's floor counter at the top right corner."
+    }
+  },
+  {
+    "T3_BADGE_1": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.008854166666666666,
+        "y1": 0.08518518518518518,
+        "x2": 0.0234375,
+        "y2": 0.10833333333333334
+      },
+      "text": null,
+      "image_threshold": 0.5,
+      "chars": null,
+      "image_path": "t3_badge.png",
+      "image_save_file": "t3_badge_1",
+      "description": "T3 badge on the top left corner of character icon."
+    }
+  },
+  {
+    "T3_BADGE_2": {
+      "text_rect": null,
+      "button_rect": {"x1": 0.0078125, "y1": 0.1111111111111111, "x2": 0.022395833333333334, "y2": 0.13518518518518519},
+      "text": null,
+      "image_threshold": 0.5,
+      "chars": null,
+      "image_path": "t3_badge.png",
+      "image_save_file": "t3_badge_2",
+      "description": "T3 badge on the top left corner of character icon."
     }
   }
 ]
