@@ -198,7 +198,7 @@ class Game:
             for i in range(0, len(items), chunk_size):
                 chunk = items[i:i + chunk_size]
                 yield chunk
-
+        self.player.get_screen_image()  # Store frame to cache for multi-threading the search
         offset = element.button
         elements = [(board.rect, ui.Rect(i * element.rect.width + i * offset.width,
                                          j * element.rect.height + j * offset.height,

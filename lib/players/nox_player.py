@@ -84,7 +84,7 @@ class NoxWindow(object):
             if win32process.GetWindowThreadProcessId(hwnd)[0] == self.parent_thread[0]:
                 self.key_handle = hwnd
 
-    def get_screen_image(self, rect, scale=1):
+    def get_screen_image(self, rect=(0, 0, 1, 1), scale=1):
         """Get screen image.
 
         :param rect: rectangle of screen.
