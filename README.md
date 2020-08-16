@@ -78,3 +78,7 @@ Check `example.py` for examples of running any modes.
         # pause recording
         nox_recorder.resume()
 ```
+
+### Building release package from source code
+
+- Run `build.py`
