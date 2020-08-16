@@ -49,11 +49,14 @@ class EpicQuests(Missions):
             self.game.select_mode(self.mode_name)
         return stage_num
 
-    def do_missions(self, farm_shifter_bios=False):
+    def do_missions(self, times=None, farm_shifter_bios=False):
         """Do missions.
 
+        :param times: how many stages to complete.
         :param farm_shifter_bios: should game be restarted if shifter isn't appeared.
         """
+        if times:
+            self.stages = times
         if self.stages > 0:
             self.start_missions(farm_shifter_bios=farm_shifter_bios)
             self.end_missions()

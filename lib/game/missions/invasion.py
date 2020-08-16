@@ -28,12 +28,12 @@ class WorldBossInvasion(Missions):
 
         return [chest, failed]
 
-    def do_missions(self):
+    def do_missions(self, times=None):
         """Do missions."""
-        self.start_missions()
+        self.start_missions(times=times)
         self.end_missions()
 
-    def start_missions(self):
+    def start_missions(self, times=None):
         """Start World Boss Invasion."""
         if self.go_to_wbi():
             logger.info(f"World Boss Invasion: {self.chests} of {self.max_chests} chests.")
@@ -41,6 +41,8 @@ class WorldBossInvasion(Missions):
                 if not self.acquire_chests():
                     return
                 self._get_chests_count()
+            if times:
+                self._max_chests = times
             if self.chests < self.max_chests and self.find_boss_fight():
                 while self.chests < self.max_chests:
                     if self.press_start_button():

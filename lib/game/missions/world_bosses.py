@@ -32,11 +32,13 @@ class WorldBosses(Missions):
 
         return [score, respawn]
 
-    def do_missions(self, mode=MODE.ULTIMATE, difficulty=0):
+    def do_missions(self, times=None, mode=MODE.ULTIMATE, difficulty=0):
         """Do missions."""
         if mode == self.MODE.ULTIMATE and difficulty == 0:
             logger.error(f"World Boss Ultimate: with mode {mode} difficulty should be greater than {difficulty}.")
             return
+        if times:
+            self.stages = times
         if self.stages > 0:
             self.start_missions(mode=mode, difficulty=difficulty)
             self.end_missions()

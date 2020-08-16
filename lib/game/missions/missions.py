@@ -124,8 +124,10 @@ class Missions:
             self.close_after_mission_notifications()
             self.game.close_ads()
 
-    def do_missions(self):
+    def do_missions(self, times=None):
         """Do missions."""
+        if times:
+            self.stages = times
         if self.stages > 0:
             self.start_missions()
             self.end_missions()
