@@ -33,7 +33,8 @@ class TimelineBattle(Missions):
         """Start TimeLine Battles."""
         logger.info(f"Timeline Battle: {self.stages} stages available")
         if self.stages > 0:
-            self.go_to_timeline_battle()
+            if not self.go_to_timeline_battle():
+                return
             while self.stages > 0:
                 self.search_new_opponent()
                 self.fight()
