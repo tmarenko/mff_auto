@@ -1,5 +1,4 @@
 import win32gui, win32ui, win32process, win32api, win32con
-import autoit
 import random
 import time
 from PIL import Image
@@ -201,9 +200,12 @@ class NoxWindow(object):
         :param max_duration: maximum duration between clicking.
         """
         duration = random.uniform(min_duration, max_duration)
-        r_sleep(duration)
         x, y = self.get_position_inside_screen_rectangle(button_rect)
-        autoit.control_click_by_handle(self.parent_hwnd, self.hwnd, x=x, y=y)
+        win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, win32con.WM_LBUTTONDOWN, win32api.MAKELONG(x, y))
+        win32api.PostMessage(self.hwnd, win32con.WM_LBUTTONDOWN, 0, win32api.MAKELONG(x, y))
+        win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, win32con.WM_LBUTTONDOWN, win32api.MAKELONG(x, y))
+        r_sleep(duration)
+        win32api.PostMessage(self.hwnd, win32con.WM_LBUTTONUP, 0, win32api.MAKELONG(x, y))
         r_sleep(duration * 2)
 
     def press_key(self, key, system_key=False):
@@ -213,7 +215,17 @@ class NoxWindow(object):
         :param system_key: is player's system key or not.
         """
         handle = self.key_handle if not system_key else self.player_key_handle
-        autoit.control_send_by_handle(self.player_key_handle, handle, key)
+        win32api.PostMessage(handle, win32con.WM_KEYDOWN, key, 0)
+        r_sleep(1)
+        win32api.PostMessage(handle, win32con.WM_KEYUP, key, 0)
+
+    def close_current_app(self):
+        """CLose current opened app in player."""
+        win32api.PostMessage(self.player_key_handle, win32con.WM_SYSKEYDOWN, win32con.VK_CONTROL, 0)
+        win32api.PostMessage(self.player_key_handle, win32con.WM_KEYDOWN, win32con.VK_NUMPAD7, 0)
+        r_sleep(1)
+        win32api.PostMessage(self.player_key_handle, win32con.WM_SYSKEYUP, win32con.VK_CONTROL, 0)
+        win32api.PostMessage(self.player_key_handle, win32con.WM_KEYUP, win32con.VK_NUMPAD7, 0)
 
     def drag(self, from_rect, to_rect, duration=0.7, steps_count=100):
         """Click, hold and drag.

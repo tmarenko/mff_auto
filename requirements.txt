@@ -3,6 +3,5 @@ opencv-python==4.2.0.34
 pillow==7.1.2
 pytesseract==0.3.4
 scipy==1.4.1
-pyautoit==0.6.0
 pywin32==228
 win32gui==221.6
