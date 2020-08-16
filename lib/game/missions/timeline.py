@@ -55,6 +55,8 @@ class TimelineBattle(Missions):
                     self.player.click_button(self.ui['TL_REPEAT_TOGGLE'].button)
                 self.select_team()
                 self.player.click_button(self.ui['TL_SEARCH_BUTTON'].button)
+                return True
+        logger.warning("Can't get to timeline battle's stages.")
 
     def search_new_opponent(self):
         """Search new opponents to minimize lose points."""

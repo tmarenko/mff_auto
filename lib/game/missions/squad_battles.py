@@ -84,7 +84,7 @@ class SquadBattles(Missions):
             logger.info(f"Squad Battles: starting daily random battle with number: {battle_num}.")
             self.start_squad_battle(battle_num=f"SB_BATTLE_{battle_num}")
         if mode == self.MODE.ALL_BATTLES:
-            logger.info(f"Squad Battles: starting all squad battles.")
+            logger.info("Squad Battles: starting all squad battles.")
             for battle_num in range(1, 7):
                 logger.info(f"Squad Battles: starting battle with number: {battle_num}.")
                 self.start_squad_battle(battle_num=f"SB_BATTLE_{battle_num}")

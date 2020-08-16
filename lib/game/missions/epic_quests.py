@@ -136,6 +136,9 @@ class TwoStageEpicQuest(EpicQuests):
                 stage_1_current, _ = self.game.get_current_and_max_values_from_text(stage_1)
                 stage_2_current, _ = self.game.get_current_and_max_values_from_text(stage_2)
                 return stage_1_current, stage_2_current
+            logger.error("Can't find `Recommended Lv` text in mission lobby.")
+            return
+        logger.error(f"Can't find mission label: {self.mode_label}")
 
 
 class StupidXMen(TwoStageEpicQuest):

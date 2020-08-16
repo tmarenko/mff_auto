@@ -71,7 +71,6 @@ class Game:
             self.go_to_main_menu()
             self.ui['USER_NAME'].scale = 3
             self._user_name = self.player.get_screen_text(self.ui['USER_NAME'])
-            logger.debug(f"Username: {self._user_name}")
         return self._user_name
 
     @property
@@ -100,7 +99,8 @@ class Game:
 
     def get_all_modes(self):
         """Get information about all game modes."""
-        self.find_mode_on_content_status_board("ALL")
+        if not self._modes:
+            self.find_mode_on_content_status_board("ALL")
 
     def get_mode(self, name):
         """Get game mode by name."""
@@ -167,7 +167,9 @@ class Game:
 
         :return: GameMode: class representation of found game mode.
         """
-        self.go_to_content_status_board()
+        if not self.go_to_content_status_board():
+            logger.error("Failed to open Content Status board.")
+            return
         mode_from_board_1 = self.find_mode_on_board(mode_name=mode_name, board=self.ui['CONTENT_STATUS_BOARD_1'],
                                                     element=self.ui['CONTENT_STATUS_ELEMENT_1'], rows=3, cols=4)
         if mode_from_board_1:
@@ -258,7 +260,9 @@ class Game:
 
         :param name: game mode's name.
         """
-        self.go_to_content_status_board()
+        if not self.go_to_content_status_board():
+            logger.error("Failed to open Content Status board.")
+            return False
         mode = self._modes[name]
         if mode.ui_board == self.ui['CONTENT_STATUS_BOARD_2'].rect.value:
             logger.debug(f"Mode {name} is on second board. Dragging")
@@ -266,6 +270,7 @@ class Game:
                              duration=0.4)
             r_sleep(1)
         self.player.click_button(mode.ui_button)
+        return True
 
     def go_to_mission_selection(self):
         """DEPRECATED.

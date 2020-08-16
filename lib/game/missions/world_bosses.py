@@ -52,6 +52,7 @@ class WorldBosses(Missions):
         :param mode: mode of battles to start (beginner or normal or ultimate).
         :param difficulty: difficulty of Ultimate mode.
         """
+        logger.info(f"World Boss: {self.stages} stages available, running {mode} mode with difficulty = {difficulty}.")
         if mode != self.MODE.BEGINNER and mode != self.MODE.NORMAL and mode != self.MODE.ULTIMATE:
             logger.error(f"World Boss: got wrong mode for battles: {mode}.")
             return
@@ -61,18 +62,19 @@ class WorldBosses(Missions):
         else:
             self.player.click_button(self.ui['WB_MISSION_BUTTON'].button)
         if mode == self.MODE.BEGINNER:
-            logger.info(f"World Boss: starting BEGINNER battle.")
+            logger.info("World Boss: starting BEGINNER battle.")
             self.player.click_button(self.ui['WB_BEGINNER_MODE'].button)
         if mode == self.MODE.NORMAL:
-            logger.info(f"World Boss: starting NORMAL battle.")
+            logger.info("World Boss: starting NORMAL battle.")
             self.player.click_button(self.ui['WB_NORMAL_MODE'].button)
         if mode == self.MODE.ULTIMATE:
-            logger.info(f"World Boss: starting ULTIMATE battle.")
+            logger.info("World Boss: starting ULTIMATE battle.")
             self.player.click_button(self.ui['WB_ULTIMATE_MODE'].button)
             self.select_stage_level(level_num=difficulty)
 
         while self.stages > 0:
             if not self.start_world_boss_battle():
+                logger.error("World Boss: failed to start battle. Returning to main menu.")
                 return self.game.go_to_main_menu()
             if self.player.is_ui_element_on_screen(ui_element=self.ui['WB_RESPAWN']):
                 logger.info("World Boss: lost battle. Respawning.")
@@ -113,6 +115,9 @@ class WorldBosses(Missions):
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                 self.close_mission_notifications()
                 return True
+            logger.warning("World Boss; failed to locate START button.")
+            return False
+        logger.warning("World Boss: failed to set team.")
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""

@@ -120,7 +120,7 @@
         "y2": 0.08796296296296297
       },
       "text": "SKIP",
-      "image_threshold": 120,
+      "image_threshold": 140,
       "chars": null,
       "image_save_file": "invasion_name",
       "description": "WBI skip chest opening."

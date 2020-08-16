@@ -52,10 +52,10 @@ class AllianceBattles(Missions):
             logger.warning("Alliance Battles: can't get in battles lobby.")
             return
         if mode == self.MODE.NORMAL:
-            logger.info(f"Alliance Battles: starting only NORMAL battle.")
+            logger.info("Alliance Battles: starting only NORMAL battle.")
             self.start_alliance_battle(start_button='AB_NORMAL_START_BUTTON', home_or_next_button='AB_HOME')
         if mode == self.MODE.ALL_BATTLES:
-            logger.info(f"Alliance Battles: starting ALL battles.")
+            logger.info("Alliance Battles: starting ALL battles.")
             self.start_alliance_battle(start_button='AB_NORMAL_START_BUTTON', home_or_next_button='AB_NEXT_EXTREME')
             self.close_after_mission_notifications()
             self.start_alliance_battle(start_button='AB_EXTREME_START_BUTTON', home_or_next_button='AB_HOME')
@@ -86,6 +86,8 @@ class AllianceBattles(Missions):
             ManualBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_mission_notifications()
             self.player.click_button(self.ui[home_or_next_button].button)
+        else:
+            logger.warning(f"Cannot find START battle button: {start_button}")
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""

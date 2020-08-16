@@ -149,7 +149,7 @@ def is_images_similar(image1, image2, overlap=0.6, save_file=None):
     image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
     sim, diff = compare_ssim(image1, image2, full=True)
     if save_file:
-        cv2.imwrite(f"screenshots//{save_file}.png", concatenate((image1, image2), axis=1))
+        cv2.imwrite(f"logs/tesseract/{save_file}.png", concatenate((image1, image2), axis=1))
     return sim > overlap
 
 

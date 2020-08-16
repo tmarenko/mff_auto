@@ -15,7 +15,6 @@ class CoopPlay(Missions):
         :param game.Game game: instance of the game.
         """
         super().__init__(game, 'COOP_PLAY_LABEL')
-        game.ui['COOP_USER_NAME'].text = game.user_name
 
     @property
     def battle_over_conditions(self):
@@ -28,6 +27,7 @@ class CoopPlay(Missions):
         """Start available missions."""
         logger.info(f"Coop play: {self.stages} stages available")
         if self.stages > 0:
+            self.game.ui['COOP_USER_NAME'].text = self.game.user_name
             self.go_to_stages()
             self.check_rewards()
             if wait_until(self.player.is_image_on_screen, timeout=1, ui_element=self.ui['COOP_REPEAT_TOGGLE']):
