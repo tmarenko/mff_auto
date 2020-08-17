@@ -1,5 +1,5 @@
 ﻿from PyQt5.QtCore import QTimer, pyqtSignal, QObject
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QImage, QPixmap
 from time import sleep
 
 
@@ -123,7 +123,7 @@ def safe_process_stop(func):
     return wrapper
 
 
-def try_to_disconnect(signal, func):
+def try_to_disconnect(signal, func=None):
     """Try to disconnect function from signal."""
     try:
         if func is not None:
@@ -132,3 +132,14 @@ def try_to_disconnect(signal, func):
             signal.disconnect()
     except TypeError:
         pass
+
+
+def screen_to_gui_image(screen):
+    """Convert screen image to PyQt image.
+
+    :param screen: numpy.array of image.
+    :return: QPixmap image.
+    """
+    height, width, channel = screen.shape
+    image = QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
+    return image

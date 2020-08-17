@@ -1,12 +1,9 @@
-﻿from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtCore import Qt
-from lib.gui.helper import Timer
+﻿from PyQt5.QtCore import Qt
+from lib.gui.helper import Timer, screen_to_gui_image
 
 
 class ScreenImageLabel(Timer):
     """Class for updating GUI label with game screen image."""
-
-    FULL_SCREEN_RECT = (0, 0, 1, 1)
 
     def __init__(self, widget, player):
         """Class initialization.
@@ -26,7 +23,6 @@ class ScreenImageLabel(Timer):
         if not self.player.hwnd:
             return
         # TODO: try to use last frame
-        image = self.player.get_screen_image(rect=self.FULL_SCREEN_RECT)
-        height, width, channel = image.shape
-        pix_map = QPixmap(QImage(image.data, width, height, 3 * width, QImage.Format_RGB888))
+        screen = self.player.get_screen_image()
+        pix_map = screen_to_gui_image(screen)
         self.widget.setPixmap(pix_map.scaled(self.size, Qt.IgnoreAspectRatio, Qt.SmoothTransformation))
