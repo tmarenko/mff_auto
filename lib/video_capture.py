@@ -4,6 +4,7 @@ from threading import Thread
 import cv2
 import numpy
 import os
+import time
 import win32api
 import win32con
 
@@ -220,6 +221,8 @@ class NoxCapture:
             if not self._pause:
                 frame = self.video_capture.frame()
                 self.video_capture.write(frame)
+            else:
+                time.sleep(0.1)
 
     def start(self):
         """Start capturing."""
