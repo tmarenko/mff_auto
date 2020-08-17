@@ -88,6 +88,18 @@ class NoxWindow(object):
                 self.key_handle = hwnd
 
     @property
+    def initialized(self):
+        """Was player initialized properly.
+
+        :return: True or False.
+        """
+        hwnd_found = self.hwnd is not None and self.parent_hwnd is not None
+        keys_found = self.key_handle is not None and self.player_key_handle is not None
+        rect_found = self.x is not None and self.y is not None
+        parent_found = self.parent_x is not None and self.parent_y is not None
+        return hwnd_found and keys_found and rect_found and parent_found
+
+    @property
     def is_minimized(self):
         """Is player's window minimized."""
         return win32gui.IsIconic(self.parent_hwnd)

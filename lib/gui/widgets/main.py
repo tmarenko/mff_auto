@@ -7,10 +7,12 @@ from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBoss
 from lib.gui.queue_manager import QueueList
 from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
+from lib.gui.widgets.setup_player import SetupPlayer
 from lib.gui.threading import ThreadPool
 from lib.gui.helper import TwoStateButton, set_default_icon
 
 from lib.game.game import Game
+from lib.game.ui import Rect
 from lib.players.nox_player import NoxWindow
 import lib.logger as logging
 
@@ -38,8 +40,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         set_default_icon(window=self)
-        self.player = NoxWindow("NoxPlayer")
-        self.game = Game(self.player)
+        self.player_name, self.game_app_rect, self.player, self.game = None, None, None, None
+        self.load_settings_from_file()
         self.logger = QTextEditFileLogger(logger_widget=self.logger_text)
         run_and_stop_button = self.create_blockable_button(button=self.run_queue_button)
         autoplay_button = self.create_blockable_button(button=self.autoplay_button)
@@ -56,13 +58,12 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.world_boss_invasion = WorldBossInvasionTask(game=self.game, button=world_boss_invasion_button)
         self.squad_battle = SquadBattleAllTask(game=self.game, button=squad_battle_button)
         self.screen_image = ScreenImageLabel(player=self.player, widget=self.screen_label)
-        self.load_settings_from_file()
         self.acquire_heroic_quest_rewards_state_changed()
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
         self.mission_team_spin_box.valueChanged.connect(self.mission_team_changed)
         self.timeline_team_spin_box.valueChanged.connect(self.timeline_team_changed)
         self.threads = ThreadPool()
-        self.update_labels()
+        # self.update_labels() TODO: useless without checks if elements are visible
         self.blockable_buttons = [self.run_queue_button, self.add_queue_button, self.edit_queue_button,
                                   self.remove_queue_button, self.squad_battle_button, self.world_boss_invasion_button,
                                   self.daily_trivia_button, self.autoplay_button]
@@ -103,10 +104,14 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         """Load settings and apply them to game."""
         game_settings = load_game_settings()
         if not game_settings:
-            return
+            self.setup_gui_first_time()
+            return self.load_settings_from_file()
+        self.game_app_rect = game_settings.get("game_app_rect")
+        self.player_name = game_settings.get("player_name")
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards"))
+        self.init_player_and_game()
         self.timeline_team_changed()
         self.mission_team_changed()
         self.acquire_heroic_quest_rewards_state_changed()
@@ -116,10 +121,36 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         game_settings = {
             "timeline_team": self.game.timeline_team,
             "mission_team": self.game.mission_team,
-            "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS
+            "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS,
+            "player_name": self.player_name,
+            "game_app_rect": self.game_app_rect
         }
         save_game_settings(game_settings)
         logger.debug("Game settings saved.")
+
+    def setup_gui_first_time(self):
+        """Setup GUI settings for first time.
+        Run `SetupPlayer` and retrieve information about emulator and game app."""
+        setup = SetupPlayer()
+        setup.run_player_setup()
+        self.player_name, self.game_app_rect = setup.get_player_and_game_app()
+        game_settings = {
+            "timeline_team": self.timeline_team_spin_box.value(),
+            "mission_team": self.mission_team_spin_box.value(),
+            "acquire_heroic_quest_rewards": self.acquire_heroic_quest_rewards_checkbox.isChecked(),
+            "player_name": self.player_name,
+            "game_app_rect": self.game_app_rect
+        }
+        save_game_settings(game_settings)
+        logger.debug("Saving setting from first setup.")
+
+    def init_player_and_game(self):
+        """Init player and game."""
+        if not self.player_name:
+            self.setup_gui_first_time()
+        self.player = NoxWindow(self.player_name)
+        self.game = Game(self.player)
+        self.game.ui['GAME_APP'].rect = Rect(*self.game_app_rect)
 
     def closeEvent(self, event):
         """Main window close event."""
