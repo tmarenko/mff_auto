@@ -7,6 +7,7 @@ import lib.logger as logging
 logger = logging.get_logger(__name__)
 
 cur_slash_max_regexp = re.compile(r"(\d*) ?/ ?(\d*)")
+KEY_PAGE_UP = 33
 
 
 class GameMode:
@@ -355,7 +356,7 @@ class Game:
 
         :return: True or False: was game closed.
         """
-        self.player.press_key("{PGUP}", True)
+        self.player.press_key(KEY_PAGE_UP, system_key=True)
         if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GAME_TASK']):
             logger.error("Failed to minimize game task.")
         self.player.drag(self.ui['GAME_TASK_DRAG_FROM'].button, self.ui['GAME_TASK_DRAG_TO'].button, duration=0.4)
