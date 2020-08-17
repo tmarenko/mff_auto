@@ -346,21 +346,17 @@ class Game:
 
         :return: True or Flase: was restart successful.
         """
-        if self.close_game():
-            return self.start_game()
-        logger.warning("Failed to restart game")
-        return False
+        self.close_game()
+        return self.start_game()
 
     def close_game(self):
         """Close game.
 
         :return: True or False: was game closed.
         """
-        self.player.press_key(KEY_PAGE_UP, system_key=True)
-        if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GAME_TASK']):
-            logger.error("Failed to minimize game task.")
-        self.player.drag(self.ui['GAME_TASK_DRAG_FROM'].button, self.ui['GAME_TASK_DRAG_TO'].button, duration=0.4)
-        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GAME_APP'])
+        logger.debug("Closing game.")
+        self.player.close_current_app()
+        r_sleep(2)
 
     def start_game(self):
         """Start game.
@@ -377,6 +373,7 @@ class Game:
         if wait_until(is_game_started, timeout=60):
             self.close_maintenance_notice()
             self.close_ads()
+            logger.debug("Game started successfully.")
             return True
         logger.warning("Failed to start game")
         return False

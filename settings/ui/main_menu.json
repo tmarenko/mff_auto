@@ -169,54 +169,6 @@
     }
   },
   {
-    "GAME_TASK": {
-      "text_rect": {
-        "x1": 0.34375,
-        "y1": 0.19722222222222222,
-        "x2": 0.43020833333333336,
-        "y2": 0.2361111111111111
-      },
-      "button_rect": null,
-      "text": "Future Fight",
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "game_task",
-      "description": "The name of the app that you should see if you open task manager of emulator. Determines that you can close app by swipe."
-    }
-  },
-  {
-    "GAME_TASK_DRAG_FROM": {
-      "text_rect": null,
-      "button_rect": {
-        "x1": 0.4739583333333333,
-        "y1": 0.5407407407407407,
-        "x2": 0.5020833333333333,
-        "y2": 0.5888888888888889
-      },
-      "text": null,
-      "image_threshold": null,
-      "chars": null,
-      "image_save_file": null,
-      "description": "Position of app in task manager where you need to start swipe."
-    }
-  },
-  {
-    "GAME_TASK_DRAG_TO": {
-      "text_rect": null,
-      "button_rect": {
-        "x1": 0.853125,
-        "y1": 0.5407407407407407,
-        "x2": 0.8807291666666667,
-        "y2": 0.5888888888888889
-      },
-      "text": null,
-      "image_threshold": null,
-      "chars": null,
-      "image_save_file": null,
-      "description": "The end position of swipe to close the app."
-    }
-  },
-  {
     "NEWS_ON_START_GAME": {
       "text_rect": {
         "x1": 0.08995686999383858,
