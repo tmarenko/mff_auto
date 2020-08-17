@@ -87,6 +87,15 @@ class NoxWindow(object):
             if win32process.GetWindowThreadProcessId(hwnd)[0] == self.parent_thread[0]:
                 self.key_handle = hwnd
 
+    @property
+    def is_minimized(self):
+        """Is player's window minimized."""
+        return win32gui.IsIconic(self.parent_hwnd)
+
+    def maximize(self):
+        """Maximize player's window."""
+        win32api.PostMessage(self.parent_hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
+
     def get_screen_image(self, rect=(0, 0, 1, 1), scale=1):
         """Get screen image.
 
@@ -263,6 +272,8 @@ class NoxWindow(object):
         """
         if not self.parent_hwnd:
             return None
+        if self.is_minimized:
+            self.maximize()
         while self.screen_locked:
             if self.last_frame:
                 return self.last_frame
