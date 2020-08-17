@@ -1,6 +1,7 @@
 import win32gui, win32ui, win32process, win32api, win32con
 import random
 import time
+import pywintypes
 from PIL import Image
 from ctypes import windll
 from numpy import array
@@ -44,15 +45,18 @@ class NoxWindow(object):
         :param hwnd: window handle.
         :param wildcard: wildcard.
         """
-        if self.name in win32gui.GetWindowText(hwnd):
-            rect = win32gui.GetWindowRect(hwnd)
-            self.parent_x = rect[0]
-            self.parent_y = rect[1]
-            self.parent_width = rect[2] - rect[0]
-            self.parent_height = rect[3] - rect[1]
-            self.parent_hwnd = hwnd
-            self.parent_thread = win32process.GetWindowThreadProcessId(hwnd)
-            self.player_key_handle = win32gui.GetDlgItem(hwnd, 0)
+        if self.name == win32gui.GetWindowText(hwnd):
+            try:
+                rect = win32gui.GetWindowRect(hwnd)
+                self.parent_x = rect[0]
+                self.parent_y = rect[1]
+                self.parent_width = rect[2] - rect[0]
+                self.parent_height = rect[3] - rect[1]
+                self.parent_hwnd = hwnd
+                self.parent_thread = win32process.GetWindowThreadProcessId(hwnd)
+                self.player_key_handle = win32gui.GetDlgItem(hwnd, 0)
+            except pywintypes.error:
+                pass
 
     def _get_player_window_info(self, hwnd, wildcard):
         """Get child window info.
