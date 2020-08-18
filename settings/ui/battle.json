@@ -548,29 +548,51 @@
     "T3_BADGE_1": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.008854166666666666,
-        "y1": 0.08518518518518518,
-        "x2": 0.0234375,
-        "y2": 0.10833333333333334
+        "x1": 0.011458333333333333,
+        "y1": 0.075,
+        "x2": 0.024479166666666666,
+        "y2": 0.09814814814814815
       },
       "text": null,
       "image_threshold": 0.5,
       "chars": null,
-      "image_path": "t3_badge.png",
+      "image_path": "t3_badge_1.png",
       "image_save_file": "t3_badge_1",
-      "description": "T3 badge on the top left corner of character icon."
+      "description": "T3 badge on the top left corner of character icon (in battles with mission names)."
     }
   },
   {
     "T3_BADGE_2": {
       "text_rect": null,
-      "button_rect": {"x1": 0.0078125, "y1": 0.1111111111111111, "x2": 0.022395833333333334, "y2": 0.13518518518518519},
+      "button_rect": {
+        "x1": 0.0125,
+        "y1": 0.0824074074074074,
+        "x2": 0.024479166666666666,
+        "y2": 0.1037037037037037
+      },
       "text": null,
       "image_threshold": 0.5,
       "chars": null,
-      "image_path": "t3_badge.png",
+      "image_path": "t3_badge_2.png",
       "image_save_file": "t3_badge_2",
-      "description": "T3 badge on the top left corner of character icon."
+      "description": "T3 badge on the top left corner of character icon (in skill preview)."
+    }
+  },
+  {
+    "T3_BADGE_3": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.011458333333333333,
+        "y1": 0.10648148148148148,
+        "x2": 0.024479166666666666,
+        "y2": 0.12962962962962962
+      },
+      "text": null,
+      "image_threshold": 0.5,
+      "chars": null,
+      "image_path": "t3_badge_1.png",
+      "image_save_file": "t3_badge_1",
+      "description": "T3 badge on the top left corner of character icon (in battles with time limit)."
     }
   }
 ]

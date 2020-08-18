@@ -279,7 +279,8 @@ class ManualBattleBot(BattleBot):
             r_sleep(4)
         logger.debug("Loading skill's images for the fight.")
         t3_badge = self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_1']) or \
-                   self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_2'])
+                   self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_2']) or \
+                   self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_3'])
         for skill_id in range(1, 6):
             skill_image = self.player.get_screen_image(rect=self.ui[f"SKILL_{skill_id}"].rect)
             self.ui[f"SKILL_{skill_id}"].image = skill_image
