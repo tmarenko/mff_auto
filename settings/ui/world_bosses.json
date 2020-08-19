@@ -553,5 +553,47 @@
       "image_save_file": "wb_no_character_ally_5",
       "description": "DEPRECATED: Empty #5 character selector in WB ally setup (from top to down)."
     }
+  },
+  {
+    "WB_CLOSE_OFFER_AD": {
+      "text_rect": {
+        "x1": 0.37864583333333335,
+        "y1": 0.8888888888888888,
+        "x2": 0.4432291666666667,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.37864583333333335,
+        "y1": 0.8888888888888888,
+        "x2": 0.4432291666666667,
+        "y2": 0.9416666666666667
+      },
+      "text": "CLOSE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "wb_close_offer_ad",
+      "description": "CLOSE button in ad about offers after going to World Boss lobby."
+    }
+  },
+  {
+    "WB_CLOSE_OFFER_AD_OK": {
+      "text_rect": {
+        "x1": 0.5588541666666667,
+        "y1": 0.7305555555555555,
+        "x2": 0.5994791666666667,
+        "y2": 0.7814814814814814
+      },
+      "button_rect": {
+        "x1": 0.5588541666666667,
+        "y1": 0.7305555555555555,
+        "x2": 0.5994791666666667,
+        "y2": 0.7814814814814814
+      },
+      "text": "OK",
+      "image_threshold": 175,
+      "chars": "OK",
+      "image_save_file": "wb_close_offer_ad_ok",
+      "description": "Position of OK-button when you are trying to close ad in World Boss."
+    }
   }
 ]

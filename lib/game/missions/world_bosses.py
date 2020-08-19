@@ -46,7 +46,26 @@ class WorldBosses(Missions):
     def go_to_wb(self):
         """Go to World Boss."""
         self.game.select_mode(self.mode_name)
+        self.close_offer_ad()
         return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_MISSION_BUTTON'])
+
+    def close_offer_ad(self, timeout=3):
+        """Close 'Special Offer' ad.
+
+        :param timeout: timeout of waiting for ads.
+        """
+        def close_ad():
+            if self.player.is_ui_element_on_screen(self.ui['WB_CLOSE_OFFER_AD']):
+                self.player.click_button(self.ui['WB_CLOSE_OFFER_AD'].button)
+                if wait_until(self.player.is_ui_element_on_screen, timeout=1.5,
+                              ui_element=self.ui['WB_CLOSE_OFFER_AD_OK']):
+                    self.player.click_button(self.ui['WB_CLOSE_OFFER_AD_OK'].button)
+                    return True
+            return False
+
+        for _ in range(timeout):
+            ad_closed = wait_until(close_ad, timeout=1)
+            logger.debug(f"World Boss ad was closed: {ad_closed}")
 
     def start_missions(self, mode=MODE.ULTIMATE, difficulty=0):
         """Start World Boss battles.
