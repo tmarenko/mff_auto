@@ -69,6 +69,12 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                                   self.daily_trivia_button, self.autoplay_button]
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle]
 
+        if not self.game.go_to_main_menu():
+            logger.warning("Can't get to the main menu. Restarting the game just in case.")
+            self.block_buttons(caller_button=None)
+            worker = self.threads.run_thread(self.game.restart_game)
+            worker.signals.finished.connect(self.unblock_buttons)
+
     def update_labels(self):
         """Update game's labels in thread to prevent GUI freezing."""
         self.threads.run_thread(target=self._update_labels)
@@ -150,7 +156,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             self.setup_gui_first_time()
         self.player = NoxWindow(self.player_name)
         self.game = Game(self.player)
-        self.game.ui['GAME_APP'].rect = Rect(*self.game_app_rect)
+        self.game.ui['GAME_APP'].button = Rect(*self.game_app_rect)
 
     def closeEvent(self, event):
         """Main window close event."""

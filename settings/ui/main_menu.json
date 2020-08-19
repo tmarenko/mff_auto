@@ -277,15 +277,16 @@
     "HOME": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.9046875,
-        "y1": 0.021296296296296296,
-        "x2": 0.9348958333333334,
-        "y2": 0.075
+        "x1": 0.9067708333333333,
+        "y1": 0.027777777777777776,
+        "x2": 0.9328125,
+        "y2": 0.07407407407407407
       },
       "text": null,
-      "image_threshold": null,
+      "image_threshold": 0.6,
       "chars": null,
-      "image_save_file": null,
+      "image_path": "main_menu_button.png",
+      "image_save_file": "home",
       "description": "Home button in top navigation bar that leads you to main menu."
     }
   },

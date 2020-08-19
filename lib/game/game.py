@@ -150,8 +150,10 @@ class Game:
     def go_to_main_menu(self):
         """Go to main menu screen."""
         if not self.is_main_menu():
-            self.player.click_button(self.ui['HOME'].button)
-            self.close_ads()
+            if self.player.is_image_on_screen(self.ui['HOME']):
+                self.player.click_button(self.ui['HOME'].button)
+                self.close_ads()
+        return self.is_main_menu()
 
     def go_to_content_status_board(self):
         """Go to Content Status Board screen."""
