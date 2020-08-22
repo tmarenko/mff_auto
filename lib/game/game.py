@@ -367,6 +367,7 @@ class Game:
         """
         def is_game_started():
             is_started = self.close_daily_rewards() or \
+                         self.close_battleworld_rewards() or \
                          self.close_maintenance_notice() or \
                          self.close_ads() or \
                          self.is_main_menu()
@@ -398,6 +399,13 @@ class Game:
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_REWARDS_OK']):
                 self.player.click_button(self.ui['MAIN_MENU_REWARDS_OK'].button)
                 return True
+        return False
+
+    def close_battleworld_rewards(self):
+        """Close BattleWorld rewards notification."""
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_REWARDS_OK']):
+            self.player.click_button(self.ui['MAIN_MENU_REWARDS_OK'].button)
+            return True
         return False
 
     def close_ads(self, timeout=2):
