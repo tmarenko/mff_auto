@@ -58,7 +58,8 @@ def copy_project_files():
     shutil.copy2(src=GUI_ICON, dst=os.path.join(BUILD_FOLDER, GUI_ICON))
     shutil.copy2(src=README_FILE, dst=os.path.join(BUILD_FOLDER, README_FILE))
     shutil.copy2(src=LICENSE_FILE, dst=os.path.join(BUILD_FOLDER, LICENSE_FILE))
-    shutil.rmtree(os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER))
+    if os.path.isdir(os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER)):
+        shutil.rmtree(os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER))
     os.mkdir(path=os.path.join(BUILD_FOLDER, LOG_FOLDER))
     os.mkdir(path=os.path.join(BUILD_FOLDER, LOG_FOLDER, TESSERACT_FOLDER))
     os.mkdir(path=os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER))
