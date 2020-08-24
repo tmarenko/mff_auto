@@ -10,6 +10,7 @@ def cur_dir():
     return os.path.dirname(os.path.abspath(__file__))
 
 
+FNULL = open(os.devnull, 'w')
 SEVEN_ZIP_DOWNLOAD_URL = "https://sourceforge.net/projects/sevenzip/files/7-Zip/9.20/7z920.exe/download"
 TESSERACT_OCR_3_05_02_DOWNLOAD_URL = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.02-20180621.exe"
 PORTABLE_PYTHON_3_6_5_DOWNLOAD_URL = "https://sourceforge.net/projects/portable-python/files/Portable Python 3.6.5/Portable Python 3.6.5 Basic.7z/download"
@@ -102,7 +103,7 @@ def extract_7zip():
 def extract_portable_python():
     print("Extracting Portable Python.")
     extract_python_cmd = [SEVEN_ZIP_EXE, "x", PORTABLE_PYTHON_FILE_PATH, "-aoa", f"-o{BUILD_FOLDER}"]
-    subprocess.call(extract_python_cmd, shell=True)
+    subprocess.call(extract_python_cmd, shell=True, stdout=FNULL)
     python_folder = os.path.join(BUILD_FOLDER, PORTABLE_PYTHON_FOLDER)
     copy_tree(src=python_folder, dst=os.path.join(BUILD_FOLDER, "python"))
 
@@ -111,7 +112,7 @@ def extrace_tesseract_ocr():
     print("Extracting Tesseract OCR.")
     tesseract_folder = os.path.join(BUILD_FOLDER, TESSERACT_FOLDER)
     extract_tesseract_cmd = [SEVEN_ZIP_EXE, "x", TESSRACT_OCR_FILE_PATH, "-aoa", f"-o{tesseract_folder}"]
-    subprocess.call(extract_tesseract_cmd, shell=True)
+    subprocess.call(extract_tesseract_cmd, shell=True, stdout=FNULL)
 
 
 def install_requirements():
@@ -128,6 +129,24 @@ def remove_trash():
         os.path.join(BUILD_FOLDER, "python", "App", "PyScripter"),
         os.path.join(BUILD_FOLDER, "python", "App", "Python", "Lib", "test"),
         os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "$PLUGINSDIR"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "$PLUGINSDIR"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "doc"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "java"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "icudata57.dll"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "configs"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "tessconfigs"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.bigrams"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.fold"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.lm"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.nn"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.params"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.size"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.cube.word-freq"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.tesseract_cube.nn"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.user-patterns"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "eng.user-words"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "osd.traineddata"),
+        os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, "tessdata", "pdf.ttf")
     ]
     for rem in to_remove:
         if os.path.isdir(rem):
@@ -143,6 +162,11 @@ def remove_trash():
         if '__pycache__' in dirs:
             shutil.rmtree(os.path.join(root, '__pycache__'))
 
+    for root, dirs, files in os.walk(os.path.join(BUILD_FOLDER, TESSERACT_FOLDER)):
+        exe_files = [file for file in files if '.exe' in file]
+        for exe_file in exe_files:
+            os.remove(os.path.join(root, exe_file))
+
 
 def create_gui_start_file():
     print("Creating start.bat")
@@ -156,7 +180,7 @@ def archive_build():
     print("Archiving build folder.")
     archive_build_cmd = [SEVEN_ZIP_EXE, "a", "-t7z", "-m0=lzma", "-mx=9", "-mfb=64", "-md=64m", "-ms=on", "build.7z",
                          f"{BUILD_FOLDER}\\*"]
-    subprocess.call(archive_build_cmd, shell=True)
+    subprocess.call(archive_build_cmd, shell=True, stdout=FNULL)
 
 
 def remove_7zip():
