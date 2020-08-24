@@ -122,6 +122,7 @@ class Tesseract(TesseractLib):
         """
         super().__init__(lib_path=lib_path, data_path=data_path, language=language)
         self.set_variable("tessedit_oem_mode", "3")
+        self.set_variable("debug_file", "/dev/null")
         self.locked = False
 
     def _set_default_params(self):
