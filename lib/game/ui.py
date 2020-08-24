@@ -100,7 +100,7 @@ class UIElement:
         self.rect = text_rect
         self.button = button_rect
         self.description = description
-        self.scale = 3 if chars else 1
+        self.scale = 3
 
     @staticmethod
     def from_json(json_data, path_to_images):
