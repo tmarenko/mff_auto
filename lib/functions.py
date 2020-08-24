@@ -1,14 +1,16 @@
 import cv2
-import pytesseract
 from scipy.stats import truncnorm
 import random
 import time
 from PIL import Image
 from numpy import array, concatenate
 from lib.structural_similarity.ssim import compare_ssim
+from lib.tesseract3 import TesseractPool
+
+tesseract = TesseractPool()
 
 
-def get_text_from_image(image, threshold, chars=None, save_file=None, psm=13):
+def get_text_from_image(image, threshold, chars=None, save_file=None):
     """Get text from image using Tesseract OCR.
     https://github.com/tesseract-ocr/
 
@@ -16,7 +18,6 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, psm=13):
     :param threshold: threshold of gray-scale for grabbing image's text.
     :param chars: available character in image's text.
     :param save_file: name of file for saving result of gray-scaling.
-    :param psm: page segmentation mode for characters.
 
     :return: text from image.
     """
@@ -24,9 +25,8 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, psm=13):
     ret, threshold_img = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     if save_file:
         cv2.imwrite(f"logs/tesseract/{save_file}.png", threshold_img)
-    whitelist = f"-c tessedit_char_whitelist={chars}" if chars else ""
-    psm = f"--psm {psm} " if chars else ""
-    text = pytesseract.image_to_string(threshold_img, config=f"{whitelist} {psm}")
+    psm = 13 if chars else 3
+    text = tesseract.image_to_string(threshold_img, whitelist=chars, page_segmentation=psm)
     return text
 
 

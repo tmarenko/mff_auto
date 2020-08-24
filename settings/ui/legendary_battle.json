@@ -215,7 +215,7 @@
         "y2": 0.9888888888888889
       },
       "text": "MARVEL'S THOR:RAGNAROK",
-      "image_threshold": 115,
+      "image_threshold": 105,
       "chars": null,
       "image_save_file": "lb_ragnarok_battle",
       "description": "Legendary battle : Ragnarok."

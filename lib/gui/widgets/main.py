@@ -14,6 +14,7 @@ from lib.gui.helper import TwoStateButton, set_default_icon
 from lib.game.game import Game
 from lib.game.ui import Rect
 from lib.players.nox_player import NoxWindow
+from lib.functions import tesseract
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -165,6 +166,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             task.abort()
         self.save_settings_to_file()
         self.queue_list.save_queue_to_file()
+        tesseract.close()
 
     def create_blockable_button(self, button):
         """Create button that blocks others."""
