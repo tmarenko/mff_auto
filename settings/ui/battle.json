@@ -545,54 +545,83 @@
     }
   },
   {
-    "T3_BADGE_1": {
-      "text_rect": null,
-      "button_rect": {
-        "x1": 0.011458333333333333,
-        "y1": 0.075,
-        "x2": 0.024479166666666666,
-        "y2": 0.09814814814814815
+    "SKILL_1_LABEL": {
+      "text_rect": {
+        "x1": 0.83125,
+        "y1": 0.5666666666666667,
+        "x2": 0.8432291666666667,
+        "y2": 0.5907407407407408
       },
-      "text": null,
-      "image_threshold": 0.5,
-      "chars": null,
-      "image_path": "t3_badge_1.png",
-      "image_save_file": "t3_badge_1",
-      "description": "T3 badge on the top left corner of character icon (in battles with mission names)."
+      "button_rect": null,
+      "text": "1",
+      "image_threshold": 155,
+      "chars": "1",
+      "image_save_file": "skill_1_label",
+      "description": "DEPRECATED (because any character has this skill by default)"
     }
   },
   {
-    "T3_BADGE_2": {
-      "text_rect": null,
-      "button_rect": {
-        "x1": 0.0125,
-        "y1": 0.0824074074074074,
-        "x2": 0.024479166666666666,
-        "y2": 0.1037037037037037
+    "SKILL_2_LABEL": {
+      "text_rect": {
+        "x1": 0.7677083333333333,
+        "y1": 0.6861111111111111,
+        "x2": 0.7802083333333333,
+        "y2": 0.7111111111111111
       },
-      "text": null,
-      "image_threshold": 0.5,
-      "chars": null,
-      "image_path": "t3_badge_2.png",
-      "image_save_file": "t3_badge_2",
-      "description": "T3 badge on the top left corner of character icon (in skill preview)."
+      "button_rect": null,
+      "text": "2",
+      "image_threshold": 155,
+      "chars": "2",
+      "image_save_file": "skill_2_label",
+      "description": "2 skill label text at the left top corner."
     }
   },
   {
-    "T3_BADGE_3": {
-      "text_rect": null,
-      "button_rect": {
-        "x1": 0.011458333333333333,
-        "y1": 0.10648148148148148,
-        "x2": 0.024479166666666666,
-        "y2": 0.12962962962962962
+    "SKILL_3_LABEL": {
+      "text_rect": {
+        "x1": 0.9234375,
+        "y1": 0.5722222222222222,
+        "x2": 0.9359375,
+        "y2": 0.5962962962962963
       },
-      "text": null,
-      "image_threshold": 0.5,
-      "chars": null,
-      "image_path": "t3_badge_1.png",
-      "image_save_file": "t3_badge_1",
-      "description": "T3 badge on the top left corner of character icon (in battles with time limit)."
+      "button_rect": null,
+      "text": "3",
+      "image_threshold": 155,
+      "chars": "3",
+      "image_save_file": "skill_3_label",
+      "description": "3 skill label text at the left top corner."
+    }
+  },
+  {
+    "SKILL_4_LABEL": {
+      "text_rect": {
+        "x1": 0.7796875,
+        "y1": 0.8472222222222222,
+        "x2": 0.7921875,
+        "y2": 0.8722222222222222
+      },
+      "button_rect": null,
+      "text": "4",
+      "image_threshold": 155,
+      "chars": "4",
+      "image_save_file": "skill_4_label",
+      "description": "4 skill label text at the left top corner."
+    }
+  },
+  {
+    "SKILL_5_LABEL": {
+      "text_rect": {
+        "x1": 0.6864583333333333,
+        "y1": 0.8490740740740741,
+        "x2": 0.7,
+        "y2": 0.8722222222222222
+      },
+      "button_rect": null,
+      "text": "5",
+      "image_threshold": 155,
+      "chars": "5",
+      "image_save_file": "skill_5_label",
+      "description": "5 skill label text at the left top corner."
     }
   }
 ]

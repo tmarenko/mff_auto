@@ -124,6 +124,14 @@ class UIElement:
                              save_file=data['image_save_file'], image=image, text_rect=text_rect,
                              button_rect=button_rect, description=data['description'])
 
+    def copy(self):
+        """Returns copy of an element."""
+        copy = UIElement(name=self.name, text=self.text, threshold=self.threshold, chars=self.chars,
+                         save_file=self.save_file, image=self.image, text_rect=self.rect, button_rect=self.button,
+                         description=self.description)
+        copy.scale = self.scale
+        return copy
+
 
 def load_ui_settings(path="settings/ui", path_to_images="images"):
     """Load UI settings from JSON files.

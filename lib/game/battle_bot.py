@@ -1,8 +1,10 @@
+import re
 import lib.logger as logging
 from itertools import cycle
 from lib.functions import wait_until, r_sleep
 
 logger = logging.get_logger(__name__)
+t3_percentage_regexp = re.compile(r"([0-9][0-9]?\.?[0-9]? ?%?)")
 
 
 class BattleBot:
@@ -106,37 +108,43 @@ class LockedSkill:
         """
         self.ui = game.ui
         self.player = game.player
-        self._locked = None
-        self._skill = None
+        self._skill_locked = None
+        self._skill_ready_image = None
         self.history = {}
-        self.skill_ui = skill_ui
-        self.skill_locked_ui = skill_locked_ui
-        self.skill_label_ui = skill_label_ui
+        self.skill_ui = self.ui[skill_ui].copy() if self.ui.get(skill_ui) else None
+        if isinstance(skill_locked_ui, str):
+            skill_locked_ui = [skill_locked_ui]
+        self.skill_locked_ui = [self.ui[name].copy() for name in skill_locked_ui if self.ui.get(name)] if skill_locked_ui else None
+        self.skill_label_ui = self.ui[skill_label_ui].copy() if self.ui.get(skill_label_ui) else None
+        self.name = self.skill_ui.name.split("_")[-1]
 
     @property
     def locked(self):
         """Is skill locked property. Checking if locked version of the skill is on screen and storing result."""
-        if self._locked is None:
-            if not self.player.is_ui_element_on_screen(ui_element=self.ui[self.skill_label_ui]):
-                logger.debug(f"{self.skill_label_ui} skill label is not on a screen. Character does not have him.")
-                self._locked = True
-            elif self.player.is_image_on_screen(ui_element=self.ui['SKILL_T3_LOCKED']) or \
-                    self.player.is_image_on_screen(ui_element=self.ui['SKILL_6_LOCKED']):
-                logger.debug(f"{self.skill_ui} skill is locked.")
-                self._locked = True
+        if self._skill_locked is None:
+            if self.skill_label_ui and not self.player.is_ui_element_on_screen(ui_element=self.skill_label_ui):
+                logger.debug(f"{self.name} skill label is not on a screen. Character does not have him.")
+                self._skill_locked = True
+            elif self.skill_locked_ui:
+                for locked_ui in self.skill_locked_ui:
+                    if locked_ui and self.player.is_image_on_screen(locked_ui):
+                        logger.debug(f"{self.name} skill is locked.")
+                        self._skill_locked = True
+                        return self._skill_locked
+                self._skill_locked = False
             else:
-                self._locked = False
-        return self._locked
+                self._skill_locked = False
+        return self._skill_locked
 
     @property
-    def skill(self):
+    def skill_image(self):
         """Skill ready image. Checking if it's not locked and ready to cast.
 
         :return: None or Image: image returned if skill is not locked and ready to cast.
         """
-        if not self.locked and self._skill is None:
+        if not self.locked and self._skill_ready_image is None:
             self.check_skill_is_ready()
-        return self._skill
+        return self._skill_ready_image
 
     def check_skill_is_ready(self, max_repetitions=3, forced=False):
         """Check if skill is available and set it's image if it is.
@@ -144,7 +152,7 @@ class LockedSkill:
         :param max_repetitions: max repetitions if "same" cooldown if skill cooldown is hard to read.
         :param forced: force to set skill available.
         """
-        cool_down = self.player.get_screen_text(self.ui[self.skill_ui]) if not forced else False
+        cool_down = self.player.get_screen_text(self.skill_ui) if not forced else False
         if not cool_down and not forced:
             cool_down = "EMPTY"
         if cool_down:
@@ -153,36 +161,43 @@ class LockedSkill:
             else:
                 self.history[cool_down] = 1
             if self.history[cool_down] >= max_repetitions:
-                logger.debug(f"Found text over {self.skill_ui} skill with {self.history[cool_down]} repetitions. "
-                             f"Assuming that {self.skill_ui} is available.")
+                logger.debug(f"Found text over {self.name} skill with {self.history[cool_down]} repetitions. "
+                             f"Assuming that {self.name} is available.")
                 cool_down = False
         if not cool_down:
-            if self.ui[self.skill_ui].image is None:
-                logger.debug(f"Got {self.skill_ui} skill image from screen. Now available to cast.")
-                self._skill = self.player.get_screen_image(rect=self.ui[self.skill_ui].rect)
-                self.ui[self.skill_ui].image = self._skill
-                self.ui[self.skill_ui].threshold = self.ui[self.skill_locked_ui].threshold
-            elif self.player.is_image_on_screen(self.ui[self.skill_ui]):
-                logger.debug(f"Found {self.skill_ui} skill image on screen. Now available to cast.")
-                self._skill = self.ui[self.skill_ui].image
+            if self.skill_ui.image is None:
+                logger.debug(f"Got {self.name} skill image from screen. Now available to cast.")
+                self._skill_ready_image = self.player.get_screen_image(rect=self.skill_ui.rect)
+                self.skill_ui.image = self._skill_ready_image
+                self.skill_ui.threshold = self.skill_locked_ui[0].threshold if self.skill_locked_ui else 0.8
+            elif self.player.is_image_on_screen(self.skill_ui):
+                logger.debug(f"Found {self.name} skill image on screen. Now available to cast.")
+                self._skill_ready_image = self.skill_ui.image
             else:
-                logger.debug(f"No images of {self.skill_ui} skill on screen, locking.")
-                self._locked = True
+                logger.debug(f"No images of {self.name} skill on screen, locking.")
+                self._skill_locked = True
 
     def is_skill_available(self):
         """Check if skill is available to cast."""
-        if self.skill is not None:
-            return self.player.is_image_on_screen(self.ui[self.skill_ui])
+        if self.skill_image is not None:
+            return self.player.is_image_on_screen(self.skill_ui)
         return False
+
+    def cast_skill(self):
+        """Cast character's skill.
+
+        :return: was skill casted.
+        """
+        logger.debug(f"Casting {self.name} skill.")
+        self.player.click_button(self.skill_ui.button, min_duration=0.01, max_duration=0.01)
+        self.player.click_button(self.skill_ui.button, min_duration=0.03, max_duration=0.03)
+        self.player.click_button(self.skill_ui.button, min_duration=0.1, max_duration=0.1)
+        return not self.is_skill_available()
 
 
 class ManualBattleBot(BattleBot):
     """Class for working with manual battles."""
 
-    DEFAULT_SKILL = 5  # best non locked skill
-    T3_SKILL = "T3"
-    AWAKENING_SKILL = "6"
-    COOP_SKILL = "COOP"
     SKILL_TIMEOUTS = {
         "1": 1, "2": 1, "3": 1,
         "4": 1.5,
@@ -197,19 +212,25 @@ class ManualBattleBot(BattleBot):
         :param game.Game game: instance of game.
         """
         super().__init__(game, battle_over_conditions, disconnect_conditions)
-        self.skill_images = []
+        self._init_skills()
         self.current_character = None
-        self.t3_skill = LockedSkill(self.game, skill_ui="SKILL_T3", skill_locked_ui="SKILL_T3_LOCKED",
-                                    skill_label_ui="SKILL_T3_LABEL")
-        self.awakening_skill = LockedSkill(self.game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
-                                           skill_label_ui="SKILL_6_LABEL")
-        self.coop_skill = LockedSkill(self.game, skill_ui="SKILL_COOP", skill_locked_ui="SKILL_COOP",
-                                      skill_label_ui=None)
-        self.cached_available_skill = self.DEFAULT_SKILL
+        self.BEST_DEFAULT_SKILL = None
+        self.cached_available_skill = None
         self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
                                        "MOVE_AROUND_POS_UP", "MOVE_AROUND_POS_RIGHT"])
         self.moving_position_from = next(self.moving_positions)
         self.shadowland_loaded = False
+
+    def _init_skills(self):
+        self.skill_1 = LockedSkill(self.game, "SKILL_1", skill_label_ui=None, skill_locked_ui=None)
+        self.skill_2 = LockedSkill(self.game, "SKILL_2", skill_label_ui="SKILL_2_LABEL", skill_locked_ui=None)
+        self.skill_3 = LockedSkill(self.game, "SKILL_3", skill_label_ui="SKILL_3_LABEL", skill_locked_ui=None)
+        self.skill_4 = LockedSkill(self.game, "SKILL_4", skill_label_ui="SKILL_4_LABEL", skill_locked_ui=None)
+        self.skill_5 = LockedSkill(self.game, "SKILL_5", skill_label_ui="SKILL_5_LABEL", skill_locked_ui=None)
+        self.t3_skill = LockedSkill(self.game, "SKILL_T3", ["SKILL_T3_LOCKED", "SKILL_6_LOCKED"], "SKILL_T3_LABEL")
+        self.awakening_skill = LockedSkill(self.game, "SKILL_6", ["SKILL_6_LOCKED", "SKILL_T3_LOCKED"], "SKILL_6_LABEL")
+        self.coop_skill = LockedSkill(self.game, "SKILL_COOP", "SKILL_COOP", skill_label_ui=None)
+        self.base_skills = [self.skill_1, self.skill_2, self.skill_3, self.skill_4, self.skill_5]
 
     def fight(self, move_around=False):
         """Start battle and use skills until the end of battle.
@@ -221,20 +242,18 @@ class ManualBattleBot(BattleBot):
             if self.is_battle():
                 if self.current_character is None:
                     self.load_character()
-                if not self.skill_images:
                     self.load_skills()
-                if self.reload_skills_if_character_dead():
-                    self.cached_available_skill = self.DEFAULT_SKILL
+                self.reload_skills_if_character_dead()
 
                 best_available_skill = self.get_best_available_skill()
                 if not best_available_skill:
                     continue
-                if self.cast_skill(best_available_skill):
-                    logger.debug(f"Successfully casted {best_available_skill} skill.")
-                    time_to_sleep = self.SKILL_TIMEOUTS[str(best_available_skill)]
+                if best_available_skill.cast_skill():
+                    logger.debug(f"Successfully casted {best_available_skill.name} skill.")
+                    time_to_sleep = self.SKILL_TIMEOUTS[str(best_available_skill.name)]
                     r_sleep(time_to_sleep)
                 else:
-                    self.cached_available_skill = self.DEFAULT_SKILL
+                    self.cached_available_skill = self.BEST_DEFAULT_SKILL
                     if move_around:
                         self.move_character()
                         self.move_character()
@@ -266,10 +285,7 @@ class ManualBattleBot(BattleBot):
         is_same_character = self.player.is_image_on_screen(ui_element=self.ui["CURRENT_CHARACTER"])
         if not is_same_character:
             logger.debug("Current character is dead. Switching to new one.")
-            self.t3_skill = LockedSkill(self.game, skill_ui="SKILL_T3", skill_locked_ui="SKILL_T3_LOCKED",
-                                        skill_label_ui="SKILL_T3_LABEL")
-            self.awakening_skill = LockedSkill(self.game, skill_ui="SKILL_6", skill_locked_ui="SKILL_6_LOCKED",
-                                               skill_label_ui="SKILL_6_LABEL")
+            self._init_skills()
             self.load_character()
             self.load_skills()
             return True
@@ -282,63 +298,48 @@ class ManualBattleBot(BattleBot):
             self.shadowland_loaded = True
             r_sleep(4)
         logger.debug("Loading skill's images for the fight.")
-        t3_badge = self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_1']) or \
-                   self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_2']) or \
-                   self.game.player.is_image_on_screen(self.game.ui['T3_BADGE_3'])
-        for skill_id in range(1, 6):
-            skill_image = self.player.get_screen_image(rect=self.ui[f"SKILL_{skill_id}"].rect)
-            self.ui[f"SKILL_{skill_id}"].image = skill_image
-            self.skill_images.append(skill_image)
-        if not self.awakening_skill.locked and not t3_badge:
-            logger.debug("Cannot find T3 badge on character's icon. Assuming 6th skill as Awakening.")
-            self.awakening_skill.check_skill_is_ready(forced=True)
-            self.cached_available_skill = self.AWAKENING_SKILL
-            self.t3_skill._locked = True
-        if not self.t3_skill.locked and t3_badge:
-            logger.debug("Found T3 badge on character's icon. Assuming 6th skill as T3.")
-            self.awakening_skill._locked = True
-        if not self.awakening_skill.locked and not self.t3_skill.locked:
-            logger.warning("Two skills on the same position are not locked. Something wrong, assuming 6th skill as T3.")
-            self.t3_skill._locked = False
-            self.awakening_skill._locked = True
+        for skill in self.base_skills:
+            if not skill.locked:
+                skill.check_skill_is_ready(forced=True)
+                self.cached_available_skill = skill
 
-        self.coop_skill._locked = self.player.is_image_on_screen(ui_element=self.ui['SKILL_COOP'])
+        if not self.awakening_skill.locked or self.t3_skill.locked:
+            t3_percentage_text = self.player.get_screen_text(self.t3_skill.skill_ui)
+            is_t3 = t3_percentage_regexp.fullmatch(t3_percentage_text)
+            if not self.awakening_skill.locked and not is_t3:
+                logger.debug("Cannot find T3 badge on character's icon. Assuming 6th skill as Awakening.")
+                self.awakening_skill.check_skill_is_ready(forced=True)
+                self.cached_available_skill = self.awakening_skill
+                self.t3_skill._skill_locked = True
+            if not self.t3_skill.locked and is_t3:
+                logger.debug("Found T3 badge on character's icon. Assuming 6th skill as T3.")
+                self.awakening_skill._skill_locked = True
+            if not self.awakening_skill.locked and not self.t3_skill.locked:
+                logger.warning("Two skills on the same position are not locked. "
+                               "Something wrong, assuming 6th skill as T3.")
+                self.t3_skill._skill_locked = False
+                self.awakening_skill._skill_locked = True
+
+        self.coop_skill._skill_locked = self.player.is_image_on_screen(ui_element=self.ui['SKILL_COOP'])
         self.coop_skill.check_skill_is_ready(forced=True)
-
-    def is_skill_available(self, skill_id):
-        """Check if skill is available to cast.
-
-        :param skill_id: skill identifier.
-        """
-        return self.player.is_image_on_screen(self.ui[f"SKILL_{skill_id}"])
+        self.BEST_DEFAULT_SKILL = self.cached_available_skill
 
     def get_best_available_skill(self):
         """Get best available skill to cast.
         cached skill -> T3 -> 6 -> COOP -> 5 -> 4 -> 3 -> 2 -> 1
+
+        :return: LockedSkill best available skill to cast.
         """
-        if self.cached_available_skill and self.is_skill_available(skill_id=self.cached_available_skill):
+        if self.cached_available_skill and self.cached_available_skill.is_skill_available():
             skill = self.cached_available_skill
             self.cached_available_skill = None
             return skill
         if self.t3_skill.is_skill_available():
-            return self.T3_SKILL
+            return self.t3_skill
         if self.awakening_skill.is_skill_available():
-            return self.AWAKENING_SKILL
+            return self.awakening_skill
         if self.coop_skill.is_skill_available():
-            return self.COOP_SKILL
-        for skill_id in reversed(range(1, 6)):
-            if self.is_skill_available(skill_id=skill_id):
-                return skill_id
-
-    def cast_skill(self, skill_id):
-        """Cast character's skill.
-
-        :param skill_id: skill identifier.
-        :return: was skill casted.
-        """
-        logger.debug(f"Casting {skill_id}-th skill.")
-        skill_ui = self.ui[f'SKILL_{skill_id}']
-        self.player.click_button(skill_ui.button, min_duration=0.01, max_duration=0.01)
-        self.player.click_button(skill_ui.button, min_duration=0.03, max_duration=0.03)
-        self.player.click_button(skill_ui.button, min_duration=0.1, max_duration=0.1)
-        return not self.is_skill_available(skill_id=skill_id)
+            return self.coop_skill
+        for skill in reversed(self.base_skills):
+            if skill.is_skill_available():
+                return skill
