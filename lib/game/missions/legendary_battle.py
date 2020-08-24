@@ -15,6 +15,7 @@ class LegendaryBattle(Missions):
         :param game.Game game: instance of the game.
         """
         super().__init__(game, 'LB_LABEL')
+        self.ui['LB_RAGNAROK_BATTLE'].scale = 3
 
     @property
     def battle_over_conditions(self):
