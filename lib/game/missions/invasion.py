@@ -116,7 +116,7 @@ class WorldBossInvasion(Missions):
         :return: True or False: was chest acquired.
         """
         chest_ui = self.ui[f'INVASION_CHEST_AVAILABLE_{chest_index}']
-        if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=chest_ui):
+        if wait_until(self.player.is_ui_element_on_screen, timeout=1, ui_element=chest_ui):
             logger.debug(f"Chest {chest_index} is available. Trying to open.")
             self.player.click_button(chest_ui.button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_SKIP_CHEST']):
