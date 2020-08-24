@@ -61,7 +61,11 @@ class AutoBattleBot(BattleBot):
 
     def fight(self):
         """Start battle and wait until the end."""
-        if wait_until(self.is_battle, timeout=60, period=1):
+        def wait_battle():
+            self.skip_cutscene()
+            return self.is_battle()
+
+        if wait_until(wait_battle, timeout=60, period=1):
             logger.info("Battle is started")
         else:
             logger.warning("Can't find MELEE button on screen after starting a battle.")
