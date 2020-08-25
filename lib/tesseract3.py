@@ -121,6 +121,8 @@ class Tesseract(TesseractLib):
         :param language: OCR language.
         """
         super().__init__(lib_path=lib_path, data_path=data_path, language=language)
+        self.set_variable("load_system_dawg", "0")
+        self.set_variable("load_freq_dawg", "0")
         self.set_variable("tessedit_oem_mode", "3")
         self.set_variable("debug_file", "/dev/null")
         self.locked = False
@@ -212,8 +214,3 @@ class TesseractPool:
             sleep(0.1)
             return self.image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)
         return non_locked.image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)
-
-    def close(self):
-        """Close all instances."""
-        for tesseract in self._pool:
-            tesseract.__del__()
