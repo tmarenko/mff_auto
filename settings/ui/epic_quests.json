@@ -358,7 +358,7 @@
         "y2": 0.6527777777777778
       },
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 160,
       "chars": "0123456789/",
       "image_save_file": "eq_the_fault_stage_1",
       "description": "Epic Quest : The Galactic Imperative: The Fault stage #1."

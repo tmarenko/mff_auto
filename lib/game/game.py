@@ -230,8 +230,6 @@ class Game:
         self.ui['CONTENT_STATUS_ELEMENT_LABEL'].rect.parent = element_ui.rect
         self.ui['CONTENT_STATUS_ELEMENT_STAGE'].rect.parent = element_ui.rect
         self.ui['CONTENT_STATUS_ELEMENT_COMPLETE'].rect.parent = element_ui.rect
-        self.ui['CONTENT_STATUS_ELEMENT_LABEL'].scale = 3
-        self.ui['CONTENT_STATUS_ELEMENT_STAGE'].scale = 3
         # Getting board image and element image. Use it for stage recognize
         board_image = self.player.get_screen_image(board_rect.value)
         element_image = self.player.get_image_from_image(board_image, element_ui)
