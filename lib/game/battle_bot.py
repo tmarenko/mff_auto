@@ -79,6 +79,7 @@ class AutoBattleBot(BattleBot):
                 r_sleep(0.75)
             else:
                 self.skip_cutscene()
+        r_sleep(1)  # Wait for end of the battle animations
         logger.info("Battle is over")
 
     def wait_until_shifter_appeared(self):
@@ -267,6 +268,7 @@ class ManualBattleBot(BattleBot):
             else:
                 self.skip_cutscene()
                 self.shadowland_loaded = False
+        r_sleep(1)  # Wait for end of the battle animations
         logger.info("Battle is over")
 
     def move_character(self):

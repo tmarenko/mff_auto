@@ -43,7 +43,6 @@ class LegendaryBattle(Missions):
                     return
                 ManualBattleBot(self.game, self.battle_over_conditions).fight()
                 self.stages -= 1
-                r_sleep(1)  # Wait for button to appear
                 if self.stages > 0:
                     self.press_repeat_button(repeat_button_ui='LB_REPEAT_BUTTON', start_button_ui='LB_START_BUTTON')
             self.press_home_button(home_button='LB_HOME_BUTTON')
