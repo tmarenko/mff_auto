@@ -146,6 +146,10 @@ class LockedSkill:
             self.check_skill_is_ready()
         return self._skill_ready_image
 
+    def is_skill_ready(self):
+        """Check if skill is ready to cast."""
+        return not self.locked and self._skill_ready_image is not None
+
     def check_skill_is_ready(self, max_repetitions=3, forced=False):
         """Check if skill is available and set it's image if it is.
 
@@ -252,6 +256,9 @@ class ManualBattleBot(BattleBot):
                     logger.debug(f"Successfully casted {best_available_skill.name} skill.")
                     time_to_sleep = self.SKILL_TIMEOUTS[str(best_available_skill.name)]
                     r_sleep(time_to_sleep)
+                    # Check T3 skill only after successful cast
+                    if not self.t3_skill.is_skill_ready() and not self.t3_skill.locked:
+                        self.t3_skill.check_skill_is_ready()
                 else:
                     self.cached_available_skill = self.BEST_DEFAULT_SKILL
                     if move_around:
@@ -334,7 +341,7 @@ class ManualBattleBot(BattleBot):
             skill = self.cached_available_skill
             self.cached_available_skill = None
             return skill
-        if self.t3_skill.is_skill_available():
+        if self.t3_skill.is_skill_ready() and self.t3_skill.is_skill_available():
             return self.t3_skill
         if self.awakening_skill.is_skill_available():
             return self.awakening_skill
