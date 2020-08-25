@@ -470,7 +470,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": "content_status_element_label",
       "description": "Local position of stage label and button inside content status element."
