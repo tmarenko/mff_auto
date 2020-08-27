@@ -30,7 +30,7 @@
       },
       "button_rect": null,
       "text": "WORLD BOSS INVASION",
-      "image_threshold": 160,
+      "image_threshold": 165,
       "chars": null,
       "image_save_file": "invasion_menu_label",
       "description": "World Boss Invasion label in WBI menu."

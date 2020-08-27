@@ -30,7 +30,7 @@
         "y2": 0.18888888888888888
       },
       "text": "DAILY TRIVIA",
-      "image_threshold": 190,
+      "image_threshold": 195,
       "chars": null,
       "image_save_file": "daily_trivia_stage",
       "description": "Daily Trivia stage text and button."

@@ -100,7 +100,6 @@ class UIElement:
         self.rect = text_rect
         self.button = button_rect
         self.description = description
-        self.scale = 3
 
     @staticmethod
     def from_json(json_data, path_to_images):
@@ -129,7 +128,6 @@ class UIElement:
         copy = UIElement(name=self.name, text=self.text, threshold=self.threshold, chars=self.chars,
                          save_file=self.save_file, image=self.image, text_rect=self.rect, button_rect=self.button,
                          description=self.description)
-        copy.scale = self.scale
         return copy
 
 

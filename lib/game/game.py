@@ -70,7 +70,6 @@ class Game:
         """Player's username."""
         if not self._user_name:
             self.go_to_main_menu()
-            self.ui['USER_NAME'].scale = 3
             self._user_name = self.player.get_screen_text(self.ui['USER_NAME'])
         return self._user_name
 

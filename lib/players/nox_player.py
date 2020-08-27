@@ -108,19 +108,17 @@ class NoxWindow(object):
         """Maximize player's window."""
         win32api.PostMessage(self.parent_hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
 
-    def get_screen_image(self, rect=(0, 0, 1, 1), scale=1):
+    def get_screen_image(self, rect=(0, 0, 1, 1)):
         """Get screen image.
 
         :param rect: rectangle of screen.
-        :param scale: scale of image.
 
         :return: numpy.array of image.
         """
         box = (rect[0] * self.width, rect[1] * self.height,
                rect[2] * self.width, rect[3] * self.height)
         screen = self._get_screen().crop(box)
-        scaled_screen = screen if scale == 1 else screen.resize((screen.width * scale, screen.height * scale))
-        return array(scaled_screen)
+        return array(screen)
 
     @staticmethod
     def get_image_from_image(image, ui_element):
@@ -135,9 +133,7 @@ class NoxWindow(object):
         box = (ui_element.rect[0] * image.width, ui_element.rect[1] * image.height,
                ui_element.rect[2] * image.width, ui_element.rect[3] * image.height)
         screen = image.crop(box)
-        scale = ui_element.scale
-        scaled_screen = screen if scale == 1 else screen.resize((screen.width * scale, screen.height * scale))
-        return array(scaled_screen)
+        return array(screen)
 
     def get_screen_color(self, positions, screen=None):
         """Get color from screen.
@@ -173,7 +169,7 @@ class NoxWindow(object):
 
         :return: text from the image.
         """
-        image = screen if screen is not None else self.get_screen_image(ui_element.rect, ui_element.scale)
+        image = screen if screen is not None else self.get_screen_image(ui_element.rect)
         return get_text_from_image(image=image, threshold=ui_element.threshold, chars=ui_element.chars,
                                    save_file=ui_element.save_file)
 

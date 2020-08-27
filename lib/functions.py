@@ -21,6 +21,7 @@ def get_text_from_image(image, threshold, chars=None, save_file=None):
 
     :return: text from image.
     """
+    image = cv2.resize(image, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     ret, threshold_img = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     if save_file:
