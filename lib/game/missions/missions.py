@@ -286,6 +286,18 @@ class Missions:
             return True
         return False
 
+    def close_epic_quest_notification(self):
+        """Close Epic Quest notification.
+
+        :return: True or False: was notification closed.
+        """
+        epic_quest = self.player.get_screen_text(self.ui['EQ_NOTIFICATION_OK'])
+        # Use overlap less 0.25 because sometimes 'EPIC QUEST' is similar to 'HEROIC QUEST' with default overlap
+        if is_strings_similar(self.ui['EQ_NOTIFICATION_OK'].text, epic_quest, overlap=0.15):
+            self.player.click_button(self.ui['EQ_NOTIFICATION_OK'].button)
+            return True
+        return False
+
     def close_mission_notifications(self, timeout=5):
         """Close all mission notifications after the battle.
 
@@ -309,7 +321,9 @@ class Missions:
         :param timeout: timeout of waiting for notifications.
         """
         def close_notifications():
-            return self.close_complete_challenge_notification() or self.close_heroic_quest_notification()
+            return self.close_complete_challenge_notification() or \
+                   self.close_heroic_quest_notification() or \
+                   self.close_epic_quest_notification()
 
         for _ in range(timeout):
             notification_closed = wait_until(close_notifications, timeout=1)

@@ -405,6 +405,27 @@
       "image_save_file": "eq_fate_of_the_universe_stage_label",
       "description": "Epic Quest : The Galactic Imperative : Fate of the Universe stage button and text."
     }
+  },
+  {
+    "EQ_NOTIFICATION_OK": {
+      "text_rect": {
+        "x1": 0.80625,
+        "y1": 0.7768518518518519,
+        "x2": 0.9104166666666667,
+        "y2": 0.825925925925926
+      },
+      "button_rect": {
+        "x1": 0.8359375,
+        "y1": 0.8694444444444445,
+        "x2": 0.8911458333333333,
+        "y2": 0.9231481481481482
+      },
+      "text": "EPIC QUEST",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "epic_quest_notification_ok",
+      "description": "Epic Quests: notification after completing mission (OK button)."
+    }
   }
 ]
 
