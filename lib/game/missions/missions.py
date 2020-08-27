@@ -1,5 +1,5 @@
 import lib.logger as logging
-from lib.functions import wait_until
+from lib.functions import wait_until, is_strings_similar
 from lib.game.battle_bot import AutoBattleBot
 from lib.game.heroic_quests import HeroicQuests
 logger = logging.get_logger(__name__)
@@ -275,7 +275,9 @@ class Missions:
 
         :return: True or False: was notification closed.
         """
-        if self.player.is_ui_element_on_screen(self.ui['HQ_NOTIFICATION_OK']):
+        heroic_quest = self.player.get_screen_text(self.ui['HQ_NOTIFICATION_OK'])
+        # Use overlap less 0.25 because sometimes 'EPIC QUEST' is similar to 'HEROIC QUEST' with default overlap
+        if is_strings_similar(self.ui['HQ_NOTIFICATION_OK'].text, heroic_quest, overlap=0.15):
             if self.game.ACQUIRE_HEROIC_QUEST_REWARDS:
                 self.player.click_button(self.ui['HQ_NOTIFICATION_OPEN'].button)
                 HeroicQuests(self.game).acquire_reward_and_return_back()
