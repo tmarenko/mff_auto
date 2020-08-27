@@ -95,6 +95,27 @@
     }
   },
   {
+    "MAIN_MENU_AD_4": {
+      "text_rect": {
+        "x1": 0.9239583333333333,
+        "y1": 0.028703703703703703,
+        "x2": 0.9427083333333334,
+        "y2": 0.06018518518518518
+      },
+      "button_rect": {
+        "x1": 0.9239583333333333,
+        "y1": 0.028703703703703703,
+        "x2": 0.9427083333333334,
+        "y2": 0.06018518518518518
+      },
+      "text": "X",
+      "image_threshold": 120,
+      "chars": "X",
+      "image_save_file": "close_ad_x_button_4",
+      "description": "The X-button of closing ads in main menu."
+    }
+  },
+  {
     "MAIN_MENU_REWARDS": {
       "text_rect": {
         "x1": 0.9546875,
@@ -337,7 +358,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 195,
+      "image_threshold": 200,
       "chars": "0123456789/",
       "image_save_file": "energy",
       "description": "Position of energy counter in top navigation bar."

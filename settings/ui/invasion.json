@@ -120,7 +120,7 @@
         "y2": 0.08796296296296297
       },
       "text": "SKIP",
-      "image_threshold": 140,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "invasion_name",
       "description": "WBI skip chest opening."
@@ -553,7 +553,7 @@
         "y2": 0.8527777777777777
       },
       "text": "ENTER",
-      "image_threshold": 150,
+      "image_threshold": 170,
       "chars": null,
       "image_save_file": "invasion_boss_fight_enter",
       "description": "WBI boss fight ENTER button."

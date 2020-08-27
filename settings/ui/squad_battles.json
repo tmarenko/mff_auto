@@ -258,7 +258,7 @@
       },
       "button_rect": null,
       "text": "BATTLE POINTS",
-      "image_threshold": 150,
+      "image_threshold": 190,
       "chars": null,
       "image_save_file": "sb_battle_points",
       "description": "Squad Battle points at the end of the battle.."

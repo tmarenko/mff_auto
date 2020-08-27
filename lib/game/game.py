@@ -423,7 +423,8 @@ class Game:
         def close_ads():
             return close_ad(self.ui['MAIN_MENU_AD']) or \
                    close_ad(self.ui['MAIN_MENU_AD_2']) or \
-                   close_ad(self.ui['MAIN_MENU_AD_3'])
+                   close_ad(self.ui['MAIN_MENU_AD_3']) or \
+                   close_ad(self.ui['MAIN_MENU_AD_4'])
 
         result = False
         for _ in range(timeout):
