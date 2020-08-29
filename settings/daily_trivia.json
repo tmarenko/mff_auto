@@ -26,7 +26,7 @@
   "What is the name of the stat that raises Dodge Rate by a guaranteed fixed amount, regardless of the difference in opponent level?": "Guaranteed Dodge Rate Increase",
   "What is the name of the stat that raises Critical Rate by a guaranteed fixed amount, regardless of the opponent’s level?": "Guaranteed Critical Rate Increase",
   "What is the term for the amount of damage received, regardless of a character’s defense and Type Resistance?": "True Damage",
-  "What is the name of the stat that gives a passive-like effect to all heroes just by being on the team?": "Team Passive",
+  "What is the name of the stat that gives a passive-like effect to all characters just by being on the team?": "Team Passive",
   "What is the name of the ability that grants immunity to all damage (basic attacks, Guard Break, Damage, Debuffs)?": "Invincible",
   "From the available character skill effects, what is the ability that causes the character to receive damage but stops effects like Guard Break?": "Super Armor",
   "From the available character skill effects, what is the ability that blocks damage but causes the character to receive effects like Guard Break and debuffs?": "Shield",
