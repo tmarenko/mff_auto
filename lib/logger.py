@@ -11,7 +11,7 @@ ch = logging.StreamHandler(sys.stdout)
 ch.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
-fh = logging.FileHandler("logs/debug.log", mode='a')
+fh = logging.FileHandler("logs/debug.log", mode='a', encoding='utf-8')
 fh.setLevel(logging.DEBUG)
 fh.setFormatter(formatter)
 
