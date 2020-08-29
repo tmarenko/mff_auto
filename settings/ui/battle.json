@@ -511,7 +511,7 @@
         "y2": 0.9416666666666667
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "skill_coop.png",
       "image_save_file": "skill_coop",

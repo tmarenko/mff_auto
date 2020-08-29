@@ -69,7 +69,7 @@
       "text": "MANAGE SUPPLIES",
       "image_threshold": 160,
       "chars": null,
-      "image_save_file": null,
+      "image_save_file": "invasion_manage_chests",
       "description": "WBI Manage Supplies button."
     }
   },

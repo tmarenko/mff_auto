@@ -249,7 +249,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "news_on_start_game",
-      "description": "News that can be shown at game loading. You can close it."
+      "description": "DEPRECATED: News that can be shown at game loading. You can close it."
     }
   },
   {
@@ -358,7 +358,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 200,
+      "image_threshold": 220,
       "chars": "0123456789/",
       "image_save_file": "energy",
       "description": "Position of energy counter in top navigation bar."
@@ -507,7 +507,7 @@
       },
       "button_rect": null,
       "text": "COMPLETE",
-      "image_threshold": 120,
+      "image_threshold": 130,
       "chars": null,
       "image_save_file": "content_status_element_complete",
       "description": "Local position of stage COMPLETE text inside content status element."

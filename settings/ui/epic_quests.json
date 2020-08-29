@@ -1,26 +1,5 @@
 [
   {
-    "EQ_STUPID_X_MEN_STAGE": {
-      "text_rect": {
-        "x1": 0.45728929384965833,
-        "y1": 0.8714574898785425,
-        "x2": 0.5449886104783599,
-        "y2": 0.8977732793522267
-      },
-      "button_rect": {
-        "x1": 0.464123006833713,
-        "y1": 0.7074898785425101,
-        "x2": 0.5353075170842825,
-        "y2": 0.8319838056680162
-      },
-      "text": "STUPID X-MEN",
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "eq_stupid_x_men_stage",
-      "description": "Epic Quest : X-Force: Stupid X-Men stage."
-    }
-  },
-  {
     "EQ_STUPID_X_MEN_STAGE_LABEL": {
       "text_rect": {
         "x1": 0.05296127562642369,

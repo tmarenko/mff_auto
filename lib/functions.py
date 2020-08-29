@@ -10,7 +10,7 @@ from lib.tesseract3 import TesseractPool
 tesseract = TesseractPool()
 
 
-def get_text_from_image(image, threshold, chars=None, save_file=None):
+def get_text_from_image(image, threshold, chars=None, save_file=None, max_height=None):
     """Get text from image using Tesseract OCR.
     https://github.com/tesseract-ocr/
 
@@ -18,10 +18,11 @@ def get_text_from_image(image, threshold, chars=None, save_file=None):
     :param threshold: threshold of gray-scale for grabbing image's text.
     :param chars: available character in image's text.
     :param save_file: name of file for saving result of gray-scaling.
+    :param max_height: max height of image (in pixels).
 
     :return: text from image.
     """
-    image = cv2.resize(image, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+    image = resize_and_keep_aspect_ratio(image, height=max_height)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     ret, threshold_img = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     if save_file:
@@ -167,3 +168,27 @@ def is_color_similar(color1, color2, overlap=0.05):
     r2, g2, b2 = color2
     d = ((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2) ** (1 / 2.0)
     return d / 510 <= overlap
+
+
+def resize_and_keep_aspect_ratio(image, width=None, height=None):
+    """Resize image by width or height and keep original ratio between them.
+
+    :param image: numpy.array of image.
+    :param width: width to resize.
+    :param height: height to resize.
+
+    :return: numpy.array of resized image.
+    """
+    if width and height:
+        raise ValueError("Only width or height should be given.")
+    if not width and not height:
+        return image
+    image_height, image_width, _ = image.shape
+    new_width, new_height = None, None
+    if width:
+        new_width = width
+        new_height = round(new_width * image_height / image_width)
+    if height:
+        new_height = height
+        new_width = round(new_height * image_width / image_height)
+    return cv2.resize(image, dsize=(new_width, new_height), interpolation=cv2.INTER_CUBIC)

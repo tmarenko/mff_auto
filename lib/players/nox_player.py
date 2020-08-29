@@ -171,7 +171,7 @@ class NoxWindow(object):
         """
         image = screen if screen is not None else self.get_screen_image(ui_element.rect)
         return get_text_from_image(image=image, threshold=ui_element.threshold, chars=ui_element.chars,
-                                   save_file=ui_element.save_file)
+                                   save_file=ui_element.save_file, max_height=ui_element.max_height)
 
     def is_image_on_screen(self, ui_element, screen=None):
         """Check if image is on screen.

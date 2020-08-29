@@ -67,7 +67,8 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 120,
+      "image_threshold": 140,
+      "max_height": 200,
       "chars": null,
       "image_save_file": "daily_trivia_question",
       "description": "Daily Trivia current question."

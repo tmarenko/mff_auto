@@ -72,7 +72,7 @@
         "y2": 0.7453703703703703
       },
       "text": "RANK",
-      "image_threshold": 150,
+      "image_threshold": 170,
       "chars": null,
       "image_save_file": "sb_rank_changed_2",
       "description": "Rank message when your rank is changed (usually after end of the week during league change)."
@@ -258,7 +258,7 @@
       },
       "button_rect": null,
       "text": "BATTLE POINTS",
-      "image_threshold": 190,
+      "image_threshold": 240,
       "chars": null,
       "image_save_file": "sb_battle_points",
       "description": "Squad Battle points at the end of the battle.."

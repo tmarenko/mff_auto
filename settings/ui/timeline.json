@@ -285,7 +285,7 @@
         "y2": 0.8814814814814815
       },
       "text": "SEARCH NEW OPPONENT",
-      "image_threshold": 160,
+      "image_threshold": 170,
       "chars": null,
       "image_save_file": "tl_search_new_opponent",
       "description": "Timeline search new opponent button."

@@ -77,8 +77,10 @@ class Rect:
 class UIElement:
     """Class for working with UI elements."""
 
+    STABLE_MAX_HEIGHT_FOR_TESSERACT = 72  # 72 is stable on 720p/1080p/1440p
+
     def __init__(self, name="Test", text="Default text", threshold=120, chars=None, save_file=None, image=None,
-                 text_rect=None, button_rect=None, description=None):
+                 text_rect=None, button_rect=None, description=None, max_height=None):
         """Class initialization.
 
         :param name: name of element.
@@ -90,6 +92,7 @@ class UIElement:
         :param text_rect: rectangle of text.
         :param button_rect: rectangle of button, if element contains button.
         :param description: description of UI element.
+        :param max_height: max height of image for grabbing image's text.
         """
         self.name = name
         self.text = text
@@ -100,6 +103,7 @@ class UIElement:
         self.rect = text_rect
         self.button = button_rect
         self.description = description
+        self.max_height = max_height or self.STABLE_MAX_HEIGHT_FOR_TESSERACT
 
     @staticmethod
     def from_json(json_data, path_to_images):
@@ -119,15 +123,16 @@ class UIElement:
             button_rect = data['button_rect']
             button_rect = button_rect if not button_rect else Rect(button_rect['x1'], button_rect['y1'],
                                                                    button_rect['x2'], button_rect['y2'])
+            max_height = data.get('max_height') or UIElement.STABLE_MAX_HEIGHT_FOR_TESSERACT
             return UIElement(name=key, text=data['text'], threshold=data['image_threshold'], chars=data['chars'],
                              save_file=data['image_save_file'], image=image, text_rect=text_rect,
-                             button_rect=button_rect, description=data['description'])
+                             button_rect=button_rect, description=data['description'], max_height=max_height)
 
     def copy(self):
         """Returns copy of an element."""
         copy = UIElement(name=self.name, text=self.text, threshold=self.threshold, chars=self.chars,
                          save_file=self.save_file, image=self.image, text_rect=self.rect, button_rect=self.button,
-                         description=self.description)
+                         description=self.description, max_height=self.max_height)
         return copy
 
 

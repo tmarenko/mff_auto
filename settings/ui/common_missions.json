@@ -462,7 +462,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_1_enter",
-      "description": "Difficulty of the mission: #1."
+      "description": "DEPRECATED: Difficulty of the mission: #1."
     }
   },
   {
@@ -483,7 +483,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_2_enter",
-      "description": "Difficulty of the mission: #2."
+      "description": "DEPRECATED: Difficulty of the mission: #2."
     }
   },
   {
@@ -504,7 +504,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_3_enter",
-      "description": "Difficulty of the mission: #3."
+      "description": "DEPRECATED: Difficulty of the mission: #3."
     }
   },
   {
@@ -525,7 +525,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_4_enter",
-      "description": "Difficulty of the mission: #4."
+      "description": "DEPRECATED: Difficulty of the mission: #4."
     }
   },
   {
@@ -546,7 +546,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_3_enter",
-      "description": "Difficulty of the mission: #3 from the bottom of the screen."
+      "description": "DEPRECATED: Difficulty of the mission: #3 from the bottom of the screen."
     }
   },
   {
@@ -567,7 +567,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_4_enter",
-      "description": "Difficulty of the mission: #4 from the bottom of the screen."
+      "description": "DEPRECATED: Difficulty of the mission: #4 from the bottom of the screen."
     }
   },
   {
@@ -588,7 +588,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_5_enter",
-      "description": "Difficulty of the mission: #5 from the bottom of the screen."
+      "description": "DEPRECATED: Difficulty of the mission: #5 from the bottom of the screen."
     }
   },
   {
@@ -609,7 +609,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_6_enter",
-      "description": "Difficulty of the mission: #6 from the bottom of the screen."
+      "description": "DEPRECATED: Difficulty of the mission: #6 from the bottom of the screen."
     }
   },
   {

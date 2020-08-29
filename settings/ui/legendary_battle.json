@@ -231,7 +231,7 @@
       },
       "button_rect": null,
       "text": "RAGNAROK",
-      "image_threshold": 120,
+      "image_threshold": 140,
       "chars": "RAGNAROK",
       "image_save_file": "lb_ragnarok_battle_title",
       "description": "Legendary battle : Ragnarok (title on top)."
