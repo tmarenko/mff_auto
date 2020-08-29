@@ -170,9 +170,11 @@ class Missions:
             self.player.click_button(self.ui[start_button_ui].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['NOT_ENOUGH_ENERGY']):
                 self.player.click_button(self.ui['NOT_ENOUGH_ENERGY'].button)
+                logger.warning(f"Not enough energy for starting mission, current energy: {self.game.energy}")
                 return False
             if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['INVENTORY_FULL']):
                 self.player.click_button(self.ui['INVENTORY_FULL'].button)
+                logger.warning(f"Your inventory is full, cannot start mission.")
                 return False
             if wait_until(self.player.is_ui_element_on_screen, timeout=2,
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
