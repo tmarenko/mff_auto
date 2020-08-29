@@ -37,6 +37,12 @@ class TesseractLib(object):
         lib.TessBaseAPIDelete.argtypes = (self.TessBaseAPI,)
         lib.TessBaseAPIDelete.restype = None
 
+        lib.TessBaseAPIClear.argtypes = (self.TessBaseAPI,)
+        lib.TessBaseAPIClear.restype = None
+
+        lib.TessBaseAPIEnd.argtypes = (self.TessBaseAPI,)
+        lib.TessBaseAPIEnd.restype = None
+
         lib.TessBaseAPIInit3.argtypes = (self.TessBaseAPI, ctypes.c_char_p, ctypes.c_char_p)
 
         lib.TessBaseAPISetImage.argtypes = (self.TessBaseAPI,
@@ -66,6 +72,8 @@ class TesseractLib(object):
         """Library's destructor."""
         if not self.lib or not self.api:
             return
+        self.lib.TessBaseAPIClear(self.api)
+        self.lib.TessBaseAPIEnd(self.api)
         self.lib.TessBaseAPIDelete(self.api)
 
     def _check_setup(self):
@@ -99,12 +107,14 @@ class TesseractLib(object):
     def get_utf8_text(self):
         """Returns UTF-8 text from image."""
         self._check_setup()
-        return self.lib.TessBaseAPIGetUTF8Text(self.api)
+        result = self.lib.TessBaseAPIGetUTF8Text(self.api)
+        self.lib.TessBaseAPIClear(self.api)
+        return result
 
     def get_text(self):
         """Returns decoded stripped text from image."""
         self._check_setup()
-        result = self.lib.TessBaseAPIGetUTF8Text(self.api)
+        result = self.get_utf8_text()
         if result:
             return result.decode('utf-8').strip()
         return ""
