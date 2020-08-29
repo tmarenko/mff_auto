@@ -209,8 +209,8 @@ class TesseractPool:
         :param whitelist: whitelist characters.
         :param page_segmentation: page segmentation mode.
         """
-        non_locked = [tess for tess in self._pool if not tess.locked][0]
+        non_locked = [tess for tess in self._pool if not tess.locked]
         if not non_locked:
             sleep(0.1)
             return self.image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)
-        return non_locked.image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)
+        return non_locked[0].image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)
