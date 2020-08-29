@@ -203,8 +203,8 @@ class TesseractPool:
         lib_folder = os.path.dirname(self.lib_path)
         self.data_path = os.path.join(lib_folder, data_folder)
         init_params = [(self.lib_path, self.data_path, self.language) for _ in range(processes)]
-        pool = ThreadPool()
-        self._pool = pool.starmap(self._init_tesseract_instance, init_params)
+        with ThreadPool() as pool:
+            self._pool = pool.starmap(self._init_tesseract_instance, init_params)
 
     @staticmethod
     def _init_tesseract_instance(*args, **kwargs):

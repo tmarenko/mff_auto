@@ -207,12 +207,12 @@ class Game:
                                          (j + 1) * element.rect.height + j * offset.height))
                     for j in range(cols) for i in range(rows)]
         for chunk_element in chunk_items(items=elements, chunk_size=cpu_count()):
-            pool = ThreadPool()
-            modes = pool.starmap(self.get_mode_from_element, chunk_element)
-            for mode in [non_empty_mode for non_empty_mode in modes if non_empty_mode]:
-                self._modes[mode.name] = mode
-                if mode.name == mode_name:
-                    return mode
+            with ThreadPool() as pool:
+                modes = pool.starmap(self.get_mode_from_element, chunk_element)
+                for mode in [non_empty_mode for non_empty_mode in modes if non_empty_mode]:
+                    self._modes[mode.name] = mode
+                    if mode.name == mode_name:
+                        return mode
 
     def get_mode_from_element(self, board_rect, element_rect):
         """Get information about game mode from single game mode element.
