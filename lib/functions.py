@@ -2,8 +2,7 @@ import cv2
 from scipy.stats import truncnorm
 import random
 import time
-from PIL import Image
-from numpy import array, concatenate
+from numpy import concatenate
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool
 
@@ -122,14 +121,17 @@ def load_image(path):
     :param path: path to image.
     :return: numpy.array of image.
     """
-    image = Image.open(path)
-    bands = image.getbands()
-    if len(bands) == 3:
-        b, g, r = image.split()
-    else:
-        b, g, r, a = image.split()
-    image = Image.merge("RGB", (r, g, b))
-    return array(image)
+    return cv2.imread(path)
+
+
+def bgr_to_rgb(image_array):
+    """Convert RGB to BGR. Or backwards, depends on original image's mode.
+
+    :param image_array: numpy.array of image.
+
+    :return: converted numpy.array of image.
+    """
+    return image_array[..., ::-1]
 
 
 def is_images_similar(image1, image2, overlap=0.6, save_file=None):
@@ -145,13 +147,15 @@ def is_images_similar(image1, image2, overlap=0.6, save_file=None):
     """
     max_x = image1.shape[0] if image1.shape[0] > image2.shape[0] else image2.shape[0]
     max_y = image1.shape[1] if image1.shape[1] > image2.shape[1] else image2.shape[1]
-    image1 = cv2.resize(image1, (max_y, max_x), interpolation=cv2.INTER_CUBIC)
-    image2 = cv2.resize(image2, (max_y, max_x), interpolation=cv2.INTER_CUBIC)
+    image1 = colored1 = cv2.resize(image1, (max_y, max_x), interpolation=cv2.INTER_CUBIC)
+    image2 = colored2 = cv2.resize(image2, (max_y, max_x), interpolation=cv2.INTER_CUBIC)
     image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
     image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
     sim, diff = compare_ssim(image1, image2, full=True)
     if save_file:
-        cv2.imwrite(f"logs/tesseract/{save_file}.png", concatenate((image1, image2), axis=1))
+        gray_images = cv2.cvtColor(cv2.hconcat([image1, image2]), cv2.COLOR_GRAY2BGR)
+        original_images = cv2.hconcat([colored1, colored2])
+        cv2.imwrite(f"logs/tesseract/{save_file}.png", concatenate((gray_images, original_images), axis=0))
     return sim > overlap
 
 

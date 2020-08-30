@@ -183,8 +183,7 @@ class NoxWindow(object):
         """
         rect = ui_element.rect if ui_element.rect else ui_element.button
         screen_image = screen if screen is not None else self.get_screen_image(rect)
-        screen_rgb = screen_image[..., ::-1]
-        return is_images_similar(screen_rgb, ui_element.image, ui_element.threshold, save_file=ui_element.save_file)
+        return is_images_similar(screen_image, ui_element.image, ui_element.threshold, save_file=ui_element.save_file)
 
     def is_ui_element_on_screen(self, ui_element, screen=None):
         """Check if UI element is on screen.
@@ -276,7 +275,7 @@ class NoxWindow(object):
     def _get_screen(self):
         """Get screen image from main window.
 
-        :return: PIL.Image image from window.
+        :return: PIL.Image image from window in BGR format.
         """
         if not self.parent_hwnd:
             return None

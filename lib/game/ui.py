@@ -1,6 +1,6 @@
 import json
 import os
-from lib.functions import load_image
+from lib.functions import load_image, bgr_to_rgb as rgb_to_bgr
 
 
 class Rect:
@@ -116,7 +116,8 @@ class UIElement:
         """
         for key in json_data:
             data = json_data[key]
-            image = load_image(os.path.join(path_to_images or "", data['image_path'])) if 'image_path' in data else None
+            image = rgb_to_bgr(  # Player's screen operates in BGR mode. All loaded images must be converted
+                load_image(os.path.join(path_to_images or "", data['image_path']))) if 'image_path' in data else None
             text_rect = data['text_rect']
             text_rect = text_rect if not text_rect else Rect(text_rect['x1'], text_rect['y1'],
                                                              text_rect['x2'], text_rect['y2'])

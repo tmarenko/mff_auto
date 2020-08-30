@@ -1,6 +1,7 @@
 from datetime import datetime
 from PIL import ImageDraw, ImageFont
 from threading import Thread
+from lib.functions import bgr_to_rgb
 import cv2
 import numpy
 import os
@@ -63,8 +64,7 @@ class NoxPlayerSource:
         :return: RGB numpy array of frame.
         """
         image = numpy.array(self.get_player_screen())
-        rgb_image = image[..., ::-1]
-        return rgb_image
+        return bgr_to_rgb(image)
 
     def get_player_screen(self):
         """Get player screen and add debug drawings on it.
