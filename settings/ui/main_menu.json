@@ -46,7 +46,7 @@
         "y2": 0.16700404858299595
       },
       "text": "X",
-      "image_threshold": 120,
+      "image_threshold": 150,
       "chars": "X",
       "image_save_file": "close_ad_x_button",
       "description": "The X-button of closing ads in main menu."
@@ -67,7 +67,7 @@
         "y2": 0.1685185185185185
       },
       "text": "X",
-      "image_threshold": 120,
+      "image_threshold": 150,
       "chars": "X",
       "image_save_file": "close_ad_x_button_2",
       "description": "The X-button of closing ads in main menu."
@@ -88,7 +88,7 @@
         "y2": 0.09537037037037037
       },
       "text": "X",
-      "image_threshold": 120,
+      "image_threshold": 150,
       "chars": "X",
       "image_save_file": "close_ad_x_button_3",
       "description": "The X-button of closing ads in main menu."
@@ -109,7 +109,7 @@
         "y2": 0.06018518518518518
       },
       "text": "X",
-      "image_threshold": 120,
+      "image_threshold": 150,
       "chars": "X",
       "image_save_file": "close_ad_x_button_4",
       "description": "The X-button of closing ads in main menu."
