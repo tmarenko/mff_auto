@@ -19,7 +19,7 @@ class QTextEditFileLogger(Timer):
 
     def update_text(self):
         """Update text on the widget."""
-        with open(self.log_file, "r") as log_file:
+        with open(self.log_file, "r", encoding='utf-8') as log_file:
             text = log_file.read()
             text_len = len(text)
             if text_len > self._old_txt_len:
