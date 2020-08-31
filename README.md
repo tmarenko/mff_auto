@@ -5,7 +5,7 @@ Compatible with **6.3.0** version.
 ## FAQ
 **Q**: What this bot can do?
 
-**A**: **mff_auto** can play almost all game modes: World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, World Boss Invasions, Epic Quests.
+**A**: **mff_auto** can play almost all game modes: World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, World Boss Invasions, Epic Quests, Danger Room.
 
 Also it can enable *Autoplay++* feature anywhere and do your daily routines.
 

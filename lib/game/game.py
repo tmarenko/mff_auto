@@ -372,7 +372,7 @@ class Game:
             return is_started
 
         self.player.click_button(self.ui['GAME_APP'].button)
-        if wait_until(is_game_started, timeout=60):
+        if wait_until(is_game_started, timeout=120):
             self.close_daily_rewards()
             self.close_maintenance_notice()
             self.close_ads()

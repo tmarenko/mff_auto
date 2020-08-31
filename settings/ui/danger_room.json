@@ -1,0 +1,403 @@
+[
+  {
+    "DANGER_ROOM_LABEL": {
+      "text_rect": {
+        "x1": 0.052083333333333336,
+        "y1": 0.012962962962962963,
+        "x2": 0.19427083333333334,
+        "y2": 0.0824074074074074
+      },
+      "button_rect": null,
+      "text": "DANGER ROOM",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_label",
+      "description": "Danger Room label in mission selection."
+    }
+  },
+  {
+    "DANGER_ROOM_NORMAL_MODE": {
+      "text_rect": {
+        "x1": 0.8713541666666667,
+        "y1": 0.9101851851851852,
+        "x2": 0.9375,
+        "y2": 0.9648148148148148
+      },
+      "button_rect": {
+        "x1": 0.8713541666666667,
+        "y1": 0.9101851851851852,
+        "x2": 0.9375,
+        "y2": 0.9648148148148148
+      },
+      "text": "Normal",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_normal_mode",
+      "description": "Danger Room: Normal mode."
+    }
+  },
+  {
+    "DANGER_ROOM_LOBBY": {
+      "text_rect": {
+        "x1": 0.0515625,
+        "y1": 0.012037037037037037,
+        "x2": 0.13177083333333334,
+        "y2": 0.08055555555555556
+      },
+      "button_rect": null,
+      "text": "LOBBY",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_lobby",
+      "description": "Danger Room: lobby label."
+    }
+  },
+  {
+    "DANGER_ROOM_JOIN": {
+      "text_rect": {
+        "x1": 0.8765625,
+        "y1": 0.9027777777777778,
+        "x2": 0.9677083333333333,
+        "y2": 0.9694444444444444
+      },
+      "button_rect": {
+        "x1": 0.8765625,
+        "y1": 0.9027777777777778,
+        "x2": 0.9677083333333333,
+        "y2": 0.9694444444444444
+      },
+      "text": "Join",
+      "image_threshold": 175,
+      "chars": null,
+      "image_save_file": "danger_room_join",
+      "description": "Danger Room: Join button inside room's lobby."
+    }
+  },
+  {
+    "DANGER_ROOM_CANCEL_SEARCH": {
+      "text_rect": {
+        "x1": 0.4583333333333333,
+        "y1": 0.8546296296296296,
+        "x2": 0.5453125,
+        "y2": 0.9148148148148149
+      },
+      "button_rect": {
+        "x1": 0.4583333333333333,
+        "y1": 0.8546296296296296,
+        "x2": 0.5453125,
+        "y2": 0.9148148148148149
+      },
+      "text": "CANCEL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_cancel_search",
+      "description": "Danger Room: Cancel button in Search Team window."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_SELECT_MENU": {
+      "text_rect": {
+        "x1": 0.5963541666666666,
+        "y1": 0.08148148148148149,
+        "x2": 0.6854166666666667,
+        "y2": 0.12777777777777777
+      },
+      "button_rect": null,
+      "text": "Characters",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_character_select_menu",
+      "description": "Danger Room: Characters label in Character select menu."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_1": {
+      "text_rect": {
+        "x1": 0.6791666666666667,
+        "y1": 0.15555555555555556,
+        "x2": 0.7208333333333333,
+        "y2": 0.1814814814814815
+      },
+      "button_rect": {
+        "x1": 0.6270833333333333,
+        "y1": 0.1962962962962963,
+        "x2": 0.7020833333333333,
+        "y2": 0.337037037037037
+      },
+      "text": null,
+      "image_threshold": 70,
+      "chars": "1234567890.%",
+      "image_save_file": "danger_room_character_1",
+      "description": "Danger Room: Character #1 in selector (from top-left to bottom-right)."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_2": {
+      "text_rect": {
+        "x1": 0.8052083333333333,
+        "y1": 0.15555555555555556,
+        "x2": 0.846875,
+        "y2": 0.1814814814814815
+      },
+      "button_rect": {
+        "x1": 0.7520833333333333,
+        "y1": 0.1962962962962963,
+        "x2": 0.828125,
+        "y2": 0.337037037037037
+      },
+      "text": null,
+      "image_threshold": 70,
+      "chars": "1234567890.%",
+      "image_save_file": "danger_room_character_2",
+      "description": "Danger Room: Character #2 in selector (from top-left to bottom-right)."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_3": {
+      "text_rect": {
+        "x1": 0.9302083333333333,
+        "y1": 0.15555555555555556,
+        "x2": 0.971875,
+        "y2": 0.1814814814814815
+      },
+      "button_rect": {
+        "x1": 0.8770833333333333,
+        "y1": 0.1962962962962963,
+        "x2": 0.953125,
+        "y2": 0.337037037037037
+      },
+      "text": null,
+      "image_threshold": 70,
+      "chars": "1234567890.%",
+      "image_save_file": "danger_room_character_3",
+      "description": "Danger Room: Character #3 in selector (from top-left to bottom-right)."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_4": {
+      "text_rect": {
+        "x1": 0.6791666666666667,
+        "y1": 0.43148148148148147,
+        "x2": 0.7208333333333333,
+        "y2": 0.45555555555555555
+      },
+      "button_rect": {
+        "x1": 0.6270833333333333,
+        "y1": 0.4666666666666667,
+        "x2": 0.7020833333333333,
+        "y2": 0.6092592592592593
+      },
+      "text": null,
+      "image_threshold": 70,
+      "chars": "1234567890.%",
+      "image_save_file": "danger_room_character_4",
+      "description": "Danger Room: Character #4 in selector (from top-left to bottom-right)."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_5": {
+      "text_rect": {
+        "x1": 0.8052083333333333,
+        "y1": 0.43148148148148147,
+        "x2": 0.846875,
+        "y2": 0.45555555555555555
+      },
+      "button_rect": {
+        "x1": 0.7520833333333333,
+        "y1": 0.4666666666666667,
+        "x2": 0.828125,
+        "y2": 0.6092592592592593
+      },
+      "text": null,
+      "image_threshold": 70,
+      "chars": "1234567890.%",
+      "image_save_file": "danger_room_character_5",
+      "description": "Danger Room: Character #5 in selector (from top-left to bottom-right)."
+    }
+  },
+  {
+    "DANGER_ROOM_CHARACTER_6": {
+      "text_rect": {
+        "x1": 0.9302083333333333,
+        "y1": 0.43148148148148147,
+        "x2": 0.971875,
+        "y2": 0.45555555555555555
+      },
+      "button_rect": {
+        "x1": 0.8770833333333333,
+        "y1": 0.4666666666666667,
+        "x2": 0.953125,
+        "y2": 0.6092592592592593
+      },
+      "text": null,
+      "image_threshold": 70,
+      "chars": "1234567890.%",
+      "image_save_file": "danger_room_character_6",
+      "description": "Danger Room: Character #6 in selector (from top-left to bottom-right)."
+    }
+  },
+  {
+    "DANGER_ROOM_MAINTAIN_CURRENT_TEAM": {
+      "text_rect": {
+        "x1": 0.06458333333333334,
+        "y1": 0.9,
+        "x2": 0.33229166666666665,
+        "y2": 0.962037037037037
+      },
+      "button_rect": {
+        "x1": 0.8911458333333333,
+        "y1": 0.9018518518518519,
+        "x2": 0.9484375,
+        "y2": 0.9722222222222222
+      },
+      "text": "Select to maintain the current team.",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_maintain_current_team",
+      "description": "Danger Room: message to maintain current team at the end of the battle. Button leads to NO."
+    }
+  },
+  {
+    "DANGER_ROOM_SCORE_RESULTS": {
+      "text_rect": {
+        "x1": 0.5645833333333333,
+        "y1": 0.3888888888888889,
+        "x2": 0.6494791666666667,
+        "y2": 0.43796296296296294
+      },
+      "button_rect": null,
+      "text": "RESULTS",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_score_results",
+      "description": "Danger Room: score's results at the end of the battle."
+    }
+  },
+  {
+    "DANGER_ROOM_HOME": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6005208333333333,
+        "y1": 0.8916666666666667,
+        "x2": 0.6505208333333333,
+        "y2": 0.9648148148148148
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "danger_room_home",
+      "description": "Danger Room: HOME button at the end of the battle."
+    }
+  },
+  {
+    "DANGER_ROOM_CONTINUE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8770833333333333,
+        "y1": 0.8916666666666667,
+        "x2": 0.9276041666666667,
+        "y2": 0.9648148148148148
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "danger_room_continue",
+      "description": "Danger Room: CONTINUE button at the end of the battle."
+    }
+  },
+  {
+    "DANGER_ROOM_GAME_CANCELED": {
+      "text_rect": {
+        "x1": 0.2578125,
+        "y1": 0.4388888888888889,
+        "x2": 0.7442708333333333,
+        "y2": 0.5203703703703704
+      },
+      "button_rect": {
+        "x1": 0.4708333333333333,
+        "y1": 0.7268518518518519,
+        "x2": 0.5354166666666667,
+        "y2": 0.7833333333333333
+      },
+      "text": "The game has been canceled because another user has left.",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_game_canceled",
+      "description": "Danger Room: message when game has been canceled. Button leads to OK."
+    }
+  },
+  {
+    "DANGER_ROOM_BATTLE_BEGINS_SOON": {
+      "text_rect": {
+        "x1": 0.4265625,
+        "y1": 0.4203703703703704,
+        "x2": 0.5734375,
+        "y2": 0.4675925925925926
+      },
+      "button_rect": null,
+      "text": "Battle begins soon.",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_battle_begins_soon",
+      "description": "Danger Room: message when the battle is ready to start."
+    }
+  },
+  {
+    "DANGER_ROOM_WEEKLY_RESULTS_CLOSE": {
+      "text_rect": {
+        "x1": 0.8416666666666667,
+        "y1": 0.924074074074074,
+        "x2": 0.9901041666666667,
+        "y2": 0.9879629629629629
+      },
+      "button_rect": {
+        "x1": 0.8416666666666667,
+        "y1": 0.924074074074074,
+        "x2": 0.9901041666666667,
+        "y2": 0.9879629629629629
+      },
+      "text": "TAP THE SCREEN",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_weekly_results_close",
+      "description": "Danger Room: close notification about weekly results."
+    }
+  },
+  {
+    "DANGER_ROOM_WEEKLY_REWARDS_CLOSE": {
+      "text_rect": {
+        "x1": 0.465625,
+        "y1": 0.8472222222222222,
+        "x2": 0.5385416666666667,
+        "y2": 0.9018518518518519
+      },
+      "button_rect": {
+        "x1": 0.465625,
+        "y1": 0.8472222222222222,
+        "x2": 0.5385416666666667,
+        "y2": 0.9018518518518519
+      },
+      "text": "CLOSE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_weekly_rewards_close",
+      "description": "Danger Room: close notification about weekly rewards."
+    }
+  },
+  {
+    "DANGER_ROOM_BATTLE_REVIVE": {
+      "text_rect": {
+        "x1": 0.4354166666666667,
+        "y1": 0.3416666666666667,
+        "x2": 0.5666666666666667,
+        "y2": 0.4046296296296296
+      },
+      "button_rect": null,
+      "text": "Revive in 10s...",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_battle_revive",
+      "description": "Danger Room: revive label in battle when your character is dead."
+    }
+  }
+]

@@ -5,6 +5,7 @@ from lib.game.missions.dimension_missions import DimensionMissions
 from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
     TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse
 from lib.game.missions.coop import CoopPlay
+from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
@@ -49,3 +50,6 @@ if __name__ == '__main__':
     wb = WorldBosses(game).do_missions(mode=WorldBosses.MODE.ULTIMATE, difficulty=1)
 
     dm = DimensionMissions(game).do_missions(times=20, difficulty=10)
+
+    # Available: DangerRoom.MODE.NORMAL or DangerRoom.MODE.EXTREME
+    DangerRoom(game).do_missions(times=1, mode=DangerRoom.MODE.NORMAL)

@@ -9,6 +9,7 @@ from lib.game.missions.dimension_missions import DimensionMissions
 from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
     TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse
 from lib.game.missions.coop import CoopPlay
+from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
@@ -71,9 +72,7 @@ class QueueItem(QListWidgetItem):
 class QueueItemEditor(QDialog, design.Ui_Dialog):
     """Class for working with editing elements of queue list."""
 
-    UNAVAILABLE_MODES = [
-        "SHADOWLAND", "WORLD EVENT", "DANGER ROOM", "BATTLEWORLD"
-    ]  # unrealized game modes
+    UNAVAILABLE_MODES = ["SHADOWLAND", "WORLD EVENT"]  # unrealized game modes
 
     def __init__(self, game):
         """Class initialization.
@@ -88,7 +87,8 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.modes = [_DoomsDay(game), _BeginningOfTheChaos(game), _MutualEnemy(game), _FateOfTheUniverse(game),
                       _TwistedWorld(game), _StupidXMen(game), _TheBigTwin(game), _VeiledSecret(game), _TheFault(game),
                       _CoopPlay(game), _TimelineBattle(game), _LegendaryBattle(game), _SquadBattles(game),
-                      _AllianceBattle(game), _WorldBosses(game), _DimensionMissions(game), _WorldBossInvasion(game)]
+                      _AllianceBattle(game), _WorldBosses(game), _DimensionMissions(game), _WorldBossInvasion(game),
+                      _DangerRoom(game)]
         self.mode_names = [mode.mode_name for mode in self.modes]
         self.loaded_modes = [mode for mode in load_game_modes() if mode not in self.UNAVAILABLE_MODES]
         if len(self.modes) != len(self.loaded_modes) + 1:
@@ -480,3 +480,12 @@ class _WorldBossInvasion(GameMode):
         super().__init__(game, "WORLD BOSS INVASION", WorldBossInvasion)
         self.mode_settings.all_stages = True
         self.mode_settings.stages = True
+
+
+class _DangerRoom(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "DANGER ROOM", DangerRoom)
+        self.mode_settings.all_stages = False
+        self.mode_settings.stages = True
+        self.mode_settings.mission_modes = [DangerRoom.MODE.NORMAL, DangerRoom.MODE.EXTREME]
