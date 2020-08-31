@@ -2,6 +2,7 @@ from datetime import datetime
 from PIL import ImageDraw, ImageFont
 from threading import Thread
 from lib.functions import bgr_to_rgb
+import autoit
 import cv2
 import numpy
 import os
@@ -57,6 +58,8 @@ class NoxPlayerSource:
         self.player.is_image_on_screen = self.is_image_on_screen_decorator(self.player,
                                                                            self.player.is_image_on_screen)
         win32api.PostMessage = self.win32api_post_message_decorator(self.player, win32api.PostMessage)
+        autoit.control_click_by_handle = self.control_click_by_handle_decorator(self.player,
+                                                                                autoit.control_click_by_handle)
 
     def frame(self):
         """Get frame from Nox Player.
@@ -152,6 +155,16 @@ class NoxPlayerSource:
                 element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
                 player.screen_elements.append(element)
             return post_message(*args, **kwargs)
+        return wrapped
+
+    @staticmethod
+    def control_click_by_handle_decorator(player, control_click_by_handle):
+        """autoit.control_click_by_handle decorator for debug drawing of click."""
+        def wrapped(hwnd, h_ctrl, **kwargs):
+            x, y = kwargs.get("x", 0), kwargs.get("y", 0)
+            element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
+            player.screen_elements.append(element)
+            return control_click_by_handle(hwnd, h_ctrl, **kwargs)
         return wrapped
 
 
