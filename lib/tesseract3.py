@@ -1,10 +1,12 @@
 ﻿import ctypes
 import ctypes.util
 import os
+import logging
 from multiprocessing.pool import ThreadPool
 from time import sleep
 
 TESSERACT3_LIBNAME = 'libtesseract-3.dll'
+logger = logging.getLogger()
 
 
 class TesseractError(Exception):
@@ -51,6 +53,9 @@ class TesseractLib(object):
 
         lib.TessBaseAPISetVariable.argtypes = (self.TessBaseAPI, ctypes.c_char_p, ctypes.c_char_p)
         lib.TessBaseAPISetVariable.restype = ctypes.c_bool
+
+        lib.TessBaseAPIClearAdaptiveClassifier.argtypes = (self.TessBaseAPI,)
+        lib.TessBaseAPIClearAdaptiveClassifier.restype = None
 
         lib.TessBaseAPIGetUTF8Text.restype = ctypes.c_char_p
         lib.TessBaseAPIGetUTF8Text.argtypes = (self.TessBaseAPI,)
@@ -109,6 +114,7 @@ class TesseractLib(object):
         self._check_setup()
         result = self.lib.TessBaseAPIGetUTF8Text(self.api)
         self.lib.TessBaseAPIClear(self.api)
+        self.lib.TessBaseAPIClearAdaptiveClassifier(self.api)
         return result
 
     def get_text(self):
@@ -144,7 +150,7 @@ class Tesseract(TesseractLib):
 
     def set_whitelist(self, whitelist=None):
         """Set whitelist characters for recognition."""
-        if whitelist:
+        if whitelist is not None:
             assert isinstance(whitelist, str)
             self.set_variable("tessedit_char_whitelist", whitelist)
 
@@ -204,6 +210,7 @@ class TesseractPool:
         self.data_path = os.path.join(lib_folder, data_folder)
         init_params = [(self.lib_path, self.data_path, self.language) for _ in range(processes)]
         with ThreadPool() as pool:
+            logger.debug(f"Creating {processes} Tesseract API(s).")
             self._pool = pool.starmap(self._init_tesseract_instance, init_params)
 
     @staticmethod
