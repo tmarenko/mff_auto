@@ -77,7 +77,11 @@ class DangerRoom(Missions):
         if mode == self.MODE.NORMAL:
             logger.info("Danger Room: starting NORMAL battle.")
             self.player.click_button(self.ui['DANGER_ROOM_NORMAL_MODE'].button)
-        if not wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_LOBBY'], timeout=20):
+        if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_BLOCK_NOTICE'], timeout=5):
+            logger.warning("Danger Room: you've been blocked after disconnect. Can't get to room.")
+            self.player.click_button(self.ui['DANGER_ROOM_BLOCK_NOTICE'].button)
+            return False
+        if not wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_LOBBY'], timeout=15):
             logger.warning("Danger Room: can't get in room's lobby. Probably stuck on loading. Trying to restart game.")
             if self.game.restart_game():
                 self.go_to_danger_room()

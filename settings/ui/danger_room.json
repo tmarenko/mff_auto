@@ -399,5 +399,26 @@
       "image_save_file": "danger_room_battle_revive",
       "description": "Danger Room: revive label in battle when your character is dead."
     }
+  },
+  {
+    "DANGER_ROOM_BLOCK_NOTICE": {
+      "text_rect": {
+        "x1": 0.48020833333333335,
+        "y1": 0.7296296296296296,
+        "x2": 0.5244791666666667,
+        "y2": 0.7814814814814814
+      },
+      "button_rect": {
+        "x1": 0.48020833333333335,
+        "y1": 0.7296296296296296,
+        "x2": 0.5244791666666667,
+        "y2": 0.7814814814814814
+      },
+      "text": "OK",
+      "image_threshold": 170,
+      "chars": "OK",
+      "image_save_file": "danger_room_block_notice",
+      "description": "Danger Room: notification when you blocked from the game after disconnect."
+    }
   }
 ]
