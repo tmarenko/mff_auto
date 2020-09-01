@@ -178,6 +178,7 @@ class LockedSkill:
             elif self.player.is_image_on_screen(self.skill_ui):
                 logger.debug(f"Found {self.name} skill image on screen. Now available to cast.")
                 self._skill_ready_image = self.skill_ui.image
+                self._skill_locked = False
             else:
                 logger.debug(f"No images of {self.name} skill on screen, locking.")
                 self._skill_locked = True
@@ -207,8 +208,7 @@ class ManualBattleBot(BattleBot):
         "1": 1, "2": 1, "3": 1,
         "4": 1.5,
         "5": 2,
-        "6": 6, "T3": 6,
-        "COOP": 0
+        "6": 6, "T3": 6
     }
 
     def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
@@ -217,8 +217,10 @@ class ManualBattleBot(BattleBot):
         :param game.Game game: instance of game.
         """
         super().__init__(game, battle_over_conditions, disconnect_conditions)
+        self.bonus_skills = []
         self._init_skills()
         self.current_character = None
+        self.current_bonus_skill = None
         self.BEST_DEFAULT_SKILL = None
         self.cached_available_skill = None
         self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
@@ -234,8 +236,16 @@ class ManualBattleBot(BattleBot):
         self.skill_5 = LockedSkill(self.game, "SKILL_5", skill_label_ui="SKILL_5_LABEL", skill_locked_ui=None)
         self.t3_skill = LockedSkill(self.game, "SKILL_T3", ["SKILL_T3_LOCKED", "SKILL_6_LOCKED"], "SKILL_T3_LABEL")
         self.awakening_skill = LockedSkill(self.game, "SKILL_6", ["SKILL_6_LOCKED", "SKILL_T3_LOCKED"], "SKILL_6_LABEL")
-        self.coop_skill = LockedSkill(self.game, "SKILL_COOP", "SKILL_COOP", skill_label_ui=None)
         self.base_skills = [self.skill_1, self.skill_2, self.skill_3, self.skill_4, self.skill_5]
+        coop_skill = LockedSkill(self.game, "SKILL_COOP", "SKILL_COOP", skill_label_ui=None)
+        self.bonus_skills = [coop_skill]
+
+    def init_danger_room_skills(self):
+        skill_regenerate = LockedSkill(self.game, "SKILL_REGENERATE", "SKILL_REGENERATE", skill_label_ui=None)
+        skill_tornado = LockedSkill(self.game, "SKILL_TORNADO", "SKILL_TORNADO", skill_label_ui=None)
+        skill_black_sun = LockedSkill(self.game, "SKILL_BLACK_SUN", "SKILL_BLACK_SUN", skill_label_ui=None)
+        self.bonus_skills = [skill_regenerate, skill_tornado, skill_black_sun]
+        self._init_skills = self.init_danger_room_skills
 
     def fight(self, move_around=False):
         """Start battle and use skills until the end of battle.
@@ -249,6 +259,8 @@ class ManualBattleBot(BattleBot):
                     self.load_character()
                     self.load_skills()
                 self.reload_skills_if_character_dead()
+                if self.get_available_bonus_skill():
+                    self.current_bonus_skill.cast_skill()
 
                 best_available_skill = self.get_best_available_skill()
                 if not best_available_skill:
@@ -329,13 +341,24 @@ class ManualBattleBot(BattleBot):
                 self.t3_skill._skill_locked = False
                 self.awakening_skill._skill_locked = True
 
-        self.coop_skill._skill_locked = self.player.is_image_on_screen(ui_element=self.ui['SKILL_COOP'])
-        self.coop_skill.check_skill_is_ready(forced=True)
         self.BEST_DEFAULT_SKILL = self.cached_available_skill
+
+    def get_available_bonus_skill(self):
+        """Get available bonus skill and save it.
+
+        :return: LockedSkill available bonus skill to cast.
+        """
+        if not self.current_bonus_skill:
+            for bonus_skill in self.bonus_skills:
+                bonus_skill.check_skill_is_ready(forced=True)
+                if bonus_skill.is_skill_ready():
+                    self.current_bonus_skill = bonus_skill
+        elif self.current_bonus_skill.is_skill_available():
+            return self.current_bonus_skill
 
     def get_best_available_skill(self):
         """Get best available skill to cast.
-        cached skill -> T3 -> 6 -> COOP -> 5 -> 4 -> 3 -> 2 -> 1
+        cached skill -> T3 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1
 
         :return: LockedSkill best available skill to cast.
         """
@@ -347,8 +370,6 @@ class ManualBattleBot(BattleBot):
             return self.t3_skill
         if self.awakening_skill.is_skill_available():
             return self.awakening_skill
-        if self.coop_skill.is_skill_available():
-            return self.coop_skill
         for skill in reversed(self.base_skills):
             if skill.is_skill_available():
                 return skill

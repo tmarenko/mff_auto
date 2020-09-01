@@ -623,5 +623,71 @@
       "image_save_file": "skill_5_label",
       "description": "5 skill label text at the left top corner."
     }
+  },
+  {
+    "SKILL_REGENERATE": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_regenerate.png",
+      "image_save_file": "skill_regenerate",
+      "description": "Regenerate skill button in Danger Room."
+    }
+  },
+  {
+    "SKILL_TORNADO": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_tornado.png",
+      "image_save_file": "skill_tornado",
+      "description": "Tornado skill button in Danger Room."
+    }
+  },
+  {
+    "SKILL_BLACK_SUN": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_black_sun.png",
+      "image_save_file": "skill_black_sun",
+      "description": "Black Sun skill button in Danger Room."
+    }
   }
 ]
