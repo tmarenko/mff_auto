@@ -1,4 +1,4 @@
-from lib.functions import wait_until, is_strings_similar
+from lib.functions import wait_until, is_strings_similar, r_sleep
 from lib.game.ui import load_daily_trivia
 import lib.logger as logging
 
@@ -77,6 +77,7 @@ class ShieldLab:
 
     def collect_antimatter(self):
         self.game.go_to_lab()
+        r_sleep(1)  # Wait for button's animation
         if self.player.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1']):
             logger.debug("Found COLLECT button with max lvl generator, collecting.")
             self.player.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1'].button)
