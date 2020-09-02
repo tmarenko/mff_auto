@@ -210,7 +210,7 @@ class TesseractPool:
         self.data_path = os.path.join(lib_folder, data_folder)
         init_params = [(self.lib_path, self.data_path, self.language) for _ in range(processes)]
         with ThreadPool() as pool:
-            logger.debug(f"Creating {processes} Tesseract API(s).")
+            logger.debug(f"Creating {processes} Tesseract API(s) with '{language}' language.")
             self._pool = pool.starmap(self._init_tesseract_instance, init_params)
 
     @staticmethod
@@ -228,6 +228,6 @@ class TesseractPool:
         """
         non_locked = [tess for tess in self._pool if not tess.locked]
         if not non_locked:
-            sleep(0.1)
+            sleep(0.05)
             return self.image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)
         return non_locked[0].image_to_string(image=image, whitelist=whitelist, page_segmentation=page_segmentation)

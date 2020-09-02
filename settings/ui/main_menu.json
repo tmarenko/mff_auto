@@ -358,7 +358,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 220,
+      "image_threshold": 200,
       "chars": "0123456789/",
       "image_save_file": "energy",
       "description": "Position of energy counter in top navigation bar."

@@ -6,7 +6,8 @@ from numpy import concatenate
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool
 
-tesseract = TesseractPool()
+tesseract_eng = TesseractPool(language="eng", processes=4)      # Use default eng data for any letters
+tesseract_mff = TesseractPool(language="mff+eng", processes=2)  # Use 'mff.traineddata' language for numbers
 
 
 def get_text_from_image(image, threshold, chars=None, save_file=None, max_height=None):
@@ -27,6 +28,7 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, max_height
     if save_file:
         cv2.imwrite(f"logs/tesseract/{save_file}.png", threshold_img)
     psm = 13 if chars else 3
+    tesseract = tesseract_mff if chars and any(char.isdigit() for char in chars) else tesseract_eng
     text = tesseract.image_to_string(threshold_img, whitelist=chars, page_segmentation=psm)
     return text
 
