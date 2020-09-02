@@ -1,3 +1,4 @@
+import lib.logger as logging
 from lib.players.nox_player import NoxWindow
 from lib.game.missions.legendary_battle import LegendaryBattle
 from lib.game.missions.alliance_battles import AllianceBattles
@@ -13,7 +14,6 @@ from lib.game.missions.world_bosses import WorldBosses
 from lib.game.routines import DailyTrivia
 from lib.game.game import Game
 
-import lib.logger as logging
 logger = logging.get_logger(__name__)
 
 

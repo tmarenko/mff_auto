@@ -1,4 +1,5 @@
 import json
+import lib.logger as logging
 from os.path import exists
 from PyQt5.QtWidgets import QMainWindow
 import lib.gui.designes.main_window as design
@@ -14,7 +15,6 @@ from lib.gui.helper import TwoStateButton, set_default_icon
 from lib.game.game import Game
 from lib.game.ui import Rect
 from lib.players.nox_player import NoxWindow
-import lib.logger as logging
 
 logger = logging.get_logger(__name__)
 
