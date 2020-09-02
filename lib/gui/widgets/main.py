@@ -14,6 +14,7 @@ from lib.gui.threading import ThreadPool
 from lib.gui.helper import TwoStateButton, set_default_icon
 
 from lib.game.game import Game
+from lib.game.battle_bot import BattleBot
 from lib.game.ui import Rect
 from lib.players.nox_player import NoxWindow
 
@@ -78,11 +79,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
                       self.shield_lab, self.restart_game]
 
-        if not self.game.go_to_main_menu():
-            logger.warning("Can't get to the main menu. Restarting the game just in case.")
-            self.block_buttons(caller_button=None)
-            worker = self.threads.run_thread(self.game.restart_game)
-            worker.signals.finished.connect(self.unblock_buttons)
+        if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
+            if not self.game.go_to_main_menu():
+                logger.warning("Can't get to the main menu. Restarting the game just in case.")
+                self.restart_game_button.click()
 
     def update_labels(self):
         """Update game's labels in thread to prevent GUI freezing."""
