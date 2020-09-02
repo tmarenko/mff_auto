@@ -430,3 +430,13 @@ class Game:
         for _ in range(timeout):
             result = result or wait_until(close_ads, timeout=1)
         return result
+
+    def close_complete_challenge_notification(self):
+        """Close Complete Challenge notification.
+
+        :return: True or False: was notification closed.
+        """
+        if self.player.is_ui_element_on_screen(self.ui['CHALLENGE_COMPLETE_NOTIFICATION']):
+            self.player.click_button(self.ui['CHALLENGE_COMPLETE_NOTIFICATION'].button)
+            return True
+        return False

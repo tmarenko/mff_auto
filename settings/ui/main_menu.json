@@ -772,6 +772,27 @@
       "image_save_file": "main_menu_lab",
       "description": "Main Menu Lab button."
     }
+  },
+  {
+    "CHALLENGE_COMPLETE_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.79757343550447,
+        "y1": 0.775,
+        "x2": 0.9208173690932312,
+        "y2": 0.8227272727272728
+      },
+      "button_rect": {
+        "x1": 0.7969348659003831,
+        "y1": 0.8670454545454546,
+        "x2": 0.9227330779054917,
+        "y2": 0.9204545454545454
+      },
+      "text": "CHALLENGES",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "challenge_complete_notification",
+      "description": "Notification of completion of some challenge."
+    }
   }
 ]
 

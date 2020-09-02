@@ -55,6 +55,8 @@ class DailyTrivia:
                         if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                                       ui_element=self.ui['DAILY_TRIVIA_CLOSE_ANSWER']):
                             self.player.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
+                            notification_closed = wait_until(self.game.close_complete_challenge_notification, timeout=3)
+                            logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
                             return True
                         else:
                             logger.error("Something went wrong after selecting correct answer.")

@@ -202,16 +202,6 @@ class Missions:
             self.close_after_mission_notifications(timeout=1)
         return True
 
-    def close_complete_challenge_notification(self):
-        """Close Complete Challenge notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['CHALLENGE_COMPLETE_NOTIFICATION']):
-            self.player.click_button(self.ui['CHALLENGE_COMPLETE_NOTIFICATION'].button)
-            return True
-        return False
-
     def close_lvl_up_notification(self):
         """Close LVL Up notification.
 
@@ -323,7 +313,7 @@ class Missions:
         :param timeout: timeout of waiting for notifications.
         """
         def close_notifications():
-            return self.close_complete_challenge_notification() or \
+            return self.game.close_complete_challenge_notification() or \
                    self.close_heroic_quest_notification() or \
                    self.close_epic_quest_notification()
 
