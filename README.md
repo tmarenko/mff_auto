@@ -92,6 +92,7 @@ Feel free to contribute. Don't forget about [license](LICENSE).
 - Install [Python 3.6.5](https://www.python.org/downloads/release/python-365)
 - Install [Tesseract OCR 3.05.02](https://digi.bib.uni-mannheim.de/tesseract) and add path to Tesseract to your `PATH` environment.
 - Download source code and install all requirements: ```pip install -r requirements.txt```
+- Copy `tessdata` folder to your Tesseract folder.
 - Add `lib` folder to your `PYTHONPATH` or mark it as lib source.
 
 Check `example.py` for examples of running any modes.
