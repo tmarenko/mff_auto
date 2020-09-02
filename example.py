@@ -11,7 +11,7 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.game.missions.world_bosses import WorldBosses
-from lib.game.routines import DailyTrivia
+from lib.game.routines import DailyTrivia, ShieldLab
 from lib.game.game import Game
 
 logger = logging.get_logger(__name__)
@@ -26,8 +26,12 @@ if __name__ == '__main__':
     game.set_timeline_team(2)                 # Setup your team for PVP missions
     game.ACQUIRE_HEROIC_QUEST_REWARDS = True  # Setup ability to collect Heroic Quest rewards
 
-    wbi = WorldBossInvasion(game).do_missions()
+    # Daily routines
     dt = DailyTrivia(game).do_trivia()
+    sl = ShieldLab(game).collect_antimatter()
+
+    # Missions
+    wbi = WorldBossInvasion(game).do_missions()
     dd = DoomsDay(game).do_missions()
     botc = BeginningOfTheChaos(game).do_missions()
     xm = MutualEnemy(game).do_missions()
