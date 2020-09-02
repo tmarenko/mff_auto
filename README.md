@@ -57,7 +57,7 @@ On first start you will see `Setup` window. Follow the instructions in the windo
   
 ### Main window
 
-![main_window](https://i.imgur.com/58JAcKl.png)
+![main_window](gui_preview.png)
 
 - `Game screen` shows you game's image at 6-7 fps.
 

@@ -4,7 +4,8 @@ from os.path import exists
 from PyQt5.QtWidgets import QMainWindow
 import lib.gui.designes.main_window as design
 
-from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask
+from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask, \
+    DangerRoomOneBattleTask, ShieldLabCollectAntimatterOneBattleTask, RestartGameTask
 from lib.gui.queue_manager import QueueList
 from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
@@ -48,6 +49,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         daily_trivia_button = self.create_blockable_button(button=self.daily_trivia_button)
         world_boss_invasion_button = self.create_blockable_button(button=self.world_boss_invasion_button)
         squad_battle_button = self.create_blockable_button(button=self.squad_battle_button)
+        danger_room_button = self.create_blockable_button(button=self.danger_room_button)
+        shield_lab_button = self.create_blockable_button(button=self.shield_lab_button)
+        restart_game_button = self.create_blockable_button(button=self.restart_game_button)
         self.queue_list = QueueList(list_widget=self.queue_list_widget, run_and_stop_button=run_and_stop_button,
                                     add_button=self.add_queue_button, edit_button=self.edit_queue_button,
                                     remove_button=self.remove_queue_button,
@@ -57,6 +61,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.daily_trivia = DailyTriviaTask(game=self.game, button=daily_trivia_button)
         self.world_boss_invasion = WorldBossInvasionTask(game=self.game, button=world_boss_invasion_button)
         self.squad_battle = SquadBattleAllTask(game=self.game, button=squad_battle_button)
+        self.danger_room = DangerRoomOneBattleTask(game=self.game, button=danger_room_button)
+        self.shield_lab = ShieldLabCollectAntimatterOneBattleTask(game=self.game, button=shield_lab_button)
+        self.restart_game = RestartGameTask(game=self.game, button=restart_game_button)
         self.screen_image = ScreenImageLabel(player=self.player, widget=self.screen_label)
         self.acquire_heroic_quest_rewards_state_changed()
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
@@ -66,8 +73,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         # self.update_labels() TODO: useless without checks if elements are visible
         self.blockable_buttons = [self.run_queue_button, self.add_queue_button, self.edit_queue_button,
                                   self.remove_queue_button, self.squad_battle_button, self.world_boss_invasion_button,
-                                  self.daily_trivia_button, self.autoplay_button]
-        self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle]
+                                  self.daily_trivia_button, self.autoplay_button, self.danger_room_button,
+                                  self.shield_lab_button, self.restart_game_button]
+        self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
+                      self.shield_lab, self.restart_game]
 
         if not self.game.go_to_main_menu():
             logger.warning("Can't get to the main menu. Restarting the game just in case.")

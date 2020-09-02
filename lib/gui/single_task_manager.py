@@ -1,7 +1,8 @@
 ﻿from multiprocess.context import Process
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
-from lib.game.routines import DailyTrivia
+from lib.game.routines import DailyTrivia, ShieldLab
+from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.gui.threading import ThreadPool
@@ -103,3 +104,40 @@ class SquadBattleAllTask(SingleTask):
             return sb.do_missions(*args, **kwargs)
 
         super().__init__(button, do_missions, {"mode": SquadBattles.MODE.ALL_BATTLES})
+
+
+class DangerRoomOneBattleTask(SingleTask):
+
+    def __init__(self, button, game: Game):
+        dr = DangerRoom(game)
+
+        def do_missions(*args, **kwargs):
+            # Screen will never unlock itself inside side-process
+            dr.player.screen_locked = False
+            return dr.do_missions(*args, **kwargs)
+
+        super().__init__(button, do_missions, {"times": 1})
+
+
+class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
+
+    def __init__(self, button, game: Game):
+        sl = ShieldLab(game)
+
+        def collect_antimatter():
+            # Screen will never unlock itself inside side-process
+            sl.player.screen_locked = False
+            return sl.collect_antimatter()
+
+        super().__init__(button, collect_antimatter, {})
+
+
+class RestartGameTask(SingleTask):
+
+    def __init__(self, button, game: Game):
+        def restart_game():
+            # Screen will never unlock itself inside side-process
+            game.player.screen_locked = False
+            return game.restart_game()
+
+        super().__init__(button, restart_game, {})

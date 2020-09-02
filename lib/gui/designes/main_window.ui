@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>772</width>
+    <width>880</width>
     <height>518</height>
    </rect>
   </property>
@@ -81,7 +81,7 @@
      <rect>
       <x>190</x>
       <y>360</y>
-      <width>571</width>
+      <width>681</width>
       <height>131</height>
      </rect>
     </property>
@@ -147,8 +147,8 @@
    <widget class="QPushButton" name="daily_trivia_button">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>160</y>
+      <x>770</x>
+      <y>60</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -168,7 +168,7 @@
     </property>
     <property name="text">
      <string>World Boss 
-Invasion</string>
+Invasion: ALL</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -338,7 +338,7 @@ color: rgb(0, 0, 127);</string>
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>751</width>
+      <width>861</width>
       <height>41</height>
      </rect>
     </property>
@@ -415,7 +415,7 @@ color: rgb(0, 0, 127);</string>
      <rect>
       <x>0</x>
       <y>34</y>
-      <width>771</width>
+      <width>881</width>
       <height>20</height>
      </rect>
     </property>
@@ -467,7 +467,7 @@ color: rgb(0, 0, 127);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="game_screen_txt_2">
+   <widget class="QLabel" name="settings_txt">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -559,7 +559,7 @@ color: rgb(0, 0, 127);</string>
    <widget class="QPushButton" name="list_deselect_all_button">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>106</x>
       <y>470</y>
       <width>75</width>
       <height>23</height>
@@ -567,6 +567,47 @@ color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
      <string>Deselect All</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="shield_lab_button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>110</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Shield Lab:
+Collect Antimatter</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="danger_room_button">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>160</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Danger Room:
+One Battle</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="restart_game_button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>310</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Restart Game</string>
     </property>
    </widget>
    <zorder>line_4</zorder>
@@ -593,16 +634,19 @@ color: rgb(0, 0, 127);</string>
    <zorder>mission_queue_txt</zorder>
    <zorder>game_screen_txt</zorder>
    <zorder>quick_start_txt</zorder>
-   <zorder>game_screen_txt_2</zorder>
+   <zorder>settings_txt</zorder>
    <zorder>list_select_all_button</zorder>
    <zorder>list_deselect_all_button</zorder>
+   <zorder>shield_lab_button</zorder>
+   <zorder>danger_room_button</zorder>
+   <zorder>restart_game_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>772</width>
+     <width>880</width>
      <height>21</height>
     </rect>
    </property>
