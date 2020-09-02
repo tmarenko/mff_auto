@@ -30,6 +30,7 @@ LIB_FOLDER = "lib"
 SETTINGS_FOLDER = "settings"
 GUI_FOLDER = "gui"
 UI_FOLDER = "ui"
+TESSDATA_FOLDER = "tessdata"
 TESSERACT_FOLDER = "tesseract"
 LOG_FOLDER = "logs"
 EXAMPLE_FILE = "example.py"
@@ -54,6 +55,7 @@ def copy_project_files():
     copy_tree(src=LIB_FOLDER, dst=os.path.join(BUILD_FOLDER, LIB_FOLDER))
     copy_tree(src=IMAGES_FOLDER, dst=os.path.join(BUILD_FOLDER, IMAGES_FOLDER))
     copy_tree(src=SETTINGS_FOLDER, dst=os.path.join(BUILD_FOLDER, SETTINGS_FOLDER))
+    copy_tree(src=TESSDATA_FOLDER, dst=os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, TESSDATA_FOLDER))
     shutil.copy2(src=EXAMPLE_FILE, dst=os.path.join(BUILD_FOLDER, APP_FILE))
     shutil.copy2(src=GUI_APP_FILE, dst=os.path.join(BUILD_FOLDER, GUI_APP_FILE))
     shutil.copy2(src=GUI_ICON, dst=os.path.join(BUILD_FOLDER, GUI_ICON))
