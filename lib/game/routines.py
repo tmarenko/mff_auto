@@ -74,7 +74,6 @@ class ShieldLab:
         self.game = game
         self.player = game.player
         self.ui = game.ui
-        self.trivia = load_daily_trivia()
 
     def collect_antimatter(self):
         self.game.go_to_lab()
