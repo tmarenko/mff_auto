@@ -176,6 +176,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.difficulty_label.setEnabled(mode_settings.difficulty)
         self.difficulty_spin_box.setVisible(mode_settings.difficulty)
         self.difficulty_spin_box.setEnabled(mode_settings.difficulty)
+        self.use_hidden_tickets_checkbox.setVisible(mode_settings.use_hidden_tickets)
+        self.use_hidden_tickets_checkbox.setEnabled(mode_settings.use_hidden_tickets)
+        self.dm_acquire_rewards_checkbox.setVisible(mode_settings.acquire_rewards)
+        self.dm_acquire_rewards_checkbox.setEnabled(mode_settings.acquire_rewards)
         self.mission_mode_label.setVisible(bool(mode_settings.mission_modes))
         self.mission_mode_combo_box.setEnabled(bool(mode_settings.mission_modes))
         self.mission_mode_combo_box.setVisible(bool(mode_settings.mission_modes))
@@ -197,6 +201,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
             self.zero_boosts_check_box.setChecked(item_settings.zero_boosts_stop)
         if item_settings.difficulty:
             self.difficulty_spin_box.setValue(item_settings.difficulty)
+        if item_settings.use_hidden_tickets:
+            self.use_hidden_tickets_checkbox.setChecked(item_settings.use_hidden_tickets)
+        if item_settings.acquire_rewards:
+            self.dm_acquire_rewards_checkbox.setChecked(item_settings.acquire_rewards)
         if item_settings.mission_mode:
             self.mission_mode_combo_box.setCurrentText(item_settings.mission_mode)
         self.all_stages_changed()
@@ -218,8 +226,11 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         zero_boosts = self.zero_boosts_check_box.isChecked() if mode_settings.zero_boosts_stop else None
         stages_num = self.stages_spin_box.value() if mode_settings.stages and not all_stages else None
         difficulty = self.difficulty_spin_box.value() if mode_settings.difficulty else None
+        use_hidden_tickets = self.use_hidden_tickets_checkbox.isChecked() if mode_settings.use_hidden_tickets else None
+        acquire_rewards = self.dm_acquire_rewards_checkbox.isChecked() if mode_settings.acquire_rewards else None
         mission_mode = self.mission_mode_combo_box.currentText() if mode_settings.mission_modes else None
-        return all_stages, stages_num, farm_bios, zero_boosts, difficulty, mission_mode
+        return all_stages, stages_num, farm_bios, zero_boosts, difficulty, use_hidden_tickets, acquire_rewards, \
+               mission_mode
 
     def render_queue_item(self):
         """Render queue item."""
@@ -253,19 +264,23 @@ class GameMode:
             self.farm_bios = False
             self.zero_boosts_stop = False
             self.difficulty = False
+            self.use_hidden_tickets = False
+            self.acquire_rewards = False
             self.mission_modes = []
 
     class QueueItemSettings:
         """Class for working with customizable settings from GUI."""
 
         def __init__(self, all_stages=None, stages_num=None, farm_bios=None, zero_boosts_stop=None, difficulty=None,
-                     mission_mode=None):
+                     use_hidden_tickets=None, acquire_rewards=None, mission_mode=None):
             """Class initialization."""
             self.all_stages = all_stages
             self.stages_num = stages_num
             self.farm_bios = farm_bios
             self.zero_boosts_stop = zero_boosts_stop
             self.difficulty = difficulty
+            self.use_hidden_tickets = use_hidden_tickets
+            self.acquire_rewards = acquire_rewards
             self.mission_mode = mission_mode
 
         @staticmethod
@@ -279,9 +294,12 @@ class GameMode:
             farm_bios = item_settings.get("farm_shifter_bios")
             zero_boosts_stop = None  # TODO: add ability to stop missions
             difficulty = item_settings.get("difficulty")
+            use_hidden_tickets = item_settings.get("use_hidden_tickets")
+            acquire_rewards = item_settings.get("acquire_rewards")
             mission_mode = item_settings.get("mode")
             return GameMode.QueueItemSettings(all_stages=all_stages, stages_num=stages_num, farm_bios=farm_bios,
                                               zero_boosts_stop=zero_boosts_stop, difficulty=difficulty,
+                                              use_hidden_tickets=use_hidden_tickets, acquire_rewards=acquire_rewards,
                                               mission_mode=mission_mode)
 
         def render(self):
@@ -295,6 +313,10 @@ class GameMode:
                 params.update({"mode": self.mission_mode})
             if self.difficulty:
                 params.update({"difficulty": self.difficulty})
+            if self.use_hidden_tickets:
+                params.update({"use_hidden_tickets": self.use_hidden_tickets})
+            if self.acquire_rewards:
+                params.update({"acquire_rewards": self.acquire_rewards})
             if self.zero_boosts_stop:
                 # TODO: add ability to stop missions
                 pass
@@ -464,6 +486,8 @@ class _DimensionMissions(GameMode):
         self.mode_settings.stages = True
         self.mode_settings.zero_boosts_stop = True
         self.mode_settings.difficulty = True
+        self.mode_settings.use_hidden_tickets = True
+        self.mode_settings.acquire_rewards = True
 
 
 class _SquadBattles(GameMode):

@@ -104,66 +104,6 @@
     <number>1</number>
    </property>
   </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>90</y>
-     <width>151</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QCheckBox" name="all_stages_check_box">
-      <property name="text">
-       <string>All stages</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>140</y>
-     <width>151</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QCheckBox" name="farm_bios_check_box">
-      <property name="text">
-       <string>Farm bios</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>190</y>
-     <width>151</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
-    <item>
-     <widget class="QCheckBox" name="zero_boosts_check_box">
-      <property name="text">
-       <string>Stop when 0 boost points</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QWidget" name="verticalLayoutWidget_4">
    <property name="geometry">
     <rect>
@@ -211,39 +151,90 @@
     </item>
    </layout>
   </widget>
-  <widget class="QComboBox" name="mission_mode_combo_box">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>140</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="currentIndex">
-    <number>-1</number>
-   </property>
-   <item>
-    <property name="text">
-     <string>ULTIMATE TEST</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="mission_mode_label">
+  <widget class="QWidget" name="verticalLayoutWidget_6">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>140</y>
-     <width>121</width>
-     <height>41</height>
+     <y>90</y>
+     <width>211</width>
+     <height>151</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Select mission mode:</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <item>
+     <widget class="QCheckBox" name="all_stages_check_box">
+      <property name="text">
+       <string>All stages</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="farm_bios_check_box">
+      <property name="text">
+       <string>Farm bios</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="zero_boosts_check_box">
+      <property name="text">
+       <string>Stop when 0 boost points</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="use_hidden_tickets_checkbox">
+      <property name="text">
+       <string>Use Hidden Tickets</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="dm_acquire_rewards_checkbox">
+      <property name="text">
+       <string>Acquire rewards</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="mission_mode_label">
+        <property name="text">
+         <string>Select mission mode:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="mission_mode_combo_box">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="currentIndex">
+         <number>-1</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>ULTIMATE TEST</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
