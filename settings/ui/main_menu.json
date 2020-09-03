@@ -793,6 +793,27 @@
       "image_save_file": "challenge_complete_notification",
       "description": "Notification of completion of some challenge."
     }
+  },
+  {
+    "ALLIANCE_CONQUEST_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.36822916666666666,
+        "y1": 0.837037037037037,
+        "x2": 0.440625,
+        "y2": 0.8953703703703704
+      },
+      "button_rect": {
+        "x1": 0.36822916666666666,
+        "y1": 0.837037037037037,
+        "x2": 0.440625,
+        "y2": 0.8953703703703704
+      },
+      "text": "CLOSE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_conquest_notification",
+      "description": "Notification of Alliance Conquest at the start of the game."
+    }
   }
 ]
 

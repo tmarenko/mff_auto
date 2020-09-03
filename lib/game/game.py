@@ -363,6 +363,7 @@ class Game:
         """
         def is_game_started():
             is_started = self.close_daily_rewards() or \
+                         self.close_alliance_conquest() or \
                          self.close_battleworld_rewards() or \
                          self.close_maintenance_notice() or \
                          self.close_ads() or \
@@ -372,13 +373,20 @@ class Game:
             return is_started
 
         self.player.click_button(self.ui['GAME_APP'].button)
-        if wait_until(is_game_started, timeout=120):
-            self.close_daily_rewards()
-            self.close_maintenance_notice()
-            self.close_ads()
-            logger.debug("Game started successfully.")
-            return True
+        if wait_until(is_game_started, timeout=120, period=2):
+            r_sleep(2)  # Wait for ad/rewards animation
+            if not self.is_main_menu():
+                if wait_until(is_game_started, timeout=5):
+                    logger.debug("Game started successfully.")
+                    return self.is_main_menu()
         logger.warning("Failed to start game")
+        return False
+
+    def close_alliance_conquest(self):
+        """Close Alliance Conquest notice window."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['ALLIANCE_CONQUEST_NOTIFICATION']):
+            self.player.click_button(self.ui['ALLIANCE_CONQUEST_NOTIFICATION'].button)
+            return True
         return False
 
     def close_maintenance_notice(self):
