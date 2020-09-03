@@ -78,7 +78,7 @@
         "y2": 0.9648148148148148
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "home_button.png",
       "image_save_file": "mission_home_button_middle",
@@ -95,7 +95,7 @@
         "y2": 0.9638888888888889
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "home_button.png",
       "image_save_file": "mission_home_button_left",
