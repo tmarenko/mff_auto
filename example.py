@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # Available: WorldBosses.MODE.BEGINNER or WorldBosses.MODE.NORMAL or WorldBosses.MODE.ULTIMATE
     wb = WorldBosses(game).do_missions(mode=WorldBosses.MODE.ULTIMATE, difficulty=1)
 
-    dm = DimensionMissions(game).do_missions(times=20, difficulty=10)
+    dm = DimensionMissions(game).do_missions(times=20, difficulty=10, use_hidden_tickets=True, acquire_rewards=True)
 
     # Available: DangerRoom.MODE.NORMAL or DangerRoom.MODE.EXTREME
     DangerRoom(game).do_missions(times=1, mode=DangerRoom.MODE.NORMAL)

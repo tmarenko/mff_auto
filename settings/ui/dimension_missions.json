@@ -269,7 +269,7 @@
         "y2": 0.8092592592592592
       },
       "text": "Next Reward",
-      "image_threshold": 150,
+      "image_threshold": 170,
       "chars": null,
       "image_save_file": "dm_acquire_next_reward",
       "description": "Dimensions Missions: acquire next reward button."
@@ -290,7 +290,7 @@
         "y2": 0.8101851851851852
       },
       "text": "OK",
-      "image_threshold": 150,
+      "image_threshold": 170,
       "chars": "OK",
       "image_save_file": "dm_reward_acquired_ok",
       "description": "Dimensions Missions: OK button at the end of acquiring last reward."
