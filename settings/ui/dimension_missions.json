@@ -46,7 +46,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 170,
       "chars": "1234567890",
       "image_save_file": "dimension_missions_level",
       "description": "Dimension missions stage level."

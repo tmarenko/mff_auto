@@ -79,6 +79,7 @@ class DimensionMissions(Missions):
                 self.decrease_stage_level()
             if self.stage_level < level_num:
                 self.increase_stage_level()
+            logger.debug(f"Dimensions Missions: current stage level is {self.stage_level}")
 
     def select_team(self):
         """Select team for missions."""
