@@ -46,7 +46,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 170,
+      "image_threshold": 185,
       "chars": "1234567890",
       "image_save_file": "dimension_missions_level",
       "description": "Dimension missions stage level."
@@ -297,7 +297,7 @@
     }
   },
   {
-    "DM_TICKET_NOTIFICATION": {
+    "DM_TICKET_NOTIFICATION_USE": {
       "text_rect": {
         "x1": 0.5609339407744874,
         "y1": 0.7338056680161943,
@@ -313,8 +313,29 @@
       "text": "USE",
       "image_threshold": 175,
       "chars": "USE",
-      "image_save_file": "dm_ticket_notification",
+      "image_save_file": "dm_ticket_notification_use",
       "description": "Notification of you need to use hidden tickets. Leads to OK (use tickets) button."
+    }
+  },
+  {
+    "DM_TICKET_NOTIFICATION_DONT_USE": {
+      "text_rect": {
+        "x1": 0.5609339407744874,
+        "y1": 0.7338056680161943,
+        "x2": 0.5979498861047836,
+        "y2": 0.7793522267206477
+      },
+      "button_rect": {
+        "x1": 0.3776041666666667,
+        "y1": 0.7296296296296296,
+        "x2": 0.4703125,
+        "y2": 0.7851851851851852
+      },
+      "text": "USE",
+      "image_threshold": 175,
+      "chars": "USE",
+      "image_save_file": "dm_ticket_notification_dont_use",
+      "description": "Notification of you need to use hidden tickets. Leads to DON'T (don't use tickets) button."
     }
   }
 ]

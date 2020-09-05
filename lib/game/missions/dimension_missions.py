@@ -147,8 +147,13 @@ class DimensionMissions(Missions):
         """Press start button of the mission."""
         if super().press_start_button(start_button_ui=start_button_ui):
             if use_hidden_tickets and wait_until(self.player.is_ui_element_on_screen, timeout=2,
-                                                 ui_element=self.ui['DM_TICKET_NOTIFICATION']):
-                self.player.click_button(self.ui['DM_TICKET_NOTIFICATION'].button)
+                                                 ui_element=self.ui['DM_TICKET_NOTIFICATION_USE']):
+                logger.debug("Dimension Missions: clicked USE hidden tickets.")
+                self.player.click_button(self.ui['DM_TICKET_NOTIFICATION_USE'].button)
+            if not use_hidden_tickets and wait_until(self.player.is_ui_element_on_screen, timeout=2,
+                                                     ui_element=self.ui['DM_TICKET_NOTIFICATION_DONT_USE']):
+                logger.debug("Dimension Missions: clicked DON'T USE hidden tickets.")
+                self.player.click_button(self.ui['DM_TICKET_NOTIFICATION_DONT_USE'].button)
             return True
         return False
 
