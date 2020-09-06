@@ -20,11 +20,10 @@ class Rect:
         self.y1 = y1
         self.y2 = y2
         self.parent = parent
-        self._tuple = self.x1, self.y1, self.x2, self.y2
 
     def __getitem__(self, index):
         """Get rect values by index same as rect object was a tuple."""
-        return self._tuple[index]
+        return (self.x1, self.y1, self.x2, self.y2)[index]
 
     @property
     def value(self):

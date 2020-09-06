@@ -66,10 +66,10 @@
   {
     "COOP_USER_NAME": {
       "text_rect": {
-        "x1": 0.4270833333333333,
-        "y1": 0.6212962962962963,
-        "x2": 0.5395833333333333,
-        "y2": 0.6555555555555556
+        "x1": 0.43020833333333336,
+        "y1": 0.6203703703703703,
+        "x2": 0.5359375,
+        "y2": 0.6564814814814814
       },
       "button_rect": null,
       "text": null,
@@ -77,6 +77,22 @@
       "chars": null,
       "image_save_file": "coop_user_name",
       "description": "Player username that shown if you have deployed a character."
+    }
+  },
+  {
+    "COOP_USER_NAME_ONE_LETTER": {
+      "text_rect": {
+        "x1": 0.43020833333333336,
+        "y1": 0.6203703703703703,
+        "x2": 0.4390625,
+        "y2": 0.6564814814814814
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 110,
+      "chars": null,
+      "image_save_file": "coop_user_name_one_letter",
+      "description": "One letter in player's username."
     }
   },
   {

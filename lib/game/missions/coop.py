@@ -23,11 +23,17 @@ class CoopPlay(Missions):
 
         return [coop_completion]
 
+    def calculate_username_length(self):
+        """Calculate position of username in Co-op."""
+        self.game.ui['COOP_USER_NAME'].text = self.game.user_name
+        new_width = self.game.ui['COOP_USER_NAME_ONE_LETTER'].rect.width * len(self.game.ui['COOP_USER_NAME'].text)
+        self.game.ui['COOP_USER_NAME'].rect.x2 = self.game.ui['COOP_USER_NAME'].rect.x1 + new_width
+
     def start_missions(self):
         """Start available missions."""
         logger.info(f"Coop play: {self.stages} stages available")
         if self.stages > 0:
-            self.game.ui['COOP_USER_NAME'].text = self.game.user_name
+            self.calculate_username_length()
             self.go_to_stages()
             self.check_rewards()
             if wait_until(self.player.is_image_on_screen, timeout=1, ui_element=self.ui['COOP_REPEAT_TOGGLE']):
