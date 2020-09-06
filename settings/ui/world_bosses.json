@@ -595,5 +595,26 @@
       "image_save_file": "wb_close_offer_ad_ok",
       "description": "Position of OK-button when you are trying to close ad in World Boss."
     }
+  },
+  {
+    "WB_EXCLUDE_CHARACTERS_FROM_ALLIES": {
+      "text_rect": {
+        "x1": 0.5385416666666667,
+        "y1": 0.7287037037037037,
+        "x2": 0.6197916666666666,
+        "y2": 0.7805555555555556
+      },
+      "button_rect": {
+        "x1": 0.5385416666666667,
+        "y1": 0.7287037037037037,
+        "x2": 0.6197916666666666,
+        "y2": 0.7805555555555556
+      },
+      "text": "START",
+      "image_threshold": 175,
+      "chars": null,
+      "image_save_file": "wb_exclude_characters_from_allies",
+      "description": "Notification when ally striker presents in the team."
+    }
   }
 ]

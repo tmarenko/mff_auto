@@ -133,6 +133,9 @@ class WorldBosses(Missions):
                 if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['WB_NOT_FULL_ALLY_TEAM']):
                     self.player.click_button(self.ui['WB_NOT_FULL_ALLY_TEAM'].button)
+                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['WB_EXCLUDE_CHARACTERS_FROM_ALLIES']):
+                    self.player.click_button(self.ui['WB_EXCLUDE_CHARACTERS_FROM_ALLIES'].button)
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                 self.close_mission_notifications()
                 return True
