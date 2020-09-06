@@ -1,4 +1,6 @@
 import autoit
+import ctypes
+import logging
 import win32gui, win32ui, win32process, win32api, win32con
 import random
 import time
@@ -8,6 +10,10 @@ from ctypes import windll
 from numpy import array
 from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
     is_color_similar, r_sleep
+
+
+awareness = ctypes.c_int()
+ctypes.windll.shcore.SetProcessDpiAwareness(2)  # Set process as high-DPI aware to get actual window's coordinates
 
 
 class NoxWindow(object):
@@ -27,6 +33,8 @@ class NoxWindow(object):
         self.screen_locked = False
         self.last_frame = None
         self.update_windows()
+        logging.debug(f"Initialized NoxWindow with name {self.name} and resolution {self.width, self.height}; "
+                      f"main window: {self.x1, self.y1, self.x2, self.y2}, parent: {self.parent_x, self.parent_y}")
 
     def _init_variables(self):
         """Variables initialization."""
