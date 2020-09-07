@@ -148,12 +148,12 @@ class EnhancePotential:
         if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_FAILED'],
                       timeout=3):
             logger.debug("Enhance Potential failed.")
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_FAILED'].button)
+            self.player.click_button(self.ui['ENHANCE_POTENTIAL_FAILED'].button, min_duration=1, max_duration=1.5)
             return False
         if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_SUCCESS'],
                       timeout=3):
             logger.debug("Enhance Potential success.")
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_SUCCESS'].button)
+            self.player.click_button(self.ui['ENHANCE_POTENTIAL_SUCCESS'].button, min_duration=1, max_duration=1.5)
             return True
 
     def enhance_potential(self, target_success_rate=10.00, material_to_use=(NORN_STONE_OF_CHAOS, BLACK_ANTI_MATTER)):
