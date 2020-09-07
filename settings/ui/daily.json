@@ -194,5 +194,169 @@
       "image_save_file": "daily_trivia_close_correct_answer",
       "description": "Daily Trivia close button when you selected answer."
     }
+  },
+  {
+    "ENHANCE_POTENTIAL_LABEL": {
+      "text_rect": {
+        "x1": 0.3494791666666667,
+        "y1": 0.012037037037037037,
+        "x2": 0.6515625,
+        "y2": 0.08888888888888889
+      },
+      "button_rect": null,
+      "text": "ENHANCE POTENTIAL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "enhance_potential_label",
+      "description": "Enhance Potential label when you're enhancing character."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_RATE": {
+      "text_rect": {
+        "x1": 0.4234375,
+        "y1": 0.5138888888888888,
+        "x2": 0.5833333333333334,
+        "y2": 0.5888888888888889
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 120,
+      "chars": "1234567890.%",
+      "image_save_file": "enchance_potential_label",
+      "description": "Enhance Potential success rate number."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_COSMIC_CUBES": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.18020833333333333,
+        "y1": 0.7166666666666667,
+        "x2": 0.20625,
+        "y2": 0.762962962962963
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Enhance Potential material: Cosmic Cube Fragments '+' button."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_ANTI_MATTER": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.46145833333333336,
+        "y1": 0.7166666666666667,
+        "x2": 0.4875,
+        "y2": 0.762962962962963
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Enhance Potential material: Black Anti-matter '+' button."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_NORN_STONES": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7427083333333333,
+        "y1": 0.7166666666666667,
+        "x2": 0.76875,
+        "y2": 0.762962962962963
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Enhance Potential material: Norn Stone of Chaos '+' button."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_UPGRADE": {
+      "text_rect": {
+        "x1": 0.5421875,
+        "y1": 0.8953703703703704,
+        "x2": 0.6364583333333333,
+        "y2": 0.9490740740740741
+      },
+      "button_rect": {
+        "x1": 0.5421875,
+        "y1": 0.8953703703703704,
+        "x2": 0.6364583333333333,
+        "y2": 0.9490740740740741
+      },
+      "text": "UPGRADE",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "enhance_potential_upgrade",
+      "description": "Enhance Potential upgrade button."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_UPGRADE_OK": {
+      "text_rect": {
+        "x1": 0.55625,
+        "y1": 0.7305555555555555,
+        "x2": 0.6005208333333333,
+        "y2": 0.7824074074074074
+      },
+      "button_rect": {
+        "x1": 0.55625,
+        "y1": 0.7305555555555555,
+        "x2": 0.6005208333333333,
+        "y2": 0.7824074074074074
+      },
+      "text": "OK",
+      "image_threshold": 170,
+      "chars": "OK",
+      "image_save_file": "enhance_potential_upgrade_ok",
+      "description": "Enhance Potential confirm upgrade button."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_FAILED": {
+      "text_rect": {
+        "x1": 0.4,
+        "y1": 0.025925925925925925,
+        "x2": 0.6015625,
+        "y2": 0.10185185185185185
+      },
+      "button_rect": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1,
+        "y2": 1
+      },
+      "text": "ENHANCE FAILED",
+      "image_threshold": 50,
+      "chars": null,
+      "image_save_file": "enhance_potential_failed",
+      "description": "Enhance Potential label when enhance is failed."
+    }
+  },
+  {
+    "ENHANCE_POTENTIAL_SUCCESS": {
+      "text_rect": {
+        "x1": 0.36875,
+        "y1": 0.02962962962962963,
+        "x2": 0.6322916666666667,
+        "y2": 0.09814814814814815
+      },
+      "button_rect": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1,
+        "y2": 1
+      },
+      "text": "ENHANCE SUCCESSFUL!",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "enhance_potential_success",
+      "description": "Enhance Potential label when enhance was successful."
+    }
   }
 ]

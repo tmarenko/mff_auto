@@ -11,7 +11,7 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.game.missions.world_bosses import WorldBosses
-from lib.game.routines import DailyTrivia, ShieldLab
+from lib.game.routines import DailyTrivia, ShieldLab, EnhancePotential
 from lib.game.game import Game
 
 logger = logging.get_logger(__name__)
@@ -57,3 +57,9 @@ if __name__ == '__main__':
 
     # Available: DangerRoom.MODE.NORMAL or DangerRoom.MODE.EXTREME
     DangerRoom(game).do_missions(times=1, mode=DangerRoom.MODE.NORMAL)
+
+    # Open 'Enhance Potential' menu of any character to automate enhancement
+    ep = EnhancePotential(game).enhance_potential(target_success_rate=10.00,
+                                                  material_to_use=(EnhancePotential.NORN_STONE_OF_CHAOS,
+                                                                   EnhancePotential.BLACK_ANTI_MATTER,
+                                                                   EnhancePotential.COSMIC_CUBE_FRAGMENT))
