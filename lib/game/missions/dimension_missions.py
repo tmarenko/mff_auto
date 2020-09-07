@@ -99,7 +99,7 @@ class DimensionMissions(Missions):
 
     def do_missions(self, times=0, difficulty=15, use_hidden_tickets=False, acquire_rewards=False):
         """Do missions."""
-        self.start_missions(times=times, difficulty=difficulty)
+        self.start_missions(times=times, difficulty=difficulty, use_hidden_tickets=use_hidden_tickets)
         if acquire_rewards:
             self.acquire_rewards()
         self.end_missions()
