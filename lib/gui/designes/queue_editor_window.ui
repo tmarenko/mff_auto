@@ -76,7 +76,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>90</y>
+     <y>70</y>
      <width>51</width>
      <height>41</height>
     </rect>
@@ -92,7 +92,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>140</y>
+     <y>120</y>
      <width>51</width>
      <height>41</height>
     </rect>
@@ -108,7 +108,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>90</y>
+     <y>70</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -133,7 +133,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>140</y>
+     <y>120</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -155,9 +155,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>90</y>
+     <y>70</y>
      <width>211</width>
-     <height>151</height>
+     <height>167</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -204,6 +204,33 @@
        <bool>true</bool>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="timeline_skip_label">
+        <property name="text">
+         <string>How many opponents to skip</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="timeline_skip_combobox">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">

@@ -29,14 +29,25 @@ class TimelineBattle(Missions):
         logger.debug(f"Selecting team: {team_element.name}")
         self.player.click_button(team_element.button)
 
-    def start_missions(self):
-        """Start TimeLine Battles."""
+    def do_missions(self, times=None, skip_opponent_count=0):
+        """Do missions."""
+        if times:
+            self.stages = times
+        if self.stages > 0:
+            self.start_missions(skip_opponent_count=skip_opponent_count)
+            self.end_missions()
+
+    def start_missions(self, skip_opponent_count=0):
+        """Start TimeLine Battles.
+
+        :param skip_opponent_count: how many opponents to skip before each battle.
+        """
         logger.info(f"Timeline Battle: {self.stages} stages available")
         if self.stages > 0:
             if not self.go_to_timeline_battle():
                 return
             while self.stages > 0:
-                self.search_new_opponent()
+                self.search_new_opponent(skip_opponent_count=skip_opponent_count)
                 self.fight()
         logger.info("No more stages for timeline battles.")
 
@@ -59,10 +70,16 @@ class TimelineBattle(Missions):
                 return True
         logger.warning("Can't get to timeline battle's stages.")
 
-    def search_new_opponent(self):
-        """Search new opponents to minimize lose points."""
+    def search_new_opponent(self, skip_opponent_count):
+        """Search new opponents to minimize lose points.
+
+        :param skip_opponent_count: how many opponents to skip before each battle.
+        """
+        if skip_opponent_count <= 0:
+            return
+        logger.debug(f"Timeline Battle: skipping {skip_opponent_count} opponents.")
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_SEARCH_NEW_OPPONENT']):
-            for _ in range(3):
+            for _ in range(skip_opponent_count):
                 self.player.click_button(self.ui['TL_SEARCH_NEW_OPPONENT'].button)
                 r_sleep(1)
 
@@ -71,6 +88,7 @@ class TimelineBattle(Missions):
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_FIGHT_BUTTON']):
             self.player.click_button(self.ui['TL_FIGHT_BUTTON'].button)
             AutoBattleBot(self.game, self.battle_over_conditions).fight()
+            r_sleep(1)  # Wait for button's animation
             self.stages -= 1
             if self.stages > 0:
                 self.press_repeat_button(repeat_button_ui='TL_REPEAT_BUTTON', start_button_ui='TL_FIGHT_BUTTON')

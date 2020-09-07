@@ -184,6 +184,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.mission_mode_combo_box.setEnabled(bool(mode_settings.mission_modes))
         self.mission_mode_combo_box.setVisible(bool(mode_settings.mission_modes))
         self.mission_mode_label.setEnabled(bool(mode_settings.mission_modes))
+        self.timeline_skip_label.setVisible(mode_settings.skip_opponents)
+        self.timeline_skip_label.setEnabled(mode_settings.skip_opponents)
+        self.timeline_skip_combobox.setVisible(mode_settings.skip_opponents)
+        self.timeline_skip_combobox.setEnabled(mode_settings.skip_opponents)
 
     def set_values_to_all_elements(self, item_settings):
         """Set value to all GUI elements by queue item.
@@ -207,6 +211,8 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
             self.dm_acquire_rewards_checkbox.setChecked(item_settings.acquire_rewards)
         if item_settings.mission_mode:
             self.mission_mode_combo_box.setCurrentText(item_settings.mission_mode)
+        if item_settings.skip_opponent_count:
+            self.timeline_skip_combobox.setValue(item_settings.skip_opponent_count)
         self.all_stages_changed()
 
     def all_stages_changed(self):
@@ -229,8 +235,9 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         use_hidden_tickets = self.use_hidden_tickets_checkbox.isChecked() if mode_settings.use_hidden_tickets else None
         acquire_rewards = self.dm_acquire_rewards_checkbox.isChecked() if mode_settings.acquire_rewards else None
         mission_mode = self.mission_mode_combo_box.currentText() if mode_settings.mission_modes else None
+        skip_opponent_count = self.timeline_skip_combobox.value() if mode_settings.skip_opponents else None
         return all_stages, stages_num, farm_bios, zero_boosts, difficulty, use_hidden_tickets, acquire_rewards, \
-               mission_mode
+               mission_mode, skip_opponent_count
 
     def render_queue_item(self):
         """Render queue item."""
@@ -267,12 +274,13 @@ class GameMode:
             self.use_hidden_tickets = False
             self.acquire_rewards = False
             self.mission_modes = []
+            self.skip_opponents = False
 
     class QueueItemSettings:
         """Class for working with customizable settings from GUI."""
 
         def __init__(self, all_stages=None, stages_num=None, farm_bios=None, zero_boosts_stop=None, difficulty=None,
-                     use_hidden_tickets=None, acquire_rewards=None, mission_mode=None):
+                     use_hidden_tickets=None, acquire_rewards=None, mission_mode=None, skip_opponent_count=None):
             """Class initialization."""
             self.all_stages = all_stages
             self.stages_num = stages_num
@@ -282,6 +290,7 @@ class GameMode:
             self.use_hidden_tickets = use_hidden_tickets
             self.acquire_rewards = acquire_rewards
             self.mission_mode = mission_mode
+            self.skip_opponent_count = skip_opponent_count
 
         @staticmethod
         def from_settings(item_settings):
@@ -297,10 +306,11 @@ class GameMode:
             use_hidden_tickets = item_settings.get("use_hidden_tickets")
             acquire_rewards = item_settings.get("acquire_rewards")
             mission_mode = item_settings.get("mode")
+            skip_opponent_count = item_settings.get("skip_opponent_count")
             return GameMode.QueueItemSettings(all_stages=all_stages, stages_num=stages_num, farm_bios=farm_bios,
                                               zero_boosts_stop=zero_boosts_stop, difficulty=difficulty,
                                               use_hidden_tickets=use_hidden_tickets, acquire_rewards=acquire_rewards,
-                                              mission_mode=mission_mode)
+                                              mission_mode=mission_mode, skip_opponent_count=skip_opponent_count)
 
         def render(self):
             """Render settings for game mode."""
@@ -320,6 +330,8 @@ class GameMode:
             if self.zero_boosts_stop:
                 # TODO: add ability to stop missions
                 pass
+            if self.skip_opponent_count:
+                params.update({"skip_opponent_count": self.skip_opponent_count})
             return params
 
     def __init__(self, game, mode_name, mode_module):
@@ -465,6 +477,7 @@ class _TimelineBattle(GameMode):
         super().__init__(game, "TIMELINE BATTLE", TimelineBattle)
         self.mode_settings.all_stages = True
         self.mode_settings.stages = True
+        self.mode_settings.skip_opponents = True
 
 
 class _WorldBosses(GameMode):
