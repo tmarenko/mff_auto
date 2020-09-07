@@ -33,8 +33,9 @@ class NoxWindow(object):
         self.screen_locked = False
         self.last_frame = None
         self.update_windows()
-        logging.debug(f"Initialized NoxWindow with name {self.name} and resolution {self.width, self.height}; "
-                      f"main window: {self.x1, self.y1, self.x2, self.y2}, parent: {self.parent_x, self.parent_y}")
+        if self.initialized:
+            logging.debug(f"Initialized NoxWindow with name {self.name} and resolution {self.width, self.height}; "
+                          f"main window: {self.x1, self.y1, self.x2, self.y2}, parent: {self.parent_x, self.parent_y}")
 
     def _init_variables(self):
         """Variables initialization."""
