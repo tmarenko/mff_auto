@@ -37,6 +37,7 @@ class QueueItem(QListWidgetItem):
         self.setText(self.name)
         self.setFlags(self.flags() | Qt.ItemIsUserCheckable)
         self.setCheckState(Qt.Checked)
+        self.setToolTip(self.name)
 
     def get_executor(self):
         """Get function with parameters to execute."""
