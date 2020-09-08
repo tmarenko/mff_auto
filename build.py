@@ -36,6 +36,7 @@ LOG_FOLDER = "logs"
 EXAMPLE_FILE = "example.py"
 APP_FILE = "app.py"
 GUI_APP_FILE = "app_gui.py"
+VERSION_FILE = "version.py"
 GUI_ICON = "icon.ico"
 START_BAT_FILE = "start.bat"
 README_FILE = "README.md"
@@ -58,6 +59,7 @@ def copy_project_files():
     copy_tree(src=TESSDATA_FOLDER, dst=os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, TESSDATA_FOLDER))
     shutil.copy2(src=EXAMPLE_FILE, dst=os.path.join(BUILD_FOLDER, APP_FILE))
     shutil.copy2(src=GUI_APP_FILE, dst=os.path.join(BUILD_FOLDER, GUI_APP_FILE))
+    shutil.copy2(src=VERSION_FILE, dst=os.path.join(BUILD_FOLDER, VERSION_FILE))
     shutil.copy2(src=GUI_ICON, dst=os.path.join(BUILD_FOLDER, GUI_ICON))
     shutil.copy2(src=README_FILE, dst=os.path.join(BUILD_FOLDER, README_FILE))
     shutil.copy2(src=LICENSE_FILE, dst=os.path.join(BUILD_FOLDER, LICENSE_FILE))
