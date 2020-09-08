@@ -689,5 +689,71 @@
       "image_save_file": "skill_black_sun",
       "description": "Black Sun skill button in Danger Room."
     }
+  },
+  {
+    "SKILL_OPPRESSION": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_oppression.png",
+      "image_save_file": "skill_oppression",
+      "description": "Oppression skill button in Danger Room."
+    }
+  },
+  {
+    "SKILL_BERSERK": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_berserk.png",
+      "image_save_file": "skill_berserk",
+      "description": "Berserk skill button in Danger Room."
+    }
+  },
+  {
+    "SKILL_TIME_FREEZE": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_time_freeze.png",
+      "image_save_file": "skill_time_freeze",
+      "description": "Time Freezing skill button in Danger Room."
+    }
   }
 ]

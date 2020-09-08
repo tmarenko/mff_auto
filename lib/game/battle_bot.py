@@ -244,7 +244,11 @@ class ManualBattleBot(BattleBot):
         skill_regenerate = LockedSkill(self.game, "SKILL_REGENERATE", "SKILL_REGENERATE", skill_label_ui=None)
         skill_tornado = LockedSkill(self.game, "SKILL_TORNADO", "SKILL_TORNADO", skill_label_ui=None)
         skill_black_sun = LockedSkill(self.game, "SKILL_BLACK_SUN", "SKILL_BLACK_SUN", skill_label_ui=None)
-        self.bonus_skills = [skill_regenerate, skill_tornado, skill_black_sun]
+        oppression_skill = LockedSkill(self.game, "SKILL_OPPRESSION", "SKILL_OPPRESSION", skill_label_ui=None)
+        berserk_skill = LockedSkill(self.game, "SKILL_BERSERK", "SKILL_BERSERK", skill_label_ui=None)
+        time_freeze = LockedSkill(self.game, "SKILL_TIME_FREEZE", "SKILL_TIME_FREEZE", skill_label_ui=None)
+        self.bonus_skills = [skill_regenerate, skill_tornado, skill_black_sun, oppression_skill, berserk_skill,
+                             time_freeze]
         self._init_skills = self.init_danger_room_skills
 
     def fight(self, move_around=False):
