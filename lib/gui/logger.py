@@ -5,7 +5,7 @@ import lib.logger as logging
 class QTextEditFileLogger(Timer):
     """Class for working with file logging in GUI."""
 
-    def __init__(self, logger_widget):
+    def __init__(self, logger_widget, log_file):
         """Class initialization.
 
         :param QPlainTextEdit logger_widget: widget to write log's text.
@@ -14,7 +14,7 @@ class QTextEditFileLogger(Timer):
         self.widget = logger_widget
         self.scrollbar = self.widget.verticalScrollBar()
         self.set_timer(self.update_text)
-        self.log_file = logging.fh.baseFilename
+        self.log_file = log_file
         self._old_txt_len = 0
 
     def update_text(self):

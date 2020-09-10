@@ -37,14 +37,15 @@ def save_game_settings(json_data, path="settings/gui/game.json"):
 class MainWindow(QMainWindow, design.Ui_MainWindow):
     """Class for working with main GUI window."""
 
-    def __init__(self):
+    def __init__(self, file_logger):
         """Class initialization."""
         super().__init__()
         self.setupUi(self)
         set_default_icon(window=self)
         self.player_name, self.game_app_rect, self.player, self.game = None, None, None, None
         self.load_settings_from_file()
-        self.logger = QTextEditFileLogger(logger_widget=self.logger_text)
+        self.game.file_logger_name = file_logger.baseFilename
+        self.logger = QTextEditFileLogger(logger_widget=self.logger_text, log_file=file_logger.baseFilename)
         run_and_stop_button = self.create_blockable_button(button=self.run_queue_button)
         autoplay_button = self.create_blockable_button(button=self.autoplay_button)
         daily_trivia_button = self.create_blockable_button(button=self.daily_trivia_button)

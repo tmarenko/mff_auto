@@ -54,6 +54,10 @@ class Updater:
         logger.info(f"Loaded version: mff_auto={self.old_version.mff_auto}, game={self.old_version.mff}, "
                     f"updater={self.old_version.updater}")
 
+    @property
+    def current_version(self):
+        return self.old_version.mff_auto
+
     @staticmethod
     def import_version_file(version_file_path):
         """Import version file as module.

@@ -3,6 +3,7 @@ import time
 import shutil
 import subprocess
 import urllib.request
+import version
 from distutils.dir_util import copy_tree
 
 
@@ -182,8 +183,8 @@ def create_gui_start_file():
 
 def archive_build():
     print("Archiving build folder.")
-    archive_build_cmd = [SEVEN_ZIP_EXE, "a", "-t7z", "-m0=lzma", "-mx=9", "-mfb=64", "-md=64m", "-ms=on", "build.7z",
-                         f"{BUILD_FOLDER}\\*"]
+    archive_build_cmd = [SEVEN_ZIP_EXE, "a", "-t7z", "-m0=lzma", "-mx=9", "-mfb=64", "-md=64m", "-ms=on",
+                         f"mff_auto-{version.mff_auto}-build.7z", f"{BUILD_FOLDER}\\*"]
     subprocess.call(archive_build_cmd, shell=True, stdout=FNULL)
 
 

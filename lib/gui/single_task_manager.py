@@ -6,7 +6,7 @@ from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.gui.threading import ThreadPool
-from lib.gui.helper import safe_process_stop
+from lib.gui.helper import safe_process_stop, reset_player_and_logger
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -59,9 +59,8 @@ class AutoPlayTask(SingleTask):
     def __init__(self, button, game: Game):
         bot = ManualBattleBot(game, battle_over_conditions=None)
 
+        @reset_player_and_logger(game=game)
         def fight(*args, **kwargs):
-            # Screen will never unlock itself inside side-process
-            bot.player.screen_locked = False
             return bot.fight(*args, **kwargs)
 
         super().__init__(button, fight, {"move_around": False})
@@ -72,9 +71,8 @@ class DailyTriviaTask(SingleTask):
     def __init__(self, button, game: Game):
         dt = DailyTrivia(game)
 
-        def do_trivia(*args, **kwargs):
-            # Screen will never unlock itself inside side-process
-            dt.player.screen_locked = False
+        @reset_player_and_logger(game=game)
+        def do_trivia():
             return dt.do_trivia()
 
         super().__init__(button, do_trivia, {})
@@ -85,9 +83,8 @@ class WorldBossInvasionTask(SingleTask):
     def __init__(self, button, game: Game):
         wbi = WorldBossInvasion(game)
 
+        @reset_player_and_logger(game=game)
         def do_missions(*args, **kwargs):
-            # Screen will never unlock itself inside side-process
-            wbi.player.screen_locked = False
             return wbi.do_missions(*args, **kwargs)
 
         super().__init__(button, do_missions, {})
@@ -98,9 +95,8 @@ class SquadBattleAllTask(SingleTask):
     def __init__(self, button, game: Game):
         sb = SquadBattles(game)
 
+        @reset_player_and_logger(game=game)
         def do_missions(*args, **kwargs):
-            # Screen will never unlock itself inside side-process
-            sb.player.screen_locked = False
             return sb.do_missions(*args, **kwargs)
 
         super().__init__(button, do_missions, {"mode": SquadBattles.MODE.ALL_BATTLES})
@@ -111,9 +107,8 @@ class DangerRoomOneBattleTask(SingleTask):
     def __init__(self, button, game: Game):
         dr = DangerRoom(game)
 
+        @reset_player_and_logger(game=game)
         def do_missions(*args, **kwargs):
-            # Screen will never unlock itself inside side-process
-            dr.player.screen_locked = False
             return dr.do_missions(*args, **kwargs)
 
         super().__init__(button, do_missions, {"times": 1})
@@ -124,9 +119,8 @@ class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
     def __init__(self, button, game: Game):
         sl = ShieldLab(game)
 
+        @reset_player_and_logger(game=game)
         def collect_antimatter():
-            # Screen will never unlock itself inside side-process
-            sl.player.screen_locked = False
             return sl.collect_antimatter()
 
         super().__init__(button, collect_antimatter, {})
@@ -135,9 +129,8 @@ class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
 class RestartGameTask(SingleTask):
 
     def __init__(self, button, game: Game):
+        @reset_player_and_logger(game=game)
         def restart_game():
-            # Screen will never unlock itself inside side-process
-            game.player.screen_locked = False
             return game.restart_game()
 
         super().__init__(button, restart_game, {})

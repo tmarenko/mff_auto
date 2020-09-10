@@ -143,3 +143,19 @@ def screen_to_gui_image(screen):
     height, width, channel = screen.shape
     image = QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
     return image
+
+
+def reset_player_and_logger(game):
+    """Reset player screen and set file logger to existing file.
+
+    :param game.Game game: instance of game.
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            import lib.logger as logging
+            logging.create_file_handler(file_name=game.file_logger_name)
+            # Screen will never unlock itself inside side-process
+            game.player.screen_locked = False
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator

@@ -1,7 +1,7 @@
 ﻿from PyQt5.QtWidgets import QListWidgetItem, QDialog
 from PyQt5.QtCore import Qt
 import lib.gui.designes.queue_editor_window as design
-from lib.gui.helper import set_default_icon
+from lib.gui.helper import set_default_icon, reset_player_and_logger
 
 from lib.game.missions.legendary_battle import LegendaryBattle
 from lib.game.missions.alliance_battles import AllianceBattles
@@ -386,9 +386,8 @@ class GameMode:
         """Render function and settings for game mode."""
         game_mode = self.mode_module(self.game)
 
+        @reset_player_and_logger(game=self.game)
         def do_missions(*args, **kwargs):
-            # Screen will never unlock itself inside side-process
-            game_mode.player.screen_locked = False
             return game_mode.do_missions(*args, **kwargs)
 
         return do_missions, self.item_settings.render()

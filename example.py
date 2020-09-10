@@ -15,6 +15,7 @@ from lib.game.routines import DailyTrivia, ShieldLab, EnhancePotential
 from lib.game.game import Game
 
 logger = logging.get_logger(__name__)
+logging.create_file_handler()
 
 
 if __name__ == '__main__':
