@@ -40,6 +40,9 @@ class Game:
         self.ui = ui.load_ui_settings()
         self._mode_names = ui.load_game_modes()
         self._user_name = user_name
+        self._current_energy, self._energy_max = 0, 0
+        self._gold = 0
+        self._boost = 0
         self.timeline_team = 1
         self.mission_team = 1
         self._modes = {}
@@ -64,37 +67,48 @@ class Game:
             max_value = 0
         return current_value, max_value
 
+    def _main_panel_visible(self):
+        """Checks if you can see main panel with gold, energy, etc."""
+        return self.player.is_image_on_screen(self.ui['GOLD_ICON'])
+
     @property
     def user_name(self):
         """Player's username."""
         if not self._user_name:
-            self.go_to_main_menu()
+            if not self.is_main_menu():
+                self.go_to_main_menu()
             self._user_name = self.player.get_screen_text(self.ui['USER_NAME'])
         return self._user_name
 
     @property
     def energy(self):
         """Game energy bar's value."""
-        energy = self.player.get_screen_text(self.ui['ENERGY'])
-        current_energy, _ = self.get_current_and_max_values_from_text(energy)
-        return current_energy
+        if self._main_panel_visible():
+            energy = self.player.get_screen_text(self.ui['ENERGY']).replace(",", "")
+            self._current_energy, self._energy_max = self.get_current_and_max_values_from_text(energy)
+        return self._current_energy
 
     @property
     def energy_max(self):
         """Max value of energy."""
-        energy = self.player.get_screen_text(self.ui['ENERGY'])
-        _, energy_max = self.get_current_and_max_values_from_text(energy)
-        return energy_max
+        if self._main_panel_visible():
+            energy = self.player.get_screen_text(self.ui['ENERGY']).replace(",", "")
+            self._current_energy, self._energy_max = self.get_current_and_max_values_from_text(energy)
+        return self._energy_max
 
     @property
     def gold(self):
         """Game's gold value."""
-        return self.player.get_screen_text(self.ui['GOLD']).replace(",", "")
+        if self._main_panel_visible():
+            self._gold = self.player.get_screen_text(self.ui['GOLD']).replace(",", "")
+        return self._gold
 
     @property
     def boost(self):
         """Game boost points' value."""
-        return self.player.get_screen_text(self.ui['BOOST'])
+        if self._main_panel_visible():
+            self._boost = self.player.get_screen_text(self.ui['BOOST']).replace(",", "")
+        return self._boost
 
     def get_all_modes(self):
         """Get information about all game modes."""

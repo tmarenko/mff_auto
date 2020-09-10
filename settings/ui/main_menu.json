@@ -359,7 +359,7 @@
       "button_rect": null,
       "text": null,
       "image_threshold": 200,
-      "chars": "0123456789/",
+      "chars": "0123456789/,",
       "image_save_file": "energy",
       "description": "Position of energy counter in top navigation bar."
     }
@@ -813,6 +813,23 @@
       "chars": null,
       "image_save_file": "alliance_conquest_notification",
       "description": "Notification of Alliance Conquest at the start of the game."
+    }
+  },
+  {
+    "GOLD_ICON": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.4354166666666667,
+        "y1": 0.03333333333333333,
+        "x2": 0.4510416666666667,
+        "y2": 0.06111111111111111
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "gold_image.png",
+      "image_save_file": "gold_image",
+      "description": "Gold icon image."
     }
   }
 ]

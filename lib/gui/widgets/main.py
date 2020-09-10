@@ -70,7 +70,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.mission_team_spin_box.valueChanged.connect(self.mission_team_changed)
         self.timeline_team_spin_box.valueChanged.connect(self.timeline_team_changed)
         self.threads = ThreadPool()
-        # self.update_labels() TODO: useless without checks if elements are visible
+        self._user_name_acquired = False
+        self.update_labels()
+        self.label_timer = Timer()
+        self.label_timer.set_timer(self.update_labels, timer_ms=5000)
         self.blockable_buttons = [self.run_queue_button, self.add_queue_button, self.edit_queue_button,
                                   self.remove_queue_button, self.squad_battle_button, self.world_boss_invasion_button,
                                   self.daily_trivia_button, self.autoplay_button, self.danger_room_button,
@@ -89,7 +92,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def _update_labels(self):
         """Update game's labels such as: username, energy, gold and boost points."""
-        self.label_username.setText(self.game.user_name)
+        if not self._user_name_acquired and self.game.is_main_menu():
+            self.label_username.setText(self.game.user_name)
+            self._user_name_acquired = True
         self.label_energy.setText(f"Energy: {self.game.energy} / {self.game.energy_max}")
         self.label_gold.setText(f"Gold: {self.game.gold}")
         self.label_boosts.setText(f"Boosts: {self.game.boost} / {100}")
