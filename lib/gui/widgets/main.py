@@ -11,7 +11,7 @@ from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
 from lib.gui.widgets.setup_player import SetupPlayer
 from lib.gui.threading import ThreadPool
-from lib.gui.helper import TwoStateButton, set_default_icon
+from lib.gui.helper import TwoStateButton, set_default_icon, Timer
 
 from lib.game.game import Game
 from lib.game.battle_bot import BattleBot
@@ -56,9 +56,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         restart_game_button = self.create_blockable_button(button=self.restart_game_button)
         self.queue_list = QueueList(list_widget=self.queue_list_widget, run_and_stop_button=run_and_stop_button,
                                     add_button=self.add_queue_button, edit_button=self.edit_queue_button,
-                                    remove_button=self.remove_queue_button,
-                                    select_all_button=self.list_select_all_button,
-                                    deselect_all_button=self.list_deselect_all_button, game=self.game)
+                                    remove_button=self.remove_queue_button, game=self.game)
         self.autoplay = AutoPlayTask(game=self.game, button=autoplay_button)
         self.daily_trivia = DailyTriviaTask(game=self.game, button=daily_trivia_button)
         self.world_boss_invasion = WorldBossInvasionTask(game=self.game, button=world_boss_invasion_button)
@@ -80,7 +78,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
                       self.shield_lab, self.restart_game]
 
-        if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
+        if self.player.initialized and not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
             if not self.game.go_to_main_menu():
                 logger.warning("Can't get to the main menu. Restarting the game just in case.")
                 self.restart_game_button.click()

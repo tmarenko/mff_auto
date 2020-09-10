@@ -58,16 +58,22 @@ class QueueItem(QListWidgetItem):
     @property
     def name(self):
         """Get queue item's name for GUI."""
-        additional_text = ' '
+        additional_text = ''
+        farm_bios = self.parameters.get("farm_shifter_bios")
+        battle = self.parameters.get("battle")
         mission_mode = self.parameters.get("mode")
         times = self.parameters.get("times")
+        if farm_bios:
+            additional_text += " [Bio]"
+        if battle:
+            additional_text += f" [{battle.replace('_', ' ').title()}]"
         if mission_mode:
-            additional_text += f"({mission_mode} mode)"
+            additional_text += f" [{mission_mode.replace('_', ' ').title()}]"
         if times:
-            additional_text += f"({times} times)"
+            additional_text += f" [{times} stages]"
         else:
-            additional_text += "(all available)"
-        return f"{self.mode_name}{additional_text}"
+            additional_text += " [All stages]"
+        return f"{self.mode_name.title()} -{additional_text}"
 
 
 class QueueItemEditor(QDialog, design.Ui_Dialog):
@@ -82,6 +88,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         """
         super().__init__()
         self.setupUi(self)
+        self.setFixedSize(self.width(), self.height())
         set_default_icon(window=self)
         self.game = game
         self.setWindowModality(Qt.ApplicationModal)

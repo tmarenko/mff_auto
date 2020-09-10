@@ -1,10 +1,10 @@
 ﻿import json
 from os.path import exists
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAbstractItemView
+from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem
 from multiprocess.context import Process
 
-from lib.gui.widgets.queue_item_editor import QueueItemEditor
+from lib.gui.widgets.queue_item_editor import QueueItemEditor, QueueItem
 from lib.gui.threading import ThreadPool
 from lib.gui.helper import safe_process_stop
 import lib.logger as logging
@@ -28,8 +28,7 @@ def save_queue_list(json_data, path="settings/gui/queue_list.json"):
 class QueueList:
     """Class for working with queue list."""
 
-    def __init__(self, game, list_widget, run_and_stop_button, add_button, edit_button, remove_button,
-                 select_all_button, deselect_all_button):
+    def __init__(self, game, list_widget, run_and_stop_button, add_button, edit_button, remove_button):
         """Class initialization.
 
         :param QListWidget list_widget: list widget.
@@ -44,21 +43,66 @@ class QueueList:
         self.add_button = add_button
         self.edit_button = edit_button
         self.remove_button = remove_button
-        self.select_all_button = select_all_button
-        self.deselect_all_button = deselect_all_button
         self.setup_buttons()
         self.threads = ThreadPool()
         self.process = None
         self.add_button.clicked.connect(self.add)
         if self.widget.count() == 0:
             self.run_and_stop_button.button.setEnabled(False)
+        self.select_all_item = self.add_select_all_checkbox()
+        self.widget.itemChanged.connect(self.on_item_change)
         self.load_queue_from_file()
+        self.change_select_all_state()
         self.stop_queue_flag = False
 
     def queue(self):
         """Queue iterator."""
         for i in range(self.widget.count()):
-            yield self.widget.item(i)
+            item = self.widget.item(i)
+            if isinstance(item, QueueItem):
+                yield item
+
+    def add_select_all_checkbox(self):
+        """Creates 'Select All' checkbox with empty line below."""
+        select_all = QListWidgetItem()
+        select_all.setText("[Select All]")
+        select_all.setCheckState(Qt.Checked)
+        select_all.setFlags(select_all.flags() | Qt.ItemIsUserCheckable)
+        select_all.setFlags(select_all.flags() ^ Qt.ItemIsDragEnabled)
+        select_all.setFlags(select_all.flags() ^ Qt.ItemIsSelectable)
+        blank_line = QListWidgetItem()
+        blank_line.setFlags(blank_line.flags() ^ Qt.ItemIsDragEnabled)
+        blank_line.setFlags(blank_line.flags() ^ Qt.ItemIsSelectable)
+        self.widget.addItem(select_all)
+        self.widget.addItem(blank_line)
+        return select_all
+
+    def change_select_all_state(self):
+        """Change 'Select All' checkbox state by queue item's states."""
+        queue_states = [queue_item.checkState() for queue_item in self.queue()]
+        all_checked = [state for state in queue_states if state == Qt.Checked]
+        all_unchecked = [state for state in queue_states if state == Qt.Unchecked]
+        partially_checked = all_checked and all_unchecked
+        if all_checked and not all_unchecked:
+            self.select_all_item.setCheckState(Qt.Checked)
+        if all_unchecked and not all_checked:
+            self.select_all_item.setCheckState(Qt.Unchecked)
+        if partially_checked:
+            self.select_all_item.setCheckState(Qt.PartiallyChecked)
+
+    def on_item_change(self, item):
+        """Select or deselect items when some item was checked.
+
+        :param QListItem item: changed item.
+        """
+        if item == self.select_all_item:
+            state = item.checkState()
+            if state == Qt.Checked:
+                self.select_all()
+            if state == Qt.Unchecked:
+                self.deselect_all()
+        if isinstance(item, QueueItem):
+            self.change_select_all_state()
 
     def load_queue_from_file(self):
         """Load queue list and apply it to GUI."""
@@ -93,8 +137,6 @@ class QueueList:
         self.run_and_stop_button.connect_second_state(self.widget.setDragDropMode, QAbstractItemView.InternalMove)
         self.remove_button.clicked.connect(self.remove_current_item)
         self.edit_button.clicked.connect(self.edit_current_item)
-        self.select_all_button.clicked.connect(self.select_all)
-        self.deselect_all_button.clicked.connect(self.deselect_all)
 
     def add(self):
         """Create editor window and add queue item from it."""
@@ -106,19 +148,21 @@ class QueueList:
 
     def _add(self, item):
         """Add item to queue."""
-        if self.widget.count() == 0:
+        if self.widget.count() == 2:
             self.run_and_stop_button.button.setEnabled(True)
         self.widget.addItem(item)
+        self.change_select_all_state()
         return item
 
     def edit_current_item(self):
         """Edit current item."""
         item = self.widget.currentItem()
-        editor = QueueItemEditor.from_result_item(game=self.game, queue_item=item)
-        editor.setWindowTitle("Edit queue item")
-        result = editor.exec_()
-        if result and editor.queue_item:
-            self.edit_item(old_item=item, new_item=editor.queue_item)
+        if item and isinstance(item, QueueItem):
+            editor = QueueItemEditor.from_result_item(game=self.game, queue_item=item)
+            editor.setWindowTitle("Edit queue item")
+            result = editor.exec_()
+            if result and editor.queue_item:
+                self.edit_item(old_item=item, new_item=editor.queue_item)
 
     def edit_item(self, old_item, new_item):
         """Edit queue item.
@@ -134,7 +178,8 @@ class QueueList:
     def remove_current_item(self):
         """Remove current item from queue."""
         item = self.widget.currentItem()
-        self.remove_item(item)
+        if item and isinstance(item, QueueItem):
+            self.remove_item(item)
 
     def remove_item(self, item):
         """Remove item from queue.
@@ -142,7 +187,8 @@ class QueueList:
         :param item: queue item.
         """
         self.widget.takeItem(self.widget.row(item))
-        if self.widget.count() == 0:
+        self.change_select_all_state()
+        if self.widget.count() == 2:
             self.run_and_stop_button.button.setEnabled(False)
 
     def run_queue(self):
@@ -160,12 +206,12 @@ class QueueList:
 
         :param cur_index: index for current item in queue.
         """
-        for index in range(cur_index):
-            item = self.widget.item(index)
+        for index, item in enumerate(self.queue()):
+            if index == cur_index:
+                item.setBackground(Qt.yellow)
+                break
             color = Qt.green if item.is_checked else Qt.gray
             item.setBackground(color)
-        current_item = self.widget.item(cur_index)
-        current_item.setBackground(Qt.yellow)
 
     def reset_background(self):
         """Reset queue colors."""
