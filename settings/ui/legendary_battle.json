@@ -74,6 +74,27 @@
     }
   },
   {
+    "LB_DIFFICULTY_EXTREME": {
+      "text_rect": {
+        "x1": 0.8317708333333333,
+        "y1": 0.8074074074074075,
+        "x2": 0.9244791666666666,
+        "y2": 0.862037037037037
+      },
+      "button_rect": {
+        "x1": 0.8317708333333333,
+        "y1": 0.8074074074074075,
+        "x2": 0.9244791666666666,
+        "y2": 0.862037037037037
+      },
+      "text": "EXTREME",
+      "image_threshold": 140,
+      "chars": null,
+      "image_save_file": "lb_difficulty_extreme",
+      "description": "Legendary battle extreme difficulty button."
+    }
+  },
+  {
     "LB_BATTLE_STAGE_1": {
       "text_rect": {
         "x1": 0.1195899772209567,
@@ -92,6 +113,48 @@
       "chars": null,
       "image_save_file": "lb_battle_stage_1",
       "description": "LB stage #1."
+    }
+  },
+  {
+    "LB_BATTLE_STAGE_2": {
+      "text_rect": {
+        "x1": 0.40989583333333335,
+        "y1": 0.7472222222222222,
+        "x2": 0.48333333333333334,
+        "y2": 0.8055555555555556
+      },
+      "button_rect": {
+        "x1": 0.40989583333333335,
+        "y1": 0.7472222222222222,
+        "x2": 0.48333333333333334,
+        "y2": 0.8055555555555556
+      },
+      "text": "ENTER",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "lb_battle_stage_2",
+      "description": "LB stage #2."
+    }
+  },
+  {
+    "LB_BATTLE_STAGE_3": {
+      "text_rect": {
+        "x1": 0.7015625,
+        "y1": 0.7472222222222222,
+        "x2": 0.7802083333333333,
+        "y2": 0.8055555555555556
+      },
+      "button_rect": {
+        "x1": 0.7015625,
+        "y1": 0.7472222222222222,
+        "x2": 0.7802083333333333,
+        "y2": 0.8055555555555556
+      },
+      "text": "ENTER",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "lb_battle_stage_3",
+      "description": "LB stage #3."
     }
   },
   {
@@ -256,6 +319,175 @@
       "chars": "OK",
       "image_save_file": "lb_no_reward_notice",
       "description": "Legendary battle : no rewards notification before entering the battle."
+    }
+  },
+  {
+    "LB_CAPTAIN_MARVEL_BATTLE": {
+      "text_rect": {
+        "x1": 0.028645833333333332,
+        "y1": 0.09537037037037037,
+        "x2": 0.19166666666666668,
+        "y2": 0.12962962962962962
+      },
+      "button_rect": {
+        "x1": 0.010416666666666666,
+        "y1": 0.10925925925925926,
+        "x2": 0.21041666666666667,
+        "y2": 0.13240740740740742
+      },
+      "text": "MARVEL'S CAPTAIN MARVEL",
+      "image_threshold": 105,
+      "chars": null,
+      "image_save_file": "lb_captain_marvel_battle",
+      "description": "Legendary battle : Captain Marvel."
+    }
+  },
+  {
+    "LB_CAPTAIN_MARVEL_BATTLE_TITLE": {
+      "text_rect": {
+        "x1": 0.22916666666666666,
+        "y1": 0.12037037037037036,
+        "x2": 0.37395833333333334,
+        "y2": 0.18888888888888888
+      },
+      "button_rect": null,
+      "text": "NEW HOPE",
+      "image_threshold": 140,
+      "chars": "NEW HOPE",
+      "image_save_file": "lb_captain_marvel_battle_title",
+      "description": "Legendary battle : Captain Marvel 'New Hope' (title on top)."
+    }
+  },
+  {
+    "LB_EXTREME_UPGRADE": {
+      "text_rect": {
+        "x1": 0.6953125,
+        "y1": 0.7981481481481482,
+        "x2": 0.7984375,
+        "y2": 0.8666666666666667
+      },
+      "button_rect": {
+        "x1": 0.846875,
+        "y1": 0.10833333333333334,
+        "x2": 0.8796875,
+        "y2": 0.16111111111111112
+      },
+      "text": "UPGRADE",
+      "image_threshold": 175,
+      "chars": null,
+      "image_save_file": "lb_extreme_upgrade",
+      "description": "Legendary battle : UPGRADE notification when EXTREME battle wasn't purchased. Leads to X close."
+    }
+  },
+  {
+    "LB_BLACK_PANTHER_BATTLE": {
+      "text_rect": {
+        "x1": 0.030208333333333334,
+        "y1": 0.737037037037037,
+        "x2": 0.19010416666666666,
+        "y2": 0.7722222222222223
+      },
+      "button_rect": {
+        "x1": 0.035416666666666666,
+        "y1": 0.5888888888888889,
+        "x2": 0.178125,
+        "y2": 0.7509259259259259
+      },
+      "text": "MARVEL'S BLACK PANTHER",
+      "image_threshold": 105,
+      "chars": null,
+      "image_save_file": "lb_black_panther_battle",
+      "description": "Legendary battle : Black Panther."
+    }
+  },
+  {
+    "LB_BLACK_PANTHER_BATTLE_TITLE": {
+      "text_rect": {
+        "x1": 0.23125,
+        "y1": 0.1175925925925926,
+        "x2": 0.4864583333333333,
+        "y2": 0.18611111111111112
+      },
+      "button_rect": null,
+      "text": "WAKANDA FOREVER",
+      "image_threshold": 140,
+      "chars": "WAKANDA FOREVER",
+      "image_save_file": "lb_black_panther_battle_title",
+      "description": "Legendary battle : Black Panther 'Wakanda Forever' (title on top)."
+    }
+  },
+  {
+    "LB_INFINITY_WAR_BATTLE": {
+      "text_rect": {
+        "x1": 0.016666666666666666,
+        "y1": 0.5259259259259259,
+        "x2": 0.203125,
+        "y2": 0.5546296296296296
+      },
+      "button_rect": {
+        "x1": 0.030208333333333334,
+        "y1": 0.3768518518518518,
+        "x2": 0.18802083333333333,
+        "y2": 0.549074074074074
+      },
+      "text": "MARVEL'S AVENGERS: INFINITY WAR",
+      "image_threshold": 105,
+      "chars": null,
+      "image_save_file": "lb_infinity_war_battle",
+      "description": "Legendary battle : Infinity War."
+    }
+  },
+  {
+    "LB_INFINITY_WAR_BATTLE_TITLE": {
+      "text_rect": {
+        "x1": 0.2296875,
+        "y1": 0.12314814814814815,
+        "x2": 0.4578125,
+        "y2": 0.18703703703703703
+      },
+      "button_rect": null,
+      "text": "PENDING DANGER",
+      "image_threshold": 140,
+      "chars": "PENDING DANGER",
+      "image_save_file": "lb_infinity_war_battle_title",
+      "description": "Legendary battle : Infinity War 'Pending Danger' (title on top)."
+    }
+  },
+  {
+    "LB_ANT_MAN_BATTLE": {
+      "text_rect": {
+        "x1": 0.0078125,
+        "y1": 0.3111111111111111,
+        "x2": 0.21145833333333333,
+        "y2": 0.3398148148148148
+      },
+      "button_rect": {
+        "x1": 0.0296875,
+        "y1": 0.1638888888888889,
+        "x2": 0.1875,
+        "y2": 0.3333333333333333
+      },
+      "text": "MARVEL'S ANT-MAN AND THE WASP",
+      "image_threshold": 105,
+      "chars": null,
+      "image_save_file": "lb_ant_man_battle",
+      "description": "Legendary battle : Ant-Man And The Wasp."
+    }
+  },
+  {
+    "LB_ANT_MAN_BATTLE_TITLE": {
+      "text_rect": {
+        "x1": 0.23020833333333332,
+        "y1": 0.1259259259259259,
+        "x2": 0.44635416666666666,
+        "y2": 0.18333333333333332
+      },
+      "button_rect": null,
+      "text": "INVISIBLE GHOST",
+      "image_threshold": 140,
+      "chars": "INVISIBLE GHOST",
+      "image_save_file": "lb_ant_man_battle_title",
+      "description": "Legendary battle : Ant-Man And The Wasp 'Invisible Ghost' (title on top)."
     }
   }
 ]

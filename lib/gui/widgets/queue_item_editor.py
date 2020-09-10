@@ -154,6 +154,12 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
             if self.current_mode.mode_settings.mission_modes:
                 self.mission_mode_combo_box.clear()
                 self.mission_mode_combo_box.addItems(self.current_mode.mode_settings.mission_modes)
+            if self.current_mode.mode_settings.legendary_battles:
+                self.legendary_battle_combo_box.clear()
+                self.legendary_battle_combo_box.addItems(self.current_mode.mode_settings.legendary_battles)
+            if self.current_mode.mode_settings.legendary_battle_stages:
+                self.legendary_battle_stage_combo_box.clear()
+                self.legendary_battle_stage_combo_box.addItems(self.current_mode.mode_settings.legendary_battle_stages)
 
     def set_visibility_to_all_elements(self, mode_settings):
         """Set visibility to all GUI elements by game mode.
@@ -189,6 +195,14 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.timeline_skip_label.setEnabled(mode_settings.skip_opponents)
         self.timeline_skip_combobox.setVisible(mode_settings.skip_opponents)
         self.timeline_skip_combobox.setEnabled(mode_settings.skip_opponents)
+        self.legendary_battle_label.setVisible(bool(mode_settings.legendary_battles))
+        self.legendary_battle_label.setEnabled(bool(mode_settings.legendary_battles))
+        self.legendary_battle_combo_box.setVisible(bool(mode_settings.legendary_battles))
+        self.legendary_battle_combo_box.setEnabled(bool(mode_settings.legendary_battles))
+        self.legendary_battle_stage_label.setVisible(bool(mode_settings.legendary_battle_stages))
+        self.legendary_battle_stage_label.setEnabled(bool(mode_settings.legendary_battle_stages))
+        self.legendary_battle_stage_combo_box.setVisible(bool(mode_settings.legendary_battle_stages))
+        self.legendary_battle_stage_combo_box.setEnabled(bool(mode_settings.legendary_battle_stages))
 
     def set_values_to_all_elements(self, item_settings):
         """Set value to all GUI elements by queue item.
@@ -214,6 +228,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
             self.mission_mode_combo_box.setCurrentText(item_settings.mission_mode)
         if item_settings.skip_opponent_count:
             self.timeline_skip_combobox.setValue(item_settings.skip_opponent_count)
+        if item_settings.legendary_battles:
+            self.legendary_battle_combo_box.setCurrentText(item_settings.legendary_battles)
+        if item_settings.legendary_battle_stages:
+            self.legendary_battle_stage_combo_box.setCurrentText(item_settings.legendary_battle_stages)
         self.all_stages_changed()
 
     def all_stages_changed(self):
@@ -237,8 +255,11 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         acquire_rewards = self.dm_acquire_rewards_checkbox.isChecked() if mode_settings.acquire_rewards else None
         mission_mode = self.mission_mode_combo_box.currentText() if mode_settings.mission_modes else None
         skip_opponent_count = self.timeline_skip_combobox.value() if mode_settings.skip_opponents else None
+        legendary_battles = self.legendary_battle_combo_box.currentText() if mode_settings.legendary_battles else None
+        legendary_battle_stages = self.legendary_battle_stage_combo_box.currentText() \
+            if mode_settings.legendary_battle_stages else None
         return all_stages, stages_num, farm_bios, zero_boosts, difficulty, use_hidden_tickets, acquire_rewards, \
-               mission_mode, skip_opponent_count
+               mission_mode, skip_opponent_count, legendary_battles, legendary_battle_stages
 
     def render_queue_item(self):
         """Render queue item."""
@@ -276,12 +297,15 @@ class GameMode:
             self.acquire_rewards = False
             self.mission_modes = []
             self.skip_opponents = False
+            self.legendary_battles = []
+            self.legendary_battle_stages = []
 
     class QueueItemSettings:
         """Class for working with customizable settings from GUI."""
 
         def __init__(self, all_stages=None, stages_num=None, farm_bios=None, zero_boosts_stop=None, difficulty=None,
-                     use_hidden_tickets=None, acquire_rewards=None, mission_mode=None, skip_opponent_count=None):
+                     use_hidden_tickets=None, acquire_rewards=None, mission_mode=None, skip_opponent_count=None,
+                     legendary_battles=None, legendary_battle_stages=None):
             """Class initialization."""
             self.all_stages = all_stages
             self.stages_num = stages_num
@@ -292,6 +316,8 @@ class GameMode:
             self.acquire_rewards = acquire_rewards
             self.mission_mode = mission_mode
             self.skip_opponent_count = skip_opponent_count
+            self.legendary_battles = legendary_battles
+            self.legendary_battle_stages = legendary_battle_stages
 
         @staticmethod
         def from_settings(item_settings):
@@ -308,10 +334,14 @@ class GameMode:
             acquire_rewards = item_settings.get("acquire_rewards")
             mission_mode = item_settings.get("mode")
             skip_opponent_count = item_settings.get("skip_opponent_count")
+            legendary_battles = item_settings.get("battle")
+            legendary_battle_stages = item_settings.get("stage")
             return GameMode.QueueItemSettings(all_stages=all_stages, stages_num=stages_num, farm_bios=farm_bios,
                                               zero_boosts_stop=zero_boosts_stop, difficulty=difficulty,
                                               use_hidden_tickets=use_hidden_tickets, acquire_rewards=acquire_rewards,
-                                              mission_mode=mission_mode, skip_opponent_count=skip_opponent_count)
+                                              mission_mode=mission_mode, skip_opponent_count=skip_opponent_count,
+                                              legendary_battles=legendary_battles,
+                                              legendary_battle_stages=legendary_battle_stages)
 
         def render(self):
             """Render settings for game mode."""
@@ -333,6 +363,10 @@ class GameMode:
                 pass
             if self.skip_opponent_count:
                 params.update({"skip_opponent_count": self.skip_opponent_count})
+            if self.legendary_battles:
+                params.update({"battle": self.legendary_battles})
+            if self.legendary_battle_stages:
+                params.update({"stage": self.legendary_battle_stages})
             return params
 
     def __init__(self, game, mode_name, mode_module):
@@ -366,6 +400,12 @@ class _LegendaryBattle(GameMode):
         super().__init__(game, "LEGENDARY BATTLE", LegendaryBattle)
         self.mode_settings.all_stages = True
         self.mode_settings.stages = True
+        self.mode_settings.mission_modes = [LegendaryBattle.MODE.NORMAL, LegendaryBattle.MODE.EXTREME]
+        self.mode_settings.legendary_battles = [LegendaryBattle.THOR_RAGNAROK, LegendaryBattle.BLACK_PANTHER,
+                                                LegendaryBattle.INFINITY_WAR, LegendaryBattle.ANT_MAN,
+                                                LegendaryBattle.CAPTAIN_MARVEL]
+        self.mode_settings.legendary_battle_stages = [LegendaryBattle.STAGE.BATTLE_1, LegendaryBattle.STAGE.BATTLE_2,
+                                                      LegendaryBattle.STAGE.BATTLE_3]
 
 
 class _VeiledSecret(GameMode):

@@ -43,7 +43,15 @@ if __name__ == '__main__':
     tf = TheFault(game).do_missions()
     cp = CoopPlay(game).do_missions()
     tb = TimelineBattle(game).do_missions()
-    lb = LegendaryBattle(game).do_missions()
+
+    # Available: LegendaryBattle.THOR_RAGNAROK, LegendaryBattle.BLACK_PANTHER, LegendaryBattle.INFINITY_WAR,
+    #            LegendaryBattle.ANT_MAN and LegendaryBattle.CAPTAIN_MARVEL
+    # stages: LegendaryBattle.STAGE.BATTLE_1, LegendaryBattle.STAGE.BATTLE_2, LegendaryBattle.STAGE.BATTLE_3
+    # modes: LegendaryBattle.MODE.NORMAL, LegendaryBattle.MODE.EXTREME
+    lb = LegendaryBattle(game).do_missions(battle=LegendaryBattle.THOR_RAGNAROK,
+                                           stage=LegendaryBattle.STAGE.BATTLE_1,
+                                           mode=LegendaryBattle.MODE.NORMAL)
+
     # Available: SquadBattles.MODE.DAILY_RANDOM and SquadBattles.MODE.ALL_BATTLES
     sb = SquadBattles(game).do_missions(mode=SquadBattles.MODE.DAILY_RANDOM)
 
