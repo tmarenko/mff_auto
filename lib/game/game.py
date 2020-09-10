@@ -368,17 +368,22 @@ class Game:
                          self.close_maintenance_notice() or \
                          self.close_ads() or \
                          self.is_main_menu()
-            if not is_started and self.player.is_ui_element_on_screen(self.ui['NEWS_ON_START_GAME']):
-                self.player.click_button(self.ui['NEWS_ON_START_GAME'].button)
             return is_started
 
+        def game_started(timeout=3):
+            result = False
+            for _ in range(timeout * 2):
+                result = result or wait_until(is_game_started, timeout=0.5)
+                if result:
+                    # Wait for 3 seconds of `is_game_started` same result to confirm successful restart
+                    r_sleep(0.5)
+            return result
+
+        logger.debug("Starting game.")
         self.player.click_button(self.ui['GAME_APP'].button)
-        if wait_until(is_game_started, timeout=120, period=2):
-            r_sleep(2)  # Wait for ad/rewards animation
-            if not self.is_main_menu():
-                if wait_until(is_game_started, timeout=5):
-                    logger.debug("Game started successfully.")
-                    return self.is_main_menu()
+        if wait_until(game_started, timeout=120, period=3):
+            logger.debug("Game started successfully.")
+            return self.is_main_menu()
         logger.warning("Failed to start game")
         return False
 
