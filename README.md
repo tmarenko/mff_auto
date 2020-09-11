@@ -79,7 +79,6 @@ On first start you will see `Setup` window. Follow the instructions in the windo
 
 At current state Marvel Future Fight bot is at beta stage.
 
-- Legendary Battle contains only one free battle (Ragnarok).
 - Timeline battle do not check if your team is available for battle. Please setup team manually.
 - Alliance and World Boss battles do not check if your characters can do these modes. Make sure that you have strong characters.
 
