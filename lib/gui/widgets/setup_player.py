@@ -157,10 +157,10 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
             return
         x, y = event.pos().x(), event.pos().y()
         player_rect = Rect(0, 0, self.player.width, self.player.height)
-        game_app_rect = Rect(x / self.screen_image.size.width(),
-                             y / self.screen_image.size.height(),
-                             x / self.screen_image.size.width(),
-                             y / self.screen_image.size.height())
+        game_app_rect = Rect(x / self.screen_image.widget.size().width(),
+                             y / self.screen_image.widget.size().height(),
+                             x / self.screen_image.widget.size().width(),
+                             y / self.screen_image.widget.size().height())
         game_app_global_rect = game_app_rect.to_global(player_rect)
         self.game_app_rect = (game_app_global_rect[0] / self.player.width, game_app_global_rect[1] / self.player.height,
                               game_app_global_rect[2] / self.player.width, game_app_global_rect[3] / self.player.height)
