@@ -121,6 +121,13 @@ class WorldBosses(Missions):
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_SET_TEAM']):
             self.deploy_characters()
             self.player.click_button(self.ui['WB_SET_TEAM'].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['WB_LOW_VALOR_OR_ATTACK']):
+                self.player.click_button(self.ui['WB_LOW_VALOR_OR_ATTACK'].button)
+                # Second notification about ATK is similar
+                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['WB_LOW_VALOR_OR_ATTACK']):
+                    self.player.click_button(self.ui['WB_LOW_VALOR_OR_ATTACK'].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_START_BUTTON']):
                 self.deploy_allies()
                 self.player.click_button(self.ui['WB_START_BUTTON'].button)
