@@ -92,6 +92,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def _update_labels(self):
         """Update game's labels such as: username, energy, gold and boost points."""
+        if not self.player.initialized:
+            return
         if not self._user_name_acquired and self.game.is_main_menu():
             self.label_username.setText(self.game.user_name)
             self._user_name_acquired = True
