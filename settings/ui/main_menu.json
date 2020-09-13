@@ -234,22 +234,22 @@
   {
     "NEWS_ON_START_GAME": {
       "text_rect": {
-        "x1": 0.08995686999383858,
-        "y1": 0.9528508771929824,
-        "x2": 0.23844731977818853,
-        "y2": 0.9912280701754386
+        "x1": 0.09635416666666667,
+        "y1": 0.8796296296296297,
+        "x2": 0.2453125,
+        "y2": 0.9222222222222223
       },
       "button_rect": {
-        "x1": 0.922365988909427,
-        "y1": 0.021929824561403508,
-        "x2": 0.9426987060998152,
-        "y2": 0.06030701754385965
+        "x1": 0.09635416666666667,
+        "y1": 0.8796296296296297,
+        "x2": 0.2453125,
+        "y2": 0.9222222222222223
       },
       "text": "Don't Show for Today",
-      "image_threshold": 120,
+      "image_threshold": 130,
       "chars": null,
       "image_save_file": "news_on_start_game",
-      "description": "DEPRECATED: News that can be shown at game loading. You can close it."
+      "description": "News that can be shown at game loading. You can close it."
     }
   },
   {

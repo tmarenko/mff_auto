@@ -376,28 +376,29 @@ class Game:
         :return: True or False: was game started.
         """
         def is_game_started():
-            is_started = self.close_daily_rewards() or \
-                         self.close_alliance_conquest() or \
-                         self.close_battleworld_rewards() or \
-                         self.close_maintenance_notice() or \
-                         self.close_ads() or \
-                         self.is_main_menu()
-            return is_started
+            is_main_menu = self.is_main_menu()
+            is_main_menu or \
+                self.close_news() or \
+                self.close_daily_rewards() or \
+                self.close_alliance_conquest() or \
+                self.close_battleworld_rewards() or \
+                self.close_maintenance_notice() or \
+                self.close_ads(timeout=1)
+            return is_main_menu
 
-        def game_started(timeout=3):
-            result = False
-            for _ in range(timeout * 2):
-                result = result or wait_until(is_game_started, timeout=0.5)
-                if result:
-                    # Wait for 3 seconds of `is_game_started` same result to confirm successful restart
-                    r_sleep(0.5)
-            return result
+        def game_started(confirm_timeout=3):
+            results = []
+            for _ in range(confirm_timeout * 2):
+                result = is_game_started()
+                results.append(result)
+                r_sleep(0.5)
+            return all(results)
 
         logger.debug("Starting game.")
         self.player.click_button(self.ui['GAME_APP'].button)
-        if wait_until(game_started, timeout=120, period=3):
+        if wait_until(game_started, timeout=120):
             logger.debug("Game started successfully.")
-            return self.is_main_menu()
+            return True
         logger.warning("Failed to start game")
         return False
 
@@ -426,8 +427,15 @@ class Game:
 
     def close_battleworld_rewards(self):
         """Close BattleWorld rewards notification."""
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_REWARDS_OK']):
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['MAIN_MENU_REWARDS_OK']):
             self.player.click_button(self.ui['MAIN_MENU_REWARDS_OK'].button)
+            return True
+        return False
+
+    def close_news(self):
+        """Close 'Don't Show Again' news on start of the game."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['NEWS_ON_START_GAME']):
+            self.player.click_button(self.ui['NEWS_ON_START_GAME'].button)
             return True
         return False
 
