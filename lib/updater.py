@@ -106,7 +106,7 @@ class Updater:
             zip_ref.extractall()
         self.source_folder = self.SOURCE_CODE_FOLDER_NAME.format(version=self.new_version.mff_auto)
         logger.info(f"Updating files...")
-        copy_tree(src=self.source_folder, dst="")
+        self.copy_project_files()
         self.clean()
 
     def download_source_code(self, version):
@@ -118,6 +118,19 @@ class Updater:
                 content = url_file.read()
                 file.write(content)
                 return file.name
+
+    def copy_project_files(self):
+        """Copy project files from source codes."""
+        copy_tree(src=os.path.join(self.source_folder, "lib"), dst="lib")
+        copy_tree(src=os.path.join(self.source_folder, "images"), dst="images")
+        copy_tree(src=os.path.join(self.source_folder, "settings"), dst="settings")
+        copy_tree(src=os.path.join(self.source_folder, "tessdata"), dst=os.path.join("tesseract", "tessdata"))
+        copy_tree(src=os.path.join(self.source_folder, "lib"), dst="lib")
+        shutil.copy2(src=os.path.join(self.source_folder, "app_gui.py"), dst="app_gui.py")
+        shutil.copy2(src=os.path.join(self.source_folder, "version.py"), dst="version.py")
+        shutil.copy2(src=os.path.join(self.source_folder, "icon.ico"), dst="icon.ico")
+        shutil.copy2(src=os.path.join(self.source_folder, "LICENSE"), dst="LICENSE")
+        shutil.copy2(src=os.path.join(self.source_folder, "README.md"), dst="README.md")
 
     def clean(self):
         """Clean all files after updating."""
