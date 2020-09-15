@@ -247,6 +247,7 @@ class QueueList:
             self.process.start()
             self.process.join()
         self.stop_queue_flag = False
+        self.widget.setDragDropMode(QAbstractItemView.InternalMove)
         logger.debug("Queue completed.")
 
     def select_all(self):
