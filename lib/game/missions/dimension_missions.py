@@ -21,11 +21,11 @@ class DimensionMissions(Missions):
 
         :return: True or False: is Dimension Missions open.
         """
-        self.game.go_to_mission_selection()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_MISSION']):
-            self.player.click_button(self.ui['DM_MISSION'].button)
-            self.game.close_ads(timeout=5)
-            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL'])
+        if self.game.go_to_mission_selection():
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_MISSION']):
+                self.player.click_button(self.ui['DM_MISSION'].button)
+                self.game.close_ads(timeout=5)
+                return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL'])
         return False
 
     @property

@@ -831,6 +831,43 @@
       "image_save_file": "gold_image",
       "description": "Gold icon image."
     }
+  },
+  {
+    "SELECT_MISSION": {
+      "text_rect": {
+        "x1": 0.0515625,
+        "y1": 0.010185185185185186,
+        "x2": 0.19947916666666668,
+        "y2": 0.08333333333333333
+      },
+      "button_rect": null,
+      "text": "SELECT MISSION",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "select_mission",
+      "description": "The SELECT MISSION label in mission selector."
+    }
+  },
+  {
+    "EPIC_QUEST_MISSIONS": {
+      "text_rect": {
+        "x1": 0.590625,
+        "y1": 0.2953703703703704,
+        "x2": 0.6927083333333334,
+        "y2": 0.34629629629629627
+      },
+      "button_rect": {
+        "x1": 0.5666666666666667,
+        "y1": 0.3814814814814815,
+        "x2": 0.7151041666666667,
+        "y2": 0.7
+      },
+      "text": "EPIC QUEST",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "epic_quest_missions",
+      "description": "The EPIC QUEST selector in mission selector."
+    }
   }
 ]
 

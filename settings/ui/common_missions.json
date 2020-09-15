@@ -441,7 +441,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_1_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #1."
+      "description": "Difficulty of the mission: #1."
     }
   },
   {
@@ -462,7 +462,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_2_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #2."
+      "description": "Difficulty of the mission: #2."
     }
   },
   {
@@ -483,7 +483,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_3_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #3."
+      "description": "Difficulty of the mission: #3."
     }
   },
   {
@@ -504,7 +504,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_stage_4_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #4."
+      "description": "Difficulty of the mission: #4."
     }
   },
   {
@@ -525,7 +525,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_3_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #3 from the bottom of the screen."
+      "description": "Difficulty of the mission: #3 from the bottom of the screen."
     }
   },
   {
@@ -546,7 +546,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_4_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #4 from the bottom of the screen."
+      "description": "Difficulty of the mission: #4 from the bottom of the screen."
     }
   },
   {
@@ -567,7 +567,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_5_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #5 from the bottom of the screen."
+      "description": "Difficulty of the mission: #5 from the bottom of the screen."
     }
   },
   {
@@ -588,7 +588,39 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "difficulty_2_stage_6_enter",
-      "description": "DEPRECATED: Difficulty of the mission: #6 from the bottom of the screen."
+      "description": "Difficulty of the mission: #6 from the bottom of the screen."
+    }
+  },
+  {
+    "DIFFICULTY_DRAG_FROM": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5541666666666667,
+        "y1": 0.7157407407407408,
+        "x2": 0.5890625,
+        "y2": 0.7518518518518519
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Difficulty of the mission: drag position (bottom) to scroll the list."
+    }
+  },
+  {
+    "DIFFICULTY_DRAG_TO": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5541666666666667,
+        "y1": 0.20833333333333334,
+        "x2": 0.5890625,
+        "y2": 0.24537037037037038
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Difficulty of the mission: drag position (top) to scroll the list."
     }
   },
   {

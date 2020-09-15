@@ -1,4 +1,4 @@
-from lib.functions import wait_until
+from lib.functions import wait_until, r_sleep
 from lib.game.battle_bot import AutoBattleBot
 from lib.game.missions.missions import Missions
 import lib.logger as logging
@@ -121,7 +121,7 @@ class TwoStageEpicQuest(EpicQuests):
                     stage_1_num = self.start_stage(self.ui[self.stage_1].button, stage_1_num,
                                                    farm_shifter_bios=farm_shifter_bios)
                     self.stages = stage_1_num + stage_2_num
-                if self.game.is_main_menu():
+                if stage_2_num > 0 and self.game.is_main_menu():
                     self.game.select_mode(self.mode_name)
                 while stage_2_num > 0 and self.stages > 0:
                     stage_2_num = self.start_stage(self.ui[self.stage_2].button, stage_2_num,
@@ -142,6 +142,108 @@ class TwoStageEpicQuest(EpicQuests):
             logger.error("Can't find `Recommended Lv` text in mission lobby.")
             return
         logger.error(f"Can't find mission label: {self.mode_label}")
+
+
+class TenStageEpicQuest(EpicQuests):
+    """Class for working with Epic Quests with 10 stages (usual missions without difficulty)."""
+
+    def __init__(self, game, mode_selector, mission_selector, mission_selector_label, stage_selector, stage_name=None):
+        """Class initialization.
+
+        :param game.Game game: instance of the game.
+        :param mode_selector: UI element name of Epic Quest selector.
+        :param mission_selector: UI element name of Epic Quest's mission selector.
+        :param mission_selector_label: UI element name of Epic Quest's mission label.
+        :param stage_selector: UI element name of Epic Quest's stage selector.
+        :param stage_name: Epic Quest's stage name.
+        """
+        super().__init__(game, '')
+        self.mode_selector = self.ui[mode_selector]
+        self.mission_selector = self.ui[mission_selector]
+        self.mission_selector_label = self.ui[mission_selector_label]
+        self.stage_selector = self.ui[stage_selector]
+        self.mode_name = stage_name if stage_name else self.stage_selector.text
+
+    def select_epic_quest(self):
+        """Select Epic Quest."""
+        if self.game.go_to_epic_quests():
+            if self.mode_selector.name in ['EQ_RISE_OF_X_MEN', 'EQ_SORCERER_SUPREME']:
+                logger.debug("Epic Quests is referring to the second page. Trying to scroll.")
+                self.player.drag(self.ui['EQ_PAGE_DRAG_FROM'].button, self.ui['EQ_PAGE_DRAG_TO'].button)
+                r_sleep(1)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mode_selector):
+                self.player.click_button(self.mode_selector.button)
+                return True
+
+    def select_mission(self):
+        """Select missions in Epic Quest."""
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector):
+            self.player.click_button(self.mission_selector.button)
+            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector_label)
+
+    def select_stage(self):
+        """Select stage in missions in Epic Quest."""
+        self.player.click_button(self.stage_selector.button)
+        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['START_BUTTON'])
+
+    def start_missions(self, times=10, farm_shifter_bios=False):
+        """Start stage missions."""
+        logger.info(f"{self.mode_name}: {times} stages to complete.")
+        if times:
+            if self.select_epic_quest() and self.select_mission() and self.select_stage():
+                while times > 0:
+                    times = self.start_stage(self.stage_selector.button, times, farm_shifter_bios=farm_shifter_bios)
+        logger.info(f"No more stages for {self.mode_name}.")
+
+    def do_missions(self, times=10, farm_shifter_bios=False):
+        """Do missions.
+
+        :param times: how many stages to complete.
+        :param farm_shifter_bios: DISABLED IN THIS MODE.
+        """
+        farm_shifter_bios = False
+        if times > 0:
+            self.start_missions(times=times, farm_shifter_bios=farm_shifter_bios)
+            self.end_missions()
+
+
+class TenStageWithDifficultyEpicQuest(TenStageEpicQuest):
+
+    def select_stage(self, difficulty=Missions._DIFFICULTY_4.STAGE_4):
+        """Select stage in missions in Epic Quest.
+
+        :param difficulty: name of UI element that contains info about difficulty of stage.
+        """
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.stage_selector):
+            self.player.click_button(self.stage_selector.button)
+            if "_2_" in self.ui[difficulty].name:
+                logger.debug("Difficulty is referring from the bottom of list. Trying to scroll.")
+                self.player.drag(self.ui['DIFFICULTY_DRAG_FROM'].button, self.ui['DIFFICULTY_DRAG_TO'].button)
+                r_sleep(1)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[difficulty]):
+                self.player.click_button(self.ui[difficulty].button)
+        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['START_BUTTON'])
+
+    def start_missions(self, times=10, difficulty=Missions._DIFFICULTY_4.STAGE_4, farm_shifter_bios=False):
+        """Start stage missions."""
+        logger.info(f"{self.mode_name}: {times} stages to complete.")
+        if times:
+            if self.select_epic_quest() and self.select_mission() and self.select_stage(difficulty=difficulty):
+                while times > 0:
+                    times = self.start_stage(self.stage_selector.button, times, farm_shifter_bios=farm_shifter_bios)
+        logger.info(f"No more stages for {self.mode_name}.")
+
+    def do_missions(self, times=10, difficulty=Missions._DIFFICULTY_4.STAGE_4, farm_shifter_bios=False):
+        """Do missions.
+
+        :param times: how many stages to complete.
+        :param difficulty: name of UI element that contains info about difficulty of stage.
+        :param farm_shifter_bios: DISABLED IN THIS MODE.
+        """
+        farm_shifter_bios = False
+        if times > 0:
+            self.start_missions(times=times, difficulty=difficulty, farm_shifter_bios=farm_shifter_bios)
+            self.end_missions()
 
 
 class StupidXMen(TwoStageEpicQuest):
@@ -246,3 +348,188 @@ class FateOfTheUniverse(OneStageEpicQuest):
         :param game.Game game: instance of the game.
         """
         super().__init__(game=game, mode_label='EQ_FATE_OF_THE_UNIVERSE_STAGE_LABEL')
+
+
+class DangerousSisters(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Dangerous Sisters."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_GALACTIC_IMPERATIVE', 'EQ_UNEXPECTED_INTRUDER', 'EQ_UNEXPECTED_INTRUDER_LABEL',
+                         'EQ_NORMAL_STAGE_1', 'Dangerous Sisters')
+
+
+class CosmicRider(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Cosmic Rider."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_GALACTIC_IMPERATIVE', 'EQ_UNEXPECTED_INTRUDER', 'EQ_UNEXPECTED_INTRUDER_LABEL',
+                         'EQ_NORMAL_STAGE_2', 'Cosmic Rider')
+
+
+class InhumanPrincess(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Inhuman Princess."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_FIRST_FAMILY', 'EQ_NEW_FACES', 'EQ_NEW_FACES_LABEL',
+                         'EQ_NORMAL_STAGE_1', 'Inhuman Princess')
+
+
+class MeanAndGreen(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Mean & Green."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_FIRST_FAMILY', 'EQ_NEW_FACES', 'EQ_NEW_FACES_LABEL',
+                         'EQ_NORMAL_STAGE_2', 'Mean & Green')
+
+
+class DarkAdvent(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Dark Advent."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_SORCERER_SUPREME', 'EQ_DARK_DIMENSION', 'EQ_DARK_DIMENSION_LABEL',
+                         'EQ_NORMAL_STAGE_1', 'Dark Advent')
+
+
+class IncreasingDarkness(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Increasing Darkness."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_SORCERER_SUPREME', 'EQ_DARK_DIMENSION', 'EQ_DARK_DIMENSION_LABEL',
+                         'EQ_NORMAL_STAGE_2', 'Increasing Darkness')
+
+
+class Blindsided(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Blindsided."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_RISE_OF_X_MEN', 'EQ_TRACKING', 'EQ_TRACKING_LABEL',
+                         'EQ_BLINDSIDED', 'Blindsided')
+
+
+class QuantumPower(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Quantum Power."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_GALACTIC_IMPERATIVE', 'EQ_SPACE_PRISON', 'EQ_SPACE_PRISON_LABEL', 'EQ_QUANTUM_POWER')
+
+
+class WingsOfDarkness(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Wings of Darkness."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_GALACTIC_IMPERATIVE', 'EQ_SPACE_PRISON', 'EQ_SPACE_PRISON_LABEL',
+                         'EQ_WINGS_OF_DARKNESS')
+
+
+class ClobberinTime(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Cloberrin' Time."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_FIRST_FAMILY', 'EQ_LIKE_BROTHERS', 'EQ_LIKE_BROTHERS_LABEL',
+                         'EQ_CLOBBERIN_TIME')
+
+
+class Hothead(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Hot Head."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_FIRST_FAMILY', 'EQ_LIKE_BROTHERS', 'EQ_LIKE_BROTHERS_LABEL',
+                         'EQ_HOTHEAD')
+
+
+class AwManThisGuy(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: 'Aw, Man. This Guy?'."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_X_FORCE', 'EQ_MESSY_FRIENDS', 'EQ_MESSY_FRIENDS_LABEL',
+                         'EQ_AW_MAN_THIS_GUY')
+
+
+class DominoFalls(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Domino Falls."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_X_FORCE', 'EQ_MESSY_FRIENDS', 'EQ_MESSY_FRIENDS_LABEL',
+                         'EQ_DOMINO_FALLS')
+
+
+class GoingRogue(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Going Rogue."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_RISE_OF_X_MEN', 'EQ_TRACKING', 'EQ_TRACKING_LABEL',
+                         'EQ_GOING_ROGUE')
+
+
+class FriendsAndEnemies(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Friends and Enemies."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_RISE_OF_X_MEN', 'EQ_TRACKING', 'EQ_TRACKING_LABEL',
+                         'EQ_FRIENDS_AND_ENEMIES')
+
+
+class WeatheringTheStorm(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Weathering The Storm."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_RISE_OF_X_MEN', 'EQ_TRACKING', 'EQ_TRACKING_LABEL',
+                         'EQ_WEATHERING_THE_STORM')
+
+
+class RoadToMonastery(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Road to the Monastery."""
+
+    DIFFICULTY = Missions._DIFFICULTY_6
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_SORCERER_SUPREME', 'EQ_MEMORY_MISSION', 'EQ_MEMORY_MISSION_LABEL',
+                         'EQ_ROAD_TO_MONASTERY')
+
+
+class MysteriousAmbush(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Mysterious Ambush."""
+
+    DIFFICULTY = Missions._DIFFICULTY_6
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_SORCERER_SUPREME', 'EQ_MEMORY_MISSION', 'EQ_MEMORY_MISSION_LABEL',
+                         'EQ_MYSTERIOUS_AMBUSH')
+
+
+class MonasteryInTrouble(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Monastery in Trouble."""
+
+    DIFFICULTY = Missions._DIFFICULTY_6
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_SORCERER_SUPREME', 'EQ_MEMORY_MISSION', 'EQ_MEMORY_MISSION_LABEL',
+                         'EQ_MONASTERY_IN_TROUBLE')
+
+
+class PowerOfTheDark(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Power of the Dark."""
+
+    DIFFICULTY = Missions._DIFFICULTY_6
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_SORCERER_SUPREME', 'EQ_MEMORY_MISSION', 'EQ_MEMORY_MISSION_LABEL',
+                         'EQ_POWER_OF_THE_DARK')

@@ -286,14 +286,13 @@ class Game:
         return True
 
     def go_to_mission_selection(self):
-        """DEPRECATED.
-
-        Go to Missions screen.
-        """
+        """Go to Missions screen."""
         self.go_to_main_menu()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
             self.player.click_button(self.ui['ENTER_MISSIONS'].button)
-            r_sleep(1)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SELECT_MISSION']):
+                r_sleep(1)
+                return True
 
     def go_to_challenge_selection(self):
         """DEPRECATED.
@@ -352,6 +351,15 @@ class Game:
             logger.warning("Can't find Lab button in Main menu, exiting")
             self.player.click_button(self.ui['MAIN_MENU'].button)
         return False
+
+    def go_to_epic_quests(self):
+        """Go to Epic Quests screen."""
+        if self.go_to_mission_selection():
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EPIC_QUEST_MISSIONS']):
+                self.player.click_button(self.ui['EPIC_QUEST_MISSIONS'].button)
+                if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_LABEL']):
+                    r_sleep(1)
+                    return True
 
     def restart_game(self):
         """Restart game.
