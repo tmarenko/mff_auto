@@ -317,7 +317,7 @@
       },
       "button_rect": null,
       "text": "6",
-      "image_threshold": 155,
+      "image_threshold": 145,
       "chars": "6",
       "image_save_file": "skill_6_label",
       "description": "#6 skill label text at the left top corner."
@@ -554,7 +554,7 @@
       },
       "button_rect": null,
       "text": "1",
-      "image_threshold": 155,
+      "image_threshold": 145,
       "chars": "1",
       "image_save_file": "skill_1_label",
       "description": "DEPRECATED (because any character has this skill by default)"
@@ -570,7 +570,7 @@
       },
       "button_rect": null,
       "text": "2",
-      "image_threshold": 155,
+      "image_threshold": 145,
       "chars": "2",
       "image_save_file": "skill_2_label",
       "description": "2 skill label text at the left top corner."
@@ -586,7 +586,7 @@
       },
       "button_rect": null,
       "text": "3",
-      "image_threshold": 155,
+      "image_threshold": 145,
       "chars": "3",
       "image_save_file": "skill_3_label",
       "description": "3 skill label text at the left top corner."
@@ -602,7 +602,7 @@
       },
       "button_rect": null,
       "text": "4",
-      "image_threshold": 155,
+      "image_threshold": 145,
       "chars": "4",
       "image_save_file": "skill_4_label",
       "description": "4 skill label text at the left top corner."
@@ -618,7 +618,7 @@
       },
       "button_rect": null,
       "text": "5",
-      "image_threshold": 155,
+      "image_threshold": 145,
       "chars": "5",
       "image_save_file": "skill_5_label",
       "description": "5 skill label text at the left top corner."
@@ -754,6 +754,28 @@
       "image_path": "skill_time_freeze.png",
       "image_save_file": "skill_time_freeze",
       "description": "Time Freezing skill button in Danger Room."
+    }
+  },
+  {
+    "SKILL_SENTRY": {
+      "text_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "button_rect": {
+        "x1": 0.5151041666666667,
+        "y1": 0.8759259259259259,
+        "x2": 0.5520833333333334,
+        "y2": 0.9416666666666667
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "skill_sentry.png",
+      "image_save_file": "skill_sentry",
+      "description": "Sentry Gun skill button in Danger Room."
     }
   }
 ]
