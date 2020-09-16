@@ -261,6 +261,7 @@ class ManualBattleBot(BattleBot):
         while not self.is_battle_over():
             if self.is_battle():
                 if self.current_character is None:
+                    r_sleep(1)  # Sometimes gray overlay is on screen after loading
                     self.load_character()
                     self.load_skills()
                 self.reload_skills_if_character_dead()

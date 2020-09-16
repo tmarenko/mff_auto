@@ -68,20 +68,24 @@ class DangerRoom(Missions):
         if mode != self.MODE.NORMAL and mode != self.MODE.EXTREME:
             logger.error(f"Danger Room: got wrong mode for battles: {mode}.")
             return False
-        if mode == self.MODE.EXTREME:
-            logger.error(f"Danger Room: {self.MODE.EXTREME} mode currently unavailable in the game.")
-            return False
         if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DANGER_ROOM_LABEL']):
             logger.warning("Danger Room: can't get in mission lobby.")
             return False
         if mode == self.MODE.NORMAL:
             logger.info("Danger Room: starting NORMAL battle.")
+            lobby_ui = self.ui['DANGER_ROOM_NORMAL_MODE_LOBBY']
             self.player.click_button(self.ui['DANGER_ROOM_NORMAL_MODE'].button)
+        if mode == self.MODE.EXTREME:
+            logger.info("Danger Room: starting EXTREME battle.")
+            lobby_ui = self.ui['DANGER_ROOM_EXTREME_MODE_LOBBY']
+            self.player.click_button(self.ui['DANGER_ROOM_EXTREME_MODE'].button)
+
+        self.player.click_button(self.ui['DANGER_ROOM_ENTER'].button)
         if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_BLOCK_NOTICE'], timeout=5):
             logger.warning("Danger Room: you've been blocked after disconnect. Can't get to room.")
             self.player.click_button(self.ui['DANGER_ROOM_BLOCK_NOTICE'].button)
             return False
-        if not wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_LOBBY'], timeout=15):
+        if not wait_until(self.player.is_ui_element_on_screen, ui_element=lobby_ui, timeout=15):
             logger.warning("Danger Room: can't get in room's lobby. Probably stuck on loading. Trying to restart game.")
             if self.game.restart_game():
                 self.go_to_danger_room()
@@ -110,7 +114,7 @@ class DangerRoom(Missions):
             if not self.press_start_button(start_button_ui='DANGER_ROOM_JOIN'):
                 logger.error("Cannot start Danger Room battle, exiting.")
                 return
-            if not self.select_character():
+            if not self.select_character(mode=mode):
                 logger.debug("Danger Room: can't select character. Trying to select mode again.")
                 if not self.select_mode(mode=mode):
                     return
@@ -122,7 +126,7 @@ class DangerRoom(Missions):
                     return
                 continue
             self.player.click_button(self.ui['DANGER_ROOM_MAINTAIN_CURRENT_TEAM'].button)
-            if not wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_SCORE_RESULTS'],
+            if not wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_BATTLE_INFO'],
                               timeout=10):
                 logger.warning("Danger Room: something went wrong after the battle.")
                 return
@@ -158,13 +162,12 @@ class DangerRoom(Missions):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.player.click_button(self.ui[repeat_button_ui].button)
-        if mode == self.MODE.NORMAL:
-            while not self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_NORMAL_MODE']):
-                self.close_after_mission_notifications(timeout=1)
-            return self.select_mode(mode=mode)
+        while not self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_ENTER']):
+            self.close_after_mission_notifications(timeout=1)
+        return self.select_mode(mode=mode)
 
-    def get_all_characters_info(self):
-        """Get all characters from selector and their popularity.
+    def get_all_characters_info_for_normal_mode(self):
+        """Get all characters and their popularity from selector.
 
         :return: sorted indexes of characters by popularity and character's images.
         """
@@ -183,6 +186,34 @@ class DangerRoom(Missions):
             characters_popularity.append(float(character_popularity))
         sorted_char_index = sorted(range(len(characters_popularity)), key=lambda k: characters_popularity[k])
         return sorted_char_index, characters_images
+
+    def get_all_characters_info_for_extreme_mode(self):
+        """Get all available characters and their popularity from selector.
+
+        :return: sorted indexes of non participated characters by popularity.
+        """
+        characters_popularity = []
+        for character_index in range(1, 13):
+            character_ui = self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_{character_index}']
+            character_participation_rect = [self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_USED_{character_index}'].rect]
+            character_participation_color = self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_USED_{character_index}'].button
+            color = (character_participation_color[0], character_participation_color[1],
+                     character_participation_color[2])
+            character_participation = self.player.is_color_similar(color=color, rects=character_participation_rect)
+            if not character_participation:
+                logger.debug(f"Danger Room: character #{character_index} already participated, skipping.")
+                characters_popularity.append(0)
+                continue
+            character_popularity_text = self.player.get_screen_text(ui_element=character_ui)
+            full_match = character_popularity_regexp.fullmatch(character_popularity_text)
+            if not full_match:
+                logger.warning(f"Danger Room: can't read character #{character_index} popularity, assuming it's 0.")
+                character_popularity = 0
+            else:
+                character_popularity = full_match.group(1)
+            characters_popularity.append(float(character_popularity))
+        sorted_char_index = sorted(range(len(characters_popularity)), key=lambda k: characters_popularity[k])
+        return sorted_char_index
 
     def check_game_canceled(self):
         """Check if game was canceled."""
@@ -211,10 +242,17 @@ class DangerRoom(Missions):
         character_ui.save_file += "_img"
         return self.player.is_image_on_screen(ui_element=character_ui)
 
-    def select_character(self):
-        """Select best available character for battle."""
-        popular_character_indexes, characters_images = self.get_all_characters_info()
-        while not self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON']):
+    def select_character(self, mode):
+        """Select character for Danger Room by mode."""
+        if mode == self.MODE.NORMAL:
+            return self.select_character_for_normal_mode()
+        if mode == self.MODE.EXTREME:
+            return self.select_character_for_extreme_mode()
+
+    def select_character_for_normal_mode(self):
+        """Select best available character for NORMAL battle."""
+        popular_character_indexes, characters_images = self.get_all_characters_info_for_normal_mode()
+        while not self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL']):
             if self.check_game_canceled():
                 return False
             best_character = None
@@ -223,6 +261,24 @@ class DangerRoom(Missions):
                 if self._is_character_available(character_ui=character_ui,
                                                 character_image=characters_images[character_index]):
                     best_character = character_ui
+            if not best_character:
+                logger.error("Danger Room: can't find best character for NORMAL mode.")
+                return False
+            logger.debug(f"Danger Room: selecting character {best_character.name}")
+            self.player.click_button(best_character.button)
+            r_sleep(2)
+        logger.debug("Danger Room: battle is ready to begin.")
+        return True
+
+    def select_character_for_extreme_mode(self):
+        """Select best available character for EXTREME battle."""
+        popular_character_indexes = self.get_all_characters_info_for_extreme_mode()
+        while not self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_EXTREME']):
+            if self.check_game_canceled():
+                return False
+            best_character = None
+            for character_index in popular_character_indexes:
+                best_character = self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_{character_index + 1}']
             if not best_character:
                 logger.error("Danger Room: can't find best character for mode.")
                 return False
