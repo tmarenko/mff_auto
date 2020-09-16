@@ -291,7 +291,6 @@ class DangerRoom(Missions):
     def start_manual_bot_for_danger_room(self):
         """Apply Danger Room's rules to ManualBattleBot and start it."""
         manual_bot = ManualBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions)
-        manual_bot.init_danger_room_skills()
         old_is_battle = manual_bot.is_battle
         manual_bot.is_battle = lambda: old_is_battle() and not self.player.is_ui_element_on_screen(
             self.ui['DANGER_ROOM_BATTLE_REVIVE'])

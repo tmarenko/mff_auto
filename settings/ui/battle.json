@@ -541,7 +541,7 @@
       "image_threshold": 110,
       "chars": "Floor",
       "image_save_file": "shadowland_floor",
-      "description": "Shadowland's floor counter at the top right corner."
+      "description": "DEPRECATED: Shadowland's floor counter at the top right corner."
     }
   },
   {
@@ -625,12 +625,12 @@
     }
   },
   {
-    "SKILL_REGENERATE": {
+    "SKILL_DANGER_ROOM": {
       "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
+        "x1": 0.503125,
+        "y1": 0.8870370370370371,
+        "x2": 0.5505208333333333,
+        "y2": 0.9314814814814815
       },
       "button_rect": {
         "x1": 0.5151041666666667,
@@ -639,143 +639,10 @@
         "y2": 0.9416666666666667
       },
       "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_regenerate.png",
-      "image_save_file": "skill_regenerate",
-      "description": "Regenerate skill button in Danger Room."
-    }
-  },
-  {
-    "SKILL_TORNADO": {
-      "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "button_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_tornado.png",
-      "image_save_file": "skill_tornado",
-      "description": "Tornado skill button in Danger Room."
-    }
-  },
-  {
-    "SKILL_BLACK_SUN": {
-      "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "button_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_black_sun.png",
-      "image_save_file": "skill_black_sun",
-      "description": "Black Sun skill button in Danger Room."
-    }
-  },
-  {
-    "SKILL_OPPRESSION": {
-      "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "button_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_oppression.png",
-      "image_save_file": "skill_oppression",
-      "description": "Oppression skill button in Danger Room."
-    }
-  },
-  {
-    "SKILL_BERSERK": {
-      "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "button_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_berserk.png",
-      "image_save_file": "skill_berserk",
-      "description": "Berserk skill button in Danger Room."
-    }
-  },
-  {
-    "SKILL_TIME_FREEZE": {
-      "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "button_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_time_freeze.png",
-      "image_save_file": "skill_time_freeze",
-      "description": "Time Freezing skill button in Danger Room."
-    }
-  },
-  {
-    "SKILL_SENTRY": {
-      "text_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "button_rect": {
-        "x1": 0.5151041666666667,
-        "y1": 0.8759259259259259,
-        "x2": 0.5520833333333334,
-        "y2": 0.9416666666666667
-      },
-      "text": null,
-      "image_threshold": 0.7,
-      "chars": null,
-      "image_path": "skill_sentry.png",
-      "image_save_file": "skill_sentry",
-      "description": "Sentry Gun skill button in Danger Room."
+      "image_threshold": 175,
+      "chars": "0123456789.",
+      "image_save_file": "skill_danger_room",
+      "description": "Danger Room's skill button."
     }
   }
 ]

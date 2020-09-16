@@ -117,7 +117,7 @@ class LockedSkill:
             skill_locked_ui = [skill_locked_ui]
         self.skill_locked_ui = [self.ui[name].copy() for name in skill_locked_ui if self.ui.get(name)] if skill_locked_ui else None
         self.skill_label_ui = self.ui[skill_label_ui].copy() if self.ui.get(skill_label_ui) else None
-        self.name = self.skill_ui.name.split("_")[-1]
+        self.name = "_".join(self.skill_ui.name.split("_")[1:])
 
     @property
     def locked(self):
@@ -147,8 +147,8 @@ class LockedSkill:
             self.check_skill_is_ready()
         return self._skill_ready_image
 
-    def is_skill_ready(self):
-        """Check if skill is ready to cast."""
+    def is_not_locked_and_has_skill_image(self):
+        """Check if skill is not locked and has skill image ready to cast."""
         return not self.locked and self._skill_ready_image is not None
 
     def check_skill_is_ready(self, max_repetitions=3, forced=False):
@@ -217,7 +217,6 @@ class ManualBattleBot(BattleBot):
         :param game.Game game: instance of game.
         """
         super().__init__(game, battle_over_conditions, disconnect_conditions)
-        self.bonus_skills = []
         self._init_skills()
         self.current_character = None
         self.current_bonus_skill = None
@@ -226,31 +225,21 @@ class ManualBattleBot(BattleBot):
         self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
                                        "MOVE_AROUND_POS_UP", "MOVE_AROUND_POS_RIGHT"])
         self.moving_position_from = next(self.moving_positions)
-        self.shadowland_loaded = False
 
-    def _init_skills(self):
+    def _init_base_skills(self):
         self.skill_1 = LockedSkill(self.game, "SKILL_1", skill_label_ui=None, skill_locked_ui=None)
         self.skill_2 = LockedSkill(self.game, "SKILL_2", skill_label_ui="SKILL_2_LABEL", skill_locked_ui=None)
         self.skill_3 = LockedSkill(self.game, "SKILL_3", skill_label_ui="SKILL_3_LABEL", skill_locked_ui=None)
         self.skill_4 = LockedSkill(self.game, "SKILL_4", skill_label_ui="SKILL_4_LABEL", skill_locked_ui=None)
         self.skill_5 = LockedSkill(self.game, "SKILL_5", skill_label_ui="SKILL_5_LABEL", skill_locked_ui=None)
+        self.base_skills = [self.skill_1, self.skill_2, self.skill_3, self.skill_4, self.skill_5]
+
+    def _init_skills(self):
+        self._init_base_skills()
         self.t3_skill = LockedSkill(self.game, "SKILL_T3", ["SKILL_T3_LOCKED", "SKILL_6_LOCKED"], "SKILL_T3_LABEL")
         self.awakening_skill = LockedSkill(self.game, "SKILL_6", ["SKILL_6_LOCKED", "SKILL_T3_LOCKED"], "SKILL_6_LABEL")
-        self.base_skills = [self.skill_1, self.skill_2, self.skill_3, self.skill_4, self.skill_5]
-        coop_skill = LockedSkill(self.game, "SKILL_COOP", "SKILL_COOP", skill_label_ui=None)
-        self.bonus_skills = [coop_skill]
-
-    def init_danger_room_skills(self):
-        skill_regenerate = LockedSkill(self.game, "SKILL_REGENERATE", "SKILL_REGENERATE", skill_label_ui=None)
-        skill_tornado = LockedSkill(self.game, "SKILL_TORNADO", "SKILL_TORNADO", skill_label_ui=None)
-        skill_black_sun = LockedSkill(self.game, "SKILL_BLACK_SUN", "SKILL_BLACK_SUN", skill_label_ui=None)
-        oppression_skill = LockedSkill(self.game, "SKILL_OPPRESSION", "SKILL_OPPRESSION", skill_label_ui=None)
-        berserk_skill = LockedSkill(self.game, "SKILL_BERSERK", "SKILL_BERSERK", skill_label_ui=None)
-        time_freeze = LockedSkill(self.game, "SKILL_TIME_FREEZE", "SKILL_TIME_FREEZE", skill_label_ui=None)
-        sentry_gun = LockedSkill(self.game, "SKILL_SENTRY", "SKILL_SENTRY", skill_label_ui=None)
-        self.bonus_skills = [skill_regenerate, skill_tornado, skill_black_sun, oppression_skill, berserk_skill,
-                             time_freeze, sentry_gun]
-        self._init_skills = self.init_danger_room_skills
+        self.coop_skill = LockedSkill(self.game, "SKILL_COOP", skill_locked_ui=None, skill_label_ui=None)
+        self.danger_room_skill = LockedSkill(self.game, "SKILL_DANGER_ROOM", skill_locked_ui=None, skill_label_ui=None)
 
     def fight(self, move_around=False):
         """Start battle and use skills until the end of battle.
@@ -261,7 +250,6 @@ class ManualBattleBot(BattleBot):
         while not self.is_battle_over():
             if self.is_battle():
                 if self.current_character is None:
-                    r_sleep(1)  # Sometimes gray overlay is on screen after loading
                     self.load_character()
                     self.load_skills()
                 self.reload_skills_if_character_dead()
@@ -275,9 +263,12 @@ class ManualBattleBot(BattleBot):
                     logger.debug(f"Successfully casted {best_available_skill.name} skill.")
                     time_to_sleep = self.SKILL_TIMEOUTS[str(best_available_skill.name)]
                     r_sleep(time_to_sleep)
-                    # Check T3 skill only after successful cast
-                    if not self.t3_skill.is_skill_ready() and not self.t3_skill.locked:
+                    # Check T3 and bonus skill only after successful cast
+                    if not self.t3_skill.locked and not self.t3_skill.is_not_locked_and_has_skill_image():
                         self.t3_skill.check_skill_is_ready()
+                    if self.current_bonus_skill and not self.current_bonus_skill.locked:  # Check pseudo lock
+                        if not self.current_bonus_skill.is_not_locked_and_has_skill_image():
+                            self.current_bonus_skill.check_skill_is_ready()
                 else:
                     self.cached_available_skill = self.BEST_DEFAULT_SKILL
                     if move_around:
@@ -285,7 +276,6 @@ class ManualBattleBot(BattleBot):
                         self.move_character()
             else:
                 self.skip_cutscene()
-                self.shadowland_loaded = False
         r_sleep(1)  # Wait for end of the battle animations
         logger.info("Battle is over")
 
@@ -320,10 +310,6 @@ class ManualBattleBot(BattleBot):
 
     def load_skills(self):
         """Load images of skills without cooldown layout."""
-        if self.player.is_ui_element_on_screen(self.ui['SHADOWLAND_FLOOR']) and not self.shadowland_loaded:
-            logger.debug("Shadowland's floor was found. Awaiting start battle animation.")
-            self.shadowland_loaded = True
-            r_sleep(4)
         logger.debug("Loading skill's images for the fight.")
         for skill in self.base_skills:
             if not skill.locked:
@@ -334,12 +320,12 @@ class ManualBattleBot(BattleBot):
             t3_percentage_text = self.player.get_screen_text(self.t3_skill.skill_ui)
             is_t3 = t3_percentage_regexp.fullmatch(t3_percentage_text)
             if not self.awakening_skill.locked and not is_t3:
-                logger.debug("Cannot find T3 badge on character's icon. Assuming 6th skill as Awakening.")
+                logger.debug("Cannot find T3 percentage. Assuming 6th skill as Awakening.")
                 self.awakening_skill.check_skill_is_ready(forced=True)
                 self.cached_available_skill = self.awakening_skill
                 self.t3_skill._skill_locked = True
             if not self.t3_skill.locked and is_t3:
-                logger.debug("Found T3 badge on character's icon. Assuming 6th skill as T3.")
+                logger.debug(f"Found T3 percentage on skill = {t3_percentage_text}. Assuming 6th skill as T3.")
                 self.awakening_skill._skill_locked = True
             if not self.awakening_skill.locked and not self.t3_skill.locked:
                 logger.warning("Two skills on the same position are not locked. "
@@ -349,18 +335,37 @@ class ManualBattleBot(BattleBot):
 
         self.BEST_DEFAULT_SKILL = self.cached_available_skill
 
+        non_locked_skill_found = False
+        for skill in reversed(self.base_skills):
+            if not skill.locked:
+                non_locked_skill_found = True
+            if skill.locked and non_locked_skill_found:
+                logger.debug(f"Skill {skill.name} in between was found as locked. Something interrupt skill loading."
+                             f"Reloading skills again.")
+                self._init_base_skills()
+                r_sleep(1)
+                return self.load_skills()
+
     def get_available_bonus_skill(self):
         """Get available bonus skill and save it.
 
         :return: LockedSkill available bonus skill to cast.
         """
-        if not self.current_bonus_skill:
-            for bonus_skill in self.bonus_skills:
-                bonus_skill.check_skill_is_ready(forced=True)
-                if bonus_skill.is_skill_ready():
-                    self.current_bonus_skill = bonus_skill
-        elif self.current_bonus_skill.is_skill_available():
-            return self.current_bonus_skill
+        if self.current_bonus_skill is None:
+            self.current_bonus_skill = False  # Pseudo lock skill of no COOP or Danger Room
+            self.coop_skill.check_skill_is_ready(forced=True)
+            if self.coop_skill.is_not_locked_and_has_skill_image():
+                self.current_bonus_skill = self.coop_skill
+            else:
+                percentage_text = self.player.get_screen_text(self.danger_room_skill.skill_ui)
+                is_danger_room = t3_percentage_regexp.fullmatch(percentage_text)
+                if is_danger_room:
+                    logger.debug(f"Found percentage on Danger Room skill = {percentage_text}.")
+                    self.current_bonus_skill = self.danger_room_skill
+
+        if self.current_bonus_skill and self.current_bonus_skill.is_not_locked_and_has_skill_image():
+            if self.current_bonus_skill.is_skill_available():
+                return self.current_bonus_skill
 
     def get_best_available_skill(self):
         """Get best available skill to cast.
@@ -372,7 +377,7 @@ class ManualBattleBot(BattleBot):
             skill = self.cached_available_skill
             self.cached_available_skill = None
             return skill
-        if self.t3_skill.is_skill_ready() and self.t3_skill.is_skill_available():
+        if self.t3_skill.is_not_locked_and_has_skill_image() and self.t3_skill.is_skill_available():
             return self.t3_skill
         if self.awakening_skill.is_skill_available():
             return self.awakening_skill
