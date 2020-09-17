@@ -162,7 +162,7 @@
     }
   },
   {
-    "RANK_UP_NOTIFICATION": {
+    "RANK_UP_NOTIFICATION_1": {
       "text_rect": {
         "x1": 0.3080714725816389,
         "y1": 0.8629385964912281,
@@ -178,8 +178,29 @@
       "text": "CANCEL",
       "image_threshold": 150,
       "chars": null,
-      "image_save_file": "rank_up_notification",
+      "image_save_file": "rank_up_notification_1",
       "description": "Rank up notification."
+    }
+  },
+    {
+    "RANK_UP_NOTIFICATION_2": {
+      "text_rect": {
+        "x1": 0.30572916666666666,
+        "y1": 0.8981481481481481,
+        "x2": 0.3854166666666667,
+        "y2": 0.9555555555555556
+      },
+      "button_rect": {
+        "x1": 0.30572916666666666,
+        "y1": 0.8981481481481481,
+        "x2": 0.3854166666666667,
+        "y2": 0.9555555555555556
+      },
+      "text": "CANCEL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "rank_up_notification_2",
+      "description": "Rank up notification with rank's count bar."
     }
   },
   {

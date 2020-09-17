@@ -224,8 +224,11 @@ class Missions:
 
         :return: True or False: was notification closed.
         """
-        if self.player.is_ui_element_on_screen(self.ui['RANK_UP_NOTIFICATION']):
-            self.player.click_button(self.ui['RANK_UP_NOTIFICATION'].button)
+        if self.player.is_ui_element_on_screen(self.ui['RANK_UP_NOTIFICATION_1']):
+            self.player.click_button(self.ui['RANK_UP_NOTIFICATION_1'].button)
+            return True
+        if self.player.is_ui_element_on_screen(self.ui['RANK_UP_NOTIFICATION_2']):
+            self.player.click_button(self.ui['RANK_UP_NOTIFICATION_2'].button)
             return True
         return False
 
