@@ -67,7 +67,6 @@ def copy_project_files():
     if os.path.isdir(os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER)):
         shutil.rmtree(os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER))
     os.mkdir(path=os.path.join(BUILD_FOLDER, LOG_FOLDER))
-    os.mkdir(path=os.path.join(BUILD_FOLDER, LOG_FOLDER, TESSERACT_FOLDER))
     os.mkdir(path=os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER))
 
 
