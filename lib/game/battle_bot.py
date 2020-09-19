@@ -219,7 +219,6 @@ class ManualBattleBot(BattleBot):
         super().__init__(game, battle_over_conditions, disconnect_conditions)
         self._init_skills()
         self.current_character = None
-        self.current_bonus_skill = None
         self.BEST_DEFAULT_SKILL = None
         self.cached_available_skill = None
         self.moving_positions = cycle(["MOVE_AROUND_POS_DOWN", "MOVE_AROUND_POS_LEFT",
@@ -236,6 +235,7 @@ class ManualBattleBot(BattleBot):
 
     def _init_skills(self):
         self._init_base_skills()
+        self.current_bonus_skill = None
         self.t3_skill = LockedSkill(self.game, "SKILL_T3", ["SKILL_T3_LOCKED", "SKILL_6_LOCKED"], "SKILL_T3_LABEL")
         self.awakening_skill = LockedSkill(self.game, "SKILL_6", ["SKILL_6_LOCKED", "SKILL_T3_LOCKED"], "SKILL_6_LABEL")
         self.coop_skill = LockedSkill(self.game, "SKILL_COOP", skill_locked_ui=None, skill_label_ui=None)
