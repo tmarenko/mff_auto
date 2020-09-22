@@ -49,6 +49,35 @@ class NoxWindow(object):
         win32gui.EnumWindows(self._get_key_layout_handle, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_player_window_info, None)
 
+    def update_windows_rect(self):
+        """Update window's rectangles."""
+        self._update_rect_from_parent_hwnd()
+        self._update_rect_from_player_hwnd()
+
+    def _update_rect_from_parent_hwnd(self):
+        """Update parent's window rectangle."""
+        if not self.parent_hwnd:
+            return
+        rect = win32gui.GetWindowRect(self.parent_hwnd)
+        self.parent_x = rect[0]
+        self.parent_y = rect[1]
+        self.parent_width = rect[2] - rect[0]
+        self.parent_height = rect[3] - rect[1]
+
+    def _update_rect_from_player_hwnd(self):
+        """Update player's window rectangle."""
+        if not self.hwnd:
+            return
+        rect = win32gui.GetWindowRect(self.hwnd)
+        self.x = rect[0]
+        self.y = rect[1]
+        self.width = rect[2] - rect[0]
+        self.height = rect[3] - rect[1]
+        self.x1 = self.x - self.parent_x
+        self.y1 = self.y - self.parent_y
+        self.x2 = self.width + self.x1
+        self.y2 = self.height + self.y1
+
     def _get_window_info(self, hwnd, wildcard):
         """Get main window info.
 
@@ -57,14 +86,10 @@ class NoxWindow(object):
         """
         if self.name == win32gui.GetWindowText(hwnd):
             try:
-                rect = win32gui.GetWindowRect(hwnd)
-                self.parent_x = rect[0]
-                self.parent_y = rect[1]
-                self.parent_width = rect[2] - rect[0]
-                self.parent_height = rect[3] - rect[1]
                 self.parent_hwnd = hwnd
-                self.parent_thread = win32process.GetWindowThreadProcessId(hwnd)
-                self.player_key_handle = win32gui.GetDlgItem(hwnd, 0)
+                self.parent_thread = win32process.GetWindowThreadProcessId(self.parent_hwnd)
+                self.player_key_handle = win32gui.GetDlgItem(self.parent_hwnd, 0)
+                self._update_rect_from_parent_hwnd()
             except pywintypes.error:
                 pass
 
@@ -75,16 +100,8 @@ class NoxWindow(object):
         :param wildcard: wildcard.
         """
         if self.child_name in win32gui.GetWindowText(hwnd):
-            rect = win32gui.GetWindowRect(hwnd)
-            self.x = rect[0]
-            self.y = rect[1]
-            self.width = rect[2] - rect[0]
-            self.height = rect[3] - rect[1]
             self.hwnd = hwnd
-            self.x1 = self.x - self.parent_x
-            self.y1 = self.y - self.parent_y
-            self.x2 = self.width + self.x1
-            self.y2 = self.height + self.y1
+            self._update_rect_from_player_hwnd()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
         """Get window's key handler.
@@ -278,10 +295,11 @@ class NoxWindow(object):
 
         :return: PIL.Image image from window in BGR format.
         """
-        if not self.parent_hwnd:
+        if not self.initialized:
             return None
         if self.is_minimized:
             self.maximize()
+        self.update_windows_rect()
         while self.screen_locked:
             if self.last_frame:
                 return self.last_frame

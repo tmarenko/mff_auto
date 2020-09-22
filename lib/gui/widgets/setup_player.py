@@ -37,7 +37,7 @@ class PlayerProcess(QListWidgetItem):
         """Update icon with thumbnail of player's screen."""
         try:
             if self.player.initialized:
-                self.player.update_windows()
+                self.player.update_windows_rect()
                 thumbnail = screen_to_gui_image(self.player.get_screen_image())
                 self.setIcon(QIcon(thumbnail))
                 # TODO: if you see black screen then change settings of noxplayer
