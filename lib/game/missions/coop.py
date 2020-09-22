@@ -23,17 +23,10 @@ class CoopPlay(Missions):
 
         return [coop_completion]
 
-    def calculate_username_length(self):
-        """Calculate position of username in Co-op."""
-        self.game.ui['COOP_USER_NAME'].text = self.game.user_name
-        new_width = self.game.ui['COOP_USER_NAME_ONE_LETTER'].rect.width * len(self.game.ui['COOP_USER_NAME'].text)
-        self.game.ui['COOP_USER_NAME'].rect.x2 = self.game.ui['COOP_USER_NAME'].rect.x1 + new_width
-
     def start_missions(self):
         """Start available missions."""
         logger.info(f"Coop play: {self.stages} stages available")
         if self.stages > 0:
-            self.calculate_username_length()
             self.go_to_stages()
             self.check_rewards()
             if wait_until(self.player.is_image_on_screen, timeout=1, ui_element=self.ui['COOP_REPEAT_TOGGLE']):
@@ -65,13 +58,10 @@ class CoopPlay(Missions):
 
     def deploy_character(self):
         """Deploy available character for Co-op mission."""
-        def is_not_deployed():
-            return self.player.is_ui_element_on_screen(
-                self.ui['COOP_DEPLOY_CHARACTER']) or not self.player.is_ui_element_on_screen(self.ui['COOP_USER_NAME'])
-
-        if wait_until(is_not_deployed, timeout=3):
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['COOP_START_BUTTON_INACTIVE']):
+            logger.debug("Found inactive START button. Deploying character.")
             self.player.click_button(self.ui['COOP_FIRST_CHAR'].button)
-        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['COOP_USER_NAME'])
+        return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['COOP_START_BUTTON'])
 
     def press_start_button(self, check_inventory=True):
         """Start Co-op mission stage."""
@@ -104,7 +94,8 @@ class CoopPlay(Missions):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.player.click_button(self.ui[repeat_button_ui].button)
-        while not (self.player.is_ui_element_on_screen(ui_element=self.ui['COOP_START_BUTTON']) or
+        while not (self.player.is_ui_element_on_screen(ui_element=self.ui['COOP_START_BUTTON_INACTIVE']) or
+                   self.player.is_ui_element_on_screen(ui_element=self.ui['COOP_START_BUTTON']) or
                    self.player.is_ui_element_on_screen(ui_element=self.ui['COOP_REWARD']) or
                    self.player.is_ui_element_on_screen(self.ui['COOP_DEPLOY_CHARACTER'])):
             self.close_after_mission_notifications(timeout=1)

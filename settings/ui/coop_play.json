@@ -64,38 +64,6 @@
     }
   },
   {
-    "COOP_USER_NAME": {
-      "text_rect": {
-        "x1": 0.43020833333333336,
-        "y1": 0.6203703703703703,
-        "x2": 0.5359375,
-        "y2": 0.6564814814814814
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 110,
-      "chars": null,
-      "image_save_file": "coop_user_name",
-      "description": "Player username that shown if you have deployed a character."
-    }
-  },
-  {
-    "COOP_USER_NAME_ONE_LETTER": {
-      "text_rect": {
-        "x1": 0.43020833333333336,
-        "y1": 0.6203703703703703,
-        "x2": 0.4390625,
-        "y2": 0.6564814814814814
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 110,
-      "chars": null,
-      "image_save_file": "coop_user_name_one_letter",
-      "description": "One letter in player's username."
-    }
-  },
-  {
     "COOP_FIRST_CHAR": {
       "text_rect": null,
       "button_rect": {
@@ -126,10 +94,31 @@
         "y2": 0.9669631512071156
       },
       "text": "START",
-      "image_threshold": 120,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "coop_start_button",
-      "description": "COOP start button."
+      "description": "COOP start button when character is deployed."
+    }
+  },
+  {
+    "COOP_START_BUTTON_INACTIVE": {
+      "text_rect": {
+        "x1": 0.825,
+        "y1": 0.9085133418043202,
+        "x2": 0.9842857142857143,
+        "y2": 0.97712833545108
+      },
+      "button_rect": {
+        "x1": 0.8664285714285714,
+        "y1": 0.9199491740787802,
+        "x2": 0.94,
+        "y2": 0.9669631512071156
+      },
+      "text": "START",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "coop_start_button_inactive",
+      "description": "COOP start button when no character was deployed."
     }
   },
   {
