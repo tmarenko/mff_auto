@@ -220,8 +220,8 @@ class Game:
                                          (i + 1) * element.rect.width + i * offset.width,
                                          (j + 1) * element.rect.height + j * offset.height))
                     for j in range(cols) for i in range(rows)]
-        for chunk_element in chunk_items(items=elements, chunk_size=cpu_count()):
-            with ThreadPool() as pool:
+        with ThreadPool() as pool:
+            for chunk_element in chunk_items(items=elements, chunk_size=cpu_count()):
                 modes = pool.starmap(self.get_mode_from_element, chunk_element)
                 for mode in [non_empty_mode for non_empty_mode in modes if non_empty_mode]:
                     self._modes[mode.name] = mode
