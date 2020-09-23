@@ -208,23 +208,50 @@ class TenStageEpicQuest(EpicQuests):
 
 
 class TenStageWithDifficultyEpicQuest(TenStageEpicQuest):
+    DIFFICULTY = None  # Setup this in child class to Missions._DIFFICULTY_4 or Missions._DIFFICULTY_6
 
-    def select_stage(self, difficulty=Missions._DIFFICULTY_4.STAGE_4):
-        """Select stage in missions in Epic Quest.
-
-        :param difficulty: name of UI element that contains info about difficulty of stage.
-        """
+    def select_stage(self, difficulty=6):
+        """Select stage in missions in Epic Quest."""
+        difficulty_ui = self.ui[self.get_difficulty_ui(difficulty)]
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.stage_selector):
             self.player.click_button(self.stage_selector.button)
-            if "_2_" in self.ui[difficulty].name:
+            if "_2_" in difficulty_ui.name:
                 logger.debug("Difficulty is referring from the bottom of list. Trying to scroll.")
                 self.player.drag(self.ui['DIFFICULTY_DRAG_FROM'].button, self.ui['DIFFICULTY_DRAG_TO'].button)
                 r_sleep(1)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[difficulty]):
-                self.player.click_button(self.ui[difficulty].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=difficulty_ui):
+                self.player.click_button(difficulty_ui.button)
         return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['START_BUTTON'])
 
-    def start_missions(self, times=10, difficulty=Missions._DIFFICULTY_4.STAGE_4, farm_shifter_bios=False):
+    def get_difficulty_ui(self, difficulty):
+        """Get UI element's name from difficulty number."""
+        if self.DIFFICULTY == Missions._DIFFICULTY_4:
+            if difficulty == 1:
+                return Missions._DIFFICULTY_4.STAGE_1
+            if difficulty == 2:
+                return Missions._DIFFICULTY_4.STAGE_2
+            if difficulty == 3:
+                return Missions._DIFFICULTY_4.STAGE_3
+            if difficulty == 4:
+                return Missions._DIFFICULTY_4.STAGE_4
+        if self.DIFFICULTY == Missions._DIFFICULTY_6:
+            if difficulty == 1:
+                return Missions._DIFFICULTY_6.STAGE_1
+            if difficulty == 2:
+                return Missions._DIFFICULTY_6.STAGE_2
+            if difficulty == 3:
+                return Missions._DIFFICULTY_6.STAGE_3
+            if difficulty == 4:
+                return Missions._DIFFICULTY_6.STAGE_4
+            if difficulty == 5:
+                return Missions._DIFFICULTY_6.STAGE_5
+            if difficulty == 6:
+                return Missions._DIFFICULTY_6.STAGE_6
+        logger.warning(f"Get wrong difficulty or class setup: class = {self.DIFFICULTY.__name__}, "
+                       f"difficulty={difficulty}. Trying to use max difficulty.")
+        return Missions._DIFFICULTY_6.STAGE_6
+
+    def start_missions(self, times=10, difficulty=6, farm_shifter_bios=False):
         """Start stage missions."""
         logger.info(f"{self.mode_name}: {times} stages to complete.")
         if times:
@@ -233,11 +260,11 @@ class TenStageWithDifficultyEpicQuest(TenStageEpicQuest):
                     times = self.start_stage(self.stage_selector.button, times, farm_shifter_bios=farm_shifter_bios)
         logger.info(f"No more stages for {self.mode_name}.")
 
-    def do_missions(self, times=10, difficulty=Missions._DIFFICULTY_4.STAGE_4, farm_shifter_bios=False):
+    def do_missions(self, times=10, difficulty=6, farm_shifter_bios=False):
         """Do missions.
 
         :param times: how many stages to complete.
-        :param difficulty: name of UI element that contains info about difficulty of stage.
+        :param difficulty: difficulty of game mode.
         :param farm_shifter_bios: DISABLED IN THIS MODE.
         """
         farm_shifter_bios = False
