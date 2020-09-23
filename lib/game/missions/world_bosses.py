@@ -82,6 +82,9 @@ class WorldBosses(Missions):
             return
         else:
             self.player.click_button(self.ui['WB_MISSION_BUTTON'].button)
+            if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_READY_BUTTON']):
+                logger.error("World Boss: can't find READY button after selecting the boss.")
+                return
         if mode == self.MODE.BEGINNER:
             logger.info("World Boss: starting BEGINNER battle.")
             self.player.click_button(self.ui['WB_BEGINNER_MODE'].button)
