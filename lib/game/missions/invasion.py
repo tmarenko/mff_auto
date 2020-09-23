@@ -174,17 +174,14 @@ class WorldBossInvasion(Missions):
             return False
         return True
 
-    def press_start_button(self, deploy_characters=True):
+    def press_start_button(self):
         """Press start button of the mission.
 
         :return: was button clicked successfully.
         """
-        logger.debug(f"Pressing START button with character deployment: {deploy_characters}")
+        logger.debug(f"Pressing START button.")
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_BOSS_FIGHT_START']):
-            if deploy_characters:
-                self.player.click_button(self.ui['INVASION_CHARACTER_1'].button)
-                self.player.click_button(self.ui['INVASION_CHARACTER_2'].button)
-                self.player.click_button(self.ui['INVASION_CHARACTER_3'].button)
+            self.deploy_characters()
             self.player.click_button(self.ui['INVASION_BOSS_FIGHT_START'].button)
             if wait_until(self.check_fight_notifications, timeout=10):
                 return True
@@ -195,6 +192,18 @@ class WorldBossInvasion(Missions):
             return True
         logger.warning("Unable to press START button.")
         return False
+
+    def deploy_characters(self):
+        """Deploy 3 characters to battle."""
+        no_main = self.player.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_MAIN'])
+        no_left = self.player.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_LEFT'])
+        no_right = self.player.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_RIGHT'])
+        if no_main:
+            self.player.click_button(self.ui['INVASION_CHARACTER_1'].button)
+        if no_left:
+            self.player.click_button(self.ui['INVASION_CHARACTER_2'].button)
+        if no_right:
+            self.player.click_button(self.ui['INVASION_CHARACTER_3'].button)
 
     def wait_for_players(self):
         """Wait for players before start of the fight."""
@@ -231,5 +240,5 @@ class WorldBossInvasion(Missions):
         # In case we got back from fight by disconnect or something else
         logger.debug("Any chest after boss fight wasn't acquired.")
         if wait_until(self.player.is_ui_element_on_screen, timeout=20, ui_element=self.ui['INVASION_BOSS_FIGHT_START']):
-            if self.press_start_button(deploy_characters=False):
+            if self.press_start_button():
                 self.wait_for_players()

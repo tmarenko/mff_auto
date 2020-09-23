@@ -902,5 +902,56 @@
       "image_save_file": "invasion_repeat_button",
       "description": "WBI REPEAT button at the end of the battle."
     }
+  },
+  {
+    "INVASION_NO_CHARACTER_MAIN": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.46041666666666664,
+        "y1": 0.2972222222222222,
+        "x2": 0.553125,
+        "y2": 0.46111111111111114
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "invasion_no_character_main",
+      "description": "Empty main character selector in WBI team setup."
+    }
+  },
+  {
+    "INVASION_NO_CHARACTER_LEFT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.3625,
+        "y1": 0.2972222222222222,
+        "x2": 0.4322916666666667,
+        "y2": 0.4212962962962963
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "invasion_no_character_left",
+      "description": "Empty left character selector in WBI team setup."
+    }
+  },
+  {
+    "INVASION_NO_CHARACTER_RIGHT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5859375,
+        "y1": 0.29814814814814816,
+        "x2": 0.6552083333333333,
+        "y2": 0.4203703703703704
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "invasion_no_character_right",
+      "description": "Empty right character selector in WBI team setup."
+    }
   }
 ]
