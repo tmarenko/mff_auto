@@ -56,7 +56,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         restart_game_button = self.create_blockable_button(button=self.restart_game_button)
         self.queue_list = QueueList(list_widget=self.queue_list_widget, run_and_stop_button=run_and_stop_button,
                                     add_button=self.add_queue_button, edit_button=self.edit_queue_button,
-                                    remove_button=self.remove_queue_button, game=self.game)
+                                    remove_button=self.remove_queue_button, game=self.game,
+                                    queue_selector_buttons=[self.queue_button_1, self.queue_button_2,
+                                                            self.queue_button_3, self.queue_button_4])
         self.autoplay = AutoPlayTask(game=self.game, button=autoplay_button)
         self.daily_trivia = DailyTriviaTask(game=self.game, button=daily_trivia_button)
         self.world_boss_invasion = WorldBossInvasionTask(game=self.game, button=world_boss_invasion_button)

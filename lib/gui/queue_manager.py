@@ -1,7 +1,7 @@
 ﻿import json
 from os.path import exists
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem
+from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem, QListWidget
 from multiprocess.context import Process
 
 from lib.gui.widgets.queue_item_editor import QueueItemEditor, QueueItem
@@ -28,7 +28,8 @@ def save_queue_list(json_data, path="settings/gui/queue_list.json"):
 class QueueList:
     """Class for working with queue list."""
 
-    def __init__(self, game, list_widget, run_and_stop_button, add_button, edit_button, remove_button):
+    def __init__(self, game, list_widget, run_and_stop_button, add_button, edit_button, remove_button,
+                 queue_selector_buttons):
         """Class initialization.
 
         :param QListWidget list_widget: list widget.
@@ -36,6 +37,7 @@ class QueueList:
         :param QPushButton add_button: button for adding new element to queue.
         :param QPushButton edit_button: button for editing existing element in the queue.
         :param QPushButton remove_button: button for removing existing element from the queue.
+        :param list[QPushButton] queue_selector_buttons: list of buttons for selecting different queues.
         """
         self.game = game
         self.widget = list_widget
@@ -43,6 +45,9 @@ class QueueList:
         self.add_button = add_button
         self.edit_button = edit_button
         self.remove_button = remove_button
+        self.queue_selector_buttons = queue_selector_buttons
+        self.stored_queues = [[], ] * len(self.queue_selector_buttons)
+        self.current_queue_index = 0
         self.setup_buttons()
         self.threads = ThreadPool()
         self.process = None
@@ -61,6 +66,29 @@ class QueueList:
             item = self.widget.item(i)
             if isinstance(item, QueueItem):
                 yield item
+
+    def clear_queue(self):
+        """Clear queue."""
+        for i in range(self.widget.count()):
+            item = self.widget.item(0)
+            self.widget.takeItem(self.widget.row(item))
+
+    def store_current_queue(self):
+        """Store currently selected queue to variable."""
+        self.stored_queues[self.current_queue_index] = [*self.queue()]
+
+    def change_queue(self, index):
+        """Change queue by index."""
+        if index != self.current_queue_index:
+            self.store_current_queue()
+        self.current_queue_index = index
+        self.clear_queue()
+        self.select_all_item = self.add_select_all_checkbox()
+        for item in self.stored_queues[index]:
+            self._add(item)
+        for button in self.queue_selector_buttons:
+            button.setChecked(False)
+        self.queue_selector_buttons[index].setChecked(True)
 
     def add_select_all_checkbox(self):
         """Creates 'Select All' checkbox with empty line below."""
@@ -106,28 +134,48 @@ class QueueList:
 
     def load_queue_from_file(self):
         """Load queue list and apply it to GUI."""
-        queue_list_settings = load_queue_list()
-        if not queue_list_settings:
+        queues_list = load_queue_list()
+        if not queues_list:
             return
-        logger.debug(f"Loading {len(queue_list_settings)} items to queue list.")
-        for settings in queue_list_settings:
-            editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
-            item = editor.render_mode(editor.current_mode)
-            item.set_checked(settings.get("checked", False))
-            self._add(item)
+        if len(queues_list) != 4:
+            # Backward compatibility for previous list format
+            # TODO: remove after few updates
+            logger.debug(f"Loading {len(queues_list)} items with old format to queue list #1.")
+            queue_items = []
+            for settings in queues_list:
+                editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
+                item = editor.render_mode(editor.current_mode)
+                item.set_checked(settings.get("checked", False))
+                queue_items.append(item)
+            self.stored_queues[0] = queue_items
+        else:
+            for queue_index, queue in enumerate(queues_list):
+                logger.debug(f"Loading {len(queue)} items to queue list #{queue_index + 1}.")
+                queue_items = []
+                for settings in queue:
+                    editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
+                    item = editor.render_mode(editor.current_mode)
+                    item.set_checked(settings.get("checked", False))
+                    queue_items.append(item)
+                self.stored_queues[queue_index] = queue_items
+        self.change_queue(index=0)
 
     def save_queue_to_file(self):
-        """Save existing queue."""
-        queue_list_settings = []
-        for item in self.queue():
-            settings = {
-                "mode_name": item.mode_name,
-                "checked": item.is_checked,
-                **item.parameters
-            }
-            queue_list_settings.append(settings)
-        logger.debug(f"Saving queue list with {len(queue_list_settings)} items.")
-        save_queue_list(queue_list_settings)
+        """Save existing queue to JSON-file."""
+        self.store_current_queue()
+        queues_list = []
+        for queue_index, queue in enumerate(self.stored_queues):
+            queue_items = []
+            for item in queue:
+                settings = {
+                    "mode_name": item.mode_name,
+                    "checked": item.is_checked,
+                    **item.parameters
+                }
+                queue_items.append(settings)
+            queues_list.append(queue_items)
+            logger.debug(f"Saving queue #{queue_index + 1} list with {len(queue)} items.")
+        save_queue_list(queues_list)
 
     def setup_buttons(self):
         """Setup button's events."""
@@ -137,6 +185,12 @@ class QueueList:
         self.run_and_stop_button.connect_second_state(self.widget.setDragDropMode, QAbstractItemView.InternalMove)
         self.remove_button.clicked.connect(self.remove_current_item)
         self.edit_button.clicked.connect(self.edit_current_item)
+
+        # Setup Queue #1 and etc. buttons to change queue
+        def change_queue_on_click(button, queue_index):
+            button.clicked.connect(lambda: self.change_queue(queue_index))
+        for index in range(len(self.queue_selector_buttons)):
+            change_queue_on_click(button=self.queue_selector_buttons[index], queue_index=index)
 
     def add(self):
         """Create editor window and add queue item from it."""
