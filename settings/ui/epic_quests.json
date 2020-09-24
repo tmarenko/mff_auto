@@ -213,7 +213,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "eq_recommended_lvl",
-      "description": "Epic Quest : X-Force: Stupid X-Men recommended lvl (to detect if menu is loaded)."
+      "description": "Epic Quest: recommended lvl for mission without difficulty (to detect if menu is loaded)."
     }
   },
   {

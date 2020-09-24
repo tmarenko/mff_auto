@@ -172,17 +172,22 @@ class TenStageEpicQuest(EpicQuests):
                 self.player.drag(self.ui['EQ_PAGE_DRAG_FROM'].button, self.ui['EQ_PAGE_DRAG_TO'].button)
                 r_sleep(1)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mode_selector):
+                logger.debug(f"Selecting Epic Quest: {self.mode_selector.name}")
                 self.player.click_button(self.mode_selector.button)
                 return True
 
     def select_mission(self):
         """Select missions in Epic Quest."""
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector):
+            logger.debug(f"Selecting Epic Quest's mission: {self.mission_selector.name}")
             self.player.click_button(self.mission_selector.button)
-            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector_label)
+            return wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.mission_selector_label) and wait_until(
+                self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_RECOMMENDED_LVL'])
 
     def select_stage(self):
         """Select stage in missions in Epic Quest."""
+        logger.debug(f"Selecting Epic Quest's stage: {self.stage_selector.name}")
         self.player.click_button(self.stage_selector.button)
         return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['START_BUTTON'])
 
