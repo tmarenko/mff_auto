@@ -177,7 +177,7 @@ def create_gui_start_file():
     python_cmd = os.path.join("%CD%", "python", "App", "Python", "python.exe")
     with open(os.path.join(BUILD_FOLDER, START_BAT_FILE), "w", encoding='utf-8') as f:
         f.write(f"SET PATH=%CD%\\tesseract\n"
-                f"{python_cmd} {GUI_APP_FILE}\n")
+                f"\"{python_cmd}\" {GUI_APP_FILE}\n")
 
 
 def archive_build():
