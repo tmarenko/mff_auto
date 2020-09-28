@@ -15,6 +15,20 @@ class WorldBosses(Missions):
         NORMAL = "NORMAL"
         ULTIMATE = "ULTIMATE"
 
+    class BOSS:
+
+        TODAYS_BOSS = "TODAYS_BOSS"
+        PROXIMA_MIDNIGHT = "WB_BOSS_PROXIMA_MIDNIGHT"
+        BLACK_DWARF = "WB_BOSS_BLACK_DWARF"
+        CORVUS_GLAIVE = "WB_BOSS_CORVUS_GLAIVE"
+        SUPERGIANT = "WB_BOSS_SUPERGIANT"
+        EBONY_MAW = "WB_BOSS_EBONY_MAW"
+        THANOS = "WB_BOSS_THANOS"
+        QUICKSILVER = "WB_BOSS_QUICKSILVER"
+        CABLE = "WB_BOSS_CABLE"
+        SCARLET_WITCH = "WB_BOSS_SCARLET_WITCH"
+        APOCALYPSE = "WB_BOSS_APOCALYPSE"
+
     def __init__(self, game):
         """Class initialization.
 
@@ -32,7 +46,7 @@ class WorldBosses(Missions):
 
         return [score, respawn]
 
-    def do_missions(self, times=None, mode=MODE.ULTIMATE, difficulty=0):
+    def do_missions(self, times=None, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS):
         """Do missions."""
         if mode == self.MODE.ULTIMATE and difficulty == 0:
             logger.error(f"World Boss Ultimate: with mode {mode} difficulty should be greater than {difficulty}.")
@@ -40,7 +54,7 @@ class WorldBosses(Missions):
         if times:
             self.stages = times
         if self.stages > 0:
-            self.start_missions(mode=mode, difficulty=difficulty)
+            self.start_missions(mode=mode, difficulty=difficulty, boss=boss)
             self.end_missions()
 
     def go_to_wb(self):
@@ -67,11 +81,12 @@ class WorldBosses(Missions):
             ad_closed = wait_until(close_ad, timeout=1)
             logger.debug(f"World Boss ad was closed: {ad_closed}")
 
-    def start_missions(self, mode=MODE.ULTIMATE, difficulty=0):
+    def start_missions(self, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS):
         """Start World Boss battles.
 
         :param mode: mode of battles to start (beginner or normal or ultimate).
         :param difficulty: difficulty of Ultimate mode.
+        :param boss: boss to play.
         """
         logger.info(f"World Boss: {self.stages} stages available, running {mode} mode with difficulty = {difficulty}.")
         if mode != self.MODE.BEGINNER and mode != self.MODE.NORMAL and mode != self.MODE.ULTIMATE:
@@ -81,6 +96,8 @@ class WorldBosses(Missions):
             logger.warning("World Boss: can't get in battles lobby.")
             return
         else:
+            if boss != self.BOSS.TODAYS_BOSS and self.ui.get(boss):
+                self.player.click_button(self.ui[boss].button)
             self.player.click_button(self.ui['WB_MISSION_BUTTON'].button)
             if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_READY_BUTTON']):
                 logger.error("World Boss: can't find READY button after selecting the boss.")

@@ -663,6 +663,21 @@ class _WorldBosses(GameMode):
                                                        values_dict={"Beginner": WorldBosses.MODE.BEGINNER,
                                                                     "Normal": WorldBosses.MODE.NORMAL,
                                                                     "Ultimate": WorldBosses.MODE.ULTIMATE}))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="boss",
+                                                       text="Select World Boss",
+                                                       values_dict={"Today's Boss": WorldBosses.BOSS.TODAYS_BOSS,
+                                                                    "Proxima Midnight": WorldBosses.BOSS.PROXIMA_MIDNIGHT,
+                                                                    "Black Dwarf": WorldBosses.BOSS.BLACK_DWARF,
+                                                                    "Corvus Glaive": WorldBosses.BOSS.CORVUS_GLAIVE,
+                                                                    "Supergiant": WorldBosses.BOSS.SUPERGIANT,
+                                                                    "Ebony Maw": WorldBosses.BOSS.EBONY_MAW,
+                                                                    "Thanos": WorldBosses.BOSS.THANOS,
+                                                                    "Quicksilver": WorldBosses.BOSS.QUICKSILVER,
+                                                                    "Cable": WorldBosses.BOSS.CABLE,
+                                                                    "Scarlet Witch": WorldBosses.BOSS.SCARLET_WITCH,
+                                                                    "Apocalypse": WorldBosses.BOSS.APOCALYPSE,
+                                                                    }))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
                                                        text="Select World Boss stage difficulty", min=1, max=99))

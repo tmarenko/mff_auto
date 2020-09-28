@@ -637,5 +637,165 @@
       "image_save_file": "wb_low_valor_or_attack",
       "description": "Notification when you have low valor or team ATK. Leads to OK button."
     }
+  },
+  {
+    "WB_BOSS_PROXIMA_MIDNIGHT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.0563434196198718,
+        "y1": 0.1919628302816635,
+        "x2": 0.11092675849184938,
+        "y2": 0.29298770100970706
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Proxima Midnight."
+    }
+  },
+  {
+    "WB_BOSS_BLACK_DWARF": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.17074411615976992,
+        "y1": 0.19329210489650606,
+        "x2": 0.2260751720025965,
+        "y2": 0.2889998771651791
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Black Dwarf."
+    }
+  },
+  {
+    "WB_BOSS_CORVUS_GLAIVE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.11466534334609442,
+        "y1": 0.36742707944089725,
+        "x2": 0.16850096524722294,
+        "y2": 0.46712267555409825
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Corvus Glaive."
+    }
+  },
+  {
+    "WB_BOSS_SUPERGIANT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.22757060594429449,
+        "y1": 0.3621099809815265,
+        "x2": 0.2814062278454231,
+        "y2": 0.4618055770947275
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Supergiant."
+    }
+  },
+  {
+    "WB_BOSS_EBONY_MAW": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.06008200447411684,
+        "y1": 0.5375742301407601,
+        "x2": 0.11167447546269837,
+        "y2": 0.6332820024094333
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Ebony Maw."
+    }
+  },
+  {
+    "WB_BOSS_THANOS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.17373498404316598,
+        "y1": 0.5335864062962322,
+        "x2": 0.2260751720025965,
+        "y2": 0.6412576500984892
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Thanos."
+    }
+  },
+  {
+    "WB_BOSS_QUICKSILVER": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.771908560722372,
+        "y1": 0.1946213795113488,
+        "x2": 0.8279873335360475,
+        "y2": 0.2916584263948644
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Quicksilver."
+    }
+  },
+  {
+    "WB_BOSS_CABLE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8863092572622701,
+        "y1": 0.18930428105197797,
+        "x2": 0.9401448791633986,
+        "y2": 0.2956462502393925
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Cable."
+    }
+  },
+  {
+    "WB_BOSS_SCARLET_WITCH": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7210638067046394,
+        "y1": 0.3621099809815265,
+        "x2": 0.770413126780674,
+        "y2": 0.46712267555409825
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Scarlet Witch."
+    }
+  },
+  {
+    "WB_BOSS_APOCALYPSE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8309782014194435,
+        "y1": 0.3621099809815265,
+        "x2": 0.8855615402914211,
+        "y2": 0.4644641263244128
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Apocalypse."
+    }
   }
 ]
