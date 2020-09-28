@@ -261,7 +261,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.stages_spin_box.setVisible(mode_settings.stages)
         self.stages_spin_box.setEnabled(mode_settings.stages)
         self.farm_bios_check_box.setVisible(mode_settings.farm_bios)
-        self.farm_bios_check_box.setEnabled(mode_settings.farm_bios)
+        self.farm_bios_check_box.setEnabled(self.game.player.restartable and mode_settings.farm_bios)
         # TODO: add ability to stop missions
         # self.zero_boosts_check_box.setVisible(mode_settings.zero_boosts_stop)
         # self.zero_boosts_check_box.setEnabled(mode_settings.zero_boosts_stop)

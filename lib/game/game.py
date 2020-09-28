@@ -366,8 +366,12 @@ class Game:
 
         :return: True or Flase: was restart successful.
         """
-        self.close_game()
-        return self.start_game()
+        if self.player.restartable:
+            self.close_game()
+            return self.start_game()
+        logger.warning(f"Current player {self.player.__class__.__name__} "
+                       f"version {self.player.get_version()} does not support closing apps.")
+        return False
 
     def close_game(self):
         """Close game.

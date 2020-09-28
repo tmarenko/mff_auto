@@ -8,12 +8,12 @@ import lib.gui.designes.setup_player as player_design
 import lib.gui.designes.setup_game as game_design
 
 from lib.game.game import Game
-from lib.players.nox_player import NoxWindow
+from lib.players.nox_player import NoxWindow, NOX_EXE
+from lib.players.bluestacks import BlueStacks, BLUESTACKS_EXE
 from lib.game.ui import Rect
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
-NOX_EXE = "Nox.exe"
 
 
 class PlayerProcess(QListWidgetItem):
@@ -71,9 +71,10 @@ class SetupPlayer(QDialog, player_design.Ui_Dialog):
     def run_game_setup(self):
         """Start setting up game settings."""
         self.hide()
-        self.setup_game = SetupGame(player=self.selected_player)
-        self.setup_game.show()
-        self.setup_game.exec()
+        if self.selected_player.restartable:
+            self.setup_game = SetupGame(player=self.selected_player)
+            self.setup_game.show()
+            self.setup_game.exec()
 
     def player_processes(self):
         """Processes iterator."""
@@ -91,20 +92,24 @@ class SetupPlayer(QDialog, player_design.Ui_Dialog):
         try:
             process = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ, 0, process_id)
             process_exe = win32process.GetModuleFileNameEx(process, 0)
-            if NOX_EXE in process_exe:
-                self.add_process_to_list(process_name=name, process_id=process_id)
+            if any(exe_name in process_exe for exe_name in [NOX_EXE, BLUESTACKS_EXE]):
+                self.add_process_to_list(process_name=name, process_id=process_id, process_exe=process_exe)
         except pywintypes.error:
             pass
 
-    def add_process_to_list(self, process_name, process_id):
+    def add_process_to_list(self, process_name, process_id, process_exe):
         """Add process to list widget.
 
         :param process_name: player's process name.
         :param process_id: player's process ID.
+        :param process_exe: player's executable.
         """
         if [p for p in self.player_processes() if p.process_name == process_name or p.process_id == process_id]:
             return
-        player = NoxWindow(name=process_name)
+        if NOX_EXE in process_exe:
+            player = NoxWindow(name=process_name)
+        if BLUESTACKS_EXE in process_exe:
+            player = BlueStacks(name=process_name)
         if player.initialized:
             process = PlayerProcess(player=player, process_name=process_name, process_id=process_id)
             self.players_list_widget.addItem(process)
@@ -127,8 +132,8 @@ class SetupPlayer(QDialog, player_design.Ui_Dialog):
         if not self.selected_player or not self.setup_game:
             logger.error("Something went wrong while setting up player's name and app position.")
         player_name = self.selected_player_process
-        game_app = self.setup_game.game_app_rect
-        return player_name, game_app
+        game_app = self.setup_game.game_app_rect if self.setup_game else None
+        return player_name, self.selected_player.__class__.__name__, game_app
 
 
 class SetupGame(QDialog, game_design.Ui_Dialog):
@@ -196,7 +201,8 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
         self.disconnect_a()
         self.yes_button.clicked.connect(self.is_game_opened_yes)
         self.no_button.clicked.connect(self.is_game_opened_no)
-        self.player.close_current_app()
+        if self.player.restartable:
+            self.player.close_current_app()
         self.top_text_label.setText("Trying to close the game... Game should be closed now.")
 
     def is_game_opened_no(self):

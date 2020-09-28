@@ -13,117 +13,122 @@
   <property name="windowTitle">
    <string>Setup</string>
   </property>
-  <widget class="QListWidget" name="players_list_widget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>80</y>
-     <width>631</width>
-     <height>354</height>
-    </rect>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>256</width>
-     <height>256</height>
-    </size>
-   </property>
-   <property name="movement">
-    <enum>QListView::Static</enum>
-   </property>
-   <property name="flow">
-    <enum>QListView::LeftToRight</enum>
-   </property>
-   <property name="resizeMode">
-    <enum>QListView::Adjust</enum>
-   </property>
-   <property name="layoutMode">
-    <enum>QListView::SinglePass</enum>
-   </property>
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="gridSize">
-    <size>
-     <width>300</width>
-     <height>169</height>
-    </size>
-   </property>
-   <property name="viewMode">
-    <enum>QListView::IconMode</enum>
-   </property>
-   <property name="modelColumn">
-    <number>0</number>
-   </property>
-   <property name="uniformItemSizes">
-    <bool>false</bool>
-   </property>
-   <property name="selectionRectVisible">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>693</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="select_player_label">
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Run NoxPlayer with MFF installed and select player's window from the list below</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="selected_player_info_label">
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Selected:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QPushButton" name="next_button">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>550</x>
-     <y>440</y>
-     <width>91</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Next</string>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="select_player_label">
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Run Android Emulator with MFF installed and select emulator's window from the list below</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="selected_player_info_label">
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Selected:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QListWidget" name="players_list_widget">
+     <property name="iconSize">
+      <size>
+       <width>256</width>
+       <height>256</height>
+      </size>
+     </property>
+     <property name="movement">
+      <enum>QListView::Static</enum>
+     </property>
+     <property name="flow">
+      <enum>QListView::LeftToRight</enum>
+     </property>
+     <property name="resizeMode">
+      <enum>QListView::Adjust</enum>
+     </property>
+     <property name="layoutMode">
+      <enum>QListView::SinglePass</enum>
+     </property>
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="gridSize">
+      <size>
+       <width>300</width>
+       <height>169</height>
+      </size>
+     </property>
+     <property name="viewMode">
+      <enum>QListView::IconMode</enum>
+     </property>
+     <property name="modelColumn">
+      <number>0</number>
+     </property>
+     <property name="uniformItemSizes">
+      <bool>false</bool>
+     </property>
+     <property name="selectionRectVisible">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="next_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Next</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

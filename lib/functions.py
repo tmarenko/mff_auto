@@ -2,6 +2,7 @@ import cv2
 from scipy.stats import truncnorm
 import random
 import time
+import win32api
 from numpy import concatenate
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool
@@ -198,3 +199,34 @@ def resize_and_keep_aspect_ratio(image, width=None, height=None):
         new_height = height
         new_width = round(new_height * image_width / image_height)
     return cv2.resize(image, dsize=(new_width, new_height), interpolation=cv2.INTER_CUBIC)
+
+
+def get_file_properties(path_to_file):
+    """Read all properties of the given file.
+
+    :param path_to_file: path to file.
+
+    :return: dictionary of properties.
+    """
+    properties = ('Comments', 'InternalName', 'ProductName', 'CompanyName', 'LegalCopyright', 'ProductVersion',
+                  'FileDescription', 'LegalTrademarks', 'PrivateBuild', 'FileVersion', 'OriginalFilename',
+                  'SpecialBuild')
+
+    file_props = {'FixedFileInfo': None, 'StringFileInfo': None, 'FileVersion': None}
+
+    fixed_info = win32api.GetFileVersionInfo(path_to_file, '\\')
+    file_props['FixedFileInfo'] = fixed_info
+    file_props['FileVersion'] = "%d.%d.%d.%d" % (fixed_info['FileVersionMS'] / 65536,
+                                                 fixed_info['FileVersionMS'] % 65536,
+                                                 fixed_info['FileVersionLS'] / 65536,
+                                                 fixed_info['FileVersionLS'] % 65536)
+
+    lang, codepage = win32api.GetFileVersionInfo(path_to_file, '\\VarFileInfo\\Translation')[0]
+    str_info = {}
+    for propName in properties:
+        str_info_path = u'\\StringFileInfo\\%04X%04X\\%s' % (lang, codepage, propName)
+        str_info[propName] = win32api.GetFileVersionInfo(path_to_file, str_info_path)
+
+    file_props['StringFileInfo'] = str_info
+
+    return file_props

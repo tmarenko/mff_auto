@@ -133,4 +133,7 @@ class RestartGameTask(SingleTask):
         def restart_game():
             return game.restart_game()
 
-        super().__init__(button, restart_game, {})
+        if button:
+            super().__init__(button, restart_game, {})
+        else:
+            self.abort = lambda: None

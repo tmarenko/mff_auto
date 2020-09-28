@@ -17,6 +17,7 @@ from lib.game.game import Game
 from lib.game.battle_bot import BattleBot
 from lib.game.ui import Rect
 from lib.players.nox_player import NoxWindow
+from lib.players.bluestacks import BlueStacks
 
 logger = logging.get_logger(__name__)
 
@@ -42,7 +43,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         set_default_icon(window=self)
-        self.player_name, self.game_app_rect, self.player, self.game = None, None, None, None
+        self.player_name, self.player_type, self.game_app_rect, self.player, self.game = None, None, None, None, None
         self.load_settings_from_file()
         self.game.file_logger_name = file_logger.baseFilename
         self.logger = QTextEditFileLogger(logger_widget=self.logger_text, log_file=file_logger.baseFilename)
@@ -83,10 +84,11 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
                       self.shield_lab, self.restart_game]
 
-        if self.player.initialized and not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
-            if not self.game.go_to_main_menu():
-                logger.warning("Can't get to the main menu. Restarting the game just in case.")
-                self.restart_game_button.click()
+        if self.player.initialized and self.player.restartable:
+            if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
+                if not self.game.go_to_main_menu():
+                    logger.warning("Can't get to the main menu. Restarting the game just in case.")
+                    self.restart_game_button.click()
 
     def update_labels(self):
         """Update game's labels in thread to prevent GUI freezing."""
@@ -131,6 +133,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             return self.load_settings_from_file()
         self.game_app_rect = game_settings.get("game_app_rect")
         self.player_name = game_settings.get("player_name")
+        self.player_type = game_settings.get("player_type", "NoxWindow")  # Backward compatibility for NoxPlayer
+                                                                          # TODO: remove after few updates
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards"))
@@ -146,6 +150,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "mission_team": self.game.mission_team,
             "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS,
             "player_name": self.player_name,
+            "player_type": self.player_type,
             "game_app_rect": self.game_app_rect
         }
         save_game_settings(game_settings)
@@ -156,12 +161,13 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         Run `SetupPlayer` and retrieve information about emulator and game app."""
         setup = SetupPlayer()
         setup.run_player_setup()
-        self.player_name, self.game_app_rect = setup.get_player_and_game_app()
+        self.player_name, self.player_type, self.game_app_rect = setup.get_player_and_game_app()
         game_settings = {
             "timeline_team": self.timeline_team_spin_box.value(),
             "mission_team": self.mission_team_spin_box.value(),
             "acquire_heroic_quest_rewards": self.acquire_heroic_quest_rewards_checkbox.isChecked(),
             "player_name": self.player_name,
+            "player_type": self.player_type,
             "game_app_rect": self.game_app_rect
         }
         save_game_settings(game_settings)
@@ -171,9 +177,19 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         """Init player and game."""
         if not self.player_name:
             self.setup_gui_first_time()
-        self.player = NoxWindow(self.player_name)
+        if self.player_type == NoxWindow.__name__:
+            self.player = NoxWindow(self.player_name)
+        if self.player_type == BlueStacks.__name__:
+            self.player = BlueStacks(self.player_name)
+        if not self.player.restartable:
+            self.restart_game_button.setEnabled(False)
+            self.restart_game_button.setText(f"{self.restart_game_button.text()}\n"
+                                             f"[Unavailable in {self.player.__class__.__name__}\n"
+                                             f"{self.player.get_version()}]")
+            self.restart_game_button = None
         self.game = Game(self.player)
-        self.game.ui['GAME_APP'].button = Rect(*self.game_app_rect)
+        if self.game_app_rect:
+            self.game.ui['GAME_APP'].button = Rect(*self.game_app_rect)
 
     def closeEvent(self, event):
         """Main window close event."""
@@ -185,6 +201,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def create_blockable_button(self, button):
         """Create button that blocks others."""
+        if not button:
+            return
         two_state_button = TwoStateButton(button=button)
         two_state_button.connect_first_state(self.block_buttons, caller_button=button)
         two_state_button.connect_second_state(self.unblock_buttons)
@@ -193,11 +211,12 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def block_buttons(self, caller_button):
         """Block buttons except caller one."""
-        buttons_to_block = [button for button in self.blockable_buttons if button != caller_button]
+        buttons_to_block = [button for button in self.blockable_buttons if button and button != caller_button]
         for button in buttons_to_block:
             button.setEnabled(False)
 
     def unblock_buttons(self):
         """Unblock all buttons."""
         for button in self.blockable_buttons:
-            button.setEnabled(True)
+            if button:
+                button.setEnabled(True)
