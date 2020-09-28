@@ -261,7 +261,8 @@ class DangerRoom(Missions):
                 if self._is_character_available(character_ui=character_ui,
                                                 character_image=characters_images[character_index]):
                     best_character = character_ui
-            if not best_character:
+            if not best_character and not self.player.is_ui_element_on_screen(
+                    ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL']):
                 logger.error("Danger Room: can't find best character for NORMAL mode.")
                 return False
             logger.debug(f"Danger Room: selecting character {best_character.name}")
