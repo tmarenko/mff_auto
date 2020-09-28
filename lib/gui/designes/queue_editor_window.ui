@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>435</width>
-    <height>338</height>
+    <height>358</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Add mission to queue</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -42,6 +42,9 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
@@ -51,201 +54,7 @@
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <item>
-      <layout class="QFormLayout" name="formLayout_3">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-       </property>
-       <property name="rowWrapPolicy">
-        <enum>QFormLayout::DontWrapRows</enum>
-       </property>
-       <property name="labelAlignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="formAlignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="all_stages_check_box">
-         <property name="text">
-          <string>All stages</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="farm_bios_check_box">
-         <property name="text">
-          <string>Farm bios</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QCheckBox" name="zero_boosts_check_box">
-         <property name="text">
-          <string>Stop when 0 boost points</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="use_hidden_tickets_checkbox">
-         <property name="text">
-          <string>Use Hidden Tickets</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="dm_acquire_rewards_checkbox">
-         <property name="text">
-          <string>Acquire rewards</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="timeline_skip_label">
-         <property name="text">
-          <string>How many opponents to skip</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="timeline_skip_combobox">
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="minimum">
-          <number>0</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QComboBox" name="mission_mode_combo_box">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="currentText">
-          <string>ULTIMATE TEST</string>
-         </property>
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>ULTIMATE TEST</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="mission_mode_label">
-         <property name="text">
-          <string>Select mission mode:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="legendary_battle_label">
-         <property name="text">
-          <string>Select legendary battle</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="legendary_battle_combo_box">
-         <item>
-          <property name="text">
-           <string>TEST LEGENDARY BATTLE</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="legendary_battle_stage_label">
-         <property name="text">
-          <string>Select legendary battle stage</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QComboBox" name="legendary_battle_stage_combo_box">
-         <item>
-          <property name="text">
-           <string>TEST LEGENDARY STAGE</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayout_2">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-       </property>
-       <property name="formAlignment">
-        <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="stages_label">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Stages:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="stages_spin_box">
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="difficulty_label">
-         <property name="text">
-          <string>Difficulty:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="difficulty_spin_box">
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <layout class="QFormLayout" name="formLayout"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="editor_button_box">

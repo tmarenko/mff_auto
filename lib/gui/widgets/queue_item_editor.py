@@ -45,6 +45,10 @@ class QueueItem(QListWidgetItem):
     def get_executor(self):
         """Get function with parameters to execute."""
         if self.is_checked:
+            if "all_stages" in self.parameters:
+                if self.parameters["all_stages"]:  # Remove `times` kwarg if doing All stages
+                    self.parameters.pop("times")
+                self.parameters.pop("all_stages")  # Remove `all_stages` kwarg anyway
             return self.func, self.parameters
         return None, None
 
@@ -72,7 +76,7 @@ class QueueItem(QListWidgetItem):
             additional_text += f" [{battle.replace('_', ' ').title()}]"
         if mission_mode:
             additional_text += f" [{mission_mode.replace('_', ' ').title()}]"
-        if times:
+        if times and not self.parameters.get("all_stages"):
             additional_text += f" [{times} stages]"
         else:
             additional_text += " [All stages]"
@@ -81,8 +85,6 @@ class QueueItem(QListWidgetItem):
 
 class QueueItemEditor(QDialog, design.Ui_Dialog):
     """Class for working with editing elements of queue list."""
-
-    UNAVAILABLE_MODES = ["SHADOWLAND", "WORLD EVENT"]  # unrealized game modes
 
     def __init__(self, game):
         """Class initialization.
@@ -144,7 +146,6 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.mode_names = [mode.mode_name for mode in self.modes]
         self.queue_item = None
         self.current_mode = None
-        self.all_stages_check_box.stateChanged.connect(self.all_stages_changed)
         self.editor_button_box.accepted.connect(self.render_queue_item)
 
         menu_dict = {
@@ -173,25 +174,23 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.populate_menu(menu=menu, dictionary=menu_dict)
         self.select_mode_tool_button.setPopupMode(QToolButton.InstantPopup)
         self.select_mode_tool_button.setMenu(menu)
-        hide_all = GameMode.ModeSettings()
-        hide_all.all_stages = False
-        self.set_visibility_to_all_elements(hide_all)
+
+    def clear_form_layout(self):
+        """Clear Form Layout from mode's GUI elements."""
+        for i in range(self.formLayout.count()):
+            from PyQt5.QtWidgets import QWidgetItem
+            item = self.formLayout.itemAt(0)
+            if isinstance(item, QWidgetItem):
+                widget = item.widget()
+                self.formLayout.removeWidget(widget)
+                widget.setParent(None)
 
     def select_mode(self, mode):
         """Select GameMode from Tool Button Selector."""
         self.select_mode_tool_button.setText(mode.mode_name)
         self.current_mode = mode
-        self.set_visibility_to_all_elements(self.current_mode.mode_settings)
-        self.set_values_to_all_elements(self.current_mode.item_settings)
-        if self.current_mode.mode_settings.mission_modes:
-            self.mission_mode_combo_box.clear()
-            self.mission_mode_combo_box.addItems(self.current_mode.mode_settings.mission_modes)
-        if self.current_mode.mode_settings.legendary_battles:
-            self.legendary_battle_combo_box.clear()
-            self.legendary_battle_combo_box.addItems(self.current_mode.mode_settings.legendary_battles)
-        if self.current_mode.mode_settings.legendary_battle_stages:
-            self.legendary_battle_stage_combo_box.clear()
-            self.legendary_battle_stage_combo_box.addItems(self.current_mode.mode_settings.legendary_battle_stages)
+        self.clear_form_layout()
+        self.current_mode.render_gui_elements(parent_layout=self.formLayout)
 
     def populate_menu(self, menu, dictionary):
         """Populate Selector's menu with dictionary of game modes.
@@ -227,9 +226,8 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         mode = [mode for mode in editor.modes if mode.mode_name == queue_item.mode_name]
         if mode:
             editor.current_mode = mode[0]
-            editor.current_mode.item_settings = GameMode.QueueItemSettings.from_settings(queue_item.parameters)
             editor.select_mode(editor.current_mode)
-            editor.set_values_to_all_elements(editor.current_mode.item_settings)
+            editor.current_mode.apply_params(queue_item.parameters)
             return editor
         logger.error(f"Error during creating Item Editor from item instance for mode: {queue_item.mode_name}.")
 
@@ -244,219 +242,126 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         mode = [mode for mode in editor.modes if mode.mode_name == settings.get("mode_name")]
         if mode:
             editor.current_mode = mode[0]
-            editor.current_mode.item_settings = GameMode.QueueItemSettings.from_settings(settings)
-            editor.set_values_to_all_elements(editor.current_mode.item_settings)
+            editor.current_mode.apply_params(settings)
             return editor
         logger.error(f"Error during creating Item Editor from item instance with settings: {settings}.")
-
-    def set_visibility_to_all_elements(self, mode_settings):
-        """Set visibility to all GUI elements by game mode.
-
-        :param GameMode.ModeSettings mode_settings: settings of game mode.
-        """
-        self.all_stages_check_box.setVisible(mode_settings.all_stages)
-        self.all_stages_check_box.setEnabled(mode_settings.all_stages)
-        self.stages_label.setVisible(mode_settings.stages)
-        self.stages_label.setEnabled(mode_settings.stages)
-        self.stages_spin_box.setVisible(mode_settings.stages)
-        self.stages_spin_box.setEnabled(mode_settings.stages)
-        self.farm_bios_check_box.setVisible(mode_settings.farm_bios)
-        self.farm_bios_check_box.setEnabled(self.game.player.restartable and mode_settings.farm_bios)
-        # TODO: add ability to stop missions
-        # self.zero_boosts_check_box.setVisible(mode_settings.zero_boosts_stop)
-        # self.zero_boosts_check_box.setEnabled(mode_settings.zero_boosts_stop)
-        self.zero_boosts_check_box.setVisible(False)
-        self.zero_boosts_check_box.setEnabled(False)
-        self.difficulty_label.setVisible(mode_settings.difficulty)
-        self.difficulty_label.setEnabled(mode_settings.difficulty)
-        self.difficulty_spin_box.setVisible(mode_settings.difficulty)
-        self.difficulty_spin_box.setEnabled(mode_settings.difficulty)
-        self.use_hidden_tickets_checkbox.setVisible(mode_settings.use_hidden_tickets)
-        self.use_hidden_tickets_checkbox.setEnabled(mode_settings.use_hidden_tickets)
-        self.dm_acquire_rewards_checkbox.setVisible(mode_settings.acquire_rewards)
-        self.dm_acquire_rewards_checkbox.setEnabled(mode_settings.acquire_rewards)
-        self.mission_mode_label.setVisible(bool(mode_settings.mission_modes))
-        self.mission_mode_combo_box.setEnabled(bool(mode_settings.mission_modes))
-        self.mission_mode_combo_box.setVisible(bool(mode_settings.mission_modes))
-        self.mission_mode_label.setEnabled(bool(mode_settings.mission_modes))
-        self.timeline_skip_label.setVisible(mode_settings.skip_opponents)
-        self.timeline_skip_label.setEnabled(mode_settings.skip_opponents)
-        self.timeline_skip_combobox.setVisible(mode_settings.skip_opponents)
-        self.timeline_skip_combobox.setEnabled(mode_settings.skip_opponents)
-        self.legendary_battle_label.setVisible(bool(mode_settings.legendary_battles))
-        self.legendary_battle_label.setEnabled(bool(mode_settings.legendary_battles))
-        self.legendary_battle_combo_box.setVisible(bool(mode_settings.legendary_battles))
-        self.legendary_battle_combo_box.setEnabled(bool(mode_settings.legendary_battles))
-        self.legendary_battle_stage_label.setVisible(bool(mode_settings.legendary_battle_stages))
-        self.legendary_battle_stage_label.setEnabled(bool(mode_settings.legendary_battle_stages))
-        self.legendary_battle_stage_combo_box.setVisible(bool(mode_settings.legendary_battle_stages))
-        self.legendary_battle_stage_combo_box.setEnabled(bool(mode_settings.legendary_battle_stages))
-
-    def set_values_to_all_elements(self, item_settings):
-        """Set value to all GUI elements by queue item.
-
-        :param GameMode.QueueItemSettings item_settings: settings of queue item.
-        """
-        if item_settings.all_stages:
-            self.all_stages_check_box.setChecked(item_settings.all_stages)
-        if item_settings.stages_num:
-            self.stages_spin_box.setValue(item_settings.stages_num)
-            self.all_stages_check_box.setChecked(False)
-        if item_settings.farm_bios:
-            self.farm_bios_check_box.setChecked(item_settings.farm_bios)
-        if item_settings.zero_boosts_stop:
-            self.zero_boosts_check_box.setChecked(item_settings.zero_boosts_stop)
-        if item_settings.difficulty:
-            self.difficulty_spin_box.setValue(item_settings.difficulty)
-        if item_settings.use_hidden_tickets:
-            self.use_hidden_tickets_checkbox.setChecked(item_settings.use_hidden_tickets)
-        if item_settings.acquire_rewards:
-            self.dm_acquire_rewards_checkbox.setChecked(item_settings.acquire_rewards)
-        if item_settings.mission_mode:
-            self.mission_mode_combo_box.setCurrentText(item_settings.mission_mode)
-        if item_settings.skip_opponent_count:
-            self.timeline_skip_combobox.setValue(item_settings.skip_opponent_count)
-        if item_settings.legendary_battles:
-            self.legendary_battle_combo_box.setCurrentText(item_settings.legendary_battles)
-        if item_settings.legendary_battle_stages:
-            self.legendary_battle_stage_combo_box.setCurrentText(item_settings.legendary_battle_stages)
-        self.all_stages_changed()
-
-    def all_stages_changed(self):
-        """'All stages' checkbox event when value is changed"""
-        if self.current_mode.mode_settings.all_stages:
-            checked = self.all_stages_check_box.isChecked()
-            self.stages_label.setEnabled(not checked)
-            self.stages_spin_box.setEnabled(not checked)
-
-    def get_setting_values(self, mode_settings):
-        """Retrieve settings from GUI elements according to available game mode's settings.
-
-        :param GameMode.ModeSettings mode_settings: game mode's settings.
-        """
-        all_stages = self.all_stages_check_box.isChecked() if mode_settings.all_stages else None
-        farm_bios = self.farm_bios_check_box.isChecked() if mode_settings.farm_bios else None
-        zero_boosts = self.zero_boosts_check_box.isChecked() if mode_settings.zero_boosts_stop else None
-        stages_num = self.stages_spin_box.value() if mode_settings.stages and not all_stages else None
-        difficulty = self.difficulty_spin_box.value() if mode_settings.difficulty else None
-        use_hidden_tickets = self.use_hidden_tickets_checkbox.isChecked() if mode_settings.use_hidden_tickets else None
-        acquire_rewards = self.dm_acquire_rewards_checkbox.isChecked() if mode_settings.acquire_rewards else None
-        mission_mode = self.mission_mode_combo_box.currentText() if mode_settings.mission_modes else None
-        skip_opponent_count = self.timeline_skip_combobox.value() if mode_settings.skip_opponents else None
-        legendary_battles = self.legendary_battle_combo_box.currentText() if mode_settings.legendary_battles else None
-        legendary_battle_stages = self.legendary_battle_stage_combo_box.currentText() \
-            if mode_settings.legendary_battle_stages else None
-        return all_stages, stages_num, farm_bios, zero_boosts, difficulty, use_hidden_tickets, acquire_rewards, \
-               mission_mode, skip_opponent_count, legendary_battles, legendary_battle_stages
 
     def render_queue_item(self):
         """Render queue item."""
         if self.current_mode:
-            item_settings = self.get_setting_values(self.current_mode.mode_settings)
-            self.current_mode.item_settings = GameMode.QueueItemSettings(*item_settings)
-            return self.render_mode(mode=self.current_mode)
-        else:
-            logger.error("No mode was selected somehow.")
-
-    def render_mode(self, mode):
-        """Render game mode.
-
-        :param GameMode mode: game mode.
-        """
-        item, settings = mode.render()
-        self.queue_item = QueueItem(func=item, parameters=settings, mode_name=mode.mode_name,
-                                    mode_name_formatted=mode.mode_name_formatted)
-        return self.queue_item
+            function, parameters = self.current_mode.render_executable()
+            self.queue_item = QueueItem(func=function, parameters=parameters, mode_name=self.current_mode.mode_name,
+                                        mode_name_formatted=self.current_mode.mode_name_formatted)
+            return self.queue_item
 
 
 class GameMode:
     """Class for working with game mode settings."""
 
-    class ModeSettings:
+    class ModeSetting:
         """Class for working with available settings for a game mode."""
 
-        def __init__(self):
-            """Class initialization."""
-            self.all_stages = True
-            self.stages = False
-            self.farm_bios = False
-            self.zero_boosts_stop = False
-            self.difficulty = False
-            self.use_hidden_tickets = False
-            self.acquire_rewards = False
-            self.mission_modes = []
-            self.skip_opponents = False
-            self.legendary_battles = []
-            self.legendary_battle_stages = []
+        class Checkbox:
 
-    class QueueItemSettings:
-        """Class for working with customizable settings from GUI."""
+            def __init__(self, text, initial_state=True):
+                from PyQt5.QtWidgets import QCheckBox
+                self.widget = QCheckBox(text=text)
+                self.widget.setCheckState(Qt.Checked if initial_state else Qt.Unchecked)
 
-        def __init__(self, all_stages=None, stages_num=None, farm_bios=None, zero_boosts_stop=None, difficulty=None,
-                     use_hidden_tickets=None, acquire_rewards=None, mission_mode=None, skip_opponent_count=None,
-                     legendary_battles=None, legendary_battle_stages=None):
-            """Class initialization."""
-            self.all_stages = all_stages
-            self.stages_num = stages_num
-            self.farm_bios = farm_bios
-            self.zero_boosts_stop = zero_boosts_stop
-            self.difficulty = difficulty
-            self.use_hidden_tickets = use_hidden_tickets
-            self.acquire_rewards = acquire_rewards
-            self.mission_mode = mission_mode
-            self.skip_opponent_count = skip_opponent_count
-            self.legendary_battles = legendary_battles
-            self.legendary_battle_stages = legendary_battle_stages
+            def add_to_layout(self, layout):
+                from PyQt5.QtWidgets import QFormLayout
+                row_index = layout.rowCount()
+                layout.setWidget(row_index, QFormLayout.LabelRole, self.widget)
 
-        @staticmethod
-        def from_settings(item_settings):
-            """Create instance of 'QueueItemSettings' from settings.
+            @property
+            def value(self):
+                return self.widget.isChecked()
 
-            :param dict item_settings: dictionary of settings.
+            @value.setter
+            def value(self, val):
+                self.widget.setCheckState(Qt.Checked if val else Qt.Unchecked)
+
+        class Spinbox:
+
+            def __init__(self, text, initial_value=1, min=1, max=99):
+                from PyQt5.QtWidgets import QSpinBox, QLabel
+                self.widget_spinbox = QSpinBox()
+                self.widget_label = QLabel(text=text)
+                self.widget_spinbox.setMinimum(min)
+                self.widget_spinbox.setMaximum(max)
+                self.widget_spinbox.setValue(initial_value)
+
+            def add_to_layout(self, layout):
+                from PyQt5.QtWidgets import QFormLayout
+                row_index = layout.rowCount()
+                layout.setWidget(row_index, QFormLayout.LabelRole, self.widget_label)
+                layout.setWidget(row_index, QFormLayout.SpanningRole, self.widget_spinbox)
+
+            @property
+            def value(self):
+                return self.widget_spinbox.value()
+
+            @value.setter
+            def value(self, val):
+                self.widget_spinbox.setValue(val)
+
+        class Combobox:
+
+            def __init__(self, text, values_dict):
+                from PyQt5.QtWidgets import QComboBox, QLabel
+                self.widget_combobox = QComboBox()
+                self.widget_combobox.addItems(values_dict.keys())
+                self.widget_label = QLabel(text=text)
+                self.values_dict = values_dict
+
+            def add_to_layout(self, layout):
+                from PyQt5.QtWidgets import QFormLayout
+                row_index = layout.rowCount()
+                layout.setWidget(row_index, QFormLayout.LabelRole, self.widget_label)
+                layout.setWidget(row_index, QFormLayout.SpanningRole, self.widget_combobox)
+
+            @property
+            def value(self):
+                return self.values_dict[self.widget_combobox.currentText()]
+
+            @value.setter
+            def value(self, val):
+                key = [k for k, v in self.values_dict.items() if v == val]
+                self.widget_combobox.setCurrentText(key[0])
+
+        def __init__(self, setting_type, setting_key, **kwargs):
+            """Class initialization.
+
+            :param setting_type: type of GUI element of setting.
+            :param setting_key: setting's key (kwarg for game mode).
+            :param kwargs: possible kwargs for GUI element of setting.
             """
-            stages_num = item_settings.get("times")
-            all_stages = True if not stages_num else None
-            farm_bios = item_settings.get("farm_shifter_bios")
-            zero_boosts_stop = None  # TODO: add ability to stop missions
-            difficulty = item_settings.get("difficulty")
-            use_hidden_tickets = item_settings.get("use_hidden_tickets")
-            acquire_rewards = item_settings.get("acquire_rewards")
-            mission_mode = item_settings.get("mode")
-            skip_opponent_count = item_settings.get("skip_opponent_count")
-            legendary_battles = item_settings.get("battle")
-            legendary_battle_stages = item_settings.get("stage")
-            return GameMode.QueueItemSettings(all_stages=all_stages, stages_num=stages_num, farm_bios=farm_bios,
-                                              zero_boosts_stop=zero_boosts_stop, difficulty=difficulty,
-                                              use_hidden_tickets=use_hidden_tickets, acquire_rewards=acquire_rewards,
-                                              mission_mode=mission_mode, skip_opponent_count=skip_opponent_count,
-                                              legendary_battles=legendary_battles,
-                                              legendary_battle_stages=legendary_battle_stages)
+            self.setting_type = setting_type
+            self.setting_key = setting_key
+            self.kwargs = kwargs
+            self.gui_element = None
+            self._value = None
 
-        def render(self):
-            """Render settings for game mode."""
-            params = {}
-            if not self.all_stages and self.stages_num:
-                params.update({"times": self.stages_num})
-            if self.farm_bios:
-                params.update({"farm_shifter_bios": self.farm_bios})
-            if self.mission_mode:
-                params.update({"mode": self.mission_mode})
-            if self.difficulty:
-                params.update({"difficulty": self.difficulty})
-            if self.use_hidden_tickets:
-                params.update({"use_hidden_tickets": self.use_hidden_tickets})
-            if self.acquire_rewards:
-                params.update({"acquire_rewards": self.acquire_rewards})
-            if self.zero_boosts_stop:
-                # TODO: add ability to stop missions
-                pass
-            if self.skip_opponent_count:
-                params.update({"skip_opponent_count": self.skip_opponent_count})
-            if self.legendary_battles:
-                params.update({"battle": self.legendary_battles})
-            if self.legendary_battle_stages:
-                params.update({"stage": self.legendary_battle_stages})
-            return params
+        def render_gui(self):
+            """Render GUI element of setting."""
+            self.gui_element = self.setting_type(**self.kwargs)
+            return self.gui_element
+
+        @property
+        def value(self):
+            """Value of setting."""
+            if self.gui_element:
+                self._value = self.gui_element.value
+            return {self.setting_key: self._value}
+
+        @value.setter
+        def value(self, value):
+            """Set value of setting."""
+            if not self.gui_element:
+                self.render_gui()
+            if value is not None:
+                self._value = value
+                self.gui_element.value = value
 
     def __init__(self, game, mode_name, mode_module, mode_name_formatted=None):
         """Class initialization.
@@ -469,10 +374,9 @@ class GameMode:
         self.mode_name = mode_name
         self.mode_module = mode_module
         self.mode_name_formatted = mode_name_formatted if mode_name_formatted else mode_name.title()
-        self.mode_settings = GameMode.ModeSettings()
-        self.item_settings = GameMode.QueueItemSettings()
+        self.mode_settings = []
 
-    def render(self):
+    def render_executable(self):
         """Render function and settings for game mode."""
         game_mode = self.mode_module(self.game)
 
@@ -480,353 +384,576 @@ class GameMode:
         def do_missions(*args, **kwargs):
             return game_mode.do_missions(*args, **kwargs)
 
-        return do_missions, self.item_settings.render()
+        return do_missions, self.render_execution_params()
+
+    def render_gui_elements(self, parent_layout):
+        """Render all GUI elements of all mode settings.
+
+        :param parent_layout: parent layout for new created elements.
+        """
+        for setting in self.mode_settings:
+            gui_element = setting.render_gui()
+            gui_element.add_to_layout(layout=parent_layout)
+            if setting.setting_key == "farm_shifter_bios" and not self.game.player.restartable:
+                gui_element.widget.setEnabled(False)
+
+        # Make "All stages" checkbox and "Stages" spinbox relatable
+        all_stages = [setting.gui_element.widget for setting in self.mode_settings if
+                      setting.setting_key == "all_stages"]
+        stages = [(setting.gui_element.widget_label, setting.gui_element.widget_spinbox) for setting in
+                  self.mode_settings if setting.setting_key == "times"]
+        if all_stages and stages:
+            all_stages_check_box, stages_label, stages_spin_box = all_stages[0], stages[0][0], stages[0][1]
+
+            def all_stages_changed():
+                """'All stages' checkbox event when value is changed"""
+                checked = all_stages_check_box.isChecked()
+                stages_label.setEnabled(not checked)
+                stages_spin_box.setEnabled(not checked)
+
+            all_stages_changed()
+            all_stages_check_box.stateChanged.connect(all_stages_changed)
+
+    def render_execution_params(self):
+        """Returns execution parameters for game mode."""
+        params = {}
+        for setting in self.mode_settings:
+            params.update(setting.value)
+        return params
+
+    def apply_params(self, params):
+        """Apply parameters to mode's settings.
+
+        :param params: dictionary of parameters.
+        """
+        for setting in self.mode_settings:
+            if setting.setting_key in params.keys():
+                setting.value = params[setting.setting_key]
+            if setting.setting_key == "all_stages":
+                setting.value = params.get(setting.setting_key, False)
 
 
 class _LegendaryBattle(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "LEGENDARY BATTLE", LegendaryBattle)
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.mission_modes = [LegendaryBattle.MODE.NORMAL, LegendaryBattle.MODE.EXTREME]
-        self.mode_settings.legendary_battles = [LegendaryBattle.THOR_RAGNAROK, LegendaryBattle.BLACK_PANTHER,
-                                                LegendaryBattle.INFINITY_WAR, LegendaryBattle.ANT_MAN,
-                                                LegendaryBattle.CAPTAIN_MARVEL]
-        self.mode_settings.legendary_battle_stages = [LegendaryBattle.STAGE.BATTLE_1, LegendaryBattle.STAGE.BATTLE_2,
-                                                      LegendaryBattle.STAGE.BATTLE_3]
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="mode",
+                                                       text="Select Legendary Battle mode",
+                                                       values_dict={"Normal": LegendaryBattle.MODE.NORMAL,
+                                                                    "Extreme": LegendaryBattle.MODE.EXTREME}))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       text="Select Legendary Battle",
+                                                       setting_key="battle",
+                                                       values_dict={"Thor: Ragnarok": LegendaryBattle.THOR_RAGNAROK,
+                                                                    "Black Panther": LegendaryBattle.BLACK_PANTHER,
+                                                                    "Infinity War": LegendaryBattle.INFINITY_WAR,
+                                                                    "Ant-Man & The Wasp": LegendaryBattle.ANT_MAN,
+                                                                    "Captain Marvel": LegendaryBattle.CAPTAIN_MARVEL}))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       text="Select Legendary Battle mission",
+                                                       setting_key="stage",
+                                                       values_dict={
+                                                           "Battle #1": LegendaryBattle.STAGE.BATTLE_1,
+                                                           "Battle #2": LegendaryBattle.STAGE.BATTLE_2,
+                                                           "Battle #3": LegendaryBattle.STAGE.BATTLE_3
+                                                       }))
 
 
 class _VeiledSecret(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "VEILED SECRET", VeiledSecret, "Veiled Secret [Feathers/Crystals]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _MutualEnemy(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "MUTUAL ENEMY", MutualEnemy, "Mutual Enemy [Magneto]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _StupidXMen(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "STUPID X-MEN", StupidXMen, "Stupid X-Men [Colossus]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _TheBigTwin(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "THE BIG TWIN", TheBigTwin, "The Big Twin [Feathers/Crystals]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _BeginningOfTheChaos(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "BEGINNING OF THE CHAOS", BeginningOfTheChaos, "Beginning Of The Chaos [Psylocke]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _TwistedWorld(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "TWISTED WORLD", TwistedWorld, "Twisted World [Victorious]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _DoomsDay(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DOOM'S DAY", DoomsDay, "Doom's Day [Invisible Woman]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _TheFault(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "THE FAULT", TheFault, "The Fault [Phyla-Vell]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _FateOfTheUniverse(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "FATE OF THE UNIVERSE", FateOfTheUniverse, "Fate Of The Universe [Nova]")
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
-        self.mode_settings.zero_boosts_stop = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _CoopPlay(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "CO-OP PLAY", CoopPlay)
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _AllianceBattle(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "ALLIANCE BATTLE", AllianceBattles)
-        self.mode_settings.all_stages = False
-        self.mode_settings.mission_modes = [AllianceBattles.MODE.ALL_BATTLES, AllianceBattles.MODE.NORMAL]
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="mode",
+                                                       text="Select Alliance Battle mode",
+                                                       values_dict={"All battles (Normal and Extreme)": AllianceBattles.MODE.ALL_BATTLES,
+                                                                    "Only Normal battle": AllianceBattles.MODE.NORMAL}))
 
 
 class _TimelineBattle(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "TIMELINE BATTLE", TimelineBattle)
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.skip_opponents = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="skip_opponent_count",
+                                                       text="Select how many opponents to skip before each battle"))
 
 
 class _WorldBosses(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "WORLD BOSS", WorldBosses)
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
-        self.mode_settings.mission_modes = [WorldBosses.MODE.ULTIMATE, WorldBosses.MODE.NORMAL,
-                                            WorldBosses.MODE.BEGINNER]
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="mode",
+                                                       text="Select World Boss mode",
+                                                       values_dict={"Beginner": WorldBosses.MODE.BEGINNER,
+                                                                    "Normal": WorldBosses.MODE.NORMAL,
+                                                                    "Ultimate": WorldBosses.MODE.ULTIMATE}))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select World Boss stage difficulty", min=1, max=99))
 
 
 class _DimensionMissions(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DIMENSION MISSION", DimensionMissions)
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.zero_boosts_stop = True
-        self.mode_settings.difficulty = True
-        self.mode_settings.use_hidden_tickets = True
-        self.mode_settings.acquire_rewards = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select Dimension Mission stage difficulty", min=1, max=15))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="use_hidden_tickets",
+                                                       text="Use Hidden Tickets for battle"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="acquire_rewards",
+                                                       text="Acquire all contribution rewards at the end"))
 
 
 class _SquadBattles(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "SQUAD BATTLE", SquadBattles)
-        self.mode_settings.all_stages = False
-        self.mode_settings.mission_modes = [SquadBattles.MODE.ALL_BATTLES, SquadBattles.MODE.DAILY_RANDOM]
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="mode",
+                                                       text="Select Squad Battle mode",
+                                                       values_dict={"All battles": SquadBattles.MODE.ALL_BATTLES,
+                                                                    "One daily (random)": SquadBattles.MODE.DAILY_RANDOM}))
 
 
 class _WorldBossInvasion(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "WORLD BOSS INVASION", WorldBossInvasion)
-        self.mode_settings.all_stages = True
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All available"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many times to complete"))
 
 
 class _DangerRoom(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DANGER ROOM", DangerRoom)
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.mission_modes = [DangerRoom.MODE.NORMAL, DangerRoom.MODE.EXTREME]
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="mode",
+                                                       text="Select Danger Room mode",
+                                                       values_dict={"Normal": DangerRoom.MODE.NORMAL,
+                                                                    "Extreme": DangerRoom.MODE.EXTREME}))
 
 
 class _DangerousSisters(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DANGEROUS SISTERS", DangerousSisters, "Dangerous Sisters [Nebula]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _CosmicRider(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "COSMIC RIDER", CosmicRider, "Cosmic Rider [Punisher]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _QuantumPower(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "QUANTUM POWER", QuantumPower, "Quantum Power [Gamora]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _WingsOfDarkness(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "WINGS OF DARKNESS", WingsOfDarkness, "Wings Of Darkness [Darkhawk]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _InhumanPrincess(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "INHUMAN PRINCESS", InhumanPrincess, "Inhuman Princess [Crystal]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _MeanAndGreen(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "MEAN AND GREEN", MeanAndGreen, "Mean And Green [She-Hulk]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _ClobberinTime(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "CLOBBERIN TIME", ClobberinTime, "Clobberin Time [Thing]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _Hothead(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "HOTHEAD", Hothead, "Hothead [Human Torch]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _AwManThisGuy(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "AW MAN THIS GUY", AwManThisGuy, "Aw, Man. This Guy? [Fantomex]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _DominoFalls(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DOMINO FALLS", DominoFalls, "Domino Falls [Domino]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _GoingRogue(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "GOING ROGUE", GoingRogue, "Going Rogue [Rogue]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _FriendsAndEnemies(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "FRIENDS AND ENEMIES", FriendsAndEnemies, "Friends And Enemies [Beast]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _WeatheringTheStorm(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "WEATHERING THE STORM", WeatheringTheStorm, "Weathering The Storm [Storm]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=4))
 
 
 class _Blindsided(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "BLINDSIDED", Blindsided, "Blindsided [Cyclops]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
 
 
 class _DarkAdvent(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DARK ADVENT", DarkAdvent, "Dark Advent [Satana/Cleo]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.farm_bios = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _IncreasingDarkness(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "INCREASING DARKNESS", IncreasingDarkness, "Increasing Darkness [Hellstorm/Cleo]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="farm_shifter_bios",
+                                                       initial_state=False,
+                                                       text="Farm shifter's biometrics (requires restartable emulator)")
+                                  )
 
 
 class _RoadToMonastery(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "ROAD TO MONASTERY", RoadToMonastery, "Road To Monastery [Baron Mordo]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=6))
 
 
 class _MysteriousAmbush(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "MYSTERIOUS AMBUSH", MysteriousAmbush, "Mysterious Ambush [Wong]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=6))
 
 
 class _MonasteryInTrouble(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "MONASTERY IN TROUBLE", MonasteryInTrouble, "Monastery In Trouble [Ancient One]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=6))
 
 
 class _PowerOfTheDark(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "POWER OF THE DARK", PowerOfTheDark, "Power Of The Dark [Kaecilius]")
-        self.mode_settings.all_stages = False
-        self.mode_settings.stages = True
-        self.mode_settings.difficulty = True
+
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty", min=1, max=6))

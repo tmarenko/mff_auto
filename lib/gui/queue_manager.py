@@ -144,7 +144,7 @@ class QueueList:
             queue_items = []
             for settings in queues_list:
                 editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
-                item = editor.render_mode(editor.current_mode)
+                item = editor.render_queue_item()
                 item.set_checked(settings.get("checked", False))
                 queue_items.append(item)
             self.stored_queues[0] = queue_items
@@ -154,7 +154,7 @@ class QueueList:
                 queue_items = []
                 for settings in queue:
                     editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
-                    item = editor.render_mode(editor.current_mode)
+                    item = editor.render_queue_item()
                     item.set_checked(settings.get("checked", False))
                     queue_items.append(item)
                 self.stored_queues[queue_index] = queue_items
