@@ -228,6 +228,13 @@ class TenStageWithDifficultyEpicQuest(TenStageEpicQuest):
                 self.player.click_button(difficulty_ui.button)
         return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['START_BUTTON'])
 
+    def select_mission(self):
+        """Select missions in Epic Quest."""
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector):
+            logger.debug(f"Selecting Epic Quest's mission: {self.mission_selector.name}")
+            self.player.click_button(self.mission_selector.button)
+            return wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector_label)
+
     def get_difficulty_ui(self, difficulty):
         """Get UI element's name from difficulty number."""
         if self.DIFFICULTY == Missions._DIFFICULTY_4:
