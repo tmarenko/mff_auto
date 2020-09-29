@@ -193,7 +193,7 @@ class Missions:
 
     def press_home_button(self, home_button='HOME_BUTTON'):
         """Press home button of the mission."""
-        logger.debug("Clicking HOME button.")
+        logger.debug(f"Clicking HOME button with UI Element: {home_button}.")
         self.player.click_button(self.ui[home_button].button)
         while not self.game.is_main_menu():
             self.close_after_mission_notifications(timeout=1)

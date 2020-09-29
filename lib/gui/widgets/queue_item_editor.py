@@ -747,6 +747,9 @@ class _DangerRoom(GameMode):
 
     def __init__(self, game):
         super().__init__(game, "DANGER ROOM", DangerRoom)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All available daily entries"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))

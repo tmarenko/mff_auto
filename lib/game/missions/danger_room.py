@@ -95,8 +95,11 @@ class DangerRoom(Missions):
 
     def do_missions(self, times=0, mode=MODE.NORMAL):
         """Do missions."""
-        self.start_missions(times=times, mode=mode)
-        self.end_missions()
+        if times:
+            self.stages = times
+        if self.stages > 0:
+            self.start_missions(times=self.stages, mode=mode)
+            self.end_missions()
 
     def start_missions(self, times=0, mode=MODE.NORMAL):
         """Start Danger Room's missions.
@@ -104,12 +107,12 @@ class DangerRoom(Missions):
         :param times: how many times to complete missions.
         :param mode: room's mode.
         """
+        logger.info(f"Starting Danger Room for {self.stages} times on {mode} mode.")
         if not self.go_to_danger_room():
             logger.warning("Danger Room: can't get in mission lobby.")
             return
         if not self.select_mode(mode=mode):
             return
-        logger.info(f"Starting Danger Room for {times} times on {mode} mode.")
         while times > 0:
             if not self.press_start_button(start_button_ui='DANGER_ROOM_JOIN'):
                 logger.error("Cannot start Danger Room battle, exiting.")
@@ -165,6 +168,16 @@ class DangerRoom(Missions):
         while not self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_ENTER']):
             self.close_after_mission_notifications(timeout=1)
         return self.select_mode(mode=mode)
+
+    def press_home_button(self, home_button='HOME_BUTTON'):
+        """Press home button of the mission."""
+        logger.debug(f"Clicking HOME button with UI Element: {home_button}.")
+        self.player.click_button(self.ui[home_button].button)
+        while not self.game.is_main_menu():
+            if self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_EXIT_LOBBY_OK']):
+                self.player.click_button(self.ui['DANGER_EXIT_LOBBY_OK'].button)
+            self.close_after_mission_notifications(timeout=1)
+        return True
 
     def get_all_characters_info_for_normal_mode(self):
         """Get all characters and their popularity from selector.

@@ -1004,5 +1004,26 @@
       "image_save_file": null,
       "description": "Danger Room: Character's participation icon #12 in EXTREME selector (from top-left to bottom-right)."
     }
+  },
+  {
+    "DANGER_EXIT_LOBBY_OK": {
+      "text_rect": {
+        "x1": 0.5423594506717268,
+        "y1": 0.7276605000632637,
+        "x2": 0.6133925629023823,
+        "y2": 0.7821607592718134
+      },
+      "button_rect": {
+        "x1": 0.5423594506717268,
+        "y1": 0.7276605000632637,
+        "x2": 0.6133925629023823,
+        "y2": 0.7821607592718134
+      },
+      "text": "OK",
+      "image_threshold": 170,
+      "chars": "OK",
+      "image_save_file": "danger_exit_lobby_ok",
+      "description": "Danger Room: notification when you're trying to exit lobby (leads to OK button)."
+    }
   }
 ]
