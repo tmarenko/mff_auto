@@ -74,7 +74,9 @@ class Updater:
     def download_version_file(self):
         """Download version file from GitHub sources."""
         with open(self.NEW_VERSION_FILE, "wb") as file:
-            with request.urlopen(self.GITHUB_VERSION_LINK) as url_file:
+            req = request.Request(self.GITHUB_VERSION_LINK)
+            req.add_header('Cache-Control', 'max-age=0')
+            with request.urlopen(req) as url_file:
                 content = url_file.read()
                 file.write(content)
                 return file.name
