@@ -35,6 +35,7 @@ class QueueItem(QListWidgetItem):
         super().__init__()
         self.func = func
         self.parameters = parameters
+        self.execution_parameters = self.clear_parameters()
         self.mode_name = mode_name
         self.mode_name_formatted = mode_name_formatted if mode_name_formatted else mode_name.title()
         self.setText(self.name)
@@ -42,14 +43,18 @@ class QueueItem(QListWidgetItem):
         self.setCheckState(Qt.Checked)
         self.setToolTip(self.name)
 
+    def clear_parameters(self):
+        parameters = self.parameters.copy()
+        if "all_stages" in parameters.keys():
+            if parameters["all_stages"] is True:
+                parameters.pop("times")  # Remove `times` kwarg if doing All stages
+            parameters.pop("all_stages")  # Remove `all_stages` kwarg anyway
+        return parameters
+
     def get_executor(self):
         """Get function with parameters to execute."""
         if self.is_checked:
-            if "all_stages" in self.parameters:
-                if self.parameters["all_stages"]:  # Remove `times` kwarg if doing All stages
-                    self.parameters.pop("times")
-                self.parameters.pop("all_stages")  # Remove `all_stages` kwarg anyway
-            return self.func, self.parameters
+            return self.func, self.execution_parameters
         return None, None
 
     @property
@@ -429,8 +434,6 @@ class GameMode:
         for setting in self.mode_settings:
             if setting.setting_key in params.keys():
                 setting.value = params[setting.setting_key]
-            if setting.setting_key == "all_stages":
-                setting.value = params.get(setting.setting_key, False)
 
 
 class _LegendaryBattle(GameMode):
@@ -475,7 +478,8 @@ class _VeiledSecret(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=4))
 
 
 class _MutualEnemy(GameMode):
@@ -487,7 +491,8 @@ class _MutualEnemy(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=2))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -504,7 +509,8 @@ class _StupidXMen(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=6))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -521,7 +527,8 @@ class _TheBigTwin(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=6))
 
 
 class _BeginningOfTheChaos(GameMode):
@@ -533,7 +540,8 @@ class _BeginningOfTheChaos(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=2))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -550,7 +558,8 @@ class _TwistedWorld(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=6))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -567,7 +576,8 @@ class _DoomsDay(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=2))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -584,7 +594,8 @@ class _TheFault(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=6))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -601,7 +612,8 @@ class _FateOfTheUniverse(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=2))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="farm_shifter_bios",
                                                        initial_state=False,
@@ -618,7 +630,8 @@ class _CoopPlay(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=5))
 
 
 class _AllianceBattle(GameMode):
@@ -641,7 +654,8 @@ class _TimelineBattle(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=10))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="skip_opponent_count",
                                                        text="Select how many opponents to skip before each battle"))
@@ -656,7 +670,8 @@ class _WorldBosses(GameMode):
                                                        text="All stages"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many stages to complete"))
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=5))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select World Boss mode",
@@ -680,7 +695,8 @@ class _WorldBosses(GameMode):
                                                                     }))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select World Boss stage difficulty", min=1, max=99))
+                                                       text="Select World Boss stage difficulty",
+                                                       min=1, max=99))
 
 
 class _DimensionMissions(GameMode):
@@ -693,7 +709,8 @@ class _DimensionMissions(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select Dimension Mission stage difficulty", min=1, max=15))
+                                                       text="Select Dimension Mission stage difficulty",
+                                                       min=1, max=15))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="use_hidden_tickets",
                                                        text="Use Hidden Tickets for battle"))
@@ -722,7 +739,8 @@ class _WorldBossInvasion(GameMode):
                                                        text="All available"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
-                                                       text="Select how many times to complete"))
+                                                       text="Select how many times to complete",
+                                                       min=1, max=5))
 
 
 class _DangerRoom(GameMode):
@@ -766,7 +784,8 @@ class _QuantumPower(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _WingsOfDarkness(GameMode):
@@ -778,7 +797,8 @@ class _WingsOfDarkness(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _InhumanPrincess(GameMode):
@@ -808,7 +828,8 @@ class _ClobberinTime(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _Hothead(GameMode):
@@ -820,7 +841,8 @@ class _Hothead(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _AwManThisGuy(GameMode):
@@ -832,7 +854,8 @@ class _AwManThisGuy(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _DominoFalls(GameMode):
@@ -844,7 +867,8 @@ class _DominoFalls(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _GoingRogue(GameMode):
@@ -856,7 +880,8 @@ class _GoingRogue(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _FriendsAndEnemies(GameMode):
@@ -869,7 +894,8 @@ class _FriendsAndEnemies(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _WeatheringTheStorm(GameMode):
@@ -882,7 +908,8 @@ class _WeatheringTheStorm(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=4))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
 
 
 class _Blindsided(GameMode):
@@ -932,7 +959,8 @@ class _RoadToMonastery(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=6))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=6))
 
 
 class _MysteriousAmbush(GameMode):
@@ -945,7 +973,8 @@ class _MysteriousAmbush(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=6))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=6))
 
 
 class _MonasteryInTrouble(GameMode):
@@ -958,7 +987,8 @@ class _MonasteryInTrouble(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=6))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=6))
 
 
 class _PowerOfTheDark(GameMode):
@@ -971,4 +1001,5 @@ class _PowerOfTheDark(GameMode):
                                                        text="Select how many stages to complete"))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
-                                                       text="Select stage difficulty", min=1, max=6))
+                                                       text="Select stage difficulty",
+                                                       min=1, max=6))
