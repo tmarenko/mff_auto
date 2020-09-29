@@ -795,6 +795,27 @@
     }
   },
   {
+    "MAIN_MENU_INVENTORY": {
+      "text_rect": {
+        "x1": 0.6545169962990777,
+        "y1": 0.4272444371088179,
+        "x2": 0.7330272782382236,
+        "y2": 0.4684519501689409
+      },
+      "button_rect": {
+        "x1": 0.6604987320658698,
+        "y1": 0.31159754561750463,
+        "x2": 0.7248023915588846,
+        "y2": 0.41793951480491903
+      },
+      "text": "INVENTORY",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "main_menu_inventory",
+      "description": "Main Menu Inventory button."
+    }
+  },
+  {
     "CHALLENGE_COMPLETE_NOTIFICATION": {
       "text_rect": {
         "x1": 0.79757343550447,

@@ -564,5 +564,264 @@
       "image_save_file": "cards_upgrade_results_ok",
       "description": "Cards: Upgrade All results menu (leads to OK button)."
     }
+  },
+  {
+    "INVENTORY_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.04961396688223072,
+        "y1": 0.009852208048216148,
+        "x2": 0.1670055313055249,
+        "y2": 0.08296231186456356
+      },
+      "button_rect": null,
+      "text": "INVENTORY",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inventory_stage_label",
+      "description": "Inventory stage label text."
+    }
+  },
+  {
+    "INVENTORY_CUSTOM_GEAR_TAB": {
+      "text_rect": {
+        "x1": 0.20140051196457923,
+        "y1": 0.13081619799890012,
+        "x2": 0.3404758685424947,
+        "y2": 0.19993847797071945
+      },
+      "button_rect": {
+        "x1": 0.20140051196457923,
+        "y1": 0.13081619799890012,
+        "x2": 0.3404758685424947,
+        "y2": 0.19993847797071945
+      },
+      "text": "CUSTOM GEAR",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "inventory_custom_gear_tab",
+      "description": "Inventory: Custom Gear tab."
+    }
+  },
+  {
+    "CUSTOM_GEAR_QUICK_UPGRADE": {
+      "text_rect": {
+        "x1": 0.8122852771482184,
+        "y1": 0.896478376148284,
+        "x2": 0.9386494452217006,
+        "y2": 0.9496493607419912
+      },
+      "button_rect": {
+        "x1": 0.8122852771482184,
+        "y1": 0.896478376148284,
+        "x2": 0.9386494452217006,
+        "y2": 0.9496493607419912
+      },
+      "text": "QUICK UPGRADE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "custom_gear_quick_upgrade",
+      "description": "Inventory: Custom Gear: Quick Upgrade button."
+    }
+  },
+  {
+    "CUSTOM_GEAR_ENHANCE": {
+      "text_rect": {
+        "x1": 0.8122852771482184,
+        "y1": 0.896478376148284,
+        "x2": 0.9386494452217006,
+        "y2": 0.9496493607419912
+      },
+      "button_rect": {
+        "x1": 0.8122852771482184,
+        "y1": 0.896478376148284,
+        "x2": 0.9386494452217006,
+        "y2": 0.9496493607419912
+      },
+      "text": "ENHANCE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "custom_gear_enhance",
+      "description": "Inventory: Custom Gear: Enhance button."
+    }
+  },
+  {
+    "CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6651041666666667,
+        "y1": 0.8166666666666667,
+        "x2": 0.6838541666666667,
+        "y2": 0.85
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "custom_gear_quick_upgrade_toggle",
+      "description": "Inventory: Custom Gear: Quick Upgrade toggle."
+    }
+  },
+  {
+    "CUSTOM_GEAR_NO_MATERIALS": {
+      "text_rect": {
+        "x1": 0.47506492329531597,
+        "y1": 0.7276605000632634,
+        "x2": 0.5259096773130485,
+        "y2": 0.779502210042128
+      },
+      "button_rect": {
+        "x1": 0.47506492329531597,
+        "y1": 0.7276605000632634,
+        "x2": 0.5259096773130485,
+        "y2": 0.779502210042128
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "custom_gear_no_materials",
+      "description": "Inventory: Custom Gear: No materials notification (leads to OK button)."
+    }
+  },
+  {
+    "CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM": {
+      "text_rect": {
+        "x1": 0.5487833515597843,
+        "y1": 0.7283889078538351,
+        "x2": 0.6071440789611408,
+        "y2": 0.7802306178326998
+      },
+      "button_rect": {
+        "x1": 0.5487833515597843,
+        "y1": 0.7283889078538351,
+        "x2": 0.6071440789611408,
+        "y2": 0.7802306178326998
+      },
+      "text": "OK",
+      "image_threshold": 175,
+      "chars": "OK",
+      "image_save_file": "custom_gear_quick_upgrade_confirm",
+      "description": "Inventory: Custom Gear: Confirm quick upgrade notification (leads to OK button)."
+    }
+  },
+  {
+    "CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED": {
+      "text_rect": {
+        "x1": 0.5483411864385187,
+        "y1": 0.7276605000632635,
+        "x2": 0.6044199592521942,
+        "y2": 0.7848193085014988
+      },
+      "button_rect": {
+        "x1": 0.5483411864385187,
+        "y1": 0.7276605000632635,
+        "x2": 0.6044199592521942,
+        "y2": 0.7848193085014988
+      },
+      "text": "OK",
+      "image_threshold": 175,
+      "chars": "OK",
+      "image_save_file": "custom_gear_quick_upgrade_include_upgraded",
+      "description": "Inventory: Custom Gear: Include upgraded gear notification (leads to OK button)."
+    }
+  },
+  {
+    "CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1": {
+      "text_rect": {
+        "x1": 0.39165831624844,
+        "y1": 0.8653041931826313,
+        "x2": 0.45301190146525067,
+        "y2": 0.933097198539608
+      },
+      "button_rect": {
+        "x1": 0.39165831624844,
+        "y1": 0.8653041931826313,
+        "x2": 0.45301190146525067,
+        "y2": 0.933097198539608
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "custom_gear_no_materials",
+      "description": "Inventory: Custom Gear: Quick Upgrade results notification (leads to OK button)."
+    }
+  },
+  {
+    "CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2": {
+      "text_rect": {
+        "x1": 0.4638491687325808,
+        "y1": 0.867234334621745,
+        "x2": 0.5326391300506895,
+        "y2": 0.929710241519351
+      },
+      "button_rect": {
+        "x1": 0.4638491687325808,
+        "y1": 0.867234334621745,
+        "x2": 0.5326391300506895,
+        "y2": 0.929710241519351
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "custom_gear_no_materials",
+      "description": "Inventory: Custom Gear: Quick Upgrade results notification (Extreme Obelisk) (leads to OK button)."
+    }
+  },
+  {
+    "CUSTOM_GEAR_SELL_ALL": {
+      "text_rect": {
+        "x1": 0.3520029501936721,
+        "y1": 0.8945482347091703,
+        "x2": 0.4829404796197924,
+        "y2": 0.9503777685325627
+      },
+      "button_rect": {
+        "x1": 0.3520029501936721,
+        "y1": 0.8945482347091703,
+        "x2": 0.4829404796197924,
+        "y2": 0.9503777685325627
+      },
+      "text": "SELL ALL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "custom_gear_sell_all",
+      "description": "Inventory: Custom Gear: Sell All button (to determine opened stage only)."
+    }
+  },
+  {
+    "CUSTOM_GEAR_CHANGE_OPTION": {
+      "text_rect": {
+        "x1": 0.8115375601773692,
+        "y1": 0.896478376148284,
+        "x2": 0.9401448791633986,
+        "y2": 0.9523079099716766
+      },
+      "button_rect": {
+        "x1": 0.8115375601773692,
+        "y1": 0.896478376148284,
+        "x2": 0.9401448791633986,
+        "y2": 0.9523079099716766
+      },
+      "text": "CHANGE OPTION",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "custom_gear_change_option",
+      "description": "Inventory: Custom Gear: Change Option button."
+    }
+  },
+  {
+    "CUSTOM_GEAR_1": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.06157743841581489,
+        "y1": 0.2650729340980108,
+        "x2": 0.13709685247156458,
+        "y2": 0.39268329712290817
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Inventory: Custom Gear: top left gear."
+    }
   }
 ]

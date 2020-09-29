@@ -199,6 +199,10 @@ class Ui_MainWindow(object):
         self.comic_cards_button.setMinimumSize(QtCore.QSize(120, 50))
         self.comic_cards_button.setObjectName("comic_cards_button")
         self.verticalLayout.addWidget(self.comic_cards_button)
+        self.custom_gear_button = QtWidgets.QPushButton(self.quick_start_group)
+        self.custom_gear_button.setMinimumSize(QtCore.QSize(120, 50))
+        self.custom_gear_button.setObjectName("custom_gear_button")
+        self.verticalLayout.addWidget(self.custom_gear_button)
         self.shield_lab_button = QtWidgets.QPushButton(self.quick_start_group)
         self.shield_lab_button.setMinimumSize(QtCore.QSize(120, 50))
         self.shield_lab_button.setObjectName("shield_lab_button")
@@ -293,6 +297,8 @@ class Ui_MainWindow(object):
         self.daily_trivia_button.setText(_translate("MainWindow", "Daily Trivia"))
         self.comic_cards_button.setText(_translate("MainWindow", "Comic Cards:\n"
 "Upgrade All"))
+        self.custom_gear_button.setText(_translate("MainWindow", "Custom Gear:\n"
+"Upgrade 1 Gear"))
         self.shield_lab_button.setText(_translate("MainWindow", "Shield Lab:\n"
 " Collect Anti-Matter"))
         self.squad_battle_button.setText(_translate("MainWindow", "Squad Battle:\n"

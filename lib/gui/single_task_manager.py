@@ -1,7 +1,7 @@
 ﻿from multiprocess.context import Process
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
-from lib.game.routines import DailyTrivia, ShieldLab, ComicCards
+from lib.game.routines import DailyTrivia, ShieldLab, ComicCards, CustomGear
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
@@ -149,3 +149,15 @@ class ComicCardsTask(SingleTask):
             return cc.upgrade_all_cards()
 
         super().__init__(button, upgrade_all_cards, {})
+
+
+class CustomGearTask(SingleTask):
+
+    def __init__(self, button, game: Game):
+        cg = CustomGear(game)
+
+        @reset_player_and_logger(game=game)
+        def quick_upgrade_gear(*args, **kwargs):
+            return cg.quick_upgrade_gear(*args, **kwargs)
+
+        super().__init__(button, quick_upgrade_gear, {"times": 1})

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMainWindow
 import lib.gui.designes.main_window as design
 
 from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask, \
-    DangerRoomOneBattleTask, ShieldLabCollectAntimatterOneBattleTask, RestartGameTask, ComicCardsTask
+    DangerRoomOneBattleTask, ShieldLabCollectAntimatterOneBattleTask, RestartGameTask, ComicCardsTask, CustomGearTask
 from lib.gui.queue_manager import QueueList
 from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
@@ -56,6 +56,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         shield_lab_button = self.create_blockable_button(button=self.shield_lab_button)
         restart_game_button = self.create_blockable_button(button=self.restart_game_button)
         comic_cards_button = self.create_blockable_button(button=self.comic_cards_button)
+        custom_gear_button = self.create_blockable_button(button=self.custom_gear_button)
         self.queue_list = QueueList(list_widget=self.queue_list_widget, run_and_stop_button=run_and_stop_button,
                                     add_button=self.add_queue_button, edit_button=self.edit_queue_button,
                                     remove_button=self.remove_queue_button, game=self.game,
@@ -69,6 +70,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.shield_lab = ShieldLabCollectAntimatterOneBattleTask(game=self.game, button=shield_lab_button)
         self.restart_game = RestartGameTask(game=self.game, button=restart_game_button)
         self.comic_cards = ComicCardsTask(game=self.game, button=comic_cards_button)
+        self.custom_gear = CustomGearTask(game=self.game, button=custom_gear_button)
         self.screen_image = ScreenImageLabel(player=self.player, widget=self.screen_label)
         self.acquire_heroic_quest_rewards_state_changed()
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
@@ -82,9 +84,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.blockable_buttons = [self.run_queue_button, self.add_queue_button, self.edit_queue_button,
                                   self.remove_queue_button, self.squad_battle_button, self.world_boss_invasion_button,
                                   self.daily_trivia_button, self.autoplay_button, self.danger_room_button,
-                                  self.shield_lab_button, self.restart_game_button, self.comic_cards_button]
+                                  self.shield_lab_button, self.restart_game_button, self.comic_cards_button,
+                                  self.custom_gear_button]
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
-                      self.shield_lab, self.restart_game, self.comic_cards]
+                      self.shield_lab, self.restart_game, self.comic_cards, self.custom_gear]
 
         if self.player.initialized and self.player.restartable:
             if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():

@@ -365,6 +365,19 @@ class Game:
             self.player.click_button(self.ui['MAIN_MENU'].button)
         return False
 
+    def go_to_inventory(self):
+        """Go to Inventory screen."""
+        self.go_to_main_menu()
+        self.player.click_button(self.ui['MAIN_MENU'].button)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_INVENTORY']):
+                self.player.click_button(self.ui['MAIN_MENU_INVENTORY'].button)
+                return wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['INVENTORY_STAGE_LABEL'])
+            logger.warning("Can't find Inventory button in Main menu, exiting")
+            self.player.click_button(self.ui['MAIN_MENU'].button)
+        return False
+
     def go_to_epic_quests(self):
         """Go to Epic Quests screen."""
         if self.go_to_mission_selection():
