@@ -352,6 +352,19 @@ class Game:
             self.player.click_button(self.ui['MAIN_MENU'].button)
         return False
 
+    def go_to_comic_cards(self):
+        """Go to Comic Cards screen."""
+        self.go_to_main_menu()
+        self.player.click_button(self.ui['MAIN_MENU'].button)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_CARDS']):
+                self.player.click_button(self.ui['MAIN_MENU_CARDS'].button)
+                return wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['CARDS_STAGE_LABEL'])
+            logger.warning("Can't find Comic Cards button in Main menu, exiting")
+            self.player.click_button(self.ui['MAIN_MENU'].button)
+        return False
+
     def go_to_epic_quests(self):
         """Go to Epic Quests screen."""
         if self.go_to_mission_selection():

@@ -196,3 +196,44 @@ class EnhancePotential:
         else:
             logger.error(f"Current Success Rate: {self.success_rate}, cannot get to target {target_success_rate}.")
             return
+
+
+class ComicCards:
+    """Class for working with Comic Cards."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param lib.game.Game game: instance of the game.
+        """
+        self.game = game
+        self.player = game.player
+        self.ui = game.ui
+
+    def upgrade_all_cards(self):
+        """Upgrade all available Comic Cards."""
+        self.game.go_to_comic_cards()
+        logger.info("Comic Cards: upgrading all available cards.")
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL']):
+            self.player.click_button(self.ui['CARDS_UPGRADE_ALL'].button)
+            for card_index in range(1, 6):
+                card_select_ui = self.ui[f'CARDS_SELECT_GRADE_{card_index}']
+                self.player.click_button(card_select_ui.button)
+                logger.debug(f"Comic Cards: starting to upgrade UI Element {card_select_ui.name}")
+                if not wait_until(self.player.is_image_on_screen, timeout=3, ui_element=card_select_ui):
+                    logger.warning("Comic Cards: can't select card's grade.")
+                    continue
+                logger.debug(f"Comic Cards: successfully selected UI Element {card_select_ui.name}")
+                self.player.click_button(self.ui['CARDS_SELECT_GRADE'].button)
+                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['CARDS_UPGRADE_CONFIRM']):
+                    self.player.click_button(self.ui['CARDS_UPGRADE_CONFIRM'].button)
+                    if wait_until(self.player.is_ui_element_on_screen, timeout=10,
+                                  ui_element=self.ui['CARDS_UPGRADE_RESULTS_OK']):
+                        logger.debug(f"Comic Cards: successfully upgraded UI Element {card_select_ui.name}")
+                        self.player.click_button(self.ui['CARDS_UPGRADE_RESULTS_OK'].button)
+                        wait_until(self.player.is_image_on_screen, timeout=3, ui_element=card_select_ui)
+                        continue
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL_CANCEL']):
+            self.player.click_button(self.ui['CARDS_UPGRADE_ALL_CANCEL'].button)
+            self.game.go_to_main_menu()

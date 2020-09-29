@@ -358,5 +358,211 @@
       "image_save_file": "enhance_potential_success",
       "description": "Enhance Potential label when enhance was successful."
     }
+  },
+  {
+    "CARDS_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.05110940082392877,
+        "y1": 0.011181482663058913,
+        "x2": 0.17074411615976992,
+        "y2": 0.08296231186456356
+      },
+      "button_rect": null,
+      "text": "COMIC CARDS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "cards_stage_label",
+      "description": "Cards stage label text."
+    }
+  },
+  {
+    "CARDS_UPGRADE_ALL": {
+      "text_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.9124296715263961,
+        "x2": 0.5094599039543704,
+        "y2": 0.9695884799646314
+      },
+      "button_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.9124296715263961,
+        "x2": 0.5094599039543704,
+        "y2": 0.9695884799646314
+      },
+      "text": "UPGRADE ALL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "cards_upgrade_all",
+      "description": "Cards: Upgrade All button."
+    }
+  },
+  {
+    "CARDS_SELECT_GRADE": {
+      "text_rect": {
+        "x1": 0.5326391300506895,
+        "y1": 0.7741851115827575,
+        "x2": 0.6223651665525705,
+        "y2": 0.8340024692506781
+      },
+      "button_rect": {
+        "x1": 0.5326391300506895,
+        "y1": 0.7741851115827575,
+        "x2": 0.6223651665525705,
+        "y2": 0.8340024692506781
+      },
+      "text": "SELECT",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "cards_select_grade",
+      "description": "Cards: Select in Upgrade menu button."
+    }
+  },
+  {
+    "CARDS_UPGRADE_ALL_CANCEL": {
+      "text_rect": {
+        "x1": 0.378609434055794,
+        "y1": 0.7715265623530719,
+        "x2": 0.46684003661597695,
+        "y2": 0.8286853707913072
+      },
+      "button_rect": {
+        "x1": 0.378609434055794,
+        "y1": 0.7715265623530719,
+        "x2": 0.46684003661597695,
+        "y2": 0.8286853707913072
+      },
+      "text": "CANCEL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "cards_upgrade_all_cancel",
+      "description": "Cards: Cancel in Upgrade menu button."
+    }
+  },
+  {
+    "CARDS_SELECT_GRADE_1": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.225,
+        "y1": 0.5148148148148148,
+        "x2": 0.24791666666666667,
+        "y2": 0.5555555555555556
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "cards_select_grade_1",
+      "description": "Cards: select Card Grade to upgrade #1."
+    }
+  },
+  {
+    "CARDS_SELECT_GRADE_2": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.3567708333333333,
+        "y1": 0.5148148148148148,
+        "x2": 0.3796875,
+        "y2": 0.5555555555555556
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "cards_select_grade_2",
+      "description": "Cards: select Card Grade to upgrade #2."
+    }
+  },
+  {
+    "CARDS_SELECT_GRADE_3": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.48854166666666665,
+        "y1": 0.5148148148148148,
+        "x2": 0.5114583333333333,
+        "y2": 0.5555555555555556
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "cards_select_grade_3",
+      "description": "Cards: select Card Grade to upgrade #3."
+    }
+  },
+  {
+    "CARDS_SELECT_GRADE_4": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6203125,
+        "y1": 0.5148148148148148,
+        "x2": 0.6432291666666666,
+        "y2": 0.5555555555555556
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "cards_select_grade_4",
+      "description": "Cards: select Card Grade to upgrade #4."
+    }
+  },
+  {
+    "CARDS_SELECT_GRADE_5": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7520833333333333,
+        "y1": 0.5148148148148148,
+        "x2": 0.7744791666666667,
+        "y2": 0.5555555555555556
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "cards_select_grade_5",
+      "description": "Cards: select Card Grade to upgrade #5."
+    }
+  },
+  {
+    "CARDS_UPGRADE_CONFIRM": {
+      "text_rect": {
+        "x1": 0.5932042046894591,
+        "y1": 0.7755143861976,
+        "x2": 0.685921109074736,
+        "y2": 0.8273560961764647
+      },
+      "button_rect": {
+        "x1": 0.5932042046894591,
+        "y1": 0.7755143861976,
+        "x2": 0.685921109074736,
+        "y2": 0.8273560961764647
+      },
+      "text": "UPGRADE",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "cards_upgrade_confirm",
+      "description": "Cards: Upgrade button in Upgrade All menu."
+    }
+  },
+  {
+    "CARDS_UPGRADE_RESULTS_OK": {
+      "text_rect": {
+        "x1": 0.472821772382769,
+        "y1": 0.8246975469467793,
+        "x2": 0.5289005451964445,
+        "y2": 0.8831856299998572
+      },
+      "button_rect": {
+        "x1": 0.472821772382769,
+        "y1": 0.8246975469467793,
+        "x2": 0.5289005451964445,
+        "y2": 0.8831856299998572
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "cards_upgrade_results_ok",
+      "description": "Cards: Upgrade All results menu (leads to OK button)."
+    }
   }
 ]

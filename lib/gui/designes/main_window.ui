@@ -435,6 +435,20 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="comic_cards_button">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Comic Cards:
+Upgrade All</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="shield_lab_button">
            <property name="minimumSize">
             <size>

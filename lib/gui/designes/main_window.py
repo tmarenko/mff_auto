@@ -195,6 +195,10 @@ class Ui_MainWindow(object):
         self.daily_trivia_button.setMinimumSize(QtCore.QSize(120, 50))
         self.daily_trivia_button.setObjectName("daily_trivia_button")
         self.verticalLayout.addWidget(self.daily_trivia_button)
+        self.comic_cards_button = QtWidgets.QPushButton(self.quick_start_group)
+        self.comic_cards_button.setMinimumSize(QtCore.QSize(120, 50))
+        self.comic_cards_button.setObjectName("comic_cards_button")
+        self.verticalLayout.addWidget(self.comic_cards_button)
         self.shield_lab_button = QtWidgets.QPushButton(self.quick_start_group)
         self.shield_lab_button.setMinimumSize(QtCore.QSize(120, 50))
         self.shield_lab_button.setObjectName("shield_lab_button")
@@ -287,6 +291,8 @@ class Ui_MainWindow(object):
         self.acquire_heroic_quest_rewards_label.setText(_translate("MainWindow", "Acquire Heroic Quest rewards"))
         self.quick_start_group.setTitle(_translate("MainWindow", "Quick Start"))
         self.daily_trivia_button.setText(_translate("MainWindow", "Daily Trivia"))
+        self.comic_cards_button.setText(_translate("MainWindow", "Comic Cards:\n"
+"Upgrade All"))
         self.shield_lab_button.setText(_translate("MainWindow", "Shield Lab:\n"
 " Collect Anti-Matter"))
         self.squad_battle_button.setText(_translate("MainWindow", "Squad Battle:\n"

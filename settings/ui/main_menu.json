@@ -774,6 +774,27 @@
     }
   },
   {
+    "MAIN_MENU_CARDS": {
+      "text_rect": {
+        "x1": 0.673957637541152,
+        "y1": 0.6080257847274224,
+        "x2": 0.7150820709378473,
+        "y2": 0.6439161993281748
+      },
+      "button_rect": {
+        "x1": 0.6634895999492658,
+        "y1": 0.4923788932361091,
+        "x2": 0.7203160897337905,
+        "y2": 0.5934037639641528
+      },
+      "text": "CARD",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "main_menu_cards",
+      "description": "Main Menu Card button."
+    }
+  },
+  {
     "CHALLENGE_COMPLETE_NOTIFICATION": {
       "text_rect": {
         "x1": 0.79757343550447,
