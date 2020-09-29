@@ -265,9 +265,10 @@ class DangerRoom(Missions):
                     ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL']):
                 logger.error("Danger Room: can't find best character for NORMAL mode.")
                 return False
-            logger.debug(f"Danger Room: selecting character {best_character.name}")
-            self.player.click_button(best_character.button)
-            r_sleep(2)
+            if best_character:
+                logger.debug(f"Danger Room: selecting character {best_character.name}")
+                self.player.click_button(best_character.button)
+                r_sleep(1)
         logger.debug("Danger Room: battle is ready to begin.")
         return True
 
