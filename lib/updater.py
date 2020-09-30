@@ -5,6 +5,7 @@ import zipfile
 import importlib
 import importlib.util
 import urllib.request as request
+import urllib.error as urlib_error
 import version as old_version_module
 from distutils.version import StrictVersion
 from distutils.dir_util import copy_tree
@@ -40,6 +41,7 @@ class Updater:
     NEW_VERSION_FILE = "new_version.py"
     GITHUB_VERSION_LINK = "https://raw.githubusercontent.com/tmarenko/mff_auto/master/version.py"
     GITHUB_SOURCE_CODE_URL = "https://github.com/tmarenko/mff_auto/archive/{version}.zip"
+    DOWNLOAD_COUNTER_LINK = "https://api.countapi.xyz/hit/mff_auto/{version}"
     SOURCE_CODE_FOLDER_NAME = "mff_auto-{version}"
 
     def __init__(self):
@@ -102,6 +104,7 @@ class Updater:
 
     def update_from_new_version(self):
         """Update project files from new version."""
+        self.update_download_counter(self.new_version.mff_auto)
         self.update_source = self.download_source_code(self.new_version.mff_auto)
         logger.info(f"Extracting zip-archive with {self.new_version.mff_auto} version.")
         with zipfile.ZipFile(self.update_source, 'r') as zip_ref:
@@ -110,6 +113,15 @@ class Updater:
         logger.info(f"Updating files...")
         self.copy_project_files()
         self.clean()
+
+    def update_download_counter(self, version):
+        """Update download's counter."""
+        try:
+            download_counter_url = self.DOWNLOAD_COUNTER_LINK.format(version=version)
+            req = request.Request(download_counter_url, headers={'User-Agent': 'Mozilla/5.0'})
+            request.urlopen(req)
+        except urlib_error.HTTPError as err:
+            logger.error(f"Got error while updating download's counter: {err}")
 
     def download_source_code(self, version):
         """Download source code from GitHub by version tag."""
