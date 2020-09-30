@@ -89,7 +89,7 @@
         "y2": 0.4925925925925926
       },
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": "daily_trivia_answer_1",
       "description": "Daily Trivia answer: #1."
@@ -110,7 +110,7 @@
         "y2": 0.6175925925925926
       },
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": "daily_trivia_answer_2",
       "description": "Daily Trivia answer: #2."
@@ -131,7 +131,7 @@
         "y2": 0.7425925925925926
       },
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": "daily_trivia_answer_3",
       "description": "Daily Trivia answer: #3."
@@ -152,7 +152,7 @@
         "y2": 0.8694444444444445
       },
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": "daily_trivia_answer_4",
       "description": "Daily Trivia answer: #4."
