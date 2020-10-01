@@ -3,7 +3,7 @@ from scipy.stats import truncnorm
 import random
 import time
 import win32api
-from numpy import concatenate
+from numpy import concatenate, array
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool
 
@@ -230,3 +230,25 @@ def get_file_properties(path_to_file):
     file_props['StringFileInfo'] = str_info
 
     return file_props
+
+
+def convert_colors_in_image(image, colors, color_to_convert=(255, 255, 255), blur_result=(2, 2)):
+    """Converts given colors in image to one color.
+
+    :param image: numpy.array of image.
+    :param colors: list of colors to convert; each color represents tuple of low and high values for color.
+    :param color_to_convert: color to convert.
+    :param blur_result: tuple of blur size if you want to blur the result image.
+
+    :return: image with converted colors.
+    """
+    for color_low, color_high in colors:
+        if isinstance(color_low, list):
+            color_low = array(color_low)
+        if isinstance(color_high, list):
+            color_high = array(color_high)
+        mask = cv2.inRange(image, color_low, color_high)
+        image[mask > 0] = color_to_convert
+    if blur_result:
+        image = cv2.blur(image, blur_result)
+    return image

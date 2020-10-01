@@ -14,7 +14,7 @@ from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTh
 from lib.game.missions.coop import CoopPlay
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.timeline import TimelineBattle
-from lib.game.missions.invasion import WorldBossInvasion
+from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.game.missions.world_bosses import WorldBosses
 import lib.logger as logging

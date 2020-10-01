@@ -1,6 +1,7 @@
+import regex
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import wait_until
+from lib.functions import wait_until, convert_colors_in_image
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -8,6 +9,94 @@ logger = logging.get_logger(__name__)
 
 class WorldBossInvasion(Missions):
     """Class for working with World Boss Invasions."""
+
+    class Mission:
+        """Class for working with mission types of World Boss Invasion."""
+
+        DEFAULT_ERROR = 3
+
+        def __init__(self, pattern, opposite_pattern, filter, opposite_filter):
+            """Class initialization.
+
+            :param pattern: regular expression pattern for mission's condition.
+            :param opposite_pattern: regular expression pattern for opposite mission's condition.
+            """
+            self.pattern = f"({pattern}){{e<={self.DEFAULT_ERROR}}}"
+            self._regexp = regex.compile(self.pattern)
+            self.opposite_pattern = f"({opposite_pattern}){{e<={self.DEFAULT_ERROR}}}"
+            self._opposite_regexp = regex.compile(self.opposite_pattern)
+            self.filter = filter
+            self.opposite_filter = opposite_filter
+
+        def get_filter(self, text):
+            if self._regexp.match(text):
+                return self.filter
+            if self._opposite_regexp.match(text):
+                return self.opposite_filter
+
+    class SuperHeroes(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Super Heroes",
+                             opposite_pattern="Clear the stage with less than N Super Heroes",
+                             filter='INVASION_CHARACTER_FILTER_HERO',
+                             opposite_filter='INVASION_CHARACTER_FILTER_VILLAIN')
+
+    class SuperVillain(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Super Villain",
+                             opposite_pattern="Clear the stage with less than N Super Villain",
+                             filter='INVASION_CHARACTER_FILTER_VILLAIN',
+                             opposite_filter='INVASION_CHARACTER_FILTER_HERO')
+
+    class BlastCharacters(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Blast type Characters",
+                             opposite_pattern="Clear the stage with less than N Blast type Characters",
+                             filter='INVASION_CHARACTER_FILTER_BLAST',
+                             opposite_filter='INVASION_CHARACTER_FILTER_ALL')
+
+    class CombatCharacters(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Combat type Characters",
+                             opposite_pattern="Clear the stage with less than N Combat type Characters",
+                             filter='INVASION_CHARACTER_FILTER_COMBAT',
+                             opposite_filter='INVASION_CHARACTER_FILTER_ALL')
+
+    class SpeedCharacters(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Speed type Characters",
+                             opposite_pattern="Clear the stage with less than N Speed type Characters",
+                             filter='INVASION_CHARACTER_FILTER_SPEED',
+                             opposite_filter='INVASION_CHARACTER_FILTER_ALL')
+
+    class UniversalCharacters(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Universal type Characters",
+                             opposite_pattern="Clear the stage with less than N Universal type Characters",
+                             filter='INVASION_CHARACTER_FILTER_UNIVERSAL',
+                             opposite_filter='INVASION_CHARACTER_FILTER_ALL')
+
+    class MaleCharacters(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Male Characters",
+                             opposite_pattern="Clear the stage with less than N Male Characters",
+                             filter='INVASION_CHARACTER_FILTER_MALE',
+                             opposite_filter='INVASION_CHARACTER_FILTER_FEMALE')
+
+    class FemaleCharacters(Mission):
+
+        def __init__(self):
+            super().__init__(pattern="Clear the stage with more than N Female Characters",
+                             opposite_pattern="Clear the stage with less than N Female Characters",
+                             filter='INVASION_CHARACTER_FILTER_FEMALE',
+                             opposite_filter='INVASION_CHARACTER_FILTER_MALE')
 
     def __init__(self, game):
         """Class initialization.
@@ -17,6 +106,7 @@ class WorldBossInvasion(Missions):
         super().__init__(game, 'INVASION_MENU_LABEL')
         self._chests = None
         self._max_chests = None
+        self._boss_mission = None
 
     @property
     def battle_over_conditions(self):
@@ -130,6 +220,21 @@ class WorldBossInvasion(Missions):
             return False
         return True
 
+    def get_boss_mission_text(self):
+        """Get boss's mission text and store it."""
+        image = self.player.get_screen_image(rect=self.ui['INVASION_BOSS_MISSION'].rect)
+        # Low and high values for colors to convert
+        numbers_color = ([100, 100, 0], [255, 255, 30])
+        combat_color = ([100, 30, 20], [255, 50, 30])
+        blast_color = ([0, 100, 100], [30, 255, 255])
+        speed_color = ([0, 100, 0], [30, 255, 30])
+        universal_color = ([100, 40, 100], [255, 70, 255])
+        characters_color = ([120, 100, 0], [180, 255, 30])
+        converted_image = convert_colors_in_image(image=image, colors=[numbers_color, combat_color, blast_color,
+                                                                       characters_color, speed_color, universal_color])
+        self._boss_mission = self.player.get_screen_text(self.ui['INVASION_BOSS_MISSION'], screen=converted_image)
+        logger.debug(f"WBI mission: {self._boss_mission}")
+
     def find_boss_fight(self):
         """Find available boss fight and enter it.
 
@@ -146,6 +251,7 @@ class WorldBossInvasion(Missions):
                     self.player.click_button(boss_ui.button)
                     if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                                   ui_element=self.ui['INVASION_BOSS_FIGHT_ENTER']):
+                        self.get_boss_mission_text()
                         self.player.click_button(self.ui['INVASION_BOSS_FIGHT_ENTER'].button)
                         return True
                     logger.warning(f"Something went wrong with found boss {boss_ui.name}")
@@ -174,15 +280,15 @@ class WorldBossInvasion(Missions):
             return False
         return True
 
-    def press_start_button(self):
+    def press_start_button(self, start_button_ui='INVASION_BOSS_FIGHT_START'):
         """Press start button of the mission.
 
         :return: was button clicked successfully.
         """
         logger.debug(f"Pressing START button.")
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVASION_BOSS_FIGHT_START']):
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[start_button_ui]):
             self.deploy_characters()
-            self.player.click_button(self.ui['INVASION_BOSS_FIGHT_START'].button)
+            self.player.click_button(self.ui[start_button_ui].button)
             if wait_until(self.check_fight_notifications, timeout=10):
                 return True
         if wait_until(self.player.is_ui_element_on_screen, timeout=2,
@@ -198,12 +304,25 @@ class WorldBossInvasion(Missions):
         no_main = self.player.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_MAIN'])
         no_left = self.player.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_LEFT'])
         no_right = self.player.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_RIGHT'])
+        if no_main or no_left or no_right:
+            self.select_character_filter_by_mission()
         if no_main:
             self.player.click_button(self.ui['INVASION_CHARACTER_1'].button)
         if no_left:
             self.player.click_button(self.ui['INVASION_CHARACTER_2'].button)
         if no_right:
             self.player.click_button(self.ui['INVASION_CHARACTER_3'].button)
+
+    def select_character_filter_by_mission(self):
+        """Select character filter by current mission."""
+        missions = [self.SuperHeroes(), self.SuperVillain(), self.MaleCharacters(), self.FemaleCharacters(),
+                    self.CombatCharacters(), self.SpeedCharacters(), self.BlastCharacters(), self.UniversalCharacters()]
+        for mission in missions:
+            characters_filter = mission.get_filter(text=self._boss_mission)
+            if characters_filter:
+                logger.debug(f"WBI: found filter {characters_filter} by {mission.__class__.__name__}")
+                self.player.click_button(self.ui['INVASION_CHARACTER_FILTER'].button, min_duration=1, max_duration=1)
+                self.player.click_button(self.ui[characters_filter].button, min_duration=1, max_duration=1)
 
     def wait_for_players(self):
         """Wait for players before start of the fight."""

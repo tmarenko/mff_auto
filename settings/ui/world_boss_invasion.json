@@ -953,5 +953,226 @@
       "image_save_file": "invasion_no_character_right",
       "description": "Empty right character selector in WBI team setup."
     }
+  },
+  {
+    "INVASION_CHARACTER_FILTER": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.225,
+        "x2": 0.7786458333333334,
+        "y2": 0.2638888888888889
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "invasion_character_filter",
+      "description": "World Boss Invasion: character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_ALL": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.225,
+        "x2": 0.7786458333333334,
+        "y2": 0.2638888888888889
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.225,
+        "x2": 0.7786458333333334,
+        "y2": 0.2638888888888889
+      },
+      "text": "ALL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_all",
+      "description": "DEPRECATED: World Boss Invasion: ALL character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_HERO": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.28703703703703703,
+        "x2": 0.7786458333333334,
+        "y2": 0.32685185185185184
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.28703703703703703,
+        "x2": 0.7786458333333334,
+        "y2": 0.32685185185185184
+      },
+      "text": "HERO",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_hero",
+      "description": "World Boss Invasion: HERO character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_VILLAIN": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.3490740740740741,
+        "x2": 0.7786458333333334,
+        "y2": 0.387037037037037
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.3490740740740741,
+        "x2": 0.7786458333333334,
+        "y2": 0.387037037037037
+      },
+      "text": "SUPER VILLAIN",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_villain",
+      "description": "World Boss Invasion: SUPER VILLAIN character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_MALE": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.4148148148148148,
+        "x2": 0.7786458333333334,
+        "y2": 0.4537037037037037
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.4148148148148148,
+        "x2": 0.7786458333333334,
+        "y2": 0.4537037037037037
+      },
+      "text": "MALE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_male",
+      "description": "World Boss Invasion: MALE character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_FEMALE": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.475,
+        "x2": 0.7786458333333334,
+        "y2": 0.5148148148148148
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.475,
+        "x2": 0.7786458333333334,
+        "y2": 0.5148148148148148
+      },
+      "text": "FEMALE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_female",
+      "description": "World Boss Invasion: FEMALE character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_COMBAT": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.537962962962963,
+        "x2": 0.7786458333333334,
+        "y2": 0.575925925925926
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.537962962962963,
+        "x2": 0.7786458333333334,
+        "y2": 0.575925925925926
+      },
+      "text": "COMBAT",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_combat",
+      "description": "World Boss Invasion: COMBAT character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_SPEED": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.600925925925926,
+        "x2": 0.7786458333333334,
+        "y2": 0.6388888888888888
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.600925925925926,
+        "x2": 0.7786458333333334,
+        "y2": 0.6388888888888888
+      },
+      "text": "SPEED",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_speed",
+      "description": "World Boss Invasion: SPEED character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_BLAST": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.6638888888888889,
+        "x2": 0.7786458333333334,
+        "y2": 0.7037037037037037
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.6638888888888889,
+        "x2": 0.7786458333333334,
+        "y2": 0.7037037037037037
+      },
+      "text": "BLAST",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_blast",
+      "description": "World Boss Invasion: BLAST character filter button."
+    }
+  },
+  {
+    "INVASION_CHARACTER_FILTER_UNIVERSAL": {
+      "text_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.7231481481481481,
+        "x2": 0.7786458333333334,
+        "y2": 0.762962962962963
+      },
+      "button_rect": {
+        "x1": 0.6536458333333334,
+        "y1": 0.7231481481481481,
+        "x2": 0.7786458333333334,
+        "y2": 0.762962962962963
+      },
+      "text": "UNIVERSAL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_character_filter_universal",
+      "description": "World Boss Invasion: UNIVERSAL character filter button."
+    }
+  },
+  {
+    "INVASION_BOSS_MISSION": {
+      "text_rect": {
+        "x1": 0.2873879636122151,
+        "y1": 0.6292941785649052,
+        "x2": 0.7083526182002063,
+        "y2": 0.6930993600773538
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 100,
+      "chars": null,
+      "image_save_file": "invasion_boss_mission",
+      "description": "World Boss Invasion: boss's mission text."
+    }
   }
 ]

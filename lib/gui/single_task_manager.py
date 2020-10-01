@@ -3,7 +3,7 @@ from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.routines import DailyTrivia, ShieldLab, ComicCards, CustomGear
 from lib.game.missions.danger_room import DangerRoom
-from lib.game.missions.invasion import WorldBossInvasion
+from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.gui.threading import ThreadPool
 from lib.gui.helper import safe_process_stop, reset_player_and_logger
