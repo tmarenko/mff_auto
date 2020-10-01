@@ -169,10 +169,12 @@ class DimensionMissions(Missions):
     def acquire_rewards(self):
         """Acquire all Dimension rewards."""
         def is_reward_to_acquire_exists():
+            if self.player.is_ui_element_on_screen(ui_element=self.ui['INVENTORY_FULL']):
+                logger.warning("Dimension Missions: stopping acquiring rewards because inventory is full.")
+                self.player.click_button(self.ui['INVENTORY_FULL'].button)
             return self.player.is_ui_element_on_screen(ui_element=self.ui['DM_ACQUIRE_NEXT_REWARD']) or \
                    self.player.is_ui_element_on_screen(ui_element=self.ui['DM_REWARD_ACQUIRED_OK'])
 
-        # TODO: inventory full check
         logger.info("Dimension Missions: acquiring rewards.")
         if not self.go_to_dm():
             logger.warning("Dimension Mission: can't get in mission lobby.")
