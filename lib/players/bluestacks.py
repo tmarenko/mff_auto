@@ -1,4 +1,5 @@
-﻿from lib.players.android_emulator import AndroidEmulator
+﻿import logging
+from lib.players.android_emulator import AndroidEmulator
 
 BLUESTACKS_EXE = "Bluestacks.exe"
 
@@ -31,4 +32,5 @@ class BlueStacks(AndroidEmulator):
     @property
     def restartable(self):
         """Returns if app can be restarted."""
+        logging.warning(f"{self.name} {self.get_version()}: doesn't support closing apps through shortcuts.")
         return False

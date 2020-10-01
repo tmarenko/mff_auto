@@ -189,8 +189,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         if not self.player.restartable:
             self.restart_game_button.setEnabled(False)
             self.restart_game_button.setText(f"{self.restart_game_button.text()}\n"
-                                             f"[Unavailable in {self.player.__class__.__name__}\n"
-                                             f"{self.player.get_version()}]")
+                                             "[Unavailable (check logs)]")
             self.restart_game_button = None
         self.game = Game(self.player)
         if self.game_app_rect:
