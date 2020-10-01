@@ -13,6 +13,7 @@ from lib.functions import get_text_from_image, is_strings_similar, get_position_
 
 
 ctypes.windll.shcore.SetProcessDpiAwareness(2)  # Set process as high-DPI aware to get actual window's coordinates
+ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000040)  # Prevent Windows going to sleep mode
 
 
 class AndroidEmulator(object):
@@ -72,25 +73,31 @@ class AndroidEmulator(object):
         """Update parent's window rectangle."""
         if not self.parent_hwnd:
             return
-        rect = win32gui.GetWindowRect(self.parent_hwnd)
-        self.parent_x = rect[0]
-        self.parent_y = rect[1]
-        self.parent_width = rect[2] - rect[0]
-        self.parent_height = rect[3] - rect[1]
+        try:
+            rect = win32gui.GetWindowRect(self.parent_hwnd)
+            self.parent_x = rect[0]
+            self.parent_y = rect[1]
+            self.parent_width = rect[2] - rect[0]
+            self.parent_height = rect[3] - rect[1]
+        except pywintypes.error:
+            pass
 
     def _update_rect_from_player_hwnd(self):
         """Update player's window rectangle."""
         if not self.hwnd:
             return
-        rect = win32gui.GetWindowRect(self.hwnd)
-        self.x = rect[0]
-        self.y = rect[1]
-        self.width = rect[2] - rect[0]
-        self.height = rect[3] - rect[1]
-        self.x1 = self.x - self.parent_x
-        self.y1 = self.y - self.parent_y
-        self.x2 = self.width + self.x1
-        self.y2 = self.height + self.y1
+        try:
+            rect = win32gui.GetWindowRect(self.hwnd)
+            self.x = rect[0]
+            self.y = rect[1]
+            self.width = rect[2] - rect[0]
+            self.height = rect[3] - rect[1]
+            self.x1 = self.x - self.parent_x
+            self.y1 = self.y - self.parent_y
+            self.x2 = self.width + self.x1
+            self.y2 = self.height + self.y1
+        except pywintypes.error:
+            pass
 
     def _get_window_info(self, hwnd, wildcard):
         """Get main window info.
