@@ -25,6 +25,9 @@ def check_updates():
 
 
 if __name__ == '__main__':
-    file_logger = logging.create_file_handler()
-    current_version = check_updates()
-    main()
+    try:
+        file_logger = logging.create_file_handler()
+        current_version = check_updates()
+        main()
+    except BaseException as err:
+        logging.root.error(err)
