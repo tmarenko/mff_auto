@@ -311,5 +311,56 @@
       "image_save_file": null,
       "description": "Squad Battle character selector: char #3."
     }
+  },
+  {
+    "SB_NO_CHARACTER_MAIN": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.2686508195201333,
+        "y1": 0.24142290537567399,
+        "x2": 0.3501901591879605,
+        "y2": 0.3738643954953758
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "sb_no_character_main",
+      "description": "Empty main character selector in SB team setup."
+    }
+  },
+  {
+    "SB_NO_CHARACTER_LEFT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.15713044131148954,
+        "y1": 0.25838187667148943,
+        "x2": 0.22913035962542044,
+        "y2": 0.3819400961124308
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "sb_no_character_left",
+      "description": "Empty left character selector in SB team setup."
+    }
+  },
+  {
+    "SB_NO_CHARACTER_RIGHT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.38221535944746915,
+        "y1": 0.2595932317640477,
+        "x2": 0.4526253742024174,
+        "y2": 0.37951738592731427
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "sb_no_character_right",
+      "description": "Empty right character selector in SB team setup."
+    }
   }
 ]

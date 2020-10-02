@@ -137,6 +137,12 @@ class SquadBattles(Missions):
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""
-        self.player.click_button(self.ui['SB_CHARACTER_1'].button)
-        self.player.click_button(self.ui['SB_CHARACTER_2'].button)
-        self.player.click_button(self.ui['SB_CHARACTER_3'].button)
+        no_main = self.player.is_image_on_screen(ui_element=self.ui['SB_NO_CHARACTER_MAIN'])
+        no_left = self.player.is_image_on_screen(ui_element=self.ui['SB_NO_CHARACTER_LEFT'])
+        no_right = self.player.is_image_on_screen(ui_element=self.ui['SB_NO_CHARACTER_RIGHT'])
+        if no_main:
+            self.player.click_button(self.ui['SB_CHARACTER_1'].button)
+        if no_left:
+            self.player.click_button(self.ui['SB_CHARACTER_2'].button)
+        if no_right:
+            self.player.click_button(self.ui['SB_CHARACTER_3'].button)
