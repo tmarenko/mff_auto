@@ -639,6 +639,27 @@
     }
   },
   {
+    "WB_UNAVAILABLE_CHARACTER": {
+      "text_rect": {
+        "x1": 0.474317206324467,
+        "y1": 0.7223434016038928,
+        "x2": 0.5251619603421994,
+        "y2": 0.7861485831163415
+      },
+      "button_rect": {
+        "x1": 0.474317206324467,
+        "y1": 0.7223434016038928,
+        "x2": 0.5251619603421994,
+        "y2": 0.7861485831163415
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "wb_unavailable_character",
+      "description": "Notification when you selected already used character in the battle. Leads to OK button."
+    }
+  },
+  {
     "WB_BOSS_PROXIMA_MIDNIGHT": {
       "text_rect": null,
       "button_rect": {

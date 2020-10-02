@@ -142,6 +142,11 @@ class WorldBosses(Missions):
             self.deploy_characters()
             self.player.click_button(self.ui['WB_SET_TEAM'].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['WB_UNAVAILABLE_CHARACTER']):
+                logger.warning("World Boss: stopping battle because your team has unavailable characters.")
+                self.player.click_button(self.ui['WB_UNAVAILABLE_CHARACTER'].button)
+                return False
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['WB_LOW_VALOR_OR_ATTACK']):
                 self.player.click_button(self.ui['WB_LOW_VALOR_OR_ATTACK'].button)
                 # Second notification about ATK is similar
