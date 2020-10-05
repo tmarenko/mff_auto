@@ -40,7 +40,6 @@ class PlayerProcess(QListWidgetItem):
                 self.player.update_windows_rect()
                 thumbnail = screen_to_gui_image(self.player.get_screen_image())
                 self.setIcon(QIcon(thumbnail))
-                # TODO: if you see black screen then change settings of noxplayer
         except pywintypes.error:
             self.player.hwnd = None
             self.setText(f"{self.text()} (INACTIVE)")
@@ -71,10 +70,13 @@ class SetupPlayer(QDialog, player_design.Ui_Dialog):
     def run_game_setup(self):
         """Start setting up game settings."""
         self.hide()
-        if self.selected_player.restartable:
+        if isinstance(self.selected_player, NoxWindow):
+            self.selected_player.set_config_for_bot()
             self.setup_game = SetupGame(player=self.selected_player)
             self.setup_game.show()
             self.setup_game.exec()
+        if isinstance(self.selected_player, BlueStacks):
+            return
 
     def player_processes(self):
         """Processes iterator."""

@@ -263,6 +263,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.addLayout(self.horizontalLayout_5)
         self.verticalLayout_6.setStretch(1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtWidgets.QMenuBar(MainWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1150, 21))
+        self.menuBar.setObjectName("menuBar")
+        MainWindow.setMenuBar(self.menuBar)
 
         self.retranslateUi(MainWindow)
         self.queue_list_widget.setCurrentRow(-1)

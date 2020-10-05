@@ -50,17 +50,23 @@ class AndroidEmulator(object):
             self.parent_hwnd, self.parent_thread, self.player_key_handle = (None,) * 7
         self.x, self.y, self.width, self.height, self.hwnd, self.key_handle = (None,) * 6
 
-    def get_version(self):
-        if self._version:
-            return self._version
+    def get_process(self):
+        """Get path to process of emulator's executable."""
         try:
             p_hwnd, process_id = win32process.GetWindowThreadProcessId(self.parent_hwnd)
             process = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ, 0, process_id)
             process_exe = win32process.GetModuleFileNameEx(process, 0)
-            self._version = get_file_properties(process_exe).get("FileVersion")
-            return self._version
+            return process_exe
         except pywintypes.error:
             return None
+
+    def get_version(self):
+        """Get emulator's version from properties of .exe file."""
+        if self._version:
+            return self._version
+        process_exe = self.get_process()
+        if process_exe:
+            self._version = get_file_properties(process_exe).get("FileVersion")
 
     def update_windows(self):
         """Update window's handlers."""
