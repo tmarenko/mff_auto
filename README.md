@@ -13,10 +13,10 @@ Also it can enable *Autoplay++* feature anywhere and do your daily routines.
 
 **A**: [NoxPlayer](https://bignox.com) and [BlueStacks](https://www.bluestacks.com).
 
-**Q**: Why are you suggesting NoxPlayer version **6.3.0.5**?
+**Q**: Why are you suggesting to use **NoxPlayer**?
 
-**A**: This version show itself most stable and it has shortcut to force close apps.
- **Shifter's biometric farming is available only on this version!**
+**A**: NoxPlayer has shortcut to force close applications (requires to reset game's state).
+ **Shifter's biometric farming is available only using NoxPlayer!**
 
 ## Video example
 
@@ -24,12 +24,8 @@ Video footage of all game modes running by **mff_auto**: https://youtu.be/QcgZcA
 
 ## Installation
 
-- Install [NoxPlayer 6.3.0.5](http://res06.bignox.com/full/20190723/7806c680dd1e4a66990aea06b6dcbcc9.exe?filename=nox_setup_v6.3.0.5_full_intl.exe)
- (or [BlueStacks](https://www.bluestacks.com))
+- Install [NoxPlayer](https://bignox.com) (or [BlueStacks](https://www.bluestacks.com))
  and then install and run [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb).
-
-- **(Only for NoxPlayer)** Set [NoxPlayer](http://res06.bignox.com/full/20190723/7806c680dd1e4a66990aea06b6dcbcc9.exe?filename=nox_setup_v6.3.0.5_full_intl.exe)
- graphics rendering mode to `Speed (DirectX)`: [Tutorial](https://www.bignox.com/blog/change-graphics-rendering-mode-noxplayer/)
 
 - Set [NoxPlayer](http://res06.bignox.com/full/20190723/7806c680dd1e4a66990aea06b6dcbcc9.exe?filename=nox_setup_v6.3.0.5_full_intl.exe)
  (or [BlueStacks](https://www.bluestacks.com))
@@ -52,9 +48,11 @@ On first start you will see `Setup` window. Follow the instructions in the windo
 
   You can change it manually after or delete `settings/gui/game.json` if you want to run `Setup` again.
 
-- Then you will be asked questions. Read instructions and select `Yes` or `No`.
+- **(Only for NoxPlayer)** Then you will be asked questions. Read instructions and select `Yes` or `No`.
 
-- **(Only for NoxPlayer)** At the end you will be asked to click at **MFF** app in the window. Position of app icon will be stored in `settings/gui/game.json`.
+  At the end you will be asked to click at **MFF** app in the window. Position of app icon will be stored in `settings/gui/game.json`.
+ 
+  You need to **restart NoxPlayer** and **mff_auto** to apply changes.
 
   This will allow **mff_auto** to close and start the game.
   
