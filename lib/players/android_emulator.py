@@ -5,14 +5,18 @@ import win32gui, win32ui, win32process, win32api, win32con
 import random
 import time
 import pywintypes
+from platform import release
 from PIL import Image
 from ctypes import windll
 from numpy import array
 from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
     is_color_similar, r_sleep, get_file_properties
 
-
-ctypes.windll.shcore.SetProcessDpiAwareness(2)  # Set process as high-DPI aware to get actual window's coordinates
+# Set process as high-DPI aware to get actual window's coordinates
+if release() == "10":
+    ctypes.windll.shcore.SetProcessDpiAwareness(2)
+else:
+    ctypes.windll.user32.SetProcessDPIAware()
 ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000040)  # Prevent Windows going to sleep mode
 
 
