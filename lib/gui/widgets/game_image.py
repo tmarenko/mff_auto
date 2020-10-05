@@ -24,6 +24,7 @@ class ScreenImageLabel(Timer):
     def update_image(self):
         """Update image from player and handle player resize."""
         if not self.player.initialized:
+            self.player.update_windows()
             return
         self.player.update_windows_rect()
         screen = self.player.get_screen_image()

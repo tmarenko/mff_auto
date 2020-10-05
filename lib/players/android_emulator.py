@@ -143,10 +143,11 @@ class AndroidEmulator(object):
         :return: True or False.
         """
         hwnd_found = self.hwnd is not None and self.parent_hwnd is not None
+        hwnd_active = win32gui.GetWindowText(self.parent_hwnd) == self.name and win32gui.GetWindowText(self.hwnd) == self.child_name
         keys_found = self.key_handle is not None and self.player_key_handle is not None
         rect_found = self.x is not None and self.y is not None
         parent_found = self.parent_x is not None and self.parent_y is not None
-        return hwnd_found and keys_found and rect_found and parent_found
+        return hwnd_found and hwnd_active and keys_found and rect_found and parent_found
 
     @property
     def is_minimized(self):
