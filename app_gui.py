@@ -1,6 +1,7 @@
 ﻿import lib.logger as logging
 import os
 import sys
+import traceback
 from PyQt5 import QtWidgets, QtCore
 
 
@@ -30,4 +31,4 @@ if __name__ == '__main__':
         current_version = check_updates()
         main()
     except BaseException as err:
-        logging.root.error(err)
+        logging.root.error(f"{err}\n{traceback.format_exc()}")
