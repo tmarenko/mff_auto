@@ -440,6 +440,16 @@ class Game:
         logger.warning("Failed to start game")
         return False
 
+    def close_subscription_selector(self):
+        """Close Biometrics and X-Gene selector window."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['BIOMETRICS_NOTIFICATION']):
+            self.player.click_button(self.ui['BIOMETRICS_NOTIFICATION'].button)
+            return True
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['X_GENE_NOTIFICATION']):
+            self.player.click_button(self.ui['X_GENE_NOTIFICATION'].button)
+            return True
+        return False
+
     def close_alliance_conquest(self):
         """Close Alliance Conquest notice window."""
         if self.player.is_ui_element_on_screen(ui_element=self.ui['ALLIANCE_CONQUEST_NOTIFICATION']):
@@ -497,7 +507,8 @@ class Game:
             return close_ad(self.ui['MAIN_MENU_AD']) or \
                    close_ad(self.ui['MAIN_MENU_AD_2']) or \
                    close_ad(self.ui['MAIN_MENU_AD_3']) or \
-                   close_ad(self.ui['MAIN_MENU_AD_4'])
+                   close_ad(self.ui['MAIN_MENU_AD_4']) or \
+                   self.close_subscription_selector()
 
         result = False
         for _ in range(timeout):

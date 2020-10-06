@@ -315,7 +315,8 @@ class Missions:
         def close_notifications():
             return self.game.close_complete_challenge_notification() or \
                    self.close_heroic_quest_notification() or \
-                   self.close_epic_quest_notification()
+                   self.close_epic_quest_notification() or \
+                   self.game.close_subscription_selector()
 
         for _ in range(timeout):
             notification_closed = wait_until(close_notifications, timeout=1)

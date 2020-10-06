@@ -910,6 +910,48 @@
       "image_save_file": "epic_quest_missions",
       "description": "The EPIC QUEST selector in mission selector."
     }
+  },
+  {
+    "BIOMETRICS_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.3050899618978798,
+        "y1": 0.7138398630534284,
+        "x2": 0.38801468845322745,
+        "y2": 0.7728085574927868
+      },
+      "button_rect": {
+        "x1": 0.33972815157164565,
+        "y1": 0.8512830392436328,
+        "x2": 0.6560124302407757,
+        "y2": 0.9350273399787217
+      },
+      "text": "SELECT",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "biometrics_notification",
+      "description": "Notification of Biometrics subscription."
+    }
+  },
+  {
+    "X_GENE_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.6109001729995523,
+        "y1": 0.7102442109534672,
+        "x2": 0.6942294104161457,
+        "y2": 0.7749659487527633
+      },
+      "button_rect": {
+        "x1": 0.33972815157164565,
+        "y1": 0.8512830392436328,
+        "x2": 0.6560124302407757,
+        "y2": 0.9350273399787217
+      },
+      "text": "SELECT",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "x_gene_notification",
+      "description": "Notification of X-Gene subscription."
+    }
   }
 ]
 
