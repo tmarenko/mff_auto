@@ -387,13 +387,18 @@ class Game:
                     r_sleep(1)
                     return True
 
-    def restart_game(self):
+    def restart_game(self, repeat_while=None):
         """Restart game.
 
-        :return: True or Flase: was restart successful.
+        :param repeat_while: repeat closing game if condition is True.
+        :return: True or False: was restart successful.
         """
         if self.player.restartable:
             self.close_game()
+            if repeat_while:
+                while repeat_while():
+                    r_sleep(1)
+                    self.close_game()
             return self.start_game()
         logger.warning(f"Current player {self.player.__class__.__name__} "
                        f"version {self.player.get_version()} does not support closing apps.")

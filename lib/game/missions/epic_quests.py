@@ -44,7 +44,7 @@ class EpicQuests(Missions):
             return stage_num
         elif farm_shifter_bios and not ally_appeared:
             logger.info("No ally, restarting")
-            if not self.game.restart_game():
+            if not self.game.restart_game(repeat_while=auto_battle_bot.is_battle):
                 return 0
             self.game.select_mode(self.mode_name)
         return stage_num
