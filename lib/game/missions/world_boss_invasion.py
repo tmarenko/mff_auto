@@ -135,8 +135,9 @@ class WorldBossInvasion(Missions):
                 self._max_chests = times
             if self.chests < self.max_chests and self.find_boss_fight():
                 while self.chests < self.max_chests:
-                    if self.press_start_button():
-                        self.wait_for_players()
+                    if not self.press_start_button():
+                        return
+                    self.wait_for_players()
         logger.info("No more stages for World Boss Invasions.")
 
     def end_missions(self):
@@ -291,6 +292,11 @@ class WorldBossInvasion(Missions):
             self.player.click_button(self.ui[start_button_ui].button)
             if wait_until(self.check_fight_notifications, timeout=10):
                 return True
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['INVASION_NO_CHEST_SLOTS']):
+                logger.warning("World Boss Invasion: no slots for chests. Exiting.")
+                self.player.click_button(self.ui['INVASION_NO_CHEST_SLOTS'].button)
+                return False
         if wait_until(self.player.is_ui_element_on_screen, timeout=2,
                       ui_element=self.ui['DISCONNECT_NEW_OPPONENT']):
             logger.debug("Found disconnect notification. Trying to start again.")

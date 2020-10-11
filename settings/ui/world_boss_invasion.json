@@ -1174,5 +1174,26 @@
       "image_save_file": "invasion_boss_mission",
       "description": "World Boss Invasion: boss's mission text."
     }
+  },
+  {
+    "INVASION_NO_CHEST_SLOTS": {
+      "text_rect": {
+        "x1": 0.41225669774399937,
+        "y1": 0.5083301886142213,
+        "x2": 0.58497931801012,
+        "y2": 0.5814402924305687
+      },
+      "button_rect": {
+        "x1": 0.38085258496834107,
+        "y1": 0.7263312254484209,
+        "x2": 0.4660923196451279,
+        "y2": 0.7821607592718134
+      },
+      "text": "Continue anyway?",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "invasion_no_chest_slots",
+      "description": "World Boss Invasion: no more chest slots notification. Lead to CANCEL button."
+    }
   }
 ]
