@@ -119,7 +119,7 @@ def safe_process_stop(func):
             func(*args, **kwargs)
         except AttributeError:
             sleep(1)
-            return func(*args, **kwargs)
+            return wrapper(*args, **kwargs)
     return wrapper
 
 
