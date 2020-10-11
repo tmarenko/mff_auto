@@ -148,6 +148,54 @@
     }
   },
   {
+    "AB_CHARACTER_4": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6694713357160579,
+        "y1": 0.5109887378439065,
+        "x2": 0.7143343539669984,
+        "y2": 0.597391587808681
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Alliance Battle character selector: char #4."
+    }
+  },
+  {
+    "AB_CHARACTER_5": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7599450891887879,
+        "y1": 0.5136472870735921,
+        "x2": 0.8003218056146343,
+        "y2": 0.5947330385789954
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Alliance Battle character selector: char #5."
+    }
+  },
+  {
+    "AB_CHARACTER_6": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8526619935740648,
+        "y1": 0.5216229347626482,
+        "x2": 0.8922909930290622,
+        "y2": 0.597391587808681
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Alliance Battle character selector: char #6."
+    }
+  },
+  {
     "AB_YOUR_SCORE": {
       "text_rect": {
         "x1": 0.23385416666666667,
@@ -265,6 +313,27 @@
       "chars": null,
       "image_save_file": "ab_restart_cancel_button",
       "description": "CANCEL button when battle is lost."
+    }
+  },
+  {
+    "AB_NO_CHARACTERS": {
+      "text_rect": {
+        "x1": 0.3000991521166482,
+        "y1": 0.4365493594127165,
+        "x2": 0.6941459957540752,
+        "y2": 0.51763511091812
+      },
+      "button_rect": {
+        "x1": 0.477308074207863,
+        "y1": 0.7289897746781062,
+        "x2": 0.5221710924588034,
+        "y2": 0.7821607592718134
+      },
+      "text": "3 characters are required for an Alliance Battle.",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "AB_NO_CHARACTERS",
+      "description": "Notification when you haven't deployed all 3 characters to Alliance Battle. Leads to OK button."
     }
   }
 ]

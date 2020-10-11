@@ -83,6 +83,10 @@ class AllianceBattles(Missions):
             r_sleep(2)
             self.deploy_characters()
             self.player.click_button(self.ui[start_button].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['AB_NO_CHARACTERS']):
+                logger.warning("Alliance Battle: no available 3 characters were found. Exiting.")
+                self.player.click_button(self.ui['AB_NO_CHARACTERS'].button)
+                return
             ManualBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_mission_notifications()
             self.player.click_button(self.ui[home_or_next_button].button)
@@ -91,12 +95,17 @@ class AllianceBattles(Missions):
 
     def deploy_characters(self):
         """Deploy 3 characters to battle."""
-        no_main = self.player.is_image_on_screen(ui_element=self.ui['AB_NO_CHARACTER_MAIN'])
-        no_left = self.player.is_image_on_screen(ui_element=self.ui['AB_NO_CHARACTER_LEFT'])
-        no_right = self.player.is_image_on_screen(ui_element=self.ui['AB_NO_CHARACTER_RIGHT'])
-        if no_main:
-            self.player.click_button(self.ui['AB_CHARACTER_1'].button)
-        if no_left:
-            self.player.click_button(self.ui['AB_CHARACTER_2'].button)
-        if no_right:
-            self.player.click_button(self.ui['AB_CHARACTER_3'].button)
+        def deploy_character(character_slot, character, additional_character):
+            if self.player.is_image_on_screen(ui_element=self.ui[character_slot]):
+                logger.debug(f"Deploying character {character}.")
+                self.player.click_button(self.ui[character].button)
+                if self.player.is_image_on_screen(ui_element=self.ui[character_slot]):
+                    logger.debug(f"Deploying additional character {additional_character}.")
+                    self.player.click_button(self.ui[additional_character].button)
+
+        deploy_character(character_slot='AB_NO_CHARACTER_MAIN', character='AB_CHARACTER_1',
+                         additional_character='AB_CHARACTER_4')
+        deploy_character(character_slot='AB_NO_CHARACTER_LEFT', character='AB_CHARACTER_2',
+                         additional_character='AB_CHARACTER_5')
+        deploy_character(character_slot='AB_NO_CHARACTER_RIGHT', character='AB_CHARACTER_3',
+                         additional_character='AB_CHARACTER_6')
