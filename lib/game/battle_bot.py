@@ -320,7 +320,7 @@ class ManualBattleBot(BattleBot):
             t3_percentage_text = self.player.get_screen_text(self.t3_skill.skill_ui)
             is_t3 = t3_percentage_regexp.fullmatch(t3_percentage_text)
             if not self.awakening_skill.locked and not is_t3:
-                logger.debug("Cannot find T3 percentage. Assuming 6th skill as Awakening.")
+                logger.debug(f"Cannot find T3 percentage (got {t3_percentage_text}). Assuming 6th skill as Awakening.")
                 self.awakening_skill.check_skill_is_ready(forced=True)
                 self.cached_available_skill = self.awakening_skill
                 self.t3_skill._skill_locked = True

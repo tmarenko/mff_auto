@@ -680,7 +680,7 @@
         "y2": 0.9518518518518518
       },
       "text": "TAP THE SCREEN",
-      "image_threshold": 110,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "tap_the_screen",
       "description": "TAP THE SCREEN button when you see cutscene of fighting the enemy."
