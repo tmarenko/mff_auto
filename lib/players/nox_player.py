@@ -16,7 +16,7 @@ OLD_VERSION_INDEX = 8
 class NoxWindow(AndroidEmulator):
     """Class for working with NoxPlayer emulator."""
 
-    def __init__(self, name="NoxPlayer", child_name="ScreenBoardClassWindow", key_handle_name="Form"):
+    def __init__(self, name="NoxPlayer", child_name="ScreenBoardClassWindow", key_handle_name="main_title_barWindow"):
         """Class initialization.
 
         :param name: main window's name of the player.
@@ -32,14 +32,13 @@ class NoxWindow(AndroidEmulator):
         :param hwnd: window handle.
         :param wildcard: wildcard.
         """
-        if self.parent_thread and self.key_handle_name in win32gui.GetWindowText(hwnd):
-            # Checking if handler is child of main window.
-            if win32process.GetWindowThreadProcessId(hwnd)[0] == self.parent_thread[0]:
-                self.key_handle = hwnd
+        if self.key_handle_name == win32gui.GetWindowText(hwnd):
+            self.key_handle = hwnd
 
     def close_current_app(self):
         """Close current opened app in player."""
-        autoit.control_send_by_handle(self.player_key_handle, self.player_key_handle, f"^{self.close_app_shortcut}")
+        hwnd = self.key_handle if self.key_handle else self.player_key_handle
+        autoit.control_send_by_handle(hwnd, hwnd, f"^{self.close_app_shortcut}")
 
     def update_windows(self):
         """Update window's handlers."""

@@ -22,7 +22,7 @@ class BlueStacks(AndroidEmulator):
         :param hwnd: window handle.
         :param wildcard: wildcard.
         """
-        if self.parent_thread and self.parent_hwnd:
+        if self.parent_hwnd:
             self.key_handle = self.parent_hwnd
 
     def close_current_app(self):

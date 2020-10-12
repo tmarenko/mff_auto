@@ -71,7 +71,7 @@ class AndroidEmulator(object):
     def update_windows(self):
         """Update window's handlers."""
         win32gui.EnumWindows(self._get_window_info, None)
-        win32gui.EnumWindows(self._get_key_layout_handle, None)
+        win32gui.EnumChildWindows(self.parent_hwnd, self._get_key_layout_handle, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_player_window_info, None)
 
     def update_windows_rect(self):
