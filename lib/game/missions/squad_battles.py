@@ -133,6 +133,8 @@ class SquadBattles(Missions):
     def press_repeat_button(self, repeat_button_ui='SB_REPEAT_BUTTON', start_button_ui=None):
         """Press repeat button of the mission."""
         self.player.click_button(self.ui[repeat_button_ui].button)
+        while any([condition() for condition in self.battle_over_conditions]):
+            self.player.click_button(self.ui[repeat_button_ui].button, min_duration=1, max_duration=1)
         return wait_until(self.player.is_ui_element_on_screen, timeout=10, ui_element=self.ui['SB_LABEL'])
 
     def deploy_characters(self):
