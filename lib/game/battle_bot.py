@@ -21,6 +21,10 @@ class BattleBot:
         self._is_battle_cached = None
         self._battle_over_conditions = battle_over_conditions if battle_over_conditions else []
         self._disconnect_conditions = disconnect_conditions if disconnect_conditions else []
+        self._skip_tap_screen_high = self.ui['SKIP_TAP_THE_SCREEN'].copy()
+        self._skip_tap_screen_high.threshold += 20
+        self._skip_tap_screen_low = self.ui['SKIP_TAP_THE_SCREEN'].copy()
+        self._skip_tap_screen_low.threshold -= 20
 
     def is_battle(self):
         """Check if battle is going.
@@ -52,8 +56,13 @@ class BattleBot:
         if self.player.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']):
             logger.debug("Skipping cutscene.")
             self.player.click_button(self.ui['SKIP_CUTSCENE'].button)
-        if wait_until(self.player.is_ui_element_on_screen, timeout=0.2, period=0.1,
-                      ui_element=self.ui['SKIP_TAP_THE_SCREEN']):
+        self.skip_tap_the_screen()
+
+    def skip_tap_the_screen(self):
+        """Skip TAP SCREEN battle cutscene."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']) or \
+                self.player.is_ui_element_on_screen(ui_element=self._skip_tap_screen_high) or \
+                self.player.is_ui_element_on_screen(ui_element=self._skip_tap_screen_low):
             logger.debug("Skipping TAP THE SCREEN.")
             self.player.click_button(self.ui['SKIP_TAP_THE_SCREEN'].button)
 
@@ -75,10 +84,9 @@ class AutoBattleBot(BattleBot):
             logger.debug("Found AUTO PLAY toggle inactive. Clicking it.")
             self.player.click_button(self.ui['AUTOPLAY_TOGGLE'].button)
         while not self.is_battle_over():
-            if self.is_battle():
-                r_sleep(0.75)
-            else:
+            if not self.is_battle():
                 self.skip_cutscene()
+            r_sleep(0.75)
         r_sleep(1)  # Wait for end of the battle animations
         logger.info("Battle is over")
 
@@ -276,6 +284,7 @@ class ManualBattleBot(BattleBot):
                         self.move_character()
             else:
                 self.skip_cutscene()
+                r_sleep(0.75)
         r_sleep(1)  # Wait for end of the battle animations
         logger.info("Battle is over")
 
