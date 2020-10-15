@@ -72,6 +72,10 @@ class AutoBattleBot(BattleBot):
 
     def fight(self):
         """Start battle and wait until the end."""
+        if self.is_battle_over():
+            logger.info("Battle is already over")
+            return
+
         def wait_battle():
             self.skip_cutscene()
             return self.is_battle()

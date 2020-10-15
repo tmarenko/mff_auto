@@ -28,25 +28,24 @@ class EpicQuests(Missions):
             self.player.click_button(stage_button)
             wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['START_BUTTON'])
         if not self.press_start_button():
-            logger.error(f"Cannot start Epic Quest stage {stage_button}, exiting.")
+            logger.error(f"Cannot start Epic Quest stage {self.mode_name}, exiting.")
             return 0
         auto_battle_bot = AutoBattleBot(self.game, self.battle_over_conditions)
         ally_appeared = auto_battle_bot.wait_until_shifter_appeared() if farm_shifter_bios else True
-        if ally_appeared:
-            auto_battle_bot.fight()
-            stage_num -= 1
-            logger.debug(f"{stage_num} stages left to complete")
-            self.close_mission_notifications()
-            if stage_num > 0:
-                self.press_repeat_button()
-            else:
-                self.press_home_button()
-            return stage_num
-        elif farm_shifter_bios and not ally_appeared:
+        if farm_shifter_bios and not ally_appeared:
             logger.info("No ally, restarting")
-            if not self.game.restart_game(repeat_while=auto_battle_bot.is_battle):
-                return 0
-            self.game.select_mode(self.mode_name)
+            if self.game.restart_game(repeat_while=auto_battle_bot.is_battle):
+                self.game.select_mode(self.mode_name)
+                return stage_num
+
+        auto_battle_bot.fight()
+        stage_num -= 1
+        logger.debug(f"{stage_num} stages left to complete")
+        self.close_mission_notifications()
+        if stage_num > 0:
+            self.press_repeat_button()
+        else:
+            self.press_home_button()
         return stage_num
 
     def do_missions(self, times=None, farm_shifter_bios=False):
