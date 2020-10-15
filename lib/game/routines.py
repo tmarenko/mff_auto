@@ -1,5 +1,6 @@
 import lib.logger as logging
 from math import ceil
+from lib.game.missions.missions import Missions
 from lib.functions import wait_until, is_strings_similar, r_sleep
 from lib.game.ui import load_daily_trivia
 
@@ -198,14 +199,15 @@ class EnhancePotential:
             return
 
 
-class ComicCards:
+class ComicCards(Missions):  # TODO: remove Missions inheritance
     """Class for working with Comic Cards."""
 
-    def __init__(self, game):
+    def __init__(self, game, mode_label=""):
         """Class initialization.
 
         :param lib.game.Game game: instance of the game.
         """
+        super().__init__(game, mode_label)
         self.game = game
         self.player = game.player
         self.ui = game.ui
@@ -236,6 +238,7 @@ class ComicCards:
                         continue
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL_CANCEL']):
             self.player.click_button(self.ui['CARDS_UPGRADE_ALL_CANCEL'].button)
+            self.close_after_mission_notifications()
             self.game.go_to_main_menu()
 
 
