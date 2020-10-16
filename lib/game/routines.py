@@ -242,14 +242,15 @@ class ComicCards(Missions):  # TODO: remove Missions inheritance
             self.game.go_to_main_menu()
 
 
-class CustomGear:
+class CustomGear(Missions):  # TODO: remove Missions inheritance
     """Class for working with Custom Gear."""
 
-    def __init__(self, game):
+    def __init__(self, game, mode_label=""):
         """Class initialization.
 
         :param lib.game.Game game: instance of the game.
         """
+        super().__init__(game, mode_label)
         self.game = game
         self.player = game.player
         self.ui = game.ui
@@ -327,6 +328,7 @@ class CustomGear:
                 self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1'].button)
             if self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2']):
                 self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2'].button)
+            self.close_after_mission_notifications()
         if is_results_window() or not self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_SELL_ALL']):
             return self.close_upgrade_result()
         logger.debug("Custom Gear: successfully upgraded custom gear.")
