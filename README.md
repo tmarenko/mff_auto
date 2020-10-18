@@ -64,7 +64,7 @@ On first start you will see `Setup` window. Follow the instructions in the windo
 
 - `Missions Queue` allows you to add, edit or remove available missions in **mff_auto**.
 
-  `Run` button will run all checked missions from top to button.
+  `Run` button will run all checked missions from top to bottom.
   
 - `Setting` allows you to edit available settings.
 
