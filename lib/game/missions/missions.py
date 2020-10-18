@@ -188,8 +188,6 @@ class Missions:
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.player.click_button(self.ui[repeat_button_ui].button)
         while not self.player.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
-            while any([condition() for condition in self.battle_over_conditions]):
-                self.player.click_button(self.ui[repeat_button_ui].button, min_duration=1, max_duration=1)
             self.close_after_mission_notifications(timeout=1)
         return True
 
