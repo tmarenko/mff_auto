@@ -1,3 +1,3 @@
-﻿mff_auto = "0.6.4"
+﻿mff_auto = "0.6.5"
 mff = "6.4.1"
 updater = "1.1.0"
