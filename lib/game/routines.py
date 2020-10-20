@@ -1,5 +1,6 @@
 import lib.logger as logging
 from math import ceil
+from random import randint
 from lib.game.missions.missions import Missions
 from lib.functions import wait_until, is_strings_similar, r_sleep
 from lib.game.ui import load_daily_trivia
@@ -62,6 +63,14 @@ class DailyTrivia:
                             return True
                         else:
                             logger.error("Something went wrong after selecting correct answer.")
+            else:
+                logger.error("No available answers was found for trivia question.")
+                random_answer = randint(1, 4)
+                random_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{random_answer}']
+                logger.warning(f"Selecting random answer: {random_answer}.")
+                self.player.click_button(random_answer_ui.button)
+                return True
+
         logger.error(f"Can find answer for question: {question}")
         return False
 
