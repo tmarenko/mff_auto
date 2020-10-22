@@ -1,5 +1,5 @@
 import re
-from lib.functions import wait_until, is_strings_similar, r_sleep
+from lib.functions import wait_until, is_strings_similar, r_sleep, confirm_condition_by_time
 from lib.game import ui
 from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count
@@ -429,17 +429,9 @@ class Game:
                 self.close_ads(timeout=1)
             return is_main_menu
 
-        def game_started(confirm_timeout=3):
-            results = []
-            for _ in range(confirm_timeout * 2):
-                result = is_game_started()
-                results.append(result)
-                r_sleep(0.5)
-            return all(results)
-
         logger.debug("Starting game.")
         self.player.click_button(self.ui['GAME_APP'].button)
-        if wait_until(game_started, timeout=120):
+        if wait_until(confirm_condition_by_time, confirm_condition=is_game_started, timeout=120):
             logger.debug("Game started successfully.")
             return True
         logger.warning("Failed to start game")

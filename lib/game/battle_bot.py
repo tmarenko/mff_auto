@@ -1,7 +1,7 @@
 import re
 import lib.logger as logging
 from itertools import cycle
-from lib.functions import wait_until, r_sleep
+from lib.functions import wait_until, r_sleep, confirm_condition_by_time
 
 logger = logging.get_logger(__name__)
 t3_percentage_regexp = re.compile(r"([0-9][0-9]?\.?[0-9]? ?%?)")
@@ -72,7 +72,7 @@ class AutoBattleBot(BattleBot):
 
     def fight(self):
         """Start battle and wait until the end."""
-        if self.is_battle_over():
+        if confirm_condition_by_time(confirm_condition=self.is_battle_over):
             logger.info("Battle is already over")
             return
 
@@ -92,6 +92,9 @@ class AutoBattleBot(BattleBot):
                 self.skip_cutscene()
             r_sleep(0.75)
         r_sleep(1)  # Wait for end of the battle animations
+        # Check for possible notifications after end of the battle
+        if not wait_until(confirm_condition_by_time, confirm_condition=self.is_battle_over, timeout=10):
+            return self.fight()
         logger.info("Battle is over")
 
     def wait_until_shifter_appeared(self):

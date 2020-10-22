@@ -252,3 +252,19 @@ def convert_colors_in_image(image, colors, color_to_convert=(255, 255, 255), blu
     if blur_result:
         image = cv2.blur(image, blur_result)
     return image
+
+
+def confirm_condition_by_time(confirm_condition, confirm_timeout=3, confirm_period=0.5):
+    """Confirms that given condition is always True for given amount of time.
+
+    :param confirm_condition: function to confirm.
+    :param confirm_timeout: timeout for confirm.
+    :param confirm_period: how much time wait to check condition.
+
+    :return: True or False: was condition always True for given timeout or not.
+    """
+    results = []
+    for _ in range(int(confirm_timeout / confirm_period)):
+        results.append(confirm_condition())
+        r_sleep(confirm_period)
+    return all(results)
