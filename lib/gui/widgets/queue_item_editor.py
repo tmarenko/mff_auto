@@ -17,6 +17,7 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.game.missions.world_bosses import WorldBosses
+from lib.game.routines import DailyTrivia, ComicCards, CustomGear, ShieldLab, WaitUntil
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -49,6 +50,8 @@ class QueueItem(QListWidgetItem):
             if parameters["all_stages"] is True:
                 parameters.pop("times")  # Remove `times` kwarg if doing All stages
             parameters.pop("all_stages")  # Remove `all_stages` kwarg anyway
+        if "action" in parameters.keys():
+            parameters.pop("action")
         return parameters
 
     def get_executor(self):
@@ -70,6 +73,8 @@ class QueueItem(QListWidgetItem):
     @property
     def name(self):
         """Get queue item's name for GUI."""
+        if self.parameters.get("action"):
+            return f"[Action] {self.mode_name.title()}"
         additional_text = ''
         farm_bios = self.parameters.get("farm_shifter_bios")
         battle = self.parameters.get("battle")
@@ -140,6 +145,16 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         mysterious_ambush = _MysteriousAmbush(game)
         monastery_in_trouble = _MonasteryInTrouble(game)
         power_of_the_dark = _PowerOfTheDark(game)
+        restart_game = _RestartGame(game)
+        daily_trivia = _DailyTrivia(game)
+        comic_cards = _ComicCards(game)
+        custom_gear = _CustomGear(game)
+        collect_antimatter = _CollectAntiMatter(game)
+        wait_boost_points = _WaitBoostPoints(game)
+        wait_max_energy = _WaitMaxEnergy(game)
+        wait_daily_reset = _WaitDailyReset(game)
+        self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, wait_boost_points,
+                        wait_max_energy, wait_daily_reset]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -147,13 +162,15 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
                       danger_room, dangerous_sisters, cosmic_rider, quantum_power, wings_of_darkness, inhuman_princess,
                       mean_and_green, clobbering_time, hothead, aw_man_this_guy, domino_falls, going_rogue,
                       friends_and_enemies, weathering_the_storm, blindsided, dark_advent, increasing_darkness,
-                      road_to_monastery, mysterious_ambush, monastery_in_trouble, power_of_the_dark]
+                      road_to_monastery, mysterious_ambush, monastery_in_trouble, power_of_the_dark,
+                      *self.actions]
         self.mode_names = [mode.mode_name for mode in self.modes]
         self.queue_item = None
         self.current_mode = None
         self.editor_button_box.accepted.connect(self.render_queue_item)
 
         menu_dict = {
+            "[ACTIONS]": self.actions,
             "EPIC QUESTS": {
                 "GALACTIC IMPERATIVE": [fate_of_the_universe, the_fault, dangerous_sisters, cosmic_rider, quantum_power,
                                         wings_of_darkness],
@@ -434,6 +451,93 @@ class GameMode:
         for setting in self.mode_settings:
             if setting.setting_key in params.keys():
                 setting.value = params[setting.setting_key]
+
+
+class Action(GameMode):
+    """Class for working with non-mission actions."""
+
+    def __init__(self, game, action_name, action_executable):
+        """Class initialization.
+
+        :param lib.game.game.Game game: instance of game.
+        :param str action_name: name of action.
+        :param action_executable: function to execute.
+        """
+        super().__init__(game, action_name, None)
+        self.action_executable = action_executable
+
+    def render_executable(self):
+        """Render function and settings for action."""
+        action_executable = self.action_executable  # Only function without class reference (GUI cannot be pickled)
+
+        @reset_player_and_logger(game=self.game)
+        def action(*args, **kwargs):
+            return action_executable(*args, **kwargs)
+
+        return action, {**self.render_execution_params(), "action": True}
+
+
+class _RestartGame(Action):
+
+    def __init__(self, game):
+        super().__init__(game, "RESTART GAME", game.restart_game)
+
+
+class _DailyTrivia(Action):
+
+    def __init__(self, game):
+        self.daily_trivia = DailyTrivia(game)
+        super().__init__(game, "DAILY TRIVIA", self.daily_trivia.do_trivia)
+
+
+class _ComicCards(Action):
+
+    def __init__(self, game):
+        self.comic_cards = ComicCards(game)
+        super().__init__(game, "COMIC CARDS: UPGRADE ALL", self.comic_cards.upgrade_all_cards)
+
+
+class _CustomGear(Action):
+
+    def __init__(self, game):
+        self.custom_gear = CustomGear(game)
+        super().__init__(game, "CUSTOM GEAR: UPGRADE", self.custom_gear.quick_upgrade_gear)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many time to upgrade"))
+
+
+class _CollectAntiMatter(Action):
+
+    def __init__(self, game):
+        self.shield_lab = ShieldLab(game)
+        super().__init__(game, "SHIELD LAB: COLLECT ANTI-MATTER", self.shield_lab.collect_antimatter)
+
+
+class _WaitBoostPoints(Action):
+
+    def __init__(self, game):
+        self.wait_until = WaitUntil(game)
+        super().__init__(game, "WAIT FOR BOOST POINTS", self.wait_until.wait_until_boost_points)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="value",
+                                                       text="Wait until boost points value is equal or greater than",
+                                                       initial_value=100,
+                                                       max=9999))
+
+
+class _WaitMaxEnergy(Action):
+
+    def __init__(self, game):
+        self.wait_until = WaitUntil(game)
+        super().__init__(game, "WAIT FOR MAX ENERGY", self.wait_until.wait_until_max_energy)
+
+
+class _WaitDailyReset(Action):
+
+    def __init__(self, game):
+        self.wait_until = WaitUntil(game)
+        super().__init__(game, "WAIT DAILY RESET", self.wait_until.wait_until_daily_reset)
 
 
 class _LegendaryBattle(GameMode):
