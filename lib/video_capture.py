@@ -50,6 +50,17 @@ class NoxPlayerSource:
         self.player = player
         self.player.screen_elements = []
         self.font = ImageFont.load_default()
+        self._decorate()
+
+    def _decorate(self):
+        logger.debug("Decorating function for video capture.")
+        self._get_screen_text = self.player.get_screen_text
+        self._get_image_from_image = self.player.get_image_from_image
+        self._is_ui_element_on_screen = self.player.is_ui_element_on_screen
+        self._is_image_on_screen = self.player.is_image_on_screen
+        self._PostMessage = win32api.PostMessage
+        self._control_click_by_handle = autoit.control_click_by_handle
+
         self.player.get_screen_text = self.get_screen_text_decorator(self.player, self.player.get_screen_text)
         self.player.get_image_from_image = self.get_image_from_image_decorator(self.player,
                                                                                self.player.get_image_from_image)
@@ -60,6 +71,15 @@ class NoxPlayerSource:
         win32api.PostMessage = self.win32api_post_message_decorator(self.player, win32api.PostMessage)
         autoit.control_click_by_handle = self.control_click_by_handle_decorator(self.player,
                                                                                 autoit.control_click_by_handle)
+
+    def undecorate(self):
+        logger.debug("Reverting functions to original state.")
+        self.player.get_screen_text = self._get_screen_text
+        self.player.get_image_from_image = self._get_image_from_image
+        self.player.is_ui_element_on_screen = self._is_ui_element_on_screen
+        self.player.is_image_on_screen = self._is_image_on_screen
+        win32api.PostMessage = self._PostMessage
+        autoit.control_click_by_handle = self._control_click_by_handle
 
     def frame(self):
         """Get frame from Nox Player.
@@ -183,10 +203,13 @@ class NoxVideoWriter:
         # use this link for example: http://ciscobinary.openh264.org/openh264-1.8.0-win32.dll.bz2
         self.video_writer = cv2.VideoWriter(f'{output}.mp4', fourcc, fps, (self.source.player.width,
                                                                            self.source.player.height))
+        logger.info(f"Creating video capture with name '{output}.mp4'; "
+                    f"{self.source.player.width}x{self.source.player.height}@{fps}")
 
     def release(self):
         """Release video writer."""
         self.video_writer.release()
+        self.source.undecorate()
         cv2.destroyAllWindows()
 
     def frame(self):
@@ -245,6 +268,7 @@ class NoxCapture:
         """Stop capturing."""
         logger.debug("Stopping video capture.")
         self.video_capture.release()
+        self._pause = True
 
     def pause(self):
         """Pause capturing."""
