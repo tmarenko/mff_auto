@@ -1,6 +1,10 @@
+import urllib.request as request
+import json
 import lib.logger as logging
+from datetime import datetime
 from math import ceil
 from random import randint
+from time import sleep
 from lib.game.missions.missions import Missions
 from lib.functions import wait_until, is_strings_similar, r_sleep
 from lib.game.ui import load_daily_trivia
@@ -347,3 +351,44 @@ class CustomGear(Missions):  # TODO: remove Missions inheritance
         if self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION']):
             self.player.click_button(self.ui['CUSTOM_GEAR_1'].button)
         return not self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION'])
+
+
+class WaitUntil:
+    """Class for working with waiting different events."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param lib.game.Game game: instance of the game.
+        """
+        self.game = game
+        self.player = game.player
+        self.ui = game.ui
+
+    def wait_until_boost_points(self, value=100):
+        """Wait until boost points value is equal or greater then given amount.
+
+        :param value: value for boost pints.
+        """
+        logger.debug(f"Current Boost points: {self.game.boost}, waiting until: {value}")
+        while int(self.game.boost) < value:
+            sleep(90)
+        logger.debug(f"Current Boost points: {self.game.boost}, done.")
+
+    def wait_until_max_energy(self):
+        """wait until energy is max out."""
+        logger.debug(f"Current energy: {self.game.energy}, waiting until: {self.game.energy_max}")
+        while int(self.game.energy) < int(self.game.energy_max):
+            sleep(120)
+        logger.debug(f"Current energy: {self.game.energy}, done.")
+
+    def wait_until_daily_reset(self):
+        """Wait until game's daily reset."""
+        with request.urlopen("http://worldtimeapi.org/api/timezone/Etc/UTC") as url_data:
+            content = url_data.read()
+            time_data = json.loads(content)
+        current_time = datetime.strptime(time_data['datetime'][:-6], '%Y-%m-%dT%H:%M:%S.%f')
+        logger.debug(f"Current time is {current_time} (UTC timezone), waiting until 3 PM.")
+        while current_time.hour < 15:
+            sleep(60)
+        logger.debug(f"Current time is {current_time}, done.")
