@@ -1,7 +1,7 @@
 import urllib.request as request
 import json
 import lib.logger as logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from math import ceil
 from random import randint
 from time import sleep
@@ -391,4 +391,5 @@ class WaitUntil:
         logger.debug(f"Current time is {current_time} (UTC timezone), waiting until 3 PM.")
         while current_time.hour < 15:
             sleep(60)
+            current_time += timedelta(seconds=60)
         logger.debug(f"Current time is {current_time}, done.")
