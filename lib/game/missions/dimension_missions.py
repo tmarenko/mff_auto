@@ -123,27 +123,27 @@ class DimensionMissions(Missions):
             logger.warning("Dimension Mission: can't get in mission lobby.")
             return
         self.select_stage_level(level_num=difficulty)
+        if self.get_ready():
+            r_sleep(1)
+            if not self.is_stage_startable():
+                logger.error("Cannot start Dimension Mission battle, not enough boost points.")
+                return
         while times > 0:
-            if self.get_ready():
-                r_sleep(1)
-                if not self.is_stage_startable():
-                    logger.error("Cannot start Dimension Mission battle, not enough boost points.")
-                    return
-                if not self.press_start_button(start_button_ui='DM_START_BUTTON',
-                                               use_hidden_tickets=use_hidden_tickets):
-                    logger.error("Cannot start Dimension Mission battle, exiting.")
-                    return
-                AutoBattleBot(self.game, self.battle_over_conditions).fight()
-                times -= 1
-                self.close_mission_notifications()
-                if times > 0:
-                    self.press_repeat_button()
-                else:
-                    self.press_home_button()
-                    self.close_after_mission_notifications()
+            if not self.press_start_button(start_button_ui='DM_START_BUTTON',
+                                           use_hidden_tickets=use_hidden_tickets):
+                logger.error("Cannot start Dimension Mission battle, exiting.")
+                return
+            AutoBattleBot(self.game, self.battle_over_conditions).fight()
+            times -= 1
+            self.close_mission_notifications()
+            if times > 0:
+                self.press_repeat_button()
+            else:
+                self.press_home_button()
+                self.close_after_mission_notifications()
         logger.info("No more stages for Dimension Missions.")
 
-    def press_start_button(self, start_button_ui='START_BUTTON', use_hidden_tickets=False):
+    def press_start_button(self, start_button_ui='DM_START_BUTTON', use_hidden_tickets=False):
         """Press start button of the mission."""
         if super().press_start_button(start_button_ui=start_button_ui):
             if use_hidden_tickets and wait_until(self.player.is_ui_element_on_screen, timeout=2,
@@ -157,11 +157,11 @@ class DimensionMissions(Missions):
             return True
         return False
 
-    def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui=None):
+    def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui='DM_START_BUTTON'):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.player.click_button(self.ui[repeat_button_ui].button, min_duration=1, max_duration=2)
-        while not self.player.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+        while not self.player.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
             self.close_after_mission_notifications(timeout=1)
             self.game.close_ads(timeout=1)
         return True
