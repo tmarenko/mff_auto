@@ -1,11 +1,11 @@
 # mff_auto
 Game bot for [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb&hl=ru) game.
-Compatible with **6.4.1** version.
+Compatible with **6.5.0** version.
 
 ## FAQ
 **Q**: What this bot can do?
 
-**A**: **mff_auto** can play almost all game modes: World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, World Boss Invasions, Epic Quests, Danger Room.
+**A**: **mff_auto** can play almost all game modes: World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, World Boss Invasions, Epic Quests, Danger Room, Giant Boss Raid.
 
 Also it can enable *Autoplay++* feature anywhere and do your daily routines.
 
