@@ -1,0 +1,360 @@
+[
+  {
+    "GBR_LABEL": {
+      "text_rect": {
+        "x1": 0.5603046579721028,
+        "y1": 0.2916584263948644,
+        "x2": 0.7188206557920923,
+        "y2": 0.34084158714404367
+      },
+      "button_rect": {
+        "x1": 0.5618000919138009,
+        "y1": 0.40065894481196423,
+        "x2": 0.7143343539669984,
+        "y2": 0.6930993600773538
+      },
+      "text": "GIANT BOSS RAID",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_menu_label",
+      "description": "Giant Boss Raid menu mission label."
+    }
+  },
+  {
+    "GBR_MENU_LABEL": {
+      "text_rect": {
+        "x1": 0.05036168385307978,
+        "y1": 0.017827855737272313,
+        "x2": 0.20214822893542828,
+        "y2": 0.07631593879035016
+      },
+      "button_rect": null,
+      "text": "GIANT BOSS RAID",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_label",
+      "description": "Giant Boss Raid mission label."
+    }
+  },
+  {
+    "GBR_QUICK_START": {
+      "text_rect": {
+        "x1": 0.8115375601773692,
+        "y1": 0.8938198269185987,
+        "x2": 0.9401448791633986,
+        "y2": 0.9536371845865192
+      },
+      "button_rect": {
+        "x1": 0.8115375601773692,
+        "y1": 0.8938198269185987,
+        "x2": 0.9401448791633986,
+        "y2": 0.9536371845865192
+      },
+      "text": "QUICK START",
+      "image_threshold": 175,
+      "chars": null,
+      "image_save_file": "gbr_quick_start",
+      "description": "Giant Boss Raid: Quick Start button in the mission lobby."
+    }
+  },
+  {
+    "GBR_NOT_ENOUGH_ENERGY": {
+      "text_rect": {
+        "x1": 0.380104867997492,
+        "y1": 0.7263312254484209,
+        "x2": 0.4660923196451279,
+        "y2": 0.7834900338866562
+      },
+      "button_rect": {
+        "x1": 0.380104867997492,
+        "y1": 0.7263312254484209,
+        "x2": 0.4660923196451279,
+        "y2": 0.7834900338866562
+      },
+      "text": "CANCEL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_not_enough_energy",
+      "description": "Giant Boss Raid: not enough energy notification."
+    }
+  },
+  {
+    "GBR_SELECT_CHARACTERS": {
+      "text_rect": {
+        "x1": 0.40253637712296225,
+        "y1": 0.036437700345069754,
+        "x2": 0.5939519216603081,
+        "y2": 0.1015721564723612
+      },
+      "button_rect": null,
+      "text": "SELECT CHARACTERS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_select_characters",
+      "description": "Giant Boss Raid: select characters for raid window."
+    }
+  },
+  {
+    "GBR_CHARACTER_1": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6597510150950207,
+        "y1": 0.26640220871285347,
+        "x2": 0.6978845806083203,
+        "y2": 0.3461586856034143
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Giant Boss Raid: character #1."
+    }
+  },
+  {
+    "GBR_CHARACTER_2": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7494770515969017,
+        "y1": 0.26773148332769625,
+        "x2": 0.7898537680227481,
+        "y2": 0.35413433329247046
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Giant Boss Raid: character #2."
+    }
+  },
+  {
+    "GBR_CHARACTER_3": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8429416729530277,
+        "y1": 0.26640220871285347,
+        "x2": 0.8818229554371759,
+        "y2": 0.351475784062785
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Giant Boss Raid: character #3."
+    }
+  },
+  {
+    "GBR_SELECT_CHARACTERS_OK": {
+      "text_rect": {
+        "x1": 0.46833547055767494,
+        "y1": 0.867234334621745,
+        "x2": 0.5303959791381426,
+        "y2": 0.9270516922896657
+      },
+      "button_rect": {
+        "x1": 0.46833547055767494,
+        "y1": 0.867234334621745,
+        "x2": 0.5303959791381426,
+        "y2": 0.9270516922896657
+      },
+      "text": "OK",
+      "image_threshold": 120,
+      "chars": "OK",
+      "image_save_file": "gbr_select_characters_ok",
+      "description": "Giant Boss Raid: confirm button for character selection in raid."
+    }
+  },
+  {
+    "GBR_BOOST_POINTS_PLUS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8564005784283097,
+        "y1": 0.3341952140698302,
+        "x2": 0.881075238466327,
+        "y2": 0.3793905509744814
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Giant Boss Raid: PLUS sign for spending boost points for rewards."
+    }
+  },
+  {
+    "GBR_BOOST_POINTS_NO_MORE": {
+      "text_rect": {
+        "x1": 0.29860371817495024,
+        "y1": 0.7250019508335783,
+        "x2": 0.3913206225602271,
+        "y2": 0.7874778577311843
+      },
+      "button_rect": {
+        "x1": 0.29860371817495024,
+        "y1": 0.7250019508335783,
+        "x2": 0.3913206225602271,
+        "y2": 0.7874778577311843
+      },
+      "text": "CANCEL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_boost_points_no_more",
+      "description": "Giant Boss Raid: not enough boost points notification."
+    }
+  },
+  {
+    "GBR_READY_BUTTON": {
+      "text_rect": {
+        "x1": 0.8182670129150104,
+        "y1": 0.9017954746076546,
+        "x2": 0.9408925961342476,
+        "y2": 0.9682592053497886
+      },
+      "button_rect": {
+        "x1": 0.8182670129150104,
+        "y1": 0.9017954746076546,
+        "x2": 0.9408925961342476,
+        "y2": 0.9682592053497886
+      },
+      "text": "READY",
+      "image_threshold": 175,
+      "chars": null,
+      "image_save_file": "gbr_ready_button",
+      "description": "Giant Boss Raid: READY button in raid lobby."
+    }
+  },
+  {
+    "GBR_SEARCHING_LOBBY": {
+      "text_rect": {
+        "x1": 0.34479166666666666,
+        "y1": 0.29444444444444445,
+        "x2": 0.6557291666666667,
+        "y2": 0.36574074074074076
+      },
+      "button_rect": {
+        "x1": 0.46145833333333336,
+        "y1": 0.7,
+        "x2": 0.5427083333333333,
+        "y2": 0.7611111111111111
+      },
+      "text": "Searching for an available lobby.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_searching_lobby",
+      "description": "Giant Boss Raid: searching lobby notification. Leads to CANCEL button."
+    }
+  },
+  {
+    "GBR_REWARDS_LIST": {
+      "text_rect": {
+        "x1": 0.6302083333333334,
+        "y1": 0.34444444444444444,
+        "x2": 0.6994791666666667,
+        "y2": 0.3824074074074074
+      },
+      "button_rect": null,
+      "text": "REWARDS",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "gbr_rewards_list",
+      "description": "Giant Boss Raid: rewards list at the end of the battle."
+    }
+  },
+  {
+    "GBR_DAMAGE_LIST": {
+      "text_rect": {
+        "x1": 0.1828125,
+        "y1": 0.3472222222222222,
+        "x2": 0.24583333333333332,
+        "y2": 0.38425925925925924
+      },
+      "button_rect": null,
+      "text": "Damage",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "gbr_damage_list",
+      "description": "Giant Boss Raid: damage list at the end of the battle."
+    }
+  },
+  {
+    "GBR_HOME_BUTTON": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5739583333333333,
+        "y1": 0.8981481481481481,
+        "x2": 0.6234375,
+        "y2": 0.9675925925925926
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Giant Boss Raid: HOME button at the end of the battle."
+    }
+  },
+  {
+    "GBR_REPEAT_BUTTON": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8609375,
+        "y1": 0.899074074074074,
+        "x2": 0.9036458333333334,
+        "y2": 0.9638888888888889
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "Giant Boss Raid: REPEAT button at the end of the battle."
+    }
+  },
+  {
+    "GBR_NO_CHARACTER_MAIN": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.43704743481176533,
+        "y1": 0.21331455838154262,
+        "x2": 0.5269995953975724,
+        "y2": 0.36215847538506596
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "invasion_no_character_main",
+      "description": "Empty main character selector in GBR team setup."
+    }
+  },
+  {
+    "GBR_NO_CHARACTER_LEFT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.33118066119923867,
+        "y1": 0.21290452004268992,
+        "x2": 0.40614079502074446,
+        "y2": 0.3478071335252221
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "invasion_no_character_left",
+      "description": "Empty left character selector in GBR team setup."
+    }
+  },
+  {
+    "GBR_NO_CHARACTER_RIGHT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5537545970077098,
+        "y1": 0.21372459672039526,
+        "x2": 0.6289453773948204,
+        "y2": 0.33960636674816846
+      },
+      "text": null,
+      "image_threshold": 0.8,
+      "chars": null,
+      "image_path": "no_character.png",
+      "image_save_file": "invasion_no_character_right",
+      "description": "Empty right character selector in GBR team setup."
+    }
+  }
+]

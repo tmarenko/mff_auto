@@ -11,6 +11,7 @@ from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTh
     WingsOfDarkness, InhumanPrincess, MeanAndGreen, ClobberinTime, Hothead, AwManThisGuy, DominoFalls, GoingRogue, \
     FriendsAndEnemies, WeatheringTheStorm, Blindsided, DarkAdvent, IncreasingDarkness, RoadToMonastery, \
     MysteriousAmbush, MonasteryInTrouble, PowerOfTheDark
+from lib.game.missions.giant_boss_raid import GiantBossRaid
 from lib.game.missions.coop import CoopPlay
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.timeline import TimelineBattle
@@ -153,6 +154,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         wait_boost_points = _WaitBoostPoints(game)
         wait_max_energy = _WaitMaxEnergy(game)
         wait_daily_reset = _WaitDailyReset(game)
+        giant_boss_raid = _GiantBossRaid(game)
         self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, wait_boost_points,
                         wait_max_energy, wait_daily_reset]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
@@ -162,7 +164,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
                       danger_room, dangerous_sisters, cosmic_rider, quantum_power, wings_of_darkness, inhuman_princess,
                       mean_and_green, clobbering_time, hothead, aw_man_this_guy, domino_falls, going_rogue,
                       friends_and_enemies, weathering_the_storm, blindsided, dark_advent, increasing_darkness,
-                      road_to_monastery, mysterious_ambush, monastery_in_trouble, power_of_the_dark,
+                      road_to_monastery, mysterious_ambush, monastery_in_trouble, power_of_the_dark, giant_boss_raid,
                       *self.actions]
         self.mode_names = [mode.mode_name for mode in self.modes]
         self.queue_item = None
@@ -189,7 +191,8 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
             "DANGER ROOM": danger_room,
             "ALLIANCE BATTLE": alliance_battle,
             "CO-OP PLAY": coop_play,
-            "WORLD BOSS INVASION": world_boss_invastion
+            "WORLD BOSS INVASION": world_boss_invastion,
+            "GIANT BOSS RAID": giant_boss_raid,
         }
 
         menu = QMenu()
@@ -1111,3 +1114,14 @@ class _PowerOfTheDark(GameMode):
                                                        setting_key="difficulty",
                                                        text="Select stage difficulty",
                                                        min=1, max=6))
+
+
+class _GiantBossRaid(GameMode):
+    def __init__(self, game):
+        super().__init__(game, "GIANT BOSS RAID", GiantBossRaid)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="max_rewards",
+                                                       text="Use maximum boost points for rewards"))
