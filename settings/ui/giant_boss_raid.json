@@ -275,6 +275,22 @@
     }
   },
   {
+    "GBR_FAILURE_DAMAGE_LIST": {
+      "text_rect": {
+        "x1": 0.5822916666666667,
+        "y1": 0.2916666666666667,
+        "x2": 0.6427083333333333,
+        "y2": 0.337037037037037
+      },
+      "button_rect": null,
+      "text": "Damage",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "gbr_failure_damage_list",
+      "description": "Giant Boss Raid: damage list at the end of the battle (if you failed)."
+    }
+  },
+  {
     "GBR_HOME_BUTTON": {
       "text_rect": null,
       "button_rect": {

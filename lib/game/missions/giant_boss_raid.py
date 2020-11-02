@@ -1,6 +1,6 @@
 ﻿from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import wait_until
+from lib.functions import wait_until, r_sleep
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -21,10 +21,14 @@ class GiantBossRaid(Missions):
         def damage_list():
             return self.player.is_ui_element_on_screen(self.ui['GBR_DAMAGE_LIST'])
 
+        def damage_list_failure():
+            logger.info("Giant Boss Raid: you've lost the raid.")
+            return self.player.is_ui_element_on_screen(self.ui['GBR_FAILURE_DAMAGE_LIST'])
+
         def rewards_list():
             return self.player.is_ui_element_on_screen(self.ui['GBR_REWARDS_LIST'])
 
-        return [damage_list, rewards_list]
+        return [damage_list, rewards_list, damage_list_failure]
 
     def do_missions(self, times=None, max_rewards=None):
         """Do missions."""
@@ -40,6 +44,7 @@ class GiantBossRaid(Missions):
                     return
                 ManualBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions).fight()
                 times -= 1
+                r_sleep(5)  # Animation for rewards
                 if times > 0:
                     self.press_repeat_button(repeat_button_ui="GBR_REPEAT_BUTTON", start_button_ui="GBR_QUICK_START")
                 else:
