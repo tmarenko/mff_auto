@@ -163,7 +163,6 @@ class DimensionMissions(Missions):
         self.player.click_button(self.ui[repeat_button_ui].button, min_duration=1, max_duration=2)
         while not self.player.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
             self.close_after_mission_notifications(timeout=1)
-            self.game.close_ads(timeout=1)
         return True
 
     def acquire_rewards(self):
