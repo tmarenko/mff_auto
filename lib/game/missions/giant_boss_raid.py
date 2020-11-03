@@ -22,8 +22,10 @@ class GiantBossRaid(Missions):
             return self.player.is_ui_element_on_screen(self.ui['GBR_DAMAGE_LIST'])
 
         def damage_list_failure():
-            logger.info("Giant Boss Raid: you've lost the raid.")
-            return self.player.is_ui_element_on_screen(self.ui['GBR_FAILURE_DAMAGE_LIST'])
+            on_screen = self.player.is_ui_element_on_screen(self.ui['GBR_FAILURE_DAMAGE_LIST'])
+            if on_screen:
+                logger.info("Giant Boss Raid: you've lost the raid.")
+            return on_screen
 
         def rewards_list():
             return self.player.is_ui_element_on_screen(self.ui['GBR_REWARDS_LIST'])
