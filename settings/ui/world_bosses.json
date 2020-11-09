@@ -111,6 +111,22 @@
     }
   },
   {
+    "WB_ULTIMATE_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.6776962223953971,
+        "y1": 0.6319527277945907,
+        "x2": 0.7562065043345427,
+        "y2": 0.6744895154695564
+      },
+      "button_rect": null,
+      "text": "ULTIMATE",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "wb_ultimate_stage_label",
+      "description": "World Boss Ultimate: Ultimate stage label in difficulty selection."
+    }
+  },
+  {
     "WB_ULTIMATE_STAGE": {
       "text_rect": {
         "x1": 0.7026041666666667,
@@ -156,6 +172,70 @@
       "chars": null,
       "image_save_file": null,
       "description": "World Boss Ultimate: stage counter PLUS button."
+    }
+  },
+  {
+    "WB_LEGEND_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.4616060178200339,
+        "y1": 0.6292941785649052,
+        "x2": 0.5363777149049346,
+        "y2": 0.675818790084399
+      },
+      "button_rect": null,
+      "text": "LEGEND",
+      "image_threshold": 70,
+      "chars": null,
+      "image_save_file": "wb_legend_stage_label",
+      "description": "World Boss Ultimate: Legend stage label in difficulty selection."
+    }
+  },
+  {
+    "WB_LEGEND_STAGE": {
+      "text_rect": {
+        "x1": 0.4855133458525483,
+        "y1": 0.5601345271564006,
+        "x2": 0.5136095100072756,
+        "y2": 0.6072066346407603
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 170,
+      "chars": "0123456789",
+      "image_save_file": "wb_ultimate_stage",
+      "description": "World Boss Legend: stage counter."
+    }
+  },
+  {
+    "WB_LEGEND_MINUS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.43682313467341366,
+        "y1": 0.5648417379048367,
+        "x2": 0.4612417904309254,
+        "y2": 0.6024994238923245
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss Legend: stage counter MINUS button."
+    }
+  },
+  {
+    "WB_LEGEND_PLUS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5369984634135669,
+        "y1": 0.5624881325306187,
+        "x2": 0.5606816174916354,
+        "y2": 0.6001458185181063
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss Legend: stage counter PLUS button."
     }
   },
   {
@@ -817,6 +897,22 @@
       "chars": null,
       "image_save_file": null,
       "description": "World Boss: Apocalypse."
+    }
+  },
+  {
+    "WB_BOSS_KNULL": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7696654098098249,
+        "y1": 0.5415620539852883,
+        "x2": 0.8294827674777455,
+        "y2": 0.6412576500984893
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Knull."
     }
   }
 ]

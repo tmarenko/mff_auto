@@ -28,6 +28,7 @@ class WorldBosses(Missions):
         CABLE = "WB_BOSS_CABLE"
         SCARLET_WITCH = "WB_BOSS_SCARLET_WITCH"
         APOCALYPSE = "WB_BOSS_APOCALYPSE"
+        KNULL = "WB_BOSS_KNULL"
 
     def __init__(self, game):
         """Class initialization.
@@ -35,6 +36,9 @@ class WorldBosses(Missions):
         :param game.Game game: instance of the game.
         """
         super().__init__(game, 'WB_LABEL')
+        self._stage_ui = None
+        self._plus_ui = None
+        self._minus_ui = None
 
     @property
     def battle_over_conditions(self):
@@ -203,13 +207,48 @@ class WorldBosses(Missions):
             self.player.click_button(self.ui['WB_ALLY_CHARACTER_4'].button)
 
     @property
+    def stage_ui(self):
+        """Get UI of current stage counter.
+
+        :return: UI element for stage counter.
+        """
+        if self._stage_ui is None:
+            if self.player.is_ui_element_on_screen(ui_element=self.ui['WB_ULTIMATE_STAGE_LABEL']):
+                logger.debug(f"World Boss: selected ULTIMATE stage label.")
+                self._stage_ui = self.ui['WB_ULTIMATE_STAGE']
+            if self.player.is_ui_element_on_screen(ui_element=self.ui['WB_LEGEND_STAGE_LABEL']):
+                logger.debug(f"World Boss: selected LEGEND stage label.")
+                self._stage_ui = self.ui['WB_LEGEND_STAGE']
+        return self._stage_ui
+
+    @property
+    def plus_ui(self):
+        """Get UI element for PLUS sign in stage counter."""
+        if self._plus_ui is None:
+            if self.stage_ui == self.ui['WB_ULTIMATE_STAGE_LABEL']:
+                self._plus_ui = self.ui['WB_ULTIMATE_PLUS']
+            if self.stage_ui == self.ui['WB_LEGEND_STAGE_LABEL']:
+                self._plus_ui = self.ui['WB_LEGEND_PLUS']
+        return self._plus_ui
+
+    @property
+    def minus_ui(self):
+        """Get UI element for MINUS sign in stage counter."""
+        if self._minus_ui is None:
+            if self.stage_ui == self.ui['WB_ULTIMATE_STAGE_LABEL']:
+                self._minus_ui = self.ui['WB_ULTIMATE_MINUS']
+            if self.stage_ui == self.ui['WB_LEGEND_STAGE_LABEL']:
+                self._minus_ui = self.ui['WB_LEGEND_MINUS']
+        return self._minus_ui
+
+    @property
     def stage_level(self):
         """Get current stage level.
 
         :return: current stage level.
         """
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_READY_BUTTON']):
-            stage_str = self.player.get_screen_text(ui_element=self.ui['WB_ULTIMATE_STAGE'])
+            stage_str = self.player.get_screen_text(ui_element=self.stage_ui)
             try:
                 stage_int = int(stage_str)
             except ValueError:
@@ -221,12 +260,12 @@ class WorldBosses(Missions):
     def increase_stage_level(self):
         """Increase current stage level"""
         logger.info("World Boss Ultimate: increasing stage difficulty level.")
-        self.player.click_button(self.ui['WB_ULTIMATE_PLUS'].button, min_duration=0.01, max_duration=0.01)
+        self.player.click_button(self.plus_ui.button, min_duration=0.01, max_duration=0.01)
 
     def decrease_stage_level(self):
         """Decrease current stage level"""
         logger.info("World Boss Ultimate: decreasing stage difficulty level.")
-        self.player.click_button(self.ui['WB_ULTIMATE_MINUS'].button, min_duration=0.01, max_duration=0.01)
+        self.player.click_button(self.minus_ui.button, min_duration=0.01, max_duration=0.01)
 
     def select_stage_level(self, level_num=20):
         """Select stage level.

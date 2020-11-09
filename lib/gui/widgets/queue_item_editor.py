@@ -785,7 +785,7 @@ class _WorldBosses(GameMode):
                                                        text="Select World Boss mode",
                                                        values_dict={"Beginner": WorldBosses.MODE.BEGINNER,
                                                                     "Normal": WorldBosses.MODE.NORMAL,
-                                                                    "Ultimate": WorldBosses.MODE.ULTIMATE}))
+                                                                    "Ultimate / Legend": WorldBosses.MODE.ULTIMATE}))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="boss",
                                                        text="Select World Boss",
@@ -800,6 +800,7 @@ class _WorldBosses(GameMode):
                                                                     "Cable": WorldBosses.BOSS.CABLE,
                                                                     "Scarlet Witch": WorldBosses.BOSS.SCARLET_WITCH,
                                                                     "Apocalypse": WorldBosses.BOSS.APOCALYPSE,
+                                                                    "Knull": WorldBosses.BOSS.KNULL
                                                                     }))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
