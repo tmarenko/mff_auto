@@ -37,6 +37,27 @@
     }
   },
   {
+    "DANGER_ROOM_NO_ENERGY": {
+      "text_rect": {
+        "x1": 0.38085258496834107,
+        "y1": 0.7250019508335783,
+        "x2": 0.46534460267427896,
+        "y2": 0.7834900338866562
+      },
+      "button_rect": {
+        "x1": 0.38085258496834107,
+        "y1": 0.7250019508335783,
+        "x2": 0.46534460267427896,
+        "y2": 0.7834900338866562
+      },
+      "text": "CANCEL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "danger_room_no_energy",
+      "description": "Danger Room: not enough energy notification. Leads to CANCEL button."
+    }
+  },
+  {
     "DANGER_ROOM_NORMAL_MODE": {
       "text_rect": null,
       "button_rect": {

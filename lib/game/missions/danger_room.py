@@ -81,6 +81,10 @@ class DangerRoom(Missions):
             self.player.click_button(self.ui['DANGER_ROOM_EXTREME_MODE'].button)
 
         self.player.click_button(self.ui['DANGER_ROOM_ENTER'].button)
+        if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_NO_ENERGY'], timeout=3):
+            logger.warning("Danger Room: not enough energy. Can't get to room.")
+            self.player.click_button(self.ui['DANGER_ROOM_NO_ENERGY'].button)
+            return False
         if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_BLOCK_NOTICE'], timeout=5):
             logger.warning("Danger Room: you've been blocked after disconnect. Can't get to room.")
             self.player.click_button(self.ui['DANGER_ROOM_BLOCK_NOTICE'].button)
