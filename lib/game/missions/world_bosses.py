@@ -235,9 +235,9 @@ class WorldBosses(Missions):
     def minus_ui(self):
         """Get UI element for MINUS sign in stage counter."""
         if self._minus_ui is None:
-            if self.stage_ui == self.ui['WB_ULTIMATE_STAGE_LABEL']:
+            if self.stage_ui == self.ui['WB_ULTIMATE_STAGE']:
                 self._minus_ui = self.ui['WB_ULTIMATE_MINUS']
-            if self.stage_ui == self.ui['WB_LEGEND_STAGE_LABEL']:
+            if self.stage_ui == self.ui['WB_LEGEND_STAGE']:
                 self._minus_ui = self.ui['WB_LEGEND_MINUS']
         return self._minus_ui
 
