@@ -318,6 +318,7 @@ class ManualBattleBot(BattleBot):
         is_same_character = self.player.is_image_on_screen(ui_element=self.ui["CURRENT_CHARACTER"])
         if not is_same_character:
             logger.debug("Current character is dead. Switching to new one.")
+            r_sleep(1.1, radius_modifier=1.0)  # Wait for skill "reload" animation
             self._init_skills()
             self.load_character()
             self.load_skills()
