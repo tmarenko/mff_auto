@@ -120,7 +120,7 @@
       },
       "button_rect": null,
       "text": "ULTIMATE",
-      "image_threshold": 180,
+      "image_threshold": 190,
       "chars": null,
       "image_save_file": "wb_ultimate_stage_label",
       "description": "World Boss Ultimate: Ultimate stage label in difficulty selection."
