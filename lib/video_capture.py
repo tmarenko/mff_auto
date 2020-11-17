@@ -198,13 +198,14 @@ class NoxVideoWriter:
         :param output: name of video output file.
         """
         self.source = NoxPlayerSource(nox_player)
+        self.fps = fps
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # without dll
         # fourcc = cv2.VideoWriter_fourcc(*'avc1') # less size but requires `openh264` .dll in root folder
         # use this link for example: http://ciscobinary.openh264.org/openh264-1.8.0-win32.dll.bz2
-        self.video_writer = cv2.VideoWriter(f'{output}.mp4', fourcc, fps, (self.source.player.width,
-                                                                           self.source.player.height))
+        self.video_writer = cv2.VideoWriter(f'{output}.mp4', fourcc, self.fps, (self.source.player.width,
+                                                                                self.source.player.height))
         logger.info(f"Creating video capture with name '{output}.mp4'; "
-                    f"{self.source.player.width}x{self.source.player.height}@{fps}")
+                    f"{self.source.player.width}x{self.source.player.height}@{self.fps}")
 
     def release(self):
         """Release video writer."""
@@ -253,12 +254,13 @@ class NoxCapture:
     def capture(self):
         """Capture video."""
         logger.debug("Started capturing Nox Player.")
+        fps_wait = 1 / self.video_capture.fps
         while True:
             if not self._pause:
                 frame = self.video_capture.frame()
                 self.video_capture.write(frame)
             else:
-                time.sleep(0.1)
+                time.sleep(fps_wait)
 
     def start(self):
         """Start capturing."""
