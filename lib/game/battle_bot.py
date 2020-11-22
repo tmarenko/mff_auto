@@ -70,6 +70,8 @@ class BattleBot:
 class AutoBattleBot(BattleBot):
     """Class for working with AutoPlay battles."""
 
+    _30_FPS = 1.0 / 30  # Awaiting for frame in 30FPS
+
     def fight(self):
         """Start battle and wait until the end."""
         if confirm_condition_by_time(confirm_condition=self.is_battle_over):
@@ -90,7 +92,7 @@ class AutoBattleBot(BattleBot):
         while not self.is_battle_over():
             if not self.is_battle():
                 self.skip_cutscene()
-            r_sleep(0.75)
+            r_sleep(self._30_FPS)
         r_sleep(1)  # Wait for end of the battle animations
         # Check for possible notifications after end of the battle
         if not wait_until(confirm_condition_by_time, confirm_condition=self.is_battle_over, timeout=10):
