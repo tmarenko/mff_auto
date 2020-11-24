@@ -219,7 +219,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     def block_buttons(self, caller_button):
         """Block buttons except caller one."""
         buttons_to_block = [button for button in self.blockable_buttons if
-                            button.isEnabled() and button != caller_button]
+                            button and button.isEnabled() and button != caller_button]
         for button in buttons_to_block:
             button.setEnabled(False)
 
