@@ -1,4 +1,5 @@
 import urllib.request as request
+import urllib.error as urlib_error
 import json
 import lib.logger as logging
 from datetime import datetime, timedelta
@@ -384,9 +385,15 @@ class WaitUntil:
 
     def wait_until_daily_reset(self):
         """Wait until game's daily reset."""
-        with request.urlopen("http://worldtimeapi.org/api/timezone/Etc/UTC") as url_data:
-            content = url_data.read()
-            time_data = json.loads(content)
+        try:
+            with request.urlopen("http://worldtimeapi.org/api/timezone/Etc/UTC") as url_data:
+                content = url_data.read()
+                time_data = json.loads(content)
+        except urlib_error.HTTPError as err:
+            logger.error(f"Caught HTTP error: {err}\n"
+                         f"Trying to get time again in next 10 seconds.")
+            sleep(10)
+            return self.wait_until_daily_reset()
         current_time = datetime.strptime(time_data['datetime'][:-6], '%Y-%m-%dT%H:%M:%S.%f')
         logger.debug(f"Current time is {current_time} (UTC timezone), waiting until 3 PM.")
         while current_time.hour < 15:
