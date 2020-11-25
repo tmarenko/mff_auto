@@ -137,27 +137,15 @@ class QueueList:
         queues_list = load_queue_list()
         if not queues_list:
             return
-        if len(queues_list) != 4:
-            # Backward compatibility for previous list format
-            # TODO: remove after few updates
-            logger.debug(f"Loading {len(queues_list)} items with old format to queue list #1.")
+        for queue_index, queue in enumerate(queues_list):
+            logger.debug(f"Loading {len(queue)} items to queue list #{queue_index + 1}.")
             queue_items = []
-            for settings in queues_list:
+            for settings in queue:
                 editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
                 item = editor.render_queue_item()
                 item.set_checked(settings.get("checked", False))
                 queue_items.append(item)
-            self.stored_queues[0] = queue_items
-        else:
-            for queue_index, queue in enumerate(queues_list):
-                logger.debug(f"Loading {len(queue)} items to queue list #{queue_index + 1}.")
-                queue_items = []
-                for settings in queue:
-                    editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
-                    item = editor.render_queue_item()
-                    item.set_checked(settings.get("checked", False))
-                    queue_items.append(item)
-                self.stored_queues[queue_index] = queue_items
+            self.stored_queues[queue_index] = queue_items
         self.change_queue(index=0)
 
     def save_queue_to_file(self):

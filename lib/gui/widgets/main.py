@@ -138,8 +138,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             return self.load_settings_from_file()
         self.game_app_rect = game_settings.get("game_app_rect")
         self.player_name = game_settings.get("player_name")
-        self.player_type = game_settings.get("player_type", "NoxWindow")  # Backward compatibility for NoxPlayer
-                                                                          # TODO: remove after few updates
+        self.player_type = game_settings.get("player_type")
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards"))
