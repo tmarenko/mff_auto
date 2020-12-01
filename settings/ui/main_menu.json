@@ -267,7 +267,7 @@
         "y2": 0.9166666666666666
       },
       "text": "CLOSE",
-      "image_threshold": 120,
+      "image_threshold": 130,
       "chars": null,
       "image_save_file": "maintenance_notice",
       "description": "Maintenance notification on game start."
