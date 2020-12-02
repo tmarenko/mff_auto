@@ -166,7 +166,7 @@ class TenStageEpicQuest(EpicQuests):
     def select_epic_quest(self):
         """Select Epic Quest."""
         if self.game.go_to_epic_quests():
-            if self.mode_selector.name in ['EQ_RISE_OF_X_MEN', 'EQ_SORCERER_SUPREME']:
+            if self.mode_selector.name in ['EQ_RISE_OF_X_MEN', 'EQ_SORCERER_SUPREME', 'EQ_X_FORCE']:
                 logger.debug("Epic Quests is referring to the second page. Trying to scroll.")
                 self.player.drag(self.ui['EQ_PAGE_DRAG_FROM'].button, self.ui['EQ_PAGE_DRAG_TO'].button)
                 r_sleep(1)
