@@ -145,7 +145,17 @@ class DimensionMissions(Missions):
 
     def press_start_button(self, start_button_ui='DM_START_BUTTON', use_hidden_tickets=False):
         """Press start button of the mission."""
-        if super().press_start_button(start_button_ui=start_button_ui):
+        if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
+            self.select_team()
+            self.player.click_button(self.ui[start_button_ui].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['NOT_ENOUGH_ENERGY']):
+                self.player.click_button(self.ui['NOT_ENOUGH_ENERGY'].button)
+                logger.warning(f"Not enough energy for starting mission, current energy: {self.game.energy}")
+                return False
+            if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['INVENTORY_FULL']):
+                self.player.click_button(self.ui['INVENTORY_FULL'].button)
+                logger.warning(f"Your inventory is full, cannot start mission.")
+                return False
             if use_hidden_tickets and wait_until(self.player.is_ui_element_on_screen, timeout=2,
                                                  ui_element=self.ui['DM_TICKET_NOTIFICATION_USE']):
                 logger.debug("Dimension Missions: clicked USE hidden tickets.")
@@ -154,7 +164,11 @@ class DimensionMissions(Missions):
                                                      ui_element=self.ui['DM_TICKET_NOTIFICATION_DONT_USE']):
                 logger.debug("Dimension Missions: clicked DON'T USE hidden tickets.")
                 self.player.click_button(self.ui['DM_TICKET_NOTIFICATION_DONT_USE'].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=2,
+                          ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
+                self.player.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
             return True
+        logger.warning("Unable to press START button.")
         return False
 
     def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui='DM_START_BUTTON'):
