@@ -10,7 +10,7 @@ from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTh
     TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse, DangerousSisters, CosmicRider, QuantumPower, \
     WingsOfDarkness, InhumanPrincess, MeanAndGreen, ClobberinTime, Hothead, AwManThisGuy, DominoFalls, GoingRogue, \
     FriendsAndEnemies, WeatheringTheStorm, Blindsided, DarkAdvent, IncreasingDarkness, RoadToMonastery, \
-    MysteriousAmbush, MonasteryInTrouble, PowerOfTheDark
+    MysteriousAmbush, MonasteryInTrouble, PowerOfTheDark, StingOfTheScorpion, SelfDefenseProtocol
 from lib.game.missions.giant_boss_raid import GiantBossRaid
 from lib.game.missions.coop import CoopPlay
 from lib.game.missions.danger_room import DangerRoom
@@ -155,6 +155,8 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         wait_max_energy = _WaitMaxEnergy(game)
         wait_daily_reset = _WaitDailyReset(game)
         giant_boss_raid = _GiantBossRaid(game)
+        sting_of_the_scorpion = _StingOfTheScorpion(game)
+        self_defense_protocol = _SelfDefenseProtocol(game)
         self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, wait_boost_points,
                         wait_max_energy, wait_daily_reset]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
@@ -165,6 +167,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
                       mean_and_green, clobbering_time, hothead, aw_man_this_guy, domino_falls, going_rogue,
                       friends_and_enemies, weathering_the_storm, blindsided, dark_advent, increasing_darkness,
                       road_to_monastery, mysterious_ambush, monastery_in_trouble, power_of_the_dark, giant_boss_raid,
+                      sting_of_the_scorpion, self_defense_protocol,
                       *self.actions]
         self.mode_names = [mode.mode_name for mode in self.modes]
         self.queue_item = None
@@ -174,6 +177,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         menu_dict = {
             "[ACTIONS]": self.actions,
             "EPIC QUESTS": {
+                "DARK REIGN": [sting_of_the_scorpion, self_defense_protocol],
                 "GALACTIC IMPERATIVE": [fate_of_the_universe, the_fault, dangerous_sisters, cosmic_rider, quantum_power,
                                         wings_of_darkness],
                 "FIRST FAMILY": [dooms_day, twisted_world, inhuman_princess, mean_and_green, clobbering_time, hothead],
@@ -1126,3 +1130,21 @@ class _GiantBossRaid(GameMode):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="max_rewards",
                                                        text="Use maximum boost points for rewards"))
+
+
+class _StingOfTheScorpion(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "STING OF THE SCORPION", StingOfTheScorpion, "Sting Of The Scorpion [Scorpion]")
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+
+
+class _SelfDefenseProtocol(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "STING OF THE SCORPION", SelfDefenseProtocol, "Self-Defense Protocol [TODO]") # TODO: add name of bios character
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))

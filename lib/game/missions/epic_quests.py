@@ -388,6 +388,22 @@ class FateOfTheUniverse(OneStageEpicQuest):
         super().__init__(game=game, mode_label='EQ_FATE_OF_THE_UNIVERSE_STAGE_LABEL')
 
 
+class StingOfTheScorpion(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Sting Of The Scorpion."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_DARK_REIGN', 'EQ_REFORMED_ROGUES', 'EQ_REFORMED_ROGUES_LABEL',
+                         'EQ_NORMAL_STAGE_1', 'Sting Of The Scorpion')
+
+
+class SelfDefenseProtocol(TenStageEpicQuest):
+    """Class for working with Epic Quest mission stages: Self-Defense Protocol."""
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_DARK_REIGN', 'EQ_REFORMED_ROGUES', 'EQ_REFORMED_ROGUES_LABEL',
+                         'EQ_NORMAL_STAGE_2', 'Self-Defense Protocol')
+
+
 class DangerousSisters(TenStageEpicQuest):
     """Class for working with Epic Quest mission stages: Dangerous Sisters."""
 

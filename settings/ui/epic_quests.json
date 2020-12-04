@@ -1201,6 +1201,43 @@
       "image_save_file": "eq_dark_dimension_label",
       "description": "Epic Quest: Sorcerer Supreme: Dark Dimension mission label."
     }
+  },
+  {
+    "EQ_REFORMED_ROGUES": {
+      "text_rect": {
+        "x1": 0.44230357137999987,
+        "y1": 0.868722018186887,
+        "x2": 0.5573529307051074,
+        "y2": 0.9001122580314685
+      },
+      "button_rect": {
+        "x1": 0.4774317279429164,
+        "y1": 0.7322570807572851,
+        "x2": 0.5233399537156168,
+        "y2": 0.8168455165489996
+      },
+      "text": "REFORMED ROGUES",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_reformed_rogues",
+      "description": "Epic Quest: Dark Reign: Reformed Rogues."
+    }
+  },
+  {
+    "EQ_REFORMED_ROGUES_LABEL": {
+      "text_rect": {
+        "x1": 0.05036168385307978,
+        "y1": 0.015169306507586995,
+        "x2": 0.21635485138155938,
+        "y2": 0.0749866641755076
+      },
+      "button_rect": null,
+      "text": "REFORMED ROGUES",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_unexpected_intruder_label",
+      "description": "Epic Quest: Dark Reign: Reformed Rogues mission label."
+    }
   }
 ]
 
