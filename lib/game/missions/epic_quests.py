@@ -388,6 +388,17 @@ class FateOfTheUniverse(OneStageEpicQuest):
         super().__init__(game=game, mode_label='EQ_FATE_OF_THE_UNIVERSE_STAGE_LABEL')
 
 
+class PlayingHero(OneStageEpicQuest):
+    """Class for working with Epic Quest mission: Playing Hero."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param game.Game game: instance of the game.
+        """
+        super().__init__(game=game, mode_label='EQ_PLAYING_HERO_STAGE_LABEL')
+
+
 class StingOfTheScorpion(TenStageEpicQuest):
     """Class for working with Epic Quest mission stages: Sting Of The Scorpion."""
 
@@ -458,6 +469,16 @@ class Blindsided(TenStageEpicQuest):
     def __init__(self, game):
         super().__init__(game, 'EQ_RISE_OF_X_MEN', 'EQ_TRACKING', 'EQ_TRACKING_LABEL',
                          'EQ_BLINDSIDED', 'Blindsided')
+
+
+class LegacyOfBlood(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Legacy Of Blood."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, 'EQ_DARK_REIGN', 'EQ_CUTTHROAT_COMPANIONS', 'EQ_CUTTHROAT_COMPANIONS_LABEL',
+                         'EQ_LEGACY_OF_BLOOD')
 
 
 class QuantumPower(TenStageWithDifficultyEpicQuest):

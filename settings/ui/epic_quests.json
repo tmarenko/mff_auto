@@ -1238,6 +1238,85 @@
       "image_save_file": "eq_unexpected_intruder_label",
       "description": "Epic Quest: Dark Reign: Reformed Rogues mission label."
     }
+  },
+  {
+    "EQ_CUTTHROAT_COMPANIONS": {
+      "text_rect": {
+        "x1": 0.3123648005395468,
+        "y1": 0.8707044182930752,
+        "x2": 0.42996456163418284,
+        "y2": 0.8975888820834105
+      },
+      "button_rect": {
+        "x1": 0.34599014826554714,
+        "y1": 0.7204677088764954,
+        "x2": 0.3966950376936429,
+        "y2": 0.819465793186789
+      },
+      "text": "CUTTHROAT COMPANIONS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_cutthroat_companions",
+      "description": "Epic Quest: Dark Reign: Cutthroat Companions mission."
+    }
+  },
+  {
+    "EQ_CUTTHROAT_COMPANIONS_LABEL": {
+      "text_rect": {
+        "x1": 0.04961396688223072,
+        "y1": 0.003205834974002747,
+        "x2": 0.16924868221807193,
+        "y2": 0.08695013570909164
+      },
+      "button_rect": null,
+      "text": "CUTTHROAT COMPANIONS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_cutthroat_companions_label",
+      "description": "Epic Quest: Dark Reign: Cutthroat Companions mission label."
+    }
+  },
+  {
+    "EQ_LEGACY_OF_BLOOD": {
+      "text_rect": {
+        "x1": 0.34619169063453226,
+        "y1": 0.6632320548693976,
+        "x2": 0.46799573835625524,
+        "y2": 0.7115198384029028
+      },
+      "button_rect": {
+        "x1": 0.35213335149900654,
+        "y1": 0.3086186445452173,
+        "x2": 0.4633272905341684,
+        "y2": 0.6164532645713142
+      },
+      "text": "LEGACY OF BLOOD",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "eq_legacy_of_blood",
+      "description": "Epic Quest: Dark Reign: Cutthroat Companions: Legacy Of Blood mission."
+    }
+  },
+  {
+    "EQ_PLAYING_HERO_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.7147805897933649,
+        "y1": 0.8711422030284477,
+        "x2": 0.8004764746603729,
+        "y2": 0.9000851880357229
+      },
+      "button_rect": {
+        "x1": 0.7319555479295501,
+        "y1": 0.7299258805753683,
+        "x2": 0.7850905746633734,
+        "y2": 0.8065770826276029
+      },
+      "text": "PLAYING HERO",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_playing_hero_stage_label",
+      "description": "Epic Quest: Dark Reign: Cutthroat Companions: Playing Hero stage button and text."
+    }
   }
 ]
 
