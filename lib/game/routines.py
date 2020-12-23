@@ -419,6 +419,7 @@ class Friends:
         self.game.go_to_friends()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_SEND_ALL']):
             self.player.click_button(self.ui['FRIENDS_TOKEN_SEND_ALL'].button)
+        self.game.go_to_main_menu()
 
     def acquire_all(self):
         """Acquire all tokens from friends."""
@@ -428,6 +429,7 @@ class Friends:
             if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE']):
                 self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)
+        self.game.go_to_main_menu()
 
 
 class Alliance:
@@ -450,3 +452,4 @@ class Alliance:
             if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['ALLIANCE_CHECK_IN_CLOSE']):
                 self.player.click_button(self.ui['ALLIANCE_CHECK_IN_CLOSE'].button)
+        self.game.go_to_main_menu()
