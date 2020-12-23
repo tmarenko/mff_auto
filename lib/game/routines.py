@@ -400,3 +400,31 @@ class WaitUntil:
             sleep(60)
             current_time += timedelta(seconds=60)
         logger.debug(f"Current time is {current_time}, done.")
+
+
+class Friends:
+    """Class for working with Friends."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param lib.game.Game game: instance of the game.
+        """
+        self.game = game
+        self.player = game.player
+        self.ui = game.ui
+
+    def send_all(self):
+        """Send all tokens to friends."""
+        self.game.go_to_friends()
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_SEND_ALL']):
+            self.player.click_button(self.ui['FRIENDS_TOKEN_SEND_ALL'].button)
+
+    def acquire_all(self):
+        """Acquire all tokens from friends."""
+        self.game.go_to_friends()
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL']):
+            self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL'].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE']):
+                self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)

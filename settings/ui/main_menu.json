@@ -816,6 +816,27 @@
     }
   },
   {
+    "MAIN_MENU_FRIENDS": {
+      "text_rect": {
+        "x1": 0.7812245194167114,
+        "y1": 0.4306928930550875,
+        "x2": 0.8457300045462498,
+        "y2": 0.4718986568139189
+      },
+      "button_rect": {
+        "x1": 0.78835833408105,
+        "y1": 0.3248902917659314,
+        "x2": 0.8369599371862357,
+        "y2": 0.40996386711586297
+      },
+      "text": "FRIENDS",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "main_menu_friends",
+      "description": "Main Menu Friends button."
+    }
+  },
+  {
     "CHALLENGE_COMPLETE_NOTIFICATION": {
       "text_rect": {
         "x1": 0.79757343550447,

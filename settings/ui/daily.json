@@ -823,5 +823,84 @@
       "image_save_file": null,
       "description": "Inventory: Custom Gear: top left gear."
     }
+  },
+  {
+    "FRIENDS_TOKEN_SEND_ALL": {
+      "text_rect": {
+        "x1": 0.11013431920217939,
+        "y1": 0.8938417626297327,
+        "x2": 0.19578107723003324,
+        "y2": 0.9386243812063881
+      },
+      "button_rect": {
+        "x1": 0.11013431920217939,
+        "y1": 0.8938417626297327,
+        "x2": 0.19578107723003324,
+        "y2": 0.9386243812063881
+      },
+      "text": "SEND ALL",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "friends_token_send_all",
+      "description": "Friends: send all tokens."
+    }
+  },
+  {
+    "FRIENDS_TOKEN_ACQUIRE_ALL": {
+      "text_rect": {
+        "x1": 0.2747104424713887,
+        "y1": 0.8963296858839913,
+        "x2": 0.3827485097875704,
+        "y2": 0.9396195505080916
+      },
+      "button_rect": {
+        "x1": 0.2747104424713887,
+        "y1": 0.8963296858839913,
+        "x2": 0.3827485097875704,
+        "y2": 0.9396195505080916
+      },
+      "text": "ACQUIRE ALL",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "friends_token_acquire_all",
+      "description": "Friends: send all tokens."
+    }
+  },
+  {
+    "FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE": {
+      "text_rect": {
+        "x1": 0.4526334141698457,
+        "y1": 0.16537733798480989,
+        "x2": 0.5438548846134246,
+        "y2": 0.22120687180820242
+      },
+      "button_rect": {
+        "x1": 0.47656035723701395,
+        "y1": 0.7263312254484209,
+        "x2": 0.5236665264005015,
+        "y2": 0.779502210042128
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "friends_token_acquire_all_close",
+      "description": "Friends: Acquire All notification. Leads to OK button."
+    }
+  },
+  {
+    "FRIENDS_LABEL": {
+      "text_rect": {
+        "x1": 0.052292783529808776,
+        "y1": 0.01732416517782351,
+        "x2": 0.129369438776863,
+        "y2": 0.07598376753604241
+      },
+      "button_rect": null,
+      "text": "FRIENDS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "friends_label",
+      "description": "Friends menu label."
+    }
   }
 ]

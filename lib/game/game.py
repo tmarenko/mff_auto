@@ -378,6 +378,19 @@ class Game:
             self.player.click_button(self.ui['MAIN_MENU'].button)
         return False
 
+    def go_to_friends(self):
+        """Go to Friends screen."""
+        self.go_to_main_menu()
+        self.player.click_button(self.ui['MAIN_MENU'].button)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_FRIENDS']):
+                self.player.click_button(self.ui['MAIN_MENU_FRIENDS'].button)
+                return wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['FRIENDS_LABEL'])
+            logger.warning("Can't find Friends button in Main menu, exiting")
+            self.player.click_button(self.ui['MAIN_MENU'].button)
+        return False
+
     def go_to_epic_quests(self):
         """Go to Epic Quests screen."""
         if self.go_to_mission_selection():
