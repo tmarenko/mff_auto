@@ -837,6 +837,27 @@
     }
   },
   {
+    "MAIN_MENU_ALLIANCE": {
+      "text_rect": {
+        "x1": 0.6619873874650627,
+        "y1": 0.7864861982656297,
+        "x2": 0.7269411310505861,
+        "y2": 0.819334189186585
+      },
+      "button_rect": {
+        "x1": 0.6743527609704032,
+        "y1": 0.6879422255027638,
+        "x2": 0.7141493653554065,
+        "y2": 0.7571756832900081
+      },
+      "text": "ALLIANCE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "main_menu_alliance",
+      "description": "Main Menu Alliance button."
+    }
+  },
+  {
     "CHALLENGE_COMPLETE_NOTIFICATION": {
       "text_rect": {
         "x1": 0.79757343550447,

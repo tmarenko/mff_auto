@@ -19,7 +19,7 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.game.missions.world_bosses import WorldBosses
-from lib.game.routines import DailyTrivia, ComicCards, CustomGear, ShieldLab, WaitUntil, Friends
+from lib.game.routines import DailyTrivia, ComicCards, CustomGear, ShieldLab, WaitUntil, Friends, Alliance
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -157,13 +157,14 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         wait_daily_reset = _WaitDailyReset(game)
         friends_send_all = _FriendsSendAll(game)
         friends_acquire_all = _FriendsAcquireAll(game)
+        alliance_check_in = _AllianceCheckIn(game)
         giant_boss_raid = _GiantBossRaid(game)
         sting_of_the_scorpion = _StingOfTheScorpion(game)
         self_defense_protocol = _SelfDefenseProtocol(game)
         legacy_of_blood = _LegacyOfBlood(game)
         playing_hero = _PlayingHero(game)
         self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, friends_send_all,
-                        friends_acquire_all, wait_boost_points, wait_max_energy, wait_daily_reset]
+                        friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -550,6 +551,13 @@ class _FriendsAcquireAll(Action):
     def __init__(self, game):
         self.friends = Friends(game)
         super().__init__(game, "FRIENDS: ACQUIRE ALL TOKENS", self.friends.acquire_all)
+
+
+class _AllianceCheckIn(Action):
+
+    def __init__(self, game):
+        self.alliance = Alliance(game)
+        super().__init__(game, "ALLIANCE: CHECK-IN", self.alliance.check_in)
 
 
 class _WaitMaxEnergy(Action):

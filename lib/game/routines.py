@@ -428,3 +428,25 @@ class Friends:
             if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE']):
                 self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)
+
+
+class Alliance:
+    """Class for working with Alliance."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param lib.game.Game game: instance of the game.
+        """
+        self.game = game
+        self.player = game.player
+        self.ui = game.ui
+
+    def check_in(self):
+        """Click Check-In button in Alliance."""
+        self.game.go_to_alliance()
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_CHECK_IN']):
+            self.player.click_button(self.ui['ALLIANCE_CHECK_IN'].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['ALLIANCE_CHECK_IN_CLOSE']):
+                self.player.click_button(self.ui['ALLIANCE_CHECK_IN_CLOSE'].button)

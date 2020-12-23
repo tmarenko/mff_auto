@@ -902,5 +902,84 @@
       "image_save_file": "friends_label",
       "description": "Friends menu label."
     }
+  },
+  {
+    "ALLIANCE_LABEL": {
+      "text_rect": {
+        "x1": 0.04961396688223072,
+        "y1": 0.011181482663058913,
+        "x2": 0.13784456944241363,
+        "y2": 0.07897448802003569
+      },
+      "button_rect": null,
+      "text": "ALLIANCE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_label",
+      "description": "Alliance label."
+    }
+  },
+  {
+    "ALLIANCE_LEVEL_UP_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.47955122512041004,
+        "y1": 0.8260268215616219,
+        "x2": 0.5214233754879544,
+        "y2": 0.8778685315404866
+      },
+      "button_rect": {
+        "x1": 0.47955122512041004,
+        "y1": 0.8260268215616219,
+        "x2": 0.5214233754879544,
+        "y2": 0.8778685315404866
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "alliance_level_up_notification",
+      "description": "Alliance: level up notification. Leads to OK button."
+    }
+  },
+  {
+    "ALLIANCE_CHECK_IN": {
+      "text_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.5947330385789956,
+        "x2": 0.4645968857034299,
+        "y2": 0.6359405516391186
+      },
+      "button_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.5947330385789956,
+        "x2": 0.4645968857034299,
+        "y2": 0.6359405516391186
+      },
+      "text": "CHECK-IN",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_check_in",
+      "description": "Alliance check-in button."
+    }
+  },
+  {
+    "ALLIANCE_CHECK_IN_CLOSE": {
+      "text_rect": {
+        "x1": 0.37337541525985096,
+        "y1": 0.17069443644418053,
+        "x2": 0.6253560344359665,
+        "y2": 0.22120687180820242
+      },
+      "button_rect": {
+        "x1": 0.47656035723701395,
+        "y1": 0.7289897746781062,
+        "x2": 0.5221710924588034,
+        "y2": 0.7808314846569708
+      },
+      "text": "ALLIANCE CHECK-IN REWARD",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_check_in_close",
+      "description": "Alliance check-in reward notification. Leads to OK button."
+    }
   }
 ]

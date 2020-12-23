@@ -391,6 +391,23 @@ class Game:
             self.player.click_button(self.ui['MAIN_MENU'].button)
         return False
 
+    def go_to_alliance(self):
+        """Go to Alliance screen."""
+        self.go_to_main_menu()
+        self.player.click_button(self.ui['MAIN_MENU'].button)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_ALLIANCE']):
+                self.player.click_button(self.ui['MAIN_MENU_ALLIANCE'].button)
+                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['ALLIANCE_LEVEL_UP_NOTIFICATION']):
+                    logger.debug("Closing Alliance level up notification.")
+                    self.player.click_button(self.ui['ALLIANCE_LEVEL_UP_NOTIFICATION'].button)
+                return wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['ALLIANCE_LABEL'])
+            logger.warning("Can't find Alliance button in Main menu, exiting")
+            self.player.click_button(self.ui['MAIN_MENU'].button)
+        return False
+
     def go_to_epic_quests(self):
         """Go to Epic Quests screen."""
         if self.go_to_mission_selection():
