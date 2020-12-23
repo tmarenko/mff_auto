@@ -57,6 +57,7 @@ class BattleBot:
             logger.debug("Skipping cutscene.")
             self.player.click_button(self.ui['SKIP_CUTSCENE'].button)
         self.skip_tap_the_screen()
+        self.skip_frost_beast()
 
     def skip_tap_the_screen(self):
         """Skip TAP SCREEN battle cutscene."""
@@ -65,6 +66,12 @@ class BattleBot:
                 self.player.is_ui_element_on_screen(ui_element=self._skip_tap_screen_low):
             logger.debug("Skipping TAP THE SCREEN.")
             self.player.click_button(self.ui['SKIP_TAP_THE_SCREEN'].button)
+
+    def skip_frost_beast(self):
+        """SKip Frost Beast cutscene."""
+        if self.player.is_ui_element_on_screen(ui_element=self.ui['AB_FROST_BEAST_BATTLE_LABEL']):
+            logger.debug("Skipping Frost Beast.")
+            self.player.click_button(self.ui['AB_FROST_BEAST_BATTLE_LABEL'].button)
 
 
 class AutoBattleBot(BattleBot):

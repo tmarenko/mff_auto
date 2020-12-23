@@ -335,5 +335,26 @@
       "image_save_file": "AB_NO_CHARACTERS",
       "description": "Notification when you haven't deployed all 3 characters to Alliance Battle. Leads to OK button."
     }
+  },
+  {
+    "AB_FROST_BEAST_BATTLE_LABEL": {
+      "text_rect": {
+        "x1": 0.01349893569144509,
+        "y1": 0.03708570831985998,
+        "x2": 0.20613655527792066,
+        "y2": 0.11521096515215282
+      },
+      "button_rect": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1,
+        "y2": 1
+      },
+      "text": "Frost Beast",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "ab_frost_beast_battle_label",
+      "description": "Frost Beast name label in battle cutscene."
+    }
   }
 ]
