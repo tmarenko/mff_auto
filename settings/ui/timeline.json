@@ -290,5 +290,26 @@
       "image_save_file": "tl_search_new_opponent",
       "description": "Timeline search new opponent button."
     }
+  },
+  {
+    "TL_HONOR_TOKENS_LIMIT": {
+      "text_rect": {
+        "x1": 0.5573137900887069,
+        "y1": 0.7276605000632637,
+        "x2": 0.5984382234854022,
+        "y2": 0.7808314846569708
+      },
+      "button_rect": {
+        "x1": 0.5573137900887069,
+        "y1": 0.7276605000632637,
+        "x2": 0.5984382234854022,
+        "y2": 0.7808314846569708
+      },
+      "text": "OK",
+      "image_threshold": 170,
+      "chars": "OK",
+      "image_save_file": "tl_honor_tokens_limit",
+      "description": "Timeline Honor Token notification if they are more than 60000."
+    }
   }
 ]
