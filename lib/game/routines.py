@@ -429,6 +429,9 @@ class Friends:
             if wait_until(self.player.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE']):
                 self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_ACQUIRE_NOTICE']):
+                logger.debug(f"Friends: can't acquire more tokens, exiting.")
+                self.player.click_button(self.ui['FRIENDS_ACQUIRE_NOTICE'].button)
         self.game.go_to_main_menu()
 
 

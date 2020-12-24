@@ -888,6 +888,27 @@
     }
   },
   {
+    "FRIENDS_ACQUIRE_NOTICE": {
+      "text_rect": {
+        "x1": 0.307828575803207,
+        "y1": 0.7628924457982716,
+        "x2": 0.3806852531462358,
+        "y2": 0.8200414276096498
+      },
+      "button_rect": {
+        "x1": 0.307828575803207,
+        "y1": 0.7628924457982716,
+        "x2": 0.3806852531462358,
+        "y2": 0.8200414276096498
+      },
+      "text": "CLOSE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "friends_acquire_notice",
+      "description": "Friends: notice when you can't acquire more tokens. Leads to CLOSE button."
+    }
+  },
+  {
     "FRIENDS_LABEL": {
       "text_rect": {
         "x1": 0.052292783529808776,
