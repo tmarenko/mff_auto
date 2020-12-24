@@ -67,6 +67,7 @@ class AndroidEmulator(object):
         process_exe = self.get_process()
         if process_exe:
             self._version = get_file_properties(process_exe).get("FileVersion")
+        return self._version
 
     def update_windows(self):
         """Update window's handlers."""

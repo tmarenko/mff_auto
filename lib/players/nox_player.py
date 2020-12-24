@@ -2,7 +2,6 @@ import autoit
 import logging
 import os
 import win32gui
-import win32process
 from xml.etree import ElementTree
 from configparser import ConfigParser
 from lib.players.android_emulator import AndroidEmulator
@@ -11,12 +10,16 @@ NOX_EXE = "Nox.exe"
 GRAPHIC_ENGINE_TYPE_DIRECTX = 1
 DEFAULT_NOX_ID = "Nox_0"
 OLD_VERSION_INDEX = 8
+NOX_6_KEY_HANDLE_NAME = "main_title_barWindow"
+NOX_6_KEY_HANDLE_CLASS = "Qt5QWindowIcon"
+NOX_7_KEY_HANDLE_NAME = "Form"
+NOX_7_KEY_HANDLE_CLASS = "Qt5QWindowToolSaveBits"
 
 
 class NoxWindow(AndroidEmulator):
     """Class for working with NoxPlayer emulator."""
 
-    def __init__(self, name="NoxPlayer", child_name="ScreenBoardClassWindow", key_handle_name="main_title_barWindow"):
+    def __init__(self, name="NoxPlayer", child_name="ScreenBoardClassWindow", key_handle_name=None):
         """Class initialization.
 
         :param name: main window's name of the player.
@@ -25,6 +28,17 @@ class NoxWindow(AndroidEmulator):
         """
         super().__init__(name=name, child_name=child_name, key_handle_name=key_handle_name)
         self.close_app_shortcut = self._get_keyboard_shortcut_for_closing_app() if self.initialized else None
+        self._get_key_handle_by_nox_version()
+
+    def _get_key_handle_by_nox_version(self):
+        """Get key handle for NoxPlayer by its version."""
+        self.key_handle_name = NOX_6_KEY_HANDLE_NAME
+        self.key_handle_class = NOX_6_KEY_HANDLE_CLASS
+        version = self.get_version()
+        if version.startswith("7."):
+            self.key_handle_name = NOX_7_KEY_HANDLE_NAME
+            self.key_handle_class = NOX_7_KEY_HANDLE_CLASS
+        self.update_windows()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
         """Get window's key handler.
@@ -32,7 +46,8 @@ class NoxWindow(AndroidEmulator):
         :param hwnd: window handle.
         :param wildcard: wildcard.
         """
-        if self.key_handle_name == win32gui.GetWindowText(hwnd):
+        if self.key_handle_name == win32gui.GetWindowText(hwnd) and self.key_handle_class == win32gui.GetClassName(
+                hwnd) and self.parent_hwnd == win32gui.GetParent(hwnd):
             self.key_handle = hwnd
 
     def close_current_app(self):
@@ -43,7 +58,10 @@ class NoxWindow(AndroidEmulator):
     def update_windows(self):
         """Update window's handlers."""
         was_closed = not self.initialized
-        super(NoxWindow, self).update_windows()
+        win32gui.EnumWindows(self._get_window_info, None)
+        win32gui.EnumWindows(self._get_key_layout_handle, None)
+        win32gui.EnumChildWindows(self.parent_hwnd, self._get_key_layout_handle, None)
+        win32gui.EnumChildWindows(self.parent_hwnd, self._get_player_window_info, None)
         if was_closed and self.initialized:
             self.close_app_shortcut = self._get_keyboard_shortcut_for_closing_app()
 

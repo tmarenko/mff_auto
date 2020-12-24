@@ -183,9 +183,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             self.setup_gui_first_time()
         if self.player_type == NoxWindow.__name__:
             self.player = NoxWindow(self.player_name)
-            menu = self.menuBar.addMenu("Emulator")
-            action = menu.addAction(f"Make {self.player.name} restartable")
-            action.triggered.connect(self.player.set_config_for_bot)
+            if not self.player.get_version().startswith("7."):
+                menu = self.menuBar.addMenu("Emulator")
+                action = menu.addAction(f"Make {self.player.name} restartable")
+                action.triggered.connect(self.player.set_config_for_bot)
         if self.player_type == BlueStacks.__name__:
             self.player = BlueStacks(self.player_name)
         if not self.player.restartable:
