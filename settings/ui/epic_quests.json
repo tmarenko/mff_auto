@@ -1317,6 +1317,64 @@
       "image_save_file": "eq_playing_hero_stage_label",
       "description": "Epic Quest: Dark Reign: Cutthroat Companions: Playing Hero stage button and text."
     }
+  },
+  {
+    "EQ_GOLDEN_GODS_STAGE_LABEL": {
+      "text_rect": {
+        "x1": 0.05110940082392877,
+        "y1": 0.016498581122429547,
+        "x2": 0.172239550101468,
+        "y2": 0.0749866641755076
+      },
+      "button_rect": null,
+      "text": "GOLDEN GODS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "eq_golden_gods_stage_label",
+      "description": "Epic Quest: Dark Reign: Golden Gods stage text (to detect if it's loaded)."
+    }
+  },
+  {
+    "EQ_GOLDEN_GODS_STAGE_1": {
+      "text_rect": {
+        "x1": 0.33697916666666666,
+        "y1": 0.6907407407407408,
+        "x2": 0.3697916666666667,
+        "y2": 0.725
+      },
+      "button_rect": {
+        "x1": 0.2984375,
+        "y1": 0.375,
+        "x2": 0.4125,
+        "y2": 0.6527777777777778
+      },
+      "text": null,
+      "image_threshold": 160,
+      "chars": "0123456789/",
+      "image_save_file": "eq_golden_gods_stage_1",
+      "description": "Epic Quest: Dark Reign: Golden Gods stage #1."
+    }
+  },
+  {
+    "EQ_GOLDEN_GODS_STAGE_2": {
+      "text_rect": {
+        "x1": 0.6302083333333334,
+        "y1": 0.6907407407407408,
+        "x2": 0.6614583333333334,
+        "y2": 0.725
+      },
+      "button_rect": {
+        "x1": 0.5885416666666666,
+        "y1": 0.375,
+        "x2": 0.7015625,
+        "y2": 0.6527777777777778
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": "0123456789/",
+      "image_save_file": "eq_golden_gods_stage_2",
+      "description": "Epic Quest: Dark Reign: Golden Gods stage #2."
+    }
   }
 ]
 

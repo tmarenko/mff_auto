@@ -399,6 +399,18 @@ class PlayingHero(OneStageEpicQuest):
         super().__init__(game=game, mode_label='EQ_PLAYING_HERO_STAGE_LABEL')
 
 
+class GoldenGods(TwoStageEpicQuest):
+    """Class for working with Epic Quest mission: Golden Gods."""
+
+    def __init__(self, game):
+        """Class initialization.
+
+        :param game.Game game: instance of the game.
+        """
+        super().__init__(game=game, mode_label='EQ_GOLDEN_GODS_STAGE_LABEL',
+                         stage_1='EQ_GOLDEN_GODS_STAGE_1', stage_2='EQ_GOLDEN_GODS_STAGE_2')
+
+
 class StingOfTheScorpion(TenStageEpicQuest):
     """Class for working with Epic Quest mission stages: Sting Of The Scorpion."""
 
