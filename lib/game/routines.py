@@ -419,6 +419,8 @@ class Friends:
         self.game.go_to_friends()
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_SEND_ALL']):
             self.player.click_button(self.ui['FRIENDS_TOKEN_SEND_ALL'].button)
+            notification_closed = wait_until(self.game.close_complete_challenge_notification, timeout=3)
+            logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
         self.game.go_to_main_menu()
 
     def acquire_all(self):
