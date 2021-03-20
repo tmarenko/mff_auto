@@ -914,5 +914,21 @@
       "image_save_file": null,
       "description": "World Boss: Knull."
     }
+  },
+  {
+    "WB_BOSS_MEPHISTO": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8799941851769063,
+        "y1": 0.5415033375389029,
+        "x2": 0.9403947757982015,
+        "y2": 0.6410633186277263
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Mephisto."
+    }
   }
 ]

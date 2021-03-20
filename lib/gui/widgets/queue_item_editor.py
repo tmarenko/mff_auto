@@ -833,7 +833,8 @@ class _WorldBosses(GameMode):
                                                                     "Cable": WorldBosses.BOSS.CABLE,
                                                                     "Scarlet Witch": WorldBosses.BOSS.SCARLET_WITCH,
                                                                     "Apocalypse": WorldBosses.BOSS.APOCALYPSE,
-                                                                    "Knull": WorldBosses.BOSS.KNULL
+                                                                    "Knull": WorldBosses.BOSS.KNULL,
+                                                                    "Mephisto": WorldBosses.BOSS.MEPHISTO
                                                                     }))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",

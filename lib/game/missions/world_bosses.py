@@ -29,6 +29,7 @@ class WorldBosses(Missions):
         SCARLET_WITCH = "WB_BOSS_SCARLET_WITCH"
         APOCALYPSE = "WB_BOSS_APOCALYPSE"
         KNULL = "WB_BOSS_KNULL"
+        MEPHISTO = "WB_BOSS_MEPHISTO"
 
     def __init__(self, game):
         """Class initialization.
