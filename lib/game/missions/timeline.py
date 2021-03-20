@@ -54,6 +54,9 @@ class TimelineBattle(Missions):
     def go_to_timeline_battle(self):
         """Go to TimeLine battle screen and select battle."""
         self.game.select_mode(self.mode_name)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_NEW_SEASON_NOTIFICATION']):
+            logger.debug("Timeline Battle: found new season notification, closing.")
+            self.player.click_button(self.ui['TL_NEW_SEASON_NOTIFICATION'].button)
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_LEAGUE_NOTIFICATION']):
             logger.debug("Timeline Battle: found league notification, closing.")
             self.player.click_button(self.ui['TL_LEAGUE_NOTIFICATION'].button)

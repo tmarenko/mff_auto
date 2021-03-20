@@ -311,5 +311,26 @@
       "image_save_file": "tl_honor_tokens_limit",
       "description": "Timeline Honor Token notification if they are more than 60000."
     }
+  },
+  {
+    "TL_NEW_SEASON_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.3666459625222098,
+        "y1": 0.8725514330811157,
+        "x2": 0.43767907475286555,
+        "y2": 0.9177467699857668
+      },
+      "button_rect": {
+        "x1": 0.3666459625222098,
+        "y1": 0.8725514330811157,
+        "x2": 0.43767907475286555,
+        "y2": 0.9177467699857668
+      },
+      "text": "CLOSE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "tl_new_season_notification",
+      "description": "Timeline Battle New Season notification. Leads to CLOSE button."
+    }
   }
 ]
