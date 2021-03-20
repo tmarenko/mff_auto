@@ -454,6 +454,7 @@ class Game:
                 self.close_news() or \
                 self.close_daily_rewards() or \
                 self.close_alliance_conquest() or \
+                self.close_alliance_conquest_results() or \
                 self.close_battleworld_rewards() or \
                 self.close_maintenance_notice() or \
                 self.close_ads(timeout=1)
@@ -481,6 +482,16 @@ class Game:
         """Close Alliance Conquest notice window."""
         if self.player.is_ui_element_on_screen(ui_element=self.ui['ALLIANCE_CONQUEST_NOTIFICATION']):
             self.player.click_button(self.ui['ALLIANCE_CONQUEST_NOTIFICATION'].button)
+            return True
+        return False
+
+    def close_alliance_conquest_results(self):
+        """Close Alliance Conquest Results notification."""
+        if self.player.is_ui_element_on_screen(self.ui['ALLIANCE_CONQUEST_REWARDS_ACQUIRE']):
+            self.player.click_button(self.ui['ALLIANCE_CONQUEST_REWARDS_ACQUIRE'].button)
+            return True
+        if self.player.is_ui_element_on_screen(self.ui['ALLIANCE_CONQUEST_REWARDS_CLOSE']):
+            self.player.click_button(self.ui['ALLIANCE_CONQUEST_REWARDS_CLOSE'].button)
             return True
         return False
 

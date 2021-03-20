@@ -994,6 +994,48 @@
       "image_save_file": "x_gene_notification",
       "description": "Notification of X-Gene subscription."
     }
+  },
+  {
+    "ALLIANCE_CONQUEST_REWARDS_ACQUIRE": {
+      "text_rect": {
+        "x1": 0.45416666666666666,
+        "y1": 0.899074074074074,
+        "x2": 0.5494791666666666,
+        "y2": 0.9555555555555556
+      },
+      "button_rect": {
+        "x1": 0.45416666666666666,
+        "y1": 0.899074074074074,
+        "x2": 0.5494791666666666,
+        "y2": 0.9555555555555556
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 175,
+      "chars": null,
+      "image_save_file": "alliance_conquest_rewards_acquire",
+      "description": "Alliance Conquest Results notification: acquire rewards."
+    }
+  },
+  {
+    "ALLIANCE_CONQUEST_REWARDS_CLOSE": {
+      "text_rect": {
+        "x1": 0.46927083333333336,
+        "y1": 0.7564814814814815,
+        "x2": 0.5354166666666667,
+        "y2": 0.8046296296296296
+      },
+      "button_rect": {
+        "x1": 0.46927083333333336,
+        "y1": 0.7564814814814815,
+        "x2": 0.5354166666666667,
+        "y2": 0.8046296296296296
+      },
+      "text": "CLOSE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "alliance_conquest_rewards_close",
+      "description": "Alliance Conquest Results notification: close acquired rewards."
+    }
   }
 ]
 
