@@ -1,7 +1,7 @@
 #   core
 numpy==1.18.5
 opencv-python==4.2.0.34
-pillow==7.1.2
+pillow==8.1.1
 regex==2020.9.27
 scipy==1.4.1
 pyautoit==0.6.0
