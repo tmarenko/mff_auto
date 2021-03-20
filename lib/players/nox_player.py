@@ -35,7 +35,7 @@ class NoxWindow(AndroidEmulator):
         self.key_handle_name = NOX_6_KEY_HANDLE_NAME
         self.key_handle_class = NOX_6_KEY_HANDLE_CLASS
         version = self.get_version()
-        if version.startswith("7."):
+        if version and version.startswith("7."):
             self.key_handle_name = NOX_7_KEY_HANDLE_NAME
             self.key_handle_class = NOX_7_KEY_HANDLE_CLASS
         self.update_windows()
@@ -64,6 +64,7 @@ class NoxWindow(AndroidEmulator):
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_player_window_info, None)
         if was_closed and self.initialized:
             self.close_app_shortcut = self._get_keyboard_shortcut_for_closing_app()
+            self._get_key_handle_by_nox_version()
 
     @staticmethod
     def _read_config_file(config_file="conf.ini"):
