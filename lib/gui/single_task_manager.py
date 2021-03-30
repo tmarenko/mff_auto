@@ -54,6 +54,63 @@ class SingleTask:
         logger.debug("Task completed.")
 
 
+class SingleTaskWithOptions:
+
+    def __init__(self, button, task_func, task_options):
+        """Class initialization.
+
+        :param TwoStateButton button: button that activates task.
+        :param task_func: function to execute.
+        :param dict task_options: function's parameters by option's key.
+        """
+        self.run_and_stop_button = button
+        self.task_func = task_func
+        self.task_options = task_options
+        self.threads = ThreadPool()
+        self.process = None
+        for task_name, task_parameters in task_options.items():
+            def add_action(parameters):
+                self.run_and_stop_button.add_action(task_name, lambda: self.execute(parameters))
+            add_action(task_parameters)
+        self.menu = self.run_and_stop_button.button.menu()
+        self.run_and_stop_button.connect_second_state(self.abort)
+
+    def execute(self, parameters):
+        """Execute function in safe thread."""
+        logger.debug(f"Executing single task: {self.__class__.__name__} {self.task_func.__name__} "
+                     f"with parameters {parameters}")
+        worker = self.threads.run_thread(target=lambda: self._execute(parameters=parameters))
+        worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
+        worker.signals.finished.connect(self._set_menu)
+        self._clear_menu()
+        self.run_and_stop_button.set_second_state()
+
+    def _clear_menu(self):
+        """Clear button menu."""
+        self.run_and_stop_button.button.setMenu(None)
+
+    def _set_menu(self):
+        """Set button menu from cache."""
+        self.run_and_stop_button.button.setMenu(self.menu)
+
+    @safe_process_stop
+    def abort(self):
+        """Abort function's execution."""
+        if self.process:
+            logger.debug("Task was forcibly stopped.")
+            self.process.terminate()
+        self.threads.thread_pool.clear()
+        self._set_menu()
+        self.run_and_stop_button.set_first_state()
+
+    def _execute(self, parameters):
+        """Execute function."""
+        self.process = Process(target=self.task_func, kwargs=parameters)
+        self.process.start()
+        self.process.join()
+        logger.debug("Task completed.")
+
+
 class AutoPlayTask(SingleTask):
 
     def __init__(self, button, game: Game):
@@ -102,7 +159,7 @@ class SquadBattleAllTask(SingleTask):
         super().__init__(button, do_missions, {"mode": SquadBattles.MODE.ALL_BATTLES})
 
 
-class DangerRoomOneBattleTask(SingleTask):
+class DangerRoomOneBattleTask(SingleTaskWithOptions):
 
     def __init__(self, button, game: Game):
         dr = DangerRoom(game)
@@ -111,7 +168,10 @@ class DangerRoomOneBattleTask(SingleTask):
         def do_missions(*args, **kwargs):
             return dr.do_missions(*args, **kwargs)
 
-        super().__init__(button, do_missions, {"times": 1})
+        super().__init__(button, task_func=do_missions, task_options={
+            "NORMAL mode": {"times": 1, "mode": dr.MODE.NORMAL},
+            "EXTREME mode": {"times": 1, "mode": dr.MODE.EXTREME}
+        })
 
 
 class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
@@ -151,7 +211,7 @@ class ComicCardsTask(SingleTask):
         super().__init__(button, upgrade_all_cards, {})
 
 
-class CustomGearTask(SingleTask):
+class CustomGearTask(SingleTaskWithOptions):
 
     def __init__(self, button, game: Game):
         cg = CustomGear(game)
@@ -160,4 +220,7 @@ class CustomGearTask(SingleTask):
         def quick_upgrade_gear(*args, **kwargs):
             return cg.quick_upgrade_gear(*args, **kwargs)
 
-        super().__init__(button, quick_upgrade_gear, {"times": 1})
+        super().__init__(button, task_func=quick_upgrade_gear, task_options={
+            "Upgrade 1 gear": {"times": 1},
+            "Upgrade ALL gear": {"times": 999}
+        })

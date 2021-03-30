@@ -322,8 +322,7 @@ class Ui_MainWindow(object):
         self.daily_trivia_button.setText(_translate("MainWindow", "Daily Trivia"))
         self.comic_cards_button.setText(_translate("MainWindow", "Comic Cards:\n"
 "Upgrade All"))
-        self.custom_gear_button.setText(_translate("MainWindow", "Custom Gear:\n"
-"Upgrade 1 Gear"))
+        self.custom_gear_button.setText(_translate("MainWindow", "Custom Gear Upgrade"))
         self.shield_lab_button.setText(_translate("MainWindow", "Shield Lab:\n"
 " Collect Anti-Matter"))
         self.squad_battle_button.setText(_translate("MainWindow", "Squad Battle:\n"

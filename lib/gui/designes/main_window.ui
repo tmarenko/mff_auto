@@ -517,8 +517,7 @@ Upgrade All</string>
             </size>
            </property>
            <property name="text">
-            <string>Custom Gear:
-Upgrade 1 Gear</string>
+            <string>Custom Gear Upgrade</string>
            </property>
           </widget>
          </item>

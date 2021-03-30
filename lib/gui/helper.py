@@ -1,5 +1,6 @@
 ﻿from PyQt5.QtCore import QTimer, pyqtSignal, QObject
 from PyQt5.QtGui import QIcon, QImage, QPixmap
+from PyQt5.QtWidgets import QMenu
 from time import sleep
 
 
@@ -91,6 +92,19 @@ class TwoStateButton:
             self.set_second_state()
         elif self.state == TwoStateButton.State.Second:
             self.set_first_state()
+
+    def add_action(self, action_name, action_func):
+        """Add action menu to button as first state.
+
+        :param action_name: name of action.
+        :param action_func: function to execute.
+        """
+        menu = self.button.menu() if self.button.menu() else QMenu()
+        action = menu.addAction(action_name)
+        action.triggered.connect(action_func)
+        for proxy_func in self.first_state_funcs:
+            action.triggered.connect(proxy_func)
+        self.button.setMenu(menu)
 
 
 class Timer:
