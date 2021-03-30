@@ -25,8 +25,14 @@ logger = logging.get_logger(__name__)
 def load_game_settings(path="settings/gui/game.json"):
     """Load game settings for GUI."""
     if exists(path):
-        with open(path, encoding='utf-8') as json_data:
-            return json.load(json_data)
+        try:
+            with open(path, encoding='utf-8') as json_data:
+                return json.load(json_data)
+        except json.decoder.JSONDecodeError as err:
+            logger.error(err)
+            with open(path, encoding='utf-8') as json_data:
+                logger.error(f"Corrupted data in {path} file. File content:\n{json_data.readlines()}")
+    return {}
 
 
 def save_game_settings(json_data, path="settings/gui/game.json"):
@@ -72,8 +78,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.comic_cards = ComicCardsTask(game=self.game, button=comic_cards_button)
         self.custom_gear = CustomGearTask(game=self.game, button=custom_gear_button)
         self.screen_image = ScreenImageLabel(player=self.player, widget=self.screen_label)
-        self.acquire_heroic_quest_rewards_state_changed()
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
+        self.low_memory_mode_checkbox.stateChanged.connect(self.low_memory_mode_state_changed)
         self.mission_team_spin_box.valueChanged.connect(self.mission_team_changed)
         self.timeline_team_spin_box.valueChanged.connect(self.timeline_team_changed)
         self.threads = ThreadPool()
@@ -115,12 +121,14 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         team = self.mission_team_spin_box.value()
         self.game.set_mission_team(team)
         logger.info(f"Team number for missions : {self.game.mission_team}")
+        self.save_settings_to_file()
 
     def timeline_team_changed(self):
         """'Timeline team' spinbox event when value is changed."""
         team = self.timeline_team_spin_box.value()
         self.game.set_timeline_team(team)
         logger.info(f"Team number for TimeLine battles : {self.game.timeline_team}")
+        self.save_settings_to_file()
 
     def acquire_heroic_quest_rewards_state_changed(self):
         """'Acquire heroic quest rewards' checkbox even when value is changed."""
@@ -129,6 +137,16 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         else:
             self.game.ACQUIRE_HEROIC_QUEST_REWARDS = False
         logger.info(f"Acquire Heroic Quest rewards: {self.game.ACQUIRE_HEROIC_QUEST_REWARDS}")
+        self.save_settings_to_file()
+
+    def low_memory_mode_state_changed(self):
+        """'Low memory mode' checkbox even when value is changed."""
+        if self.low_memory_mode_checkbox.isChecked():
+            self.game.LOW_MEMORY_MODE = True
+        else:
+            self.game.LOW_MEMORY_MODE = False
+        logger.info(f"Low memory mode: {self.game.LOW_MEMORY_MODE}")
+        self.save_settings_to_file()
 
     def load_settings_from_file(self):
         """Load settings and apply them to game."""
@@ -141,11 +159,13 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.player_type = game_settings.get("player_type")
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
-        self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards"))
+        self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards", True))
+        self.low_memory_mode_checkbox.setChecked(game_settings.get("low_memory_mode", False))
         self.init_player_and_game()
-        self.timeline_team_changed()
-        self.mission_team_changed()
-        self.acquire_heroic_quest_rewards_state_changed()
+        self.game.set_mission_team(self.mission_team_spin_box.value())
+        self.game.set_timeline_team(self.timeline_team_spin_box.value())
+        self.game.ACQUIRE_HEROIC_QUEST_REWARDS = self.acquire_heroic_quest_rewards_checkbox.isChecked()
+        self.game.LOW_MEMORY_MODE = self.low_memory_mode_checkbox.isChecked()
 
     def save_settings_to_file(self):
         """Store GUI settings to file."""
@@ -153,6 +173,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "timeline_team": self.game.timeline_team,
             "mission_team": self.game.mission_team,
             "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS,
+            "low_memory_mode": self.game.LOW_MEMORY_MODE,
             "player_name": self.player_name,
             "player_type": self.player_type,
             "game_app_rect": self.game_app_rect
@@ -170,6 +191,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "timeline_team": self.timeline_team_spin_box.value(),
             "mission_team": self.mission_team_spin_box.value(),
             "acquire_heroic_quest_rewards": self.acquire_heroic_quest_rewards_checkbox.isChecked(),
+            "low_memory_mode": self.low_memory_mode_checkbox.isChecked(),
             "player_name": self.player_name,
             "player_type": self.player_type,
             "game_app_rect": self.game_app_rect
