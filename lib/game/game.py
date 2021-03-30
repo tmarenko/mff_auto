@@ -155,8 +155,6 @@ class Game:
         loading_color = self.ui['LOADING_CIRCLE_1'].button
         result = self.player.is_color_similar(color=(loading_color[0], loading_color[1], loading_color[2]),
                                               rects=loading_circle_rects)
-        if result:
-            logger.debug("Loading circle is on screen.")
         return result
 
     def go_to_main_menu(self):
