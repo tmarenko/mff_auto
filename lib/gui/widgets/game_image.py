@@ -2,6 +2,9 @@
 from PyQt5.QtWidgets import QSizePolicy
 from lib.gui.helper import Timer, screen_to_gui_image
 from lib.game.ui import Rect
+import lib.logger as logging
+
+logger = logging.get_logger(__name__)
 
 
 class ScreenImageLabel(Timer):
@@ -41,6 +44,7 @@ class ScreenImageLabel(Timer):
         if x and y:
             click_rect = Rect(x / self.scaled_width, y / self.scaled_height,
                               x / self.scaled_width, y / self.scaled_height)
+            logger.debug(f"Sending clicking event by coordinates {(x,y)}; rect: {click_rect.value}")
             self.player.click_button(click_rect)
 
     def translate_coordinate_from_label_to_screen(self, x, y):
