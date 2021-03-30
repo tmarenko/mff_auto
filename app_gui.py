@@ -1,4 +1,4 @@
-﻿import lib.logger as logging
+import lib.logger as logging
 import os
 import sys
 import traceback
@@ -25,7 +25,16 @@ def check_updates():
     return updater.current_version
 
 
+def suppress_qt_warnings():
+    from os import environ
+    environ["QT_DEVICE_PIXEL_RATIO"] = "0"
+    environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    environ["QT_SCREEN_SCALE_FACTORS"] = "1"
+    environ["QT_SCALE_FACTOR"] = "1"
+
+
 if __name__ == '__main__':
+    suppress_qt_warnings()
     try:
         file_logger = logging.create_file_handler()
         current_version = check_updates()
