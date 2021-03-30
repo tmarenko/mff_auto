@@ -178,10 +178,12 @@ def create_gui_start_file():
 
 
 def archive_build():
-    print("Archiving build folder.")
+    print("Archiving build folder with 7-zip.")
     archive_build_cmd = [SEVEN_ZIP_EXE, "a", "-t7z", "-m0=lzma", "-mx=9", "-mfb=64", "-md=64m", "-ms=on",
                          f"mff_auto-{version.mff_auto}-build.7z", f"{BUILD_FOLDER}\\*"]
     subprocess.call(archive_build_cmd, shell=True, stdout=FNULL)
+    print("Archiving build folder with Zip.")
+    shutil.make_archive(f"mff_auto-{version.mff_auto}-build", 'zip', f"{BUILD_FOLDER}\\")
 
 
 def remove_7zip():
