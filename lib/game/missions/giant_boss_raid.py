@@ -97,8 +97,12 @@ class GiantBossRaid(Missions):
             while self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_START_BUTTON_INACTIVE']):
                 if waiting_time % timeout_to_kick == 0:
                     logger.debug(f"Giant Boss Raid: too long, kicking all players. Wait time is {waiting_time} secs.")
-                    self.player.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
-                    self.player.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
+                    if self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_2']):
+                        logger.debug(f"Giant Boss Raid: kicking player #2.")
+                        self.player.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
+                    if self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_3']):
+                        logger.debug(f"Giant Boss Raid: kicking player #3.")
+                        self.player.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
                 r_sleep(1)
                 waiting_time += 1
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_START_BUTTON']):
