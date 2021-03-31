@@ -37,6 +37,27 @@
     }
   },
   {
+    "GBR_CREATE_LOBBY": {
+      "text_rect": {
+        "x1": 0.587267191241488,
+        "y1": 0.900014751355054,
+        "x2": 0.7271756894441801,
+        "y2": 0.951375849947638
+      },
+      "button_rect": {
+        "x1": 0.587267191241488,
+        "y1": 0.900014751355054,
+        "x2": 0.7271756894441801,
+        "y2": 0.951375849947638
+      },
+      "text": "CREATE LOBBY",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_create_lobby",
+      "description": "Giant Boss Raid: Create Lobby button in the mission lobby."
+    }
+  },
+  {
     "GBR_QUICK_START": {
       "text_rect": {
         "x1": 0.8115375601773692,
@@ -218,7 +239,108 @@
       "image_threshold": 175,
       "chars": null,
       "image_save_file": "gbr_ready_button",
-      "description": "Giant Boss Raid: READY button in raid lobby."
+      "description": "DEPRECATED: Giant Boss Raid: READY button in raid lobby."
+    }
+  },
+  {
+    "GBR_START_BUTTON_INACTIVE": {
+      "text_rect": {
+        "x1": 0.840686462089338,
+        "y1": 0.9085401228837354,
+        "x2": 0.9156722233070219,
+        "y2": 0.9626651836122895
+      },
+      "button_rect": {
+        "x1": 0.840686462089338,
+        "y1": 0.9085401228837354,
+        "x2": 0.9156722233070219,
+        "y2": 0.9626651836122895
+      },
+      "text": "START",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "gbr_start_button_inactive",
+      "description": "Giant Boss Raid: Start (inactive) button in raid lobby."
+    }
+  },
+  {
+    "GBR_START_BUTTON": {
+      "text_rect": {
+        "x1": 0.840686462089338,
+        "y1": 0.9085401228837354,
+        "x2": 0.9156722233070219,
+        "y2": 0.9626651836122895
+      },
+      "button_rect": {
+        "x1": 0.840686462089338,
+        "y1": 0.9085401228837354,
+        "x2": 0.9156722233070219,
+        "y2": 0.9626651836122895
+      },
+      "text": "START",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "gbr_start_button",
+      "description": "Giant Boss Raid: Start (active) button in raid lobby."
+    }
+  },
+  {
+    "GBR_PUBLIC_LOBBY_TOGGLE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.0515625,
+        "y1": 0.9175925925925926,
+        "x2": 0.07291666666666667,
+        "y2": 0.9555555555555556
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "gbr_public_lobby_toggle",
+      "description": "Giant Boss Raid: Toggle for Public Lobby."
+    }
+  },
+  {
+    "GBR_KICK_PLAYER_2": {
+      "text_rect": {
+        "x1": 0.3260416666666667,
+        "y1": 0.549074074074074,
+        "x2": 0.37552083333333336,
+        "y2": 0.5962962962962963
+      },
+      "button_rect": {
+        "x1": 0.3260416666666667,
+        "y1": 0.549074074074074,
+        "x2": 0.37552083333333336,
+        "y2": 0.5962962962962963
+      },
+      "text": "KICK",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "gbr_kick_player_2",
+      "description": "Giant Boss Raid: Kick player #2 button in raid lobby."
+    }
+  },
+  {
+    "GBR_KICK_PLAYER_3": {
+      "text_rect": {
+        "x1": 0.3260416666666667,
+        "y1": 0.7638888888888888,
+        "x2": 0.37552083333333336,
+        "y2": 0.812037037037037
+      },
+      "button_rect": {
+        "x1": 0.3260416666666667,
+        "y1": 0.7638888888888888,
+        "x2": 0.37552083333333336,
+        "y2": 0.812037037037037
+      },
+      "text": "KICK",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "gbr_kick_player_3",
+      "description": "Giant Boss Raid: Kick player #3 button in raid lobby."
     }
   },
   {
@@ -239,7 +361,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "gbr_searching_lobby",
-      "description": "Giant Boss Raid: searching lobby notification. Leads to CANCEL button."
+      "description": "DEPRECATED: Giant Boss Raid: searching lobby notification. Leads to CANCEL button."
     }
   },
   {

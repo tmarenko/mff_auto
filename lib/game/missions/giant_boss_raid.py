@@ -37,10 +37,10 @@ class GiantBossRaid(Missions):
         self.start_missions(times=times, max_rewards=max_rewards)
         self.end_missions()
 
-    def start_missions(self, times=None, max_rewards=None):
+    def start_missions(self, times=0, max_rewards=None):
         """Start Giant Boss Raid."""
         if self.go_to_gbr():
-            logger.info(f"Giant Boss Raid: starting {times} raids.")
+            logger.info(f"Giant Boss Raid: starting {times} raid(s).")
             while times > 0:
                 if not self.press_start_button(max_rewards=max_rewards):
                     return
@@ -73,14 +73,13 @@ class GiantBossRaid(Missions):
                                   ui_element=self.ui['GBR_QUICK_START'])
         return False
 
-    def press_start_button(self, start_button_ui='GBR_QUICK_START', max_rewards=None):
+    def press_start_button(self, start_button_ui='GBR_CREATE_LOBBY', max_rewards=None):
         """Press start button of the mission.
 
         :return: was button clicked successfully.
         """
         logger.debug(f"Pressing START button.")
         self.player.click_button(self.ui[start_button_ui].button)
-        # TODO: GBR_SEARCHING_LOBBY
         if wait_until(self.player.is_ui_element_on_screen, timeout=30, ui_element=self.ui['GBR_SELECT_CHARACTERS']):
             self.deploy_characters()
             self.player.click_button(self.ui['GBR_SELECT_CHARACTERS_OK'].button)
@@ -89,8 +88,22 @@ class GiantBossRaid(Missions):
                 while not self.player.is_ui_element_on_screen(self.ui['GBR_BOOST_POINTS_NO_MORE']):
                     self.player.click_button(self.ui['GBR_BOOST_POINTS_PLUS'].button)
                 self.player.click_button(self.ui['GBR_BOOST_POINTS_NO_MORE'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_READY_BUTTON']):
-                self.player.click_button(self.ui['GBR_READY_BUTTON'].button)
+            if not wait_until(self.player.is_image_on_screen, timeout=1, ui_element=self.ui['GBR_PUBLIC_LOBBY_TOGGLE']):
+                logger.debug("Giant Boss Raid: Found PUBLIC LOBBY toggle inactive. Clicking it.")
+                self.player.click_button(self.ui['GBR_PUBLIC_LOBBY_TOGGLE'].button)
+
+            logger.debug("Giant Boss Raid: waiting for players in lobby.")
+            waiting_time, timeout_to_kick = 0, 120
+            while self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_START_BUTTON_INACTIVE']):
+                if waiting_time % timeout_to_kick == 0:
+                    logger.debug(f"Giant Boss Raid: too long, kicking all players. Wait time is {waiting_time} secs.")
+                    self.player.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
+                    self.player.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
+                r_sleep(1)
+                waiting_time += 1
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_START_BUTTON']):
+                logger.debug("Giant Boss Raid: all players are ready. Starting the raid.")
+                self.player.click_button(self.ui['GBR_START_BUTTON'].button)
                 return True
         logger.warning("Unable to press START button.")
         return False
