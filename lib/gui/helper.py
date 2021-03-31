@@ -167,7 +167,8 @@ def reset_player_and_logger(game):
     def decorator(func):
         def wrapper(*args, **kwargs):
             import lib.logger as logging
-            logging.create_file_handler(file_name=game.file_logger_name)
+            if game.file_logger_name:
+                logging.create_file_handler(file_name=game.file_logger_name)
             if not game.player.initialized:
                 name = func.__name__ if not func.__closure__ else func.__closure__[0].cell_contents.__module__
                 logging.get_logger(name).error(f"Can't find NoxWindow with name {game.player.name}.")

@@ -1,6 +1,7 @@
 import logging
 import time
 import sys
+from os.path import exists
 
 LOGS_FOLDER = "logs"
 
@@ -21,6 +22,8 @@ def get_logger(name) -> logging.Logger:
 
 
 def create_file_handler(file_name=None):
+    if not exists("logs"):
+        return None
     if not file_name:
         file_name = f"logs/debug_{time.strftime('%Y-%m-%d--%H-%M-%S')}.log"
     fh = logging.FileHandler(file_name, mode='a', encoding='utf-8')

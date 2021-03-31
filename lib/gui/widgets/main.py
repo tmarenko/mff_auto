@@ -51,8 +51,12 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         set_default_icon(window=self)
         self.player_name, self.player_type, self.game_app_rect, self.player, self.game = None, None, None, None, None
         self.load_settings_from_file()
-        self.game.file_logger_name = file_logger.baseFilename
-        self.logger = QTextEditFileLogger(logger_widget=self.logger_text, log_file=file_logger.baseFilename)
+        self.game.file_logger_name = None
+        if file_logger:
+            self.game.file_logger_name = file_logger.baseFilename
+            self.logger = QTextEditFileLogger(logger_widget=self.logger_text, log_file=file_logger.baseFilename)
+        else:
+            self.logger_text.setPlainText("Cannot create log file because `logs` folder doesn't exists.")
         run_and_stop_button = self.create_blockable_button(button=self.run_queue_button)
         autoplay_button = self.create_blockable_button(button=self.autoplay_button)
         daily_trivia_button = self.create_blockable_button(button=self.daily_trivia_button)
