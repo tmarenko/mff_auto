@@ -93,7 +93,7 @@ class GiantBossRaid(Missions):
                 self.player.click_button(self.ui['GBR_PUBLIC_LOBBY_TOGGLE'].button)
 
             logger.debug("Giant Boss Raid: waiting for players in lobby.")
-            waiting_time, timeout_to_kick = 0, 120
+            waiting_time, timeout_to_kick = 1, 120
             while self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_START_BUTTON_INACTIVE']):
                 if waiting_time % timeout_to_kick == 0:
                     logger.debug(f"Giant Boss Raid: too long, kicking all players. Wait time is {waiting_time} secs.")
