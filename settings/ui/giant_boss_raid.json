@@ -96,7 +96,7 @@
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "gbr_not_enough_energy",
-      "description": "DEPRECATED: Giant Boss Raid: not enough energy notification."
+      "description": "Giant Boss Raid: not enough energy notification. Leads to CANCEL button."
     }
   },
   {
