@@ -30,6 +30,15 @@ class DangerRoom(Missions):
 
         return [maintain_team]
 
+    @property
+    def disconnect_conditions(self):
+        def game_canceled():
+            if self.player.is_ui_element_on_screen(self.ui['DANGER_ROOM_GAME_CANCELED']):
+                self.player.click_button(self.ui['DANGER_ROOM_GAME_CANCELED'].button)
+                return True
+
+        return super().disconnect_conditions + [game_canceled]
+
     def close_rewards_notifications(self, timeout=3):
         """Close any rewards notifications.
 
