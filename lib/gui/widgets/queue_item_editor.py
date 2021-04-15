@@ -1,4 +1,4 @@
-﻿from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
+from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
 from PyQt5.QtCore import Qt
 import lib.gui.designes.queue_editor_window as design
 from lib.gui.helper import set_default_icon, reset_player_and_logger
@@ -164,8 +164,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         legacy_of_blood = _LegacyOfBlood(game)
         playing_hero = _PlayingHero(game)
         golden_gods = _GoldenGods(game)
+        reset_world_boss = _ResetWorldBoss(game)
         self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, friends_send_all,
-                        friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset]
+                        friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset,
+                        reset_world_boss]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -365,6 +367,33 @@ class GameMode:
             def value(self, val):
                 key = [k for k, v in self.values_dict.items() if v == val]
                 self.widget_combobox.setCurrentText(key[0])
+
+        class MultiCheckbox:
+
+            def __init__(self, values_dict, initial_state=True):
+                from PyQt5.QtWidgets import QCheckBox
+                self.values_dict = values_dict
+                self.widgets = [QCheckBox(text=text) for text in self.values_dict.keys()]
+                for widget in self.widgets:
+                    widget.setCheckState(Qt.Checked if initial_state else Qt.Unchecked)
+
+            def add_to_layout(self, layout):
+                from PyQt5.QtWidgets import QFormLayout
+                for widget in self.widgets:
+                    row_index = layout.rowCount()
+                    layout.setWidget(row_index, QFormLayout.LabelRole, widget)
+
+            @property
+            def value(self):
+                return [self.values_dict[widget.text()] for widget in self.widgets if widget.isChecked()]
+
+            @value.setter
+            def value(self, values):
+                for widget in self.widgets:
+                    if widget.text() in values:
+                        widget.setCheckState(Qt.Checked)
+                    else:
+                        widget.setCheckState(Qt.Unchecked)
 
         def __init__(self, setting_type, setting_key, **kwargs):
             """Class initialization.
@@ -1228,3 +1257,29 @@ class _GoldenGods(GameMode):
                                                        initial_state=False,
                                                        text="Farm shifter's biometrics (requires restartable emulator)")
                                   )
+
+
+class _ResetWorldBoss(Action):
+
+    def __init__(self, game):
+        self.world_boss = WorldBosses(game)
+        super().__init__(game, "RESET TODAY'S WORLD BOSS", self.world_boss.change_world_boss_of_the_day)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="max_resets",
+                                                       text="Max times of resets",
+                                                       min=0, max=99, initial_value=99))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.MultiCheckbox,
+                                                       setting_key="world_boss",
+                                                       values_dict={"Proxima Midnight": WorldBosses.BOSS_OF_THE_DAY.PROXIMA_MIDNIGHT,
+                                                                    "Black Dwarf": WorldBosses.BOSS_OF_THE_DAY.BLACK_DWARF,
+                                                                    "Corvus Glave": WorldBosses.BOSS_OF_THE_DAY.CORVUS_GLAIVE,
+                                                                    "Supergiant": WorldBosses.BOSS_OF_THE_DAY.SUPERGIANT,
+                                                                    "Ebony Maw": WorldBosses.BOSS_OF_THE_DAY.EBONY_MAW,
+                                                                    "Thanos": WorldBosses.BOSS_OF_THE_DAY.THANOS,
+                                                                    "Quicksilver": WorldBosses.BOSS_OF_THE_DAY.QUICKSILVER,
+                                                                    "Cable": WorldBosses.BOSS_OF_THE_DAY.CABLE,
+                                                                    "Scarlet Witch": WorldBosses.BOSS_OF_THE_DAY.SCARLET_WITCH,
+                                                                    "Apocalypse": WorldBosses.BOSS_OF_THE_DAY.APOCALYPSE,
+                                                                    "Knull": WorldBosses.BOSS_OF_THE_DAY.KNULL,
+                                                                    "Mephisto": WorldBosses.BOSS_OF_THE_DAY.MEPHISTO
+                                                                    }))

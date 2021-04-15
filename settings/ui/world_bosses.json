@@ -930,5 +930,90 @@
       "image_save_file": null,
       "description": "World Boss: Mephisto."
     }
+  },
+  {
+    "WB_RESET_TODAYS_BOSS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.22828596084124803,
+        "y1": 0.7529127597302306,
+        "x2": 0.25163316955762494,
+        "y2": 0.7936502761736209
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Reset Today's Boss button."
+    }
+  },
+  {
+    "WB_RESET_TODAYS_BOSS_MENU": {
+      "text_rect": {
+        "x1": 0.3681413964639079,
+        "y1": 0.07897448802003569,
+        "x2": 0.6290946192902116,
+        "y2": 0.14410894414732692
+      },
+      "button_rect": null,
+      "text": "RESET TODAY'S WORLD BOSS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "wb_reset_todays_boss_menu",
+      "description": "World Boss: Reset Today's Boss menu label."
+    }
+  },
+  {
+    "WB_RESET_TODAYS_BOSS_MENU_CLOSE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8585047443714716,
+        "y1": 0.08743714825657058,
+        "x2": 0.8877558449471624,
+        "y2": 0.13924650499639465
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": null,
+      "description": "World Boss: Reset Today's Boss close menu button."
+    }
+  },
+  {
+    "WB_RESET_TODAYS_BOSS_BUTTON": {
+      "text_rect": {
+        "x1": 0.28514481269966807,
+        "y1": 0.8406488423248915,
+        "x2": 0.3576733588720218,
+        "y2": 0.8938198269185987
+      },
+      "button_rect": {
+        "x1": 0.28514481269966807,
+        "y1": 0.8406488423248915,
+        "x2": 0.3576733588720218,
+        "y2": 0.8938198269185987
+      },
+      "text": "RESET",
+      "image_threshold": 170,
+      "chars": null,
+      "image_save_file": "wb_reset_todays_boss_button",
+      "description": "World Boss: Reset Today's Boss button."
+    }
+  },
+  {
+    "WB_RESET_TODAYS_BOSS_NAME": {
+      "text_rect": {
+        "x1": 0.17971671980995804,
+        "y1": 0.6731602408547137,
+        "x2": 0.3277646800380615,
+        "y2": 0.7369654223671623
+      },
+      "button_rect": null,
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "wb_reset_todays_boss_name",
+      "description": "World Boss: Reset Today's Boss name."
+    }
   }
 ]

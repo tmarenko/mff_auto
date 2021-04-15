@@ -1,6 +1,6 @@
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import wait_until
+from lib.functions import wait_until, is_strings_similar, r_sleep
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -30,6 +30,21 @@ class WorldBosses(Missions):
         APOCALYPSE = "WB_BOSS_APOCALYPSE"
         KNULL = "WB_BOSS_KNULL"
         MEPHISTO = "WB_BOSS_MEPHISTO"
+
+    class BOSS_OF_THE_DAY:
+
+        PROXIMA_MIDNIGHT = "Proxima Midnight"
+        BLACK_DWARF = "Black Dwarf"
+        CORVUS_GLAIVE = "Corvus Glave"
+        SUPERGIANT = "Supergiant"
+        EBONY_MAW = "Ebony Maw"
+        THANOS = "Thanos"
+        QUICKSILVER = "Quicksilver"
+        CABLE = "Cable"
+        SCARLET_WITCH = "Scarlet Witch"
+        APOCALYPSE = "Apocalypse"
+        KNULL = "Knull"
+        MEPHISTO = "Mephisto"
 
     def __init__(self, game):
         """Class initialization.
@@ -290,3 +305,46 @@ class WorldBosses(Missions):
                 self.decrease_stage_level()
             if self.stage_level < level_num:
                 self.increase_stage_level()
+
+    def change_world_boss_of_the_day(self, world_boss, max_resets=0):
+        """Change Today's World Boss.
+
+        :param world_boss: name or list of the Bosses' names.
+        :param max_resets: number of maximum resets.
+        """
+        if max_resets == 0 or not world_boss:
+            return
+        target_world_boss = world_boss if isinstance(world_boss, list) else [world_boss]
+        self.stages = max_resets
+        if not self.go_to_wb():
+            logger.warning("World Boss: can't get in battles lobby.")
+            return
+        self.player.click_button(self.ui['WB_RESET_TODAYS_BOSS'].button)
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_RESET_TODAYS_BOSS_MENU']):
+            logger.debug("World Boss: Reset Menu is opened.")
+            return self._reset_world_boss(target_world_boss=target_world_boss, current_reset=0, max_resets=max_resets)
+        else:
+            logger.warning("World Boss: can't open Reset Menu. Probably your VIP status is low.")
+
+    def _reset_world_boss(self, target_world_boss, current_reset, max_resets):
+        """Resets World Boss in reset menu.
+
+        :param target_world_boss: name or list of the Bosses' names for reset.
+        :param current_reset: number of current reset to compare with maximum.
+        :param max_resets: number of maximum resets.
+        """
+        if current_reset > max_resets:
+            logger.warning(f"World Boss: achieved max resets of {current_reset} for Today's World Boss.")
+        current_world_boss = self.player.get_screen_text(self.ui['WB_RESET_TODAYS_BOSS_NAME'])
+        logger.debug(f"Current boss of the day is {current_world_boss}; resetting for {target_world_boss}")
+        target_world_boss_found = [is_strings_similar(boss, current_world_boss) for boss in target_world_boss]
+        if any(target_world_boss_found):
+            logger.debug("No need to reset World Boss. Exiting reset menu.")
+            self.player.click_button(self.ui['WB_RESET_TODAYS_BOSS_MENU_CLOSE'].button)
+            return self.game.go_to_main_menu()
+        else:
+            logger.debug("Resetting World Boss of the day.")
+            self.player.click_button(self.ui['WB_RESET_TODAYS_BOSS_BUTTON'].button)
+            r_sleep(1)  # Wait for reset animation
+            return self._reset_world_boss(target_world_boss=target_world_boss, current_reset=current_reset + 1,
+                                          max_resets=max_resets)
