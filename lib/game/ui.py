@@ -162,14 +162,3 @@ def load_game_modes(path="settings/game_modes.json"):
     """
     with open(path, encoding='utf-8') as json_data:
         return json.load(json_data)
-
-
-def load_daily_trivia(path="settings/daily_trivia.json"):
-    """Load daily trivia's questions and answers.
-
-    :param path: path to settings.
-
-    :return: dictionary of questions and answers.
-    """
-    with open(path, encoding='utf-8') as json_data:
-        return json.load(json_data)

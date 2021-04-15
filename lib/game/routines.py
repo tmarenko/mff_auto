@@ -8,23 +8,37 @@ from random import randint
 from time import sleep
 from lib.game.missions.missions import Missions
 from lib.functions import wait_until, is_strings_similar, r_sleep
-from lib.game.ui import load_daily_trivia
 
 logger = logging.get_logger(__name__)
 
 
-class DailyTrivia:
+class Routine(Missions):
+
+    def __init__(self, game):
+        super().__init__(game, "")
+
+
+class DailyTrivia(Routine):
     """Class for working with Daily Trivia."""
+
+    @staticmethod
+    def load_daily_trivia(path="settings/daily_trivia.json"):
+        """Load daily trivia's questions and answers.
+
+        :param path: path to settings.
+
+        :return: dictionary of questions and answers.
+        """
+        with open(path, encoding='utf-8') as json_data:
+            return json.load(json_data)
 
     def __init__(self, game):
         """Class initialization.
 
         :param lib.game.Game game: instance of the game.
         """
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
-        self.trivia = load_daily_trivia()
+        super().__init__(game)
+        self.trivia = self.load_daily_trivia()
 
     def do_trivia(self):
         """Do trivia."""
@@ -50,48 +64,40 @@ class DailyTrivia:
         question = self.player.get_screen_text(ui_element=self.ui['DAILY_TRIVIA_QUESTION'])
         logger.debug(f"Found question: {question}")
         answers = [value for key, value in self.trivia.items() if is_strings_similar(question, key)]
-        if answers:
-            logger.debug(f"Found answers: {answers}, selecting.")
-            for answer in answers:
-                for i in range(1, 5):
-                    available_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{i}']
-                    available_answer = self.player.get_screen_text(ui_element=available_answer_ui)
-                    logger.debug(f"Found available answer: {available_answer}.")
-                    if is_strings_similar(answer, available_answer):
-                        logger.debug(f"Found correct answer on UI element: {available_answer_ui.name}, clicking.")
-                        self.player.click_button(available_answer_ui.button)
-                        if wait_until(self.player.is_ui_element_on_screen, timeout=3,
-                                      ui_element=self.ui['DAILY_TRIVIA_CLOSE_ANSWER']):
-                            self.player.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
-                            notification_closed = wait_until(self.game.close_complete_challenge_notification, timeout=3)
-                            logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
-                            return True
-                        else:
-                            logger.error("Something went wrong after selecting correct answer.")
-            else:
-                logger.error("No available answers was found for trivia question.")
-                random_answer = randint(1, 4)
-                random_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{random_answer}']
-                logger.warning(f"Selecting random answer: {random_answer}.")
-                self.player.click_button(random_answer_ui.button)
-                return True
+        if not answers:
+            logger.error(f"Can find answer for question: {question}")
+            return False
+        logger.debug(f"Found answers: {answers}, selecting.")
+        for answer in answers:
+            for i in range(1, 5):
+                available_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{i}']
+                available_answer = self.player.get_screen_text(ui_element=available_answer_ui)
+                logger.debug(f"Found available answer: {available_answer}.")
+                if is_strings_similar(answer, available_answer):
+                    logger.debug(f"Found correct answer on UI element: {available_answer_ui.name}, clicking.")
+                    self.player.click_button(available_answer_ui.button)
+                    if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['DAILY_TRIVIA_CLOSE_ANSWER']):
+                        self.player.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
+                        notification_closed = wait_until(self.game.close_complete_challenge_notification, timeout=3)
+                        logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
+                        return True
+                    else:
+                        logger.error("Something went wrong after selecting correct answer.")
+        else:
+            logger.error("No available answers was found for trivia question.")
+            random_answer = randint(1, 4)
+            random_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{random_answer}']
+            logger.warning(f"Selecting random answer: {random_answer}.")
+            self.player.click_button(random_answer_ui.button)
+            return True
 
-        logger.error(f"Can find answer for question: {question}")
-        return False
 
-
-class ShieldLab:
-
-    def __init__(self, game):
-        """Class initialization.
-
-        :param lib.game.Game game: instance of the game.
-        """
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
+class ShieldLab(Routine):
+    """Class for working with Shield Lab."""
 
     def collect_antimatter(self):
+        """Collect all available antimatter in the lab."""
         self.game.go_to_lab()
         r_sleep(1)  # Wait for button's animation
         if self.player.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1']):
@@ -103,21 +109,12 @@ class ShieldLab:
         self.game.go_to_main_menu()
 
 
-class EnhancePotential:
+class EnhancePotential(Routine):
     """Class for working with character's potential enhancement."""
 
     COSMIC_CUBE_FRAGMENT = "COSMIC_CUBE_FRAGMENT"
     BLACK_ANTI_MATTER = "BLACK_ANTI_MATTER"
     NORN_STONE_OF_CHAOS = "NORN_STONE_OF_CHAOS"
-
-    def __init__(self, game):
-        """Class initialization.
-
-        :param lib.game.Game game: instance of the game.
-        """
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
 
     @property
     def success_rate(self):
@@ -152,10 +149,10 @@ class EnhancePotential:
                           timeout=3):
                 self.player.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'].button)
                 return True
-        logger.warning("Can't find Upgrade button to click.")
+        logger.error("Can't find Upgrade button to click.")
         return False
 
-    def check_enhance_success(self):
+    def check_enhance_was_successful(self):
         """Check enhancement result.
 
         :return: was enhancement successful or not.
@@ -167,7 +164,7 @@ class EnhancePotential:
             return False
         if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_SUCCESS'],
                       timeout=3):
-            logger.debug("Enhance Potential success.")
+            logger.debug("Enhance Potential succeeded.")
             self.player.click_button(self.ui['ENHANCE_POTENTIAL_SUCCESS'].button, min_duration=1, max_duration=1.5)
             return True
 
@@ -205,7 +202,7 @@ class EnhancePotential:
                 break
         if self.success_rate >= target_success_rate:
             if self.press_upgrade():
-                if not self.check_enhance_success():
+                if not self.check_enhance_was_successful():
                     r_sleep(1)
                     self.enhance_potential(target_success_rate=target_success_rate, material_to_use=material_to_use)
         else:
@@ -213,18 +210,8 @@ class EnhancePotential:
             return
 
 
-class ComicCards(Missions):  # TODO: remove Missions inheritance
+class ComicCards(Routine):
     """Class for working with Comic Cards."""
-
-    def __init__(self, game, mode_label=""):
-        """Class initialization.
-
-        :param lib.game.Game game: instance of the game.
-        """
-        super().__init__(game, mode_label)
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
 
     def upgrade_all_cards(self):
         """Upgrade all available Comic Cards."""
@@ -256,18 +243,15 @@ class ComicCards(Missions):  # TODO: remove Missions inheritance
             self.game.go_to_main_menu()
 
 
-class CustomGear(Missions):  # TODO: remove Missions inheritance
+class CustomGear(Routine):
     """Class for working with Custom Gear."""
 
-    def __init__(self, game, mode_label=""):
+    def __init__(self, game):
         """Class initialization.
 
         :param lib.game.Game game: instance of the game.
         """
-        super().__init__(game, mode_label)
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
+        super().__init__(game)
         self.is_quick_toggle = None
 
     def quick_upgrade_gear(self, times=0):
@@ -354,17 +338,8 @@ class CustomGear(Missions):  # TODO: remove Missions inheritance
         return not self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION'])
 
 
-class WaitUntil:
+class WaitUntil(Routine):
     """Class for working with waiting different events."""
-
-    def __init__(self, game):
-        """Class initialization.
-
-        :param lib.game.Game game: instance of the game.
-        """
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
 
     def wait_until_boost_points(self, value=100):
         """Wait until boost points value is equal or greater then given amount.
@@ -402,17 +377,8 @@ class WaitUntil:
         logger.debug(f"Current time is {current_time}, done.")
 
 
-class Friends:
+class Friends(Routine):
     """Class for working with Friends."""
-
-    def __init__(self, game):
-        """Class initialization.
-
-        :param lib.game.Game game: instance of the game.
-        """
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
 
     def send_all(self):
         """Send all tokens to friends."""
@@ -432,22 +398,13 @@ class Friends:
                           ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE']):
                 self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_ACQUIRE_NOTICE']):
-                logger.debug(f"Friends: can't acquire more tokens, exiting.")
+                logger.debug("Friends: can't acquire more tokens, exiting.")
                 self.player.click_button(self.ui['FRIENDS_ACQUIRE_NOTICE'].button)
         self.game.go_to_main_menu()
 
 
-class Alliance:
+class Alliance(Routine):
     """Class for working with Alliance."""
-
-    def __init__(self, game):
-        """Class initialization.
-
-        :param lib.game.Game game: instance of the game.
-        """
-        self.game = game
-        self.player = game.player
-        self.ui = game.ui
 
     def check_in(self):
         """Click Check-In button in Alliance."""
