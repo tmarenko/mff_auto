@@ -1,5 +1,4 @@
 ﻿from lib.gui.helper import Timer
-import lib.logger as logging
 
 
 class QTextEditFileLogger(Timer):

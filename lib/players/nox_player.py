@@ -89,7 +89,7 @@ class NoxWindow(AndroidEmulator):
         """Get NoxPlayer's Virtual Machine ID of current process."""
         path = os.path.join(os.getenv('APPDATA'), "..", "Local", "MultiPlayerManager", "multiplayer.xml")
         try:
-            for event, elem in ElementTree.iterparse(path):
+            for _, elem in ElementTree.iterparse(path):
                 if elem.attrib.get("name") == self.name:
                     return elem.attrib['id']
         except FileNotFoundError:

@@ -131,16 +131,16 @@ class TwoStageEpicQuest(EpicQuests):
     @property
     def separate_stages(self):
         """Stages of two stages missions."""
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[self.mode_label]):
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_RECOMMENDED_LVL']):
-                stage_1 = self.player.get_screen_text(self.ui[self.stage_1])
-                stage_2 = self.player.get_screen_text(self.ui[self.stage_2])
-                stage_1_current, _ = self.game.get_current_and_max_values_from_text(stage_1)
-                stage_2_current, _ = self.game.get_current_and_max_values_from_text(stage_2)
-                return stage_1_current, stage_2_current
-            logger.error("Can't find `Recommended Lv` text in mission lobby.")
+        if not wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[self.mode_label]):
+            logger.error(f"Can't find mission label: {self.mode_label}")
             return
-        logger.error(f"Can't find mission label: {self.mode_label}")
+        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_RECOMMENDED_LVL']):
+            stage_1 = self.player.get_screen_text(self.ui[self.stage_1])
+            stage_2 = self.player.get_screen_text(self.ui[self.stage_2])
+            stage_1_current, _ = self.game.get_current_and_max_values_from_text(stage_1)
+            stage_2_current, _ = self.game.get_current_and_max_values_from_text(stage_2)
+            return stage_1_current, stage_2_current
+        logger.error("Can't find `Recommended Lv` text in mission lobby.")
 
 
 class TenStageEpicQuest(EpicQuests):

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
+﻿from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
 from PyQt5.QtCore import Qt
 import lib.gui.designes.queue_editor_window as design
 from lib.gui.helper import set_default_icon, reset_player_and_logger
@@ -216,7 +216,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
 
     def clear_form_layout(self):
         """Clear Form Layout from mode's GUI elements."""
-        for i in range(self.formLayout.count()):
+        for _ in range(self.formLayout.count()):
             from PyQt5.QtWidgets import QWidgetItem
             item = self.formLayout.itemAt(0)
             if isinstance(item, QWidgetItem):

@@ -76,10 +76,10 @@ class TimelineBattle(Missions):
         self.select_team()
         self.player.click_button(self.ui['TL_SEARCH_BUTTON'].button)
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['TL_HONOR_TOKENS_LIMIT']):
-            logger.debug(f"Your Honor Tokens is more than 60000. Can't acquire more but still playing battle.")
+            logger.debug("Your Honor Tokens is more than 60000. Can't acquire more but still playing battle.")
             self.player.click_button(self.ui['TL_HONOR_TOKENS_LIMIT'].button)
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['INVENTORY_FULL']):
-            logger.warning(f"Your inventory is full, cannot start battle.")
+            logger.warning("Your inventory is full, cannot start battle.")
             self.player.click_button(self.ui['INVENTORY_FULL'].button)
             self.stages *= 0
             return False

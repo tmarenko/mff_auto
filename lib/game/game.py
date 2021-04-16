@@ -153,9 +153,8 @@ class Game:
                                 self.ui['LOADING_CIRCLE_5'].rect, self.ui['LOADING_CIRCLE_6'].rect,
                                 self.ui['LOADING_CIRCLE_7'].rect, self.ui['LOADING_CIRCLE_8'].rect]
         loading_color = self.ui['LOADING_CIRCLE_1'].button
-        result = self.player.is_color_similar(color=(loading_color[0], loading_color[1], loading_color[2]),
-                                              rects=loading_circle_rects)
-        return result
+        return self.player.is_color_similar(color=(loading_color[0], loading_color[1], loading_color[2]),
+                                            rects=loading_circle_rects)
 
     def go_to_main_menu(self):
         """Go to main menu screen."""

@@ -281,4 +281,3 @@ class NoxCapture:
         """Resume capturing."""
         logger.debug("Resuming video capture.")
         self._pause = False
-

@@ -174,7 +174,7 @@ class Missions:
                 return False
             if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['INVENTORY_FULL']):
                 self.player.click_button(self.ui['INVENTORY_FULL'].button)
-                logger.warning(f"Your inventory is full, cannot start mission.")
+                logger.warning("Your inventory is full, cannot start mission.")
                 return False
             if wait_until(self.player.is_ui_element_on_screen, timeout=2,
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):

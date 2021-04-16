@@ -78,16 +78,16 @@ class GiantBossRaid(Missions):
 
         :return: was button clicked successfully.
         """
-        logger.debug(f"Pressing START button.")
+        logger.debug("Pressing START button.")
         self.player.click_button(self.ui[start_button_ui].button)
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_NOT_ENOUGH_ENERGY']):
-            logger.debug(f"Giant Boss Raid: not enough energy.")
+            logger.debug("Giant Boss Raid: not enough energy.")
             return False
         if wait_until(self.player.is_ui_element_on_screen, timeout=30, ui_element=self.ui['GBR_SELECT_CHARACTERS']):
             self.deploy_characters()
             self.player.click_button(self.ui['GBR_SELECT_CHARACTERS_OK'].button)
             if max_rewards:
-                logger.debug(f"Giant Boss Raid: maxing out rewards via boost points.")
+                logger.debug("Giant Boss Raid: maxing out rewards via boost points.")
                 while not self.player.is_ui_element_on_screen(self.ui['GBR_BOOST_POINTS_NO_MORE']):
                     self.player.click_button(self.ui['GBR_BOOST_POINTS_PLUS'].button)
                 self.player.click_button(self.ui['GBR_BOOST_POINTS_NO_MORE'].button)
@@ -101,10 +101,10 @@ class GiantBossRaid(Missions):
                 if waiting_time % timeout_to_kick == 0:
                     logger.debug(f"Giant Boss Raid: too long, kicking all players. Wait time is {waiting_time} secs.")
                     if self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_2']):
-                        logger.debug(f"Giant Boss Raid: kicking player #2.")
+                        logger.debug("Giant Boss Raid: kicking player #2.")
                         self.player.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
                     if self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_3']):
-                        logger.debug(f"Giant Boss Raid: kicking player #3.")
+                        logger.debug("Giant Boss Raid: kicking player #3.")
                         self.player.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
                 r_sleep(1)
                 waiting_time += 1

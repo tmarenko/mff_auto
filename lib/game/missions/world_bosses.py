@@ -230,10 +230,10 @@ class WorldBosses(Missions):
         """
         if self._stage_ui is None:
             if self.player.is_ui_element_on_screen(ui_element=self.ui['WB_ULTIMATE_STAGE_LABEL']):
-                logger.debug(f"World Boss: selected ULTIMATE stage label.")
+                logger.debug("World Boss: selected ULTIMATE stage label.")
                 self._stage_ui = self.ui['WB_ULTIMATE_STAGE']
             if self.player.is_ui_element_on_screen(ui_element=self.ui['WB_LEGEND_STAGE_LABEL']):
-                logger.debug(f"World Boss: selected LEGEND stage label.")
+                logger.debug("World Boss: selected LEGEND stage label.")
                 self._stage_ui = self.ui['WB_LEGEND_STAGE']
         return self._stage_ui
 

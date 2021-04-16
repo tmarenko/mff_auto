@@ -69,7 +69,7 @@ class QueueList:
 
     def clear_queue(self):
         """Clear queue."""
-        for i in range(self.widget.count()):
+        for _ in range(self.widget.count()):
             item = self.widget.item(0)
             self.widget.takeItem(self.widget.row(item))
 

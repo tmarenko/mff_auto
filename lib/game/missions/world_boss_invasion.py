@@ -15,17 +15,19 @@ class WorldBossInvasion(Missions):
 
         DEFAULT_ERROR = 3
 
-        def __init__(self, pattern, opposite_pattern, filter, opposite_filter):
+        def __init__(self, pattern, opposite_pattern, mission_filter, opposite_filter):
             """Class initialization.
 
             :param pattern: regular expression pattern for mission's condition.
             :param opposite_pattern: regular expression pattern for opposite mission's condition.
+            :param mission_filter: UI for main mission filter.
+            :param opposite_filter: UI for opposite mission filter.
             """
             self.pattern = f"({pattern}){{e<={self.DEFAULT_ERROR}}}"
             self._regexp = regex.compile(self.pattern)
             self.opposite_pattern = f"({opposite_pattern}){{e<={self.DEFAULT_ERROR}}}"
             self._opposite_regexp = regex.compile(self.opposite_pattern)
-            self.filter = filter
+            self.filter = mission_filter
             self.opposite_filter = opposite_filter
 
         def get_filter(self, text):
@@ -39,7 +41,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Super Heroes",
                              opposite_pattern="Clear the stage with less than N Super Heroes",
-                             filter='INVASION_CHARACTER_FILTER_HERO',
+                             mission_filter='INVASION_CHARACTER_FILTER_HERO',
                              opposite_filter='INVASION_CHARACTER_FILTER_VILLAIN')
 
     class SuperVillain(Mission):
@@ -47,7 +49,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Super Villain",
                              opposite_pattern="Clear the stage with less than N Super Villain",
-                             filter='INVASION_CHARACTER_FILTER_VILLAIN',
+                             mission_filter='INVASION_CHARACTER_FILTER_VILLAIN',
                              opposite_filter='INVASION_CHARACTER_FILTER_HERO')
 
     class BlastCharacters(Mission):
@@ -55,7 +57,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Blast type Characters",
                              opposite_pattern="Clear the stage with less than N Blast type Characters",
-                             filter='INVASION_CHARACTER_FILTER_BLAST',
+                             mission_filter='INVASION_CHARACTER_FILTER_BLAST',
                              opposite_filter='INVASION_CHARACTER_FILTER_ALL')
 
     class CombatCharacters(Mission):
@@ -63,7 +65,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Combat type Characters",
                              opposite_pattern="Clear the stage with less than N Combat type Characters",
-                             filter='INVASION_CHARACTER_FILTER_COMBAT',
+                             mission_filter='INVASION_CHARACTER_FILTER_COMBAT',
                              opposite_filter='INVASION_CHARACTER_FILTER_ALL')
 
     class SpeedCharacters(Mission):
@@ -71,7 +73,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Speed type Characters",
                              opposite_pattern="Clear the stage with less than N Speed type Characters",
-                             filter='INVASION_CHARACTER_FILTER_SPEED',
+                             mission_filter='INVASION_CHARACTER_FILTER_SPEED',
                              opposite_filter='INVASION_CHARACTER_FILTER_ALL')
 
     class UniversalCharacters(Mission):
@@ -79,7 +81,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Universal type Characters",
                              opposite_pattern="Clear the stage with less than N Universal type Characters",
-                             filter='INVASION_CHARACTER_FILTER_UNIVERSAL',
+                             mission_filter='INVASION_CHARACTER_FILTER_UNIVERSAL',
                              opposite_filter='INVASION_CHARACTER_FILTER_ALL')
 
     class MaleCharacters(Mission):
@@ -87,7 +89,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Male Characters",
                              opposite_pattern="Clear the stage with less than N Male Characters",
-                             filter='INVASION_CHARACTER_FILTER_MALE',
+                             mission_filter='INVASION_CHARACTER_FILTER_MALE',
                              opposite_filter='INVASION_CHARACTER_FILTER_FEMALE')
 
     class FemaleCharacters(Mission):
@@ -95,7 +97,7 @@ class WorldBossInvasion(Missions):
         def __init__(self):
             super().__init__(pattern="Clear the stage with more than N Female Characters",
                              opposite_pattern="Clear the stage with less than N Female Characters",
-                             filter='INVASION_CHARACTER_FILTER_FEMALE',
+                             mission_filter='INVASION_CHARACTER_FILTER_FEMALE',
                              opposite_filter='INVASION_CHARACTER_FILTER_MALE')
 
     def __init__(self, game):
@@ -286,7 +288,7 @@ class WorldBossInvasion(Missions):
 
         :return: was button clicked successfully.
         """
-        logger.debug(f"Pressing START button.")
+        logger.debug("Pressing START button.")
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui[start_button_ui]):
             self.deploy_characters()
             self.player.click_button(self.ui[start_button_ui].button)

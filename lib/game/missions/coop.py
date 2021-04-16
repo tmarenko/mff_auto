@@ -48,8 +48,7 @@ class CoopPlay(Missions):
     def stage_percentage(self):
         """Stage percentage of stage's completion."""
         if self.player.is_ui_element_on_screen(self.ui['COOP_PLAY_MENU_LABEL']):
-            percentage = self.player.get_screen_text(self.ui['COOP_STAGE_PERCENTAGE'])
-            return percentage
+            return self.player.get_screen_text(self.ui['COOP_STAGE_PERCENTAGE'])
 
     def go_to_stages(self):
         """Go to Co-op missions stage."""
@@ -109,7 +108,7 @@ class CoopPlay(Missions):
                 self.stages -= 1
                 if wait_until(self.player.is_ui_element_on_screen, timeout=10,
                               ui_element=self.ui['COOP_REWARD_ACQUIRE']):
-                    r_sleep(4)
+                    r_sleep(4)  # Wait for animation
                     self.player.click_button(self.ui['COOP_REWARD_ACQUIRE'].button)
 
     def _check_or_acquire_rewards(self):

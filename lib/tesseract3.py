@@ -6,6 +6,8 @@ from multiprocessing.pool import ThreadPool
 from time import sleep
 
 TESSERACT3_LIBNAME = 'libtesseract-3.dll'
+AUTOMATIC_PAGE_SEGMENTATION = 3
+RAW_LINE_PAGE_SEGMENTATION = 13
 logger = logging.getLogger()
 
 
@@ -145,8 +147,8 @@ class Tesseract(TesseractLib):
 
     def _set_default_params(self):
         """Set default parameters for recognition."""
-        self.set_variable("tessedit_char_whitelist", "")
-        self.set_variable("tessedit_pageseg_mode", "3")
+        self.set_whitelist(whitelist="")
+        self.set_psm(page_segmentation=AUTOMATIC_PAGE_SEGMENTATION)
 
     def set_whitelist(self, whitelist=None):
         """Set whitelist characters for recognition."""
@@ -158,11 +160,11 @@ class Tesseract(TesseractLib):
         """Set page segmentation mode for recognition."""
         if isinstance(page_segmentation, int):
             page_segmentation = str(page_segmentation)
-        if page_segmentation:
-            assert isinstance(page_segmentation, (str, int))
+        if page_segmentation is not None:
+            assert isinstance(page_segmentation, str)
             self.set_variable("tessedit_pageseg_mode", page_segmentation)
 
-    def image_to_string(self, image, whitelist="", page_segmentation=3):
+    def image_to_string(self, image, whitelist="", page_segmentation=AUTOMATIC_PAGE_SEGMENTATION):
         """Retrieve text from image.
 
         :param image: image.
@@ -173,11 +175,11 @@ class Tesseract(TesseractLib):
         height, width, depth = 0, 0, 1
         if len(image.shape) == 2:
             height, width = image.shape
-        if len(image.shape) == 3:
+        elif len(image.shape) == 3:
             height, width, depth = image.shape
-        self.set_whitelist(whitelist)
-        self.set_psm(page_segmentation)
-        self.set_image(image.ctypes, width, height, depth)
+        self.set_whitelist(whitelist=whitelist)
+        self.set_psm(page_segmentation=page_segmentation)
+        self.set_image(imagedata=image.ctypes, width=width, height=height, bytes_per_pixel=depth)
         result = self.get_text()
         self._set_default_params()
         self.locked = False
@@ -211,13 +213,10 @@ class TesseractPool:
         init_params = [(self.lib_path, self.data_path, self.language) for _ in range(processes)]
         with ThreadPool() as pool:
             logger.debug(f"Creating {processes} Tesseract API(s) with '{language}' language.")
-            self._pool = pool.starmap(self._init_tesseract_instance, init_params)
 
-    @staticmethod
-    def _init_tesseract_instance(*args, **kwargs):
-        """Create Tesseract instance."""
-        tesseract = Tesseract(*args, **kwargs)
-        return tesseract
+            def init_tesseract_instance(*args, **kwargs):
+                return Tesseract(*args, **kwargs)
+            self._pool = pool.starmap(init_tesseract_instance, init_params)
 
     def image_to_string(self, image, whitelist=None, page_segmentation=3):
         """Retrieve text from image from available Tesseract instance.

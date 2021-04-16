@@ -155,8 +155,7 @@ def screen_to_gui_image(screen):
     :return: QPixmap image.
     """
     height, width, channel = screen.shape
-    image = QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
-    return image
+    return QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
 
 
 def reset_player_and_logger(game):

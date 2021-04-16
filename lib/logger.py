@@ -22,10 +22,9 @@ def get_logger(name) -> logging.Logger:
 
 
 def create_file_handler(file_name=None):
-    if not exists("logs"):
+    if not exists(LOGS_FOLDER):
         return None
-    if not file_name:
-        file_name = f"logs/debug_{time.strftime('%Y-%m-%d--%H-%M-%S')}.log"
+    file_name = file_name if file_name else f"{LOGS_FOLDER}/{time.strftime('%Y-%m-%d--%H-%M-%S')}.log"
     fh = logging.FileHandler(file_name, mode='a', encoding='utf-8')
     fh.setLevel(logging.DEBUG)
     fh.setFormatter(formatter)

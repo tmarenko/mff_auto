@@ -23,7 +23,7 @@ TESSRACT_OCR_FILE_PATH = os.path.join(cur_dir(), TESSRACT_OCR_FILE_NAME)
 PORTABLE_PYTHON_FILE_NAME = "Portable Python 3.6.5 Basic.7z"
 PORTABLE_PYTHON_FILE_PATH = os.path.join(cur_dir(), PORTABLE_PYTHON_FILE_NAME)
 PORTABLE_PYTHON_FOLDER = "Python 3.6.5 Portable"
-REQUIREMENTS_FILE = os.path.join(cur_dir(), "requirements.txt")
+REQUIREMENTS_FILE_PATH = os.path.join(cur_dir(), "requirements.txt")
 BUILD_FOLDER = os.path.join(cur_dir(), "build")
 SEVEN_ZIP_EXE = os.path.join(cur_dir(), SEVEN_ZIP_FOLDER, "7z.exe")
 IMAGES_FOLDER = "images"
@@ -36,18 +36,16 @@ TESSERACT_FOLDER = "tesseract"
 LOG_FOLDER = "logs"
 GUI_APP_FILE = "app_gui.py"
 VERSION_FILE = "version.py"
-GUI_ICON = "icon.ico"
+GUI_ICON_FILE = "icon.ico"
 START_BAT_FILE = "start.bat"
 README_FILE = "README.md"
 LICENSE_FILE = "LICENSE"
 
 
 def remove_last_build():
-    print("Removing last build.")
     if os.path.isdir(BUILD_FOLDER):
+        print("Removing last build.")
         shutil.rmtree(BUILD_FOLDER)
-    if os.path.isfile('build.7z'):
-        os.remove('build.7z')
 
 
 def copy_project_files():
@@ -58,7 +56,7 @@ def copy_project_files():
     copy_tree(src=TESSDATA_FOLDER, dst=os.path.join(BUILD_FOLDER, TESSERACT_FOLDER, TESSDATA_FOLDER))
     shutil.copy2(src=GUI_APP_FILE, dst=os.path.join(BUILD_FOLDER, GUI_APP_FILE))
     shutil.copy2(src=VERSION_FILE, dst=os.path.join(BUILD_FOLDER, VERSION_FILE))
-    shutil.copy2(src=GUI_ICON, dst=os.path.join(BUILD_FOLDER, GUI_ICON))
+    shutil.copy2(src=GUI_ICON_FILE, dst=os.path.join(BUILD_FOLDER, GUI_ICON_FILE))
     shutil.copy2(src=README_FILE, dst=os.path.join(BUILD_FOLDER, README_FILE))
     shutil.copy2(src=LICENSE_FILE, dst=os.path.join(BUILD_FOLDER, LICENSE_FILE))
     if os.path.isdir(os.path.join(BUILD_FOLDER, SETTINGS_FOLDER, GUI_FOLDER)):
@@ -97,8 +95,8 @@ def download_tesseract_ocr():
 def extract_7zip():
     print("Extracting 7zip.")
     output_folder = os.path.join(cur_dir(), SEVEN_ZIP_FOLDER)
-    extract_python_cmd = [SEVEN_ZIP_FILE_NAME, "/S", f"/D={output_folder}"]
-    subprocess.call(extract_python_cmd, shell=True)
+    extract_7zip_cmd = [SEVEN_ZIP_FILE_NAME, "/S", f"/D={output_folder}"]
+    subprocess.call(extract_7zip_cmd, shell=True)
 
 
 def extract_portable_python():
@@ -119,7 +117,7 @@ def extrace_tesseract_ocr():
 def install_requirements():
     print("Installing Python requirements.")
     python_console = os.path.join(BUILD_FOLDER, "python", "App", "Python", "python.exe")
-    install_requirements_cmd = [python_console, "-m", "pip", "install", "--no-cache-dir", "-r", REQUIREMENTS_FILE]
+    install_requirements_cmd = [python_console, "-m", "pip", "install", "--no-cache-dir", "-r", REQUIREMENTS_FILE_PATH]
     subprocess.call(install_requirements_cmd, shell=True)
 
 
@@ -155,15 +153,15 @@ def remove_trash():
         if os.path.isfile(rem):
             os.remove(rem)
 
-    for root, dirs, files in os.walk(os.path.join(BUILD_FOLDER, "python")):
-        if '__pycache__' in dirs:
-            shutil.rmtree(os.path.join(root, '__pycache__'))
+    def remove_python_cache(path):
+        for r, d, _ in os.walk(path):
+            if '__pycache__' in d:
+                shutil.rmtree(os.path.join(r, '__pycache__'))
 
-    for root, dirs, files in os.walk(os.path.join(BUILD_FOLDER, LIB_FOLDER)):
-        if '__pycache__' in dirs:
-            shutil.rmtree(os.path.join(root, '__pycache__'))
+    remove_python_cache(os.path.join(BUILD_FOLDER, "python"))
+    remove_python_cache(os.path.join(BUILD_FOLDER, LIB_FOLDER))
 
-    for root, dirs, files in os.walk(os.path.join(BUILD_FOLDER, TESSERACT_FOLDER)):
+    for root, _, files in os.walk(os.path.join(BUILD_FOLDER, TESSERACT_FOLDER)):
         exe_files = [file for file in files if '.exe' in file]
         for exe_file in exe_files:
             os.remove(os.path.join(root, exe_file))
@@ -173,7 +171,7 @@ def create_gui_start_file():
     print("Creating start.bat")
     python_cmd = os.path.join("%CD%", "python", "App", "Python", "python.exe")
     with open(os.path.join(BUILD_FOLDER, START_BAT_FILE), "w", encoding='utf-8') as f:
-        f.write(f"SET PATH=%CD%\\tesseract\n"
+        f.write(f"SET PATH=%CD%\\{TESSERACT_FOLDER}\n"
                 f"\"{python_cmd}\" {GUI_APP_FILE}\n")
 
 

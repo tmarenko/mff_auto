@@ -8,7 +8,7 @@ import win32api
 from os.path import exists
 from numpy import concatenate, array
 from lib.structural_similarity.ssim import compare_ssim
-from lib.tesseract3 import TesseractPool
+from lib.tesseract3 import TesseractPool, AUTOMATIC_PAGE_SEGMENTATION, RAW_LINE_PAGE_SEGMENTATION
 
 logger = logging.getLogger()
 
@@ -51,10 +51,9 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, max_height
     ret, threshold_img = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     if save_file:
         cv2.imwrite(f"logs/tesseract/{save_file}.png", threshold_img)
-    psm = 13 if chars else 3
+    psm = RAW_LINE_PAGE_SEGMENTATION if chars else AUTOMATIC_PAGE_SEGMENTATION
     tesseract = tesseract_mff if chars and any(char.isdigit() for char in chars) else tesseract_eng
-    text = tesseract.image_to_string(threshold_img, whitelist=chars, page_segmentation=psm)
-    return text
+    return tesseract.image_to_string(threshold_img, whitelist=chars, page_segmentation=psm)
 
 
 def is_strings_similar(original, compare, overlap=0.25):
@@ -239,16 +238,16 @@ def get_file_properties(path_to_file):
 
     fixed_info = win32api.GetFileVersionInfo(path_to_file, '\\')
     file_props['FixedFileInfo'] = fixed_info
-    file_props['FileVersion'] = "%d.%d.%d.%d" % (fixed_info['FileVersionMS'] / 65536,
-                                                 fixed_info['FileVersionMS'] % 65536,
-                                                 fixed_info['FileVersionLS'] / 65536,
-                                                 fixed_info['FileVersionLS'] % 65536)
+    file_props['FileVersion'] = f"{fixed_info['FileVersionMS'] / 65536:.0f}." \
+                                f"{fixed_info['FileVersionMS'] % 65536:.0f}." \
+                                f"{fixed_info['FileVersionLS'] / 65536:.0f}." \
+                                f"{fixed_info['FileVersionLS'] % 65536:.0f}"
 
-    lang, codepage = win32api.GetFileVersionInfo(path_to_file, '\\VarFileInfo\\Translation')[0]
+    lang, code_page = win32api.GetFileVersionInfo(path_to_file, r'\VarFileInfo\Translation')[0]
     str_info = {}
-    for propName in properties:
-        str_info_path = u'\\StringFileInfo\\%04X%04X\\%s' % (lang, codepage, propName)
-        str_info[propName] = win32api.GetFileVersionInfo(path_to_file, str_info_path)
+    for prop_name in properties:
+        str_info_path = f'\\StringFileInfo\\{lang:04x}{code_page:04x}\\{prop_name}'
+        str_info[prop_name] = win32api.GetFileVersionInfo(path_to_file, str_info_path)
 
     file_props['StringFileInfo'] = str_info
 
