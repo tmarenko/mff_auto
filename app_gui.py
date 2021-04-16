@@ -22,7 +22,7 @@ def check_updates():
         updater.update_from_new_version()
         os.execl(sys.executable, sys.executable, *sys.argv)
     updater.clean()
-    return updater.current_version
+    return updater.current_version.mff_auto
 
 
 def suppress_qt_warnings():

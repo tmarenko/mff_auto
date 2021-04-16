@@ -6,7 +6,7 @@ import importlib
 import importlib.util
 import urllib.request as request
 import urllib.error as urlib_error
-import version as old_version_module
+import version as current_version_module
 from distutils.version import StrictVersion
 from distutils.dir_util import copy_tree
 
@@ -46,19 +46,14 @@ class Updater:
 
     def __init__(self):
         """Class initialization."""
-        self.update_source = None
+        self.source_code_archive = None
         self.source_folder = None
         self.new_version_file = None
-        self.new_version_module = None
         self.new_version = None
-        self.old_version_module = old_version_module
-        self.old_version = Version(version_module=self.old_version_module)
-        logger.info(f"Loaded version: mff_auto={self.old_version.mff_auto}, game={self.old_version.mff}, "
-                    f"updater={self.old_version.updater}")
-
-    @property
-    def current_version(self):
-        return self.old_version.mff_auto
+        self.current_version_module = current_version_module
+        self.current_version = Version(version_module=self.current_version_module)
+        logger.info(f"Loaded version: mff_auto={self.current_version.mff_auto}, game={self.current_version.mff}, "
+                    f"updater={self.current_version.updater}")
 
     @staticmethod
     def import_version_file(version_file_path):
@@ -89,13 +84,13 @@ class Updater:
         :return: True or False: was new version found or not.
         """
         self.new_version_file = self.download_version_file()
-        self.new_version_module = self.import_version_file(version_file_path=self.new_version_file)
-        self.new_version = Version(version_module=self.new_version_module)
-        if self.new_version.updater > self.old_version.updater:
+        new_version_module = self.import_version_file(version_file_path=self.new_version_file)
+        self.new_version = Version(version_module=new_version_module)
+        if self.new_version.updater > self.current_version.updater:
             logger.info(f"Found new version of Updater {self.new_version.updater}, cannot update. "
                         f"Download last release from project homepage.")
             return False
-        if self.new_version.mff_auto > self.old_version.mff_auto:
+        if self.new_version.mff_auto > self.current_version.mff_auto:
             logger.info(f"Found new version {self.new_version.mff_auto} for MFF {self.new_version.mff}.")
             return True
         else:
@@ -104,13 +99,18 @@ class Updater:
 
     def update_from_new_version(self):
         """Update project files from new version."""
-        self.update_download_counter(self.new_version.mff_auto)
-        self.update_source = self.download_source_code(self.new_version.mff_auto)
+        self.update_download_counter(version=self.new_version.mff_auto)
+        self.source_code_archive = self.download_source_code(version=self.new_version.mff_auto)
         logger.info(f"Extracting zip-archive with {self.new_version.mff_auto} version.")
-        with zipfile.ZipFile(self.update_source, 'r') as zip_ref:
+        with zipfile.ZipFile(self.source_code_archive, 'r') as zip_ref:
             zip_ref.extractall()
         self.source_folder = self.SOURCE_CODE_FOLDER_NAME.format(version=self.new_version.mff_auto)
-        logger.info(f"Updating files...")
+        # Remove old libs and images to prevent intersection with new files
+        if os.path.isdir("lib"):
+            shutil.rmtree("lib")
+        if os.path.isdir("images"):
+            shutil.rmtree("images")
+        logger.info("Updating files...")
         self.copy_project_files()
         self.clean()
 
@@ -139,7 +139,6 @@ class Updater:
         copy_tree(src=os.path.join(self.source_folder, "images"), dst="images")
         copy_tree(src=os.path.join(self.source_folder, "settings"), dst="settings")
         copy_tree(src=os.path.join(self.source_folder, "tessdata"), dst=os.path.join("tesseract", "tessdata"))
-        copy_tree(src=os.path.join(self.source_folder, "lib"), dst="lib")
         shutil.copy2(src=os.path.join(self.source_folder, "app_gui.py"), dst="app_gui.py")
         shutil.copy2(src=os.path.join(self.source_folder, "version.py"), dst="version.py")
         shutil.copy2(src=os.path.join(self.source_folder, "icon.ico"), dst="icon.ico")
@@ -150,7 +149,7 @@ class Updater:
         """Clean all files after updating."""
         if self.new_version_file:
             os.remove(self.new_version_file)
-        if self.update_source:
-            os.remove(self.update_source)
+        if self.source_code_archive:
+            os.remove(self.source_code_archive)
         if self.source_folder:
             shutil.rmtree(self.source_folder)
