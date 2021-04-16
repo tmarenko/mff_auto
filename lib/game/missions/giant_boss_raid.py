@@ -82,6 +82,7 @@ class GiantBossRaid(Missions):
         self.player.click_button(self.ui[start_button_ui].button)
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_NOT_ENOUGH_ENERGY']):
             logger.debug("Giant Boss Raid: not enough energy.")
+            self.player.click_button(self.ui['GBR_NOT_ENOUGH_ENERGY'].button)
             return False
         if wait_until(self.player.is_ui_element_on_screen, timeout=30, ui_element=self.ui['GBR_SELECT_CHARACTERS']):
             self.deploy_characters()
