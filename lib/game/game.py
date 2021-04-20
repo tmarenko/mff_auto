@@ -33,10 +33,7 @@ class Game:
         :param user_name: game user name.
         """
         self.player = player
-        self.player.click_button = self.do_after_loading_circle_decorator(self.player.click_button)
-        self.player.is_ui_element_on_screen = self.do_after_loading_circle_decorator(
-            self.player.is_ui_element_on_screen)
-        self.player.is_image_on_screen = self.do_after_loading_circle_decorator(self.player.is_image_on_screen)
+        self._apply_decorators()
         self.ui = ui.load_ui_settings()
         self._mode_names = ui.load_game_modes()
         self._user_name = user_name
@@ -47,13 +44,37 @@ class Game:
         self.mission_team = 1
         self._modes = {}
 
-    def do_after_loading_circle_decorator(self, func):
-        """player.click_button decorator."""
+    def _do_after_loading_circle_decorator(self, func):
+        """Emulator's decorator to detect game's loading state."""
         def wrapped(*args, **kwargs):
             if self.is_loading_circle():
                 r_sleep(1)
             return func(*args, **kwargs)
         return wrapped
+
+    def _handle_network_error_decorator(self, func):
+        """Emulator's decorator to detect network error notifications."""
+        def wrapped(*args, **kwargs):
+            if self.close_network_error_notification():
+                r_sleep(1)
+            return func(*args, **kwargs)
+        return wrapped
+
+    def _apply_decorators(self):
+        """Apply game's decorator for Emulator."""
+        # Store normal function to prevent recursive usage
+        self._old_click_button = self.player.click_button
+        self._old_is_ui_element_on_screen = self.player.is_ui_element_on_screen
+        # Apply network decorator
+        self.player.click_button = self._handle_network_error_decorator(self.player.click_button)
+        self.player.is_ui_element_on_screen = self._handle_network_error_decorator(
+            self.player.is_ui_element_on_screen)
+        self.player.is_image_on_screen = self._handle_network_error_decorator(self.player.is_image_on_screen)
+        # Apply loading decorator
+        self.player.click_button = self._do_after_loading_circle_decorator(self.player.click_button)
+        self.player.is_ui_element_on_screen = self._do_after_loading_circle_decorator(
+            self.player.is_ui_element_on_screen)
+        self.player.is_image_on_screen = self._do_after_loading_circle_decorator(self.player.is_image_on_screen)
 
     @staticmethod
     def get_current_and_max_values_from_text(text, regexp=cur_slash_max_regexp):
@@ -557,5 +578,16 @@ class Game:
         """
         if self.player.is_ui_element_on_screen(self.ui['CHALLENGE_COMPLETE_NOTIFICATION']):
             self.player.click_button(self.ui['CHALLENGE_COMPLETE_NOTIFICATION'].button)
+            return True
+        return False
+
+    def close_network_error_notification(self):
+        """Close Complete Challenge notification.
+
+        :return: True or False: was notification closed.
+        """
+        if self._old_is_ui_element_on_screen(self.ui['NETWORK_ERROR_NOTIFICATION']):
+            logger.warning("Network Error notification occurred, trying to restore connection.")
+            self._old_click_button(self.ui['NETWORK_ERROR_NOTIFICATION'].button)
             return True
         return False

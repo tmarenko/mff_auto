@@ -1036,6 +1036,27 @@
       "image_save_file": "alliance_conquest_rewards_close",
       "description": "Alliance Conquest Results notification: close acquired rewards."
     }
+  },
+  {
+    "NETWORK_ERROR_NOTIFICATION": {
+      "text_rect": {
+        "x1": 0.33225098186315555,
+        "y1": 0.40065894481196423,
+        "x2": 0.6657327508618128,
+        "y2": 0.46047630247988486
+      },
+      "button_rect": {
+        "x1": 0.5505843373510657,
+        "y1": 0.7263312254484209,
+        "x2": 0.6051676762230433,
+        "y2": 0.7821607592718134
+      },
+      "text": "Unable to establish network connection.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "network_error_notification",
+      "description": "Network error notification. Can be anywhere. Leads to OK button."
+    }
   }
 ]
 
