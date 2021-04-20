@@ -582,7 +582,7 @@ class Game:
         return False
 
     def close_network_error_notification(self):
-        """Close Complete Challenge notification.
+        """Close Network Error notification.
 
         :return: True or False: was notification closed.
         """
