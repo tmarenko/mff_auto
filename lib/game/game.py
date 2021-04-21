@@ -66,10 +66,11 @@ class Game:
         self._old_click_button = self.player.click_button
         self._old_is_ui_element_on_screen = self.player.is_ui_element_on_screen
         # Apply network decorator
-        self.player.click_button = self._handle_network_error_decorator(self.player.click_button)
-        self.player.is_ui_element_on_screen = self._handle_network_error_decorator(
-            self.player.is_ui_element_on_screen)
-        self.player.is_image_on_screen = self._handle_network_error_decorator(self.player.is_image_on_screen)
+        # TODO: restore as an optional setting
+        # self.player.click_button = self._handle_network_error_decorator(self.player.click_button)
+        # self.player.is_ui_element_on_screen = self._handle_network_error_decorator(
+        #     self.player.is_ui_element_on_screen)
+        # self.player.is_image_on_screen = self._handle_network_error_decorator(self.player.is_image_on_screen)
         # Apply loading decorator
         self.player.click_button = self._do_after_loading_circle_decorator(self.player.click_button)
         self.player.is_ui_element_on_screen = self._do_after_loading_circle_decorator(
