@@ -325,6 +325,7 @@ class WorldBosses(Missions):
             return self._reset_world_boss(target_world_boss=target_world_boss, current_reset=0, max_resets=max_resets)
         else:
             logger.warning("World Boss: can't open Reset Menu. Probably your VIP status is low.")
+        self.stages = 0
 
     def _reset_world_boss(self, target_world_boss, current_reset, max_resets):
         """Resets World Boss in reset menu.

@@ -260,26 +260,18 @@ class Game:
         element_ui.rect.parent = board_rect
         self.ui['CONTENT_STATUS_ELEMENT_LABEL'].rect.parent = element_ui.rect
         self.ui['CONTENT_STATUS_ELEMENT_STAGE'].rect.parent = element_ui.rect
-        self.ui['CONTENT_STATUS_ELEMENT_COMPLETE'].rect.parent = element_ui.rect
         # Getting board image and element image. Use it for stage recognize
         board_image = self.player.get_screen_image(board_rect.value)
         element_image = self.player.get_image_from_image(board_image, element_ui)
         stage_label_image = self.player.get_image_from_image(element_image,
                                                              self.ui['CONTENT_STATUS_ELEMENT_LABEL'])
         stage_label = self.player.get_screen_text(self.ui['CONTENT_STATUS_ELEMENT_LABEL'], screen=stage_label_image)
-        logger.debug(f"Stage found: {stage_label}")
-        stage_completion_screen = self.player.get_image_from_image(element_image,
-                                                                   self.ui['CONTENT_STATUS_ELEMENT_COMPLETE'])
-        if self.player.is_ui_element_on_screen(self.ui['CONTENT_STATUS_ELEMENT_COMPLETE'],
-                                               screen=stage_completion_screen):
-            current_stages, max_stages = 0, 0
-        else:
-            stage_counter_image = self.player.get_image_from_image(element_image,
-                                                                   self.ui['CONTENT_STATUS_ELEMENT_STAGE'])
-            stage_counter_text = self.player.get_screen_text(self.ui['CONTENT_STATUS_ELEMENT_STAGE'],
-                                                             screen=stage_counter_image)
-            logger.debug(f"Stage: {stage_label}; stages: {stage_counter_text}")
-            current_stages, max_stages = self.get_current_and_max_values_from_text(stage_counter_text)
+        stage_counter_image = self.player.get_image_from_image(element_image,
+                                                               self.ui['CONTENT_STATUS_ELEMENT_STAGE'])
+        stage_counter_text = self.player.get_screen_text(self.ui['CONTENT_STATUS_ELEMENT_STAGE'],
+                                                         screen=stage_counter_image)
+        logger.debug(f"Stage: {stage_label}; stages: {stage_counter_text}")
+        current_stages, max_stages = self.get_current_and_max_values_from_text(stage_counter_text)
         # Find mode and return info about stages and board
         for mode_name in self._mode_names:
             if is_strings_similar(mode_name, stage_label):

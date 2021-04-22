@@ -21,7 +21,12 @@ class CoopPlay(Missions):
         def coop_completion():
             return self.player.is_ui_element_on_screen(self.ui['COOP_COMPLETION'])
 
-        return [coop_completion]
+        def coop_home_button():
+            if self.player.is_image_on_screen(self.ui['COOP_HOME_BUTTON']):
+                logger.debug("Found COOP HOME button image on screen.")
+                return True
+
+        return [coop_completion, coop_home_button]
 
     def start_missions(self):
         """Start available missions."""

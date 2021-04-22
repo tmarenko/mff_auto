@@ -88,7 +88,7 @@
         "y2": 0.862037037037037
       },
       "text": "EXTREME",
-      "image_threshold": 140,
+      "image_threshold": 100,
       "chars": null,
       "image_save_file": "lb_difficulty_extreme",
       "description": "Legendary battle extreme difficulty button."
@@ -172,7 +172,7 @@
         "y2": 0.951417004048583
       },
       "text": "START",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "lb_start_button",
       "description": "LB start button."
@@ -266,19 +266,19 @@
   {
     "LB_RAGNAROK_BATTLE": {
       "text_rect": {
-        "x1": 0.027083333333333334,
-        "y1": 0.9527777777777777,
-        "x2": 0.19375,
-        "y2": 0.9879629629629629
+        "x1": 0.009984967427233352,
+        "y1": 0.950978635356834,
+        "x2": 0.20738224773137132,
+        "y2": 0.9881983245724288
       },
       "button_rect": {
-        "x1": 0.011979166666666667,
-        "y1": 0.8009259259259259,
-        "x2": 0.20677083333333332,
-        "y2": 0.9888888888888889
+        "x1": 0.036155061406948616,
+        "y1": 0.8153926246428804,
+        "x2": 0.1834553046642031,
+        "y2": 0.9323687907490363
       },
-      "text": "MARVEL'S THOR:RAGNAROK",
-      "image_threshold": 105,
+      "text": "MARVEL STUDIOS' THOR:RAGNAROK",
+      "image_threshold": 90,
       "chars": null,
       "image_save_file": "lb_ragnarok_battle",
       "description": "Legendary battle : Ragnarok."
@@ -315,7 +315,7 @@
         "y2": 0.7842592592592592
       },
       "text": "OK",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "lb_no_reward_notice",
       "description": "Legendary battle : no rewards notification before entering the battle."
@@ -324,19 +324,19 @@
   {
     "LB_CAPTAIN_MARVEL_BATTLE": {
       "text_rect": {
-        "x1": 0.028645833333333332,
-        "y1": 0.09537037037037037,
-        "x2": 0.19166666666666668,
-        "y2": 0.12962962962962962
+        "x1": 0.01222811833978037,
+        "y1": 0.10821852954657461,
+        "x2": 0.20663453076052232,
+        "y2": 0.14410894414732692
       },
       "button_rect": {
-        "x1": 0.010416666666666666,
-        "y1": 0.10925925925925926,
-        "x2": 0.21041666666666667,
-        "y2": 0.13240740740740742
+        "x1": 0.01222811833978037,
+        "y1": 0.10821852954657461,
+        "x2": 0.20663453076052232,
+        "y2": 0.14410894414732692
       },
-      "text": "MARVEL'S CAPTAIN MARVEL",
-      "image_threshold": 105,
+      "text": "MARVEL STUDIOS' CAPTAIN MARVEL",
+      "image_threshold": 90,
       "chars": null,
       "image_save_file": "lb_captain_marvel_battle",
       "description": "Legendary battle : Captain Marvel."
@@ -361,19 +361,19 @@
   {
     "LB_EXTREME_UPGRADE": {
       "text_rect": {
-        "x1": 0.6953125,
-        "y1": 0.7981481481481482,
-        "x2": 0.7984375,
-        "y2": 0.8666666666666667
+        "x1": 0.6447966756780406,
+        "y1": 0.7954535054202402,
+        "x2": 0.7935923528769931,
+        "y2": 0.8659050600069023
       },
       "button_rect": {
-        "x1": 0.846875,
-        "y1": 0.10833333333333334,
-        "x2": 0.8796875,
-        "y2": 0.16111111111111112
+        "x1": 0.8474279747781217,
+        "y1": 0.10821852954657461,
+        "x2": 0.878084370582931,
+        "y2": 0.16936516182933778
       },
       "text": "UPGRADE",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "lb_extreme_upgrade",
       "description": "Legendary battle : UPGRADE notification when EXTREME battle wasn't purchased. Leads to X close."
@@ -382,19 +382,19 @@
   {
     "LB_BLACK_PANTHER_BATTLE": {
       "text_rect": {
-        "x1": 0.030208333333333334,
-        "y1": 0.737037037037037,
-        "x2": 0.19010416666666666,
-        "y2": 0.7722222222222223
+        "x1": 0.03166875958185458,
+        "y1": 0.7396239715968477,
+        "x2": 0.1834553046642031,
+        "y2": 0.7808314846569708
       },
       "button_rect": {
-        "x1": 0.035416666666666666,
-        "y1": 0.5888888888888889,
-        "x2": 0.178125,
-        "y2": 0.7509259259259259
+        "x1": 0.04961396688223072,
+        "y1": 0.6027086862680516,
+        "x2": 0.17074411615976992,
+        "y2": 0.7343068731374771
       },
       "text": "MARVEL'S BLACK PANTHER",
-      "image_threshold": 105,
+      "image_threshold": 90,
       "chars": null,
       "image_save_file": "lb_black_panther_battle",
       "description": "Legendary battle : Black Panther."
@@ -419,19 +419,19 @@
   {
     "LB_INFINITY_WAR_BATTLE": {
       "text_rect": {
-        "x1": 0.016666666666666666,
-        "y1": 0.5259259259259259,
-        "x2": 0.203125,
-        "y2": 0.5546296296296296
+        "x1": 0.01222811833978037,
+        "y1": 0.5309278570665469,
+        "x2": 0.20513909681882428,
+        "y2": 0.5654889970524566
       },
       "button_rect": {
-        "x1": 0.030208333333333334,
-        "y1": 0.3768518518518518,
-        "x2": 0.18802083333333333,
-        "y2": 0.549074074074074
+        "x1": 0.04587538202798568,
+        "y1": 0.3953418463525935,
+        "x2": 0.17298726707231699,
+        "y2": 0.5043423647696932
       },
-      "text": "MARVEL'S AVENGERS: INFINITY WAR",
-      "image_threshold": 105,
+      "text": "MARVEL STUDIOS' AVENGERS: INFINITY WAR",
+      "image_threshold": 90,
       "chars": null,
       "image_save_file": "lb_infinity_war_battle",
       "description": "Legendary battle : Infinity War."
@@ -456,19 +456,19 @@
   {
     "LB_ANT_MAN_BATTLE": {
       "text_rect": {
-        "x1": 0.0078125,
-        "y1": 0.3111111111111111,
-        "x2": 0.21145833333333333,
-        "y2": 0.3398148148148148
+        "x1": 0.012975835310629366,
+        "y1": 0.32356101715108876,
+        "x2": 0.20364366287712626,
+        "y2": 0.35413433329247046
       },
       "button_rect": {
-        "x1": 0.0296875,
-        "y1": 0.1638888888888889,
-        "x2": 0.1875,
-        "y2": 0.3333333333333333
+        "x1": 0.04587538202798568,
+        "y1": 0.1879750064371354,
+        "x2": 0.16850096524722294,
+        "y2": 0.3022926233136059
       },
-      "text": "MARVEL'S ANT-MAN AND THE WASP",
-      "image_threshold": 105,
+      "text": "MARVEL STUDIOS' ANT-MAN AND THE WASP",
+      "image_threshold": 90,
       "chars": null,
       "image_save_file": "lb_ant_man_battle",
       "description": "Legendary battle : Ant-Man And The Wasp."

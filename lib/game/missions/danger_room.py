@@ -1,7 +1,7 @@
 ﻿import re
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import wait_until, r_sleep
+from lib.functions import wait_until, r_sleep, convert_colors_in_image
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -160,8 +160,7 @@ class DangerRoom(Missions):
         """Press start button of the mission."""
         if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
             self.player.click_button(self.ui[start_button_ui].button)
-            if wait_until(self.player.is_ui_element_on_screen,
-                          ui_element=self.ui['DANGER_ROOM_CANCEL_SEARCH'], timeout=3):
+            if wait_until(self._check_cancel_button, timeout=3):
                 if wait_until(self.player.is_ui_element_on_screen,
                               ui_element=self.ui['DANGER_ROOM_CHARACTER_SELECT_MENU'], timeout=180):
                     logger.debug("Danger Room: successfully get to character selector.")
@@ -323,3 +322,12 @@ class DangerRoom(Missions):
         manual_bot.is_battle = lambda: old_is_battle() and not self.player.is_ui_element_on_screen(
             self.ui['DANGER_ROOM_BATTLE_REVIVE'])
         manual_bot.fight(move_around=True)
+
+    def _check_cancel_button(self):
+        """Returns if CANCEL button is on screen."""
+        # Convert red colors to white because fancy UI is unreadable
+        extreme_red_color = ([200, 0, 0], [255, 30, 30])
+        image = self.player.get_screen_image(rect=self.ui['DANGER_ROOM_CANCEL_SEARCH'].rect)
+        converted_image = convert_colors_in_image(image=image, colors=[extreme_red_color])
+        return self.player.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_CANCEL_SEARCH'],
+                                                   screen=converted_image)

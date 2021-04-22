@@ -81,10 +81,10 @@
   {
     "LEGENDARY_SCORE": {
       "text_rect": {
-        "x1": 0.23917995444191345,
-        "y1": 0.2732793522267207,
-        "x2": 0.296127562642369,
-        "y2": 0.31376518218623484
+        "x1": 0.0855043814829831,
+        "y1": 0.3248902917659314,
+        "x2": 0.14382630520920567,
+        "y2": 0.3700856286705826
       },
       "button_rect": null,
       "text": "SCORE",
@@ -95,16 +95,33 @@
     }
   },
   {
+    "COOP_HOME_BUTTON": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.759375,
+        "y1": 0.8944444444444445,
+        "x2": 0.8088541666666667,
+        "y2": 0.9629629629629629
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "home_button.png",
+      "image_save_file": "coop_home_button",
+      "description": "Co-op home button (middle position)."
+    }
+  },
+  {
     "COOP_COMPLETION": {
       "text_rect": {
-        "x1": 0.4226740603820086,
-        "y1": 0.13157894736842105,
-        "x2": 0.5083179297597042,
-        "y2": 0.1611842105263158
+        "x1": 0.4327797196011332,
+        "y1": 0.1578875053276198,
+        "x2": 0.5397740986455049,
+        "y2": 0.18089521211879808
       },
       "button_rect": null,
-      "text": "COMPLETION",
-      "image_threshold": 130,
+      "text": "COMPLETION TIME:",
+      "image_threshold": 160,
       "chars": null,
       "image_save_file": "coop_completion_time",
       "description": "Completion time in Coop battles. Determines that we see end of battle screen."
@@ -381,10 +398,10 @@
     "AUTOPLAY_TOGGLE": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.31354166666666666,
-        "y1": 0.9120370370370371,
-        "x2": 0.3328125,
-        "y2": 0.9472222222222222
+        "x1": 0.3067708333333333,
+        "y1": 0.9166666666666666,
+        "x2": 0.32864583333333336,
+        "y2": 0.9564814814814815
       },
       "text": null,
       "image_threshold": 0.6,

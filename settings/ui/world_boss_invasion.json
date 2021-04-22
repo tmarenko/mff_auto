@@ -2,16 +2,16 @@
   {
     "INVASION_LABEL": {
       "text_rect": {
-        "x1": 0.2911458333333333,
-        "y1": 0.30185185185185187,
-        "x2": 0.4791666666666667,
-        "y2": 0.33796296296296297
+        "x1": 0.2642087375158959,
+        "y1": 0.27304858178706687,
+        "x2": 0.45487656508239277,
+        "y2": 0.3248902917659314
       },
       "button_rect": {
-        "x1": 0.29375,
-        "y1": 0.3611111111111111,
-        "x2": 0.46770833333333334,
-        "y2": 0.6925925925925925
+        "x1": 0.2873879636122151,
+        "y1": 0.3647685302112118,
+        "x2": 0.47057862147022195,
+        "y2": 0.6811358885437697
       },
       "text": "WORLD BOSS INVASION",
       "image_threshold": 150,
@@ -67,7 +67,7 @@
         "y2": 0.7657407407407407
       },
       "text": "MANAGE SUPPLIES",
-      "image_threshold": 160,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "invasion_manage_chests",
       "description": "WBI Manage Supplies button."
@@ -123,39 +123,7 @@
       "image_threshold": 150,
       "chars": null,
       "image_save_file": "invasion_name",
-      "description": "WBI skip chest opening."
-    }
-  },
-  {
-    "INVASION_CHEST_LOCKED_1": {
-      "text_rect": {
-        "x1": 0.10729166666666666,
-        "y1": 0.3138888888888889,
-        "x2": 0.16614583333333333,
-        "y2": 0.3509259259259259
-      },
-      "button_rect": null,
-      "text": "Locked",
-      "image_threshold": 80,
-      "chars": null,
-      "image_save_file": "invasion_chest_locked_1",
-      "description": "DEPRECATED: WBI Locked text if chest exists and not opened."
-    }
-  },
-  {
-    "INVASION_CHEST_TIME_1": {
-      "text_rect": {
-        "x1": 0.0890625,
-        "y1": 0.3527777777777778,
-        "x2": 0.18385416666666668,
-        "y2": 0.3907407407407407
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "invasion_chest_time_1",
-      "description": "DEPRECATED: WBI chest's time text if chest exists and not opened."
+      "description": "WBI skip chest opening (UI might me offset due to game's bug)."
     }
   },
   {
@@ -180,38 +148,6 @@
     }
   },
   {
-    "INVASION_CHEST_LOCKED_2": {
-      "text_rect": {
-        "x1": 0.28802083333333334,
-        "y1": 0.31296296296296294,
-        "x2": 0.34791666666666665,
-        "y2": 0.35185185185185186
-      },
-      "button_rect": null,
-      "text": "Locked",
-      "image_threshold": 80,
-      "chars": null,
-      "image_save_file": "invasion_chest_locked_2",
-      "description": "DEPRECATED: WBI Locked text if chest exists and not opened."
-    }
-  },
-  {
-    "INVASION_CHEST_TIME_2": {
-      "text_rect": {
-        "x1": 0.2703125,
-        "y1": 0.3527777777777778,
-        "x2": 0.365625,
-        "y2": 0.3907407407407407
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "invasion_chest_time_2",
-      "description": "DEPRECATED: WBI chest's time text if chest exists and not opened."
-    }
-  },
-  {
     "INVASION_CHEST_AVAILABLE_2": {
       "text_rect": {
         "x1": 0.275,
@@ -230,38 +166,6 @@
       "chars": null,
       "image_save_file": "invasion_chest_available_2",
       "description": "WBI chests' available text if chest exists and ready to open."
-    }
-  },
-  {
-    "INVASION_CHEST_LOCKED_3": {
-      "text_rect": {
-        "x1": 0.4703125,
-        "y1": 0.31296296296296294,
-        "x2": 0.5296875,
-        "y2": 0.35185185185185186
-      },
-      "button_rect": null,
-      "text": "Locked",
-      "image_threshold": 80,
-      "chars": null,
-      "image_save_file": "invasion_chest_locked_3",
-      "description": "DEPRECATED: WBI Locked text if chest exists and not opened."
-    }
-  },
-  {
-    "INVASION_CHEST_TIME_3": {
-      "text_rect": {
-        "x1": 0.4515625,
-        "y1": 0.35185185185185186,
-        "x2": 0.5479166666666667,
-        "y2": 0.39166666666666666
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "invasion_chest_time_3",
-      "description": "DEPRECATED: WBI chest's time text if chest exists and not opened."
     }
   },
   {
@@ -286,38 +190,6 @@
     }
   },
   {
-    "INVASION_CHEST_LOCKED_4": {
-      "text_rect": {
-        "x1": 0.6515625,
-        "y1": 0.31296296296296294,
-        "x2": 0.7109375,
-        "y2": 0.3509259259259259
-      },
-      "button_rect": null,
-      "text": "Locked",
-      "image_threshold": 80,
-      "chars": null,
-      "image_save_file": "invasion_chest_locked_4",
-      "description": "DEPRECATED: WBI Locked text if chest exists and not opened."
-    }
-  },
-  {
-    "INVASION_CHEST_TIME_4": {
-      "text_rect": {
-        "x1": 0.6328125,
-        "y1": 0.35185185185185186,
-        "x2": 0.7291666666666666,
-        "y2": 0.3907407407407407
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "invasion_chest_time_4",
-      "description": "DEPRECATED: WBI chest's time text if chest exists and not opened."
-    }
-  },
-  {
     "INVASION_CHEST_AVAILABLE_4": {
       "text_rect": {
         "x1": 0.6385416666666667,
@@ -336,38 +208,6 @@
       "chars": null,
       "image_save_file": "invasion_chest_available_4",
       "description": "WBI chests' available text if chest exists and ready to open."
-    }
-  },
-  {
-    "INVASION_CHEST_LOCKED_5": {
-      "text_rect": {
-        "x1": 0.8333333333333334,
-        "y1": 0.31296296296296294,
-        "x2": 0.8927083333333333,
-        "y2": 0.3509259259259259
-      },
-      "button_rect": null,
-      "text": "Locked",
-      "image_threshold": 80,
-      "chars": null,
-      "image_save_file": "invasion_chest_locked_5",
-      "description": "DEPRECATED: WBI Locked text if chest exists and not opened."
-    }
-  },
-  {
-    "INVASION_CHEST_TIME_5": {
-      "text_rect": {
-        "x1": 0.8151041666666666,
-        "y1": 0.3527777777777778,
-        "x2": 0.9104166666666667,
-        "y2": 0.3907407407407407
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "invasion_chest_time_5",
-      "description": "DEPRECATED: WBI chest's time text if chest exists and not opened."
     }
   },
   {
@@ -541,19 +381,19 @@
   {
     "INVASION_BOSS_FIGHT_ENTER": {
       "text_rect": {
-        "x1": 0.5494791666666666,
-        "y1": 0.8074074074074075,
-        "x2": 0.615625,
-        "y2": 0.8527777777777777
+        "x1": 0.5423594506717268,
+        "y1": 0.8060877023389817,
+        "x2": 0.6178788647274764,
+        "y2": 0.867234334621745
       },
       "button_rect": {
-        "x1": 0.5494791666666666,
-        "y1": 0.8074074074074075,
-        "x2": 0.615625,
-        "y2": 0.8527777777777777
+        "x1": 0.5423594506717268,
+        "y1": 0.8060877023389817,
+        "x2": 0.6178788647274764,
+        "y2": 0.867234334621745
       },
       "text": "ENTER",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "invasion_boss_fight_enter",
       "description": "WBI boss fight ENTER button."
@@ -562,16 +402,16 @@
   {
     "INVASION_BOSS_FIGHT_CLOSE": {
       "text_rect": {
-        "x1": 0.3848958333333333,
-        "y1": 0.8018518518518518,
-        "x2": 0.45260416666666664,
-        "y2": 0.8564814814814815
+        "x1": 0.38683432073513313,
+        "y1": 0.8034291531092964,
+        "x2": 0.4556242820532418,
+        "y2": 0.8712221584662729
       },
       "button_rect": {
-        "x1": 0.3848958333333333,
-        "y1": 0.8018518518518518,
-        "x2": 0.45260416666666664,
-        "y2": 0.8564814814814815
+        "x1": 0.38683432073513313,
+        "y1": 0.8034291531092964,
+        "x2": 0.4556242820532418,
+        "y2": 0.8712221584662729
       },
       "text": "CLOSE",
       "image_threshold": 150,
@@ -728,34 +568,18 @@
     }
   },
   {
-    "INVASION_BOSS_FIGHT_RULES": {
-      "text_rect": {
-        "x1": 0.29010416666666666,
-        "y1": 0.637962962962963,
-        "x2": 0.7072916666666667,
-        "y2": 0.6888888888888889
-      },
-      "button_rect": null,
-      "text": null,
-      "image_threshold": 90,
-      "chars": null,
-      "image_save_file": "invasion_boss_fight_rules",
-      "description": "DEPRECATED: WBI boss fight rules."
-    }
-  },
-  {
     "INVASION_BOSS_FIGHT_START": {
       "text_rect": {
-        "x1": 0.7354166666666667,
-        "y1": 0.9009259259259259,
-        "x2": 0.8052083333333333,
-        "y2": 0.950925925925926
+        "x1": 0.7046140333459613,
+        "y1": 0.8991369253779693,
+        "x2": 0.7920969189352951,
+        "y2": 0.9642713815052608
       },
       "button_rect": {
-        "x1": 0.7354166666666667,
-        "y1": 0.9009259259259259,
-        "x2": 0.8052083333333333,
-        "y2": 0.950925925925926
+        "x1": 0.7046140333459613,
+        "y1": 0.8991369253779693,
+        "x2": 0.7920969189352951,
+        "y2": 0.9642713815052608
       },
       "text": "START",
       "image_threshold": 150,
@@ -768,10 +592,10 @@
     "INVASION_CHARACTER_1": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.65797820227704,
-        "y1": 0.34192388289278036,
-        "x2": 0.7035698425761867,
-        "y2": 0.4248606135661638
+        "x1": 0.6938897217922924,
+        "y1": 0.3339699609823756,
+        "x2": 0.7409235312489234,
+        "y2": 0.41723722365004107
       },
       "text": null,
       "image_threshold": null,
@@ -784,10 +608,10 @@
     "INVASION_CHARACTER_2": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.7531905115529327,
-        "y1": 0.3381540314985357,
-        "x2": 0.7972977728655958,
-        "y2": 0.4229756878690414
+        "x1": 0.7773747335778125,
+        "y1": 0.33083437368526686,
+        "x2": 0.8248004914465822,
+        "y2": 0.4168888250614735
       },
       "text": null,
       "image_threshold": null,
@@ -800,10 +624,10 @@
     "INVASION_CHARACTER_3": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.8475546042651203,
-        "y1": 0.33626910580141334,
-        "x2": 0.8920859738596358,
-        "y2": 0.42259870272961697
+        "x1": 0.8612516937754714,
+        "y1": 0.328743982153861,
+        "x2": 0.9100492710867261,
+        "y2": 0.4165404264729058
       },
       "text": null,
       "image_threshold": null,
@@ -815,38 +639,22 @@
   {
     "INVASION_NOT_ENOUGH_CHARACTERS": {
       "text_rect": {
-        "x1": 0.34322916666666664,
-        "y1": 0.45092592592592595,
-        "x2": 0.6583333333333333,
-        "y2": 0.5148148148148148
+        "x1": 0.3487007552218337,
+        "y1": 0.46313485170957025,
+        "x2": 0.6537692793282287,
+        "y2": 0.5322571316813897
       },
       "button_rect": {
-        "x1": 0.47604166666666664,
-        "y1": 0.7287037037037037,
-        "x2": 0.5286458333333334,
-        "y2": 0.7833333333333333
+        "x1": 0.477308074207863,
+        "y1": 0.7143677539148366,
+        "x2": 0.5266573942838976,
+        "y2": 0.7741851115827575
       },
       "text": "Characters must be placed on all slots.",
       "image_threshold": 120,
       "chars": null,
       "image_save_file": "invasion_not_enough_characters",
-      "description": "WBI character notification if you don't have enough characters for boss fight."
-    }
-  },
-  {
-    "INVASION_FIGHT_WAITING_IN_BATTLE": {
-      "text_rect": {
-        "x1": 0.39166666666666666,
-        "y1": 0.35,
-        "x2": 0.6088541666666667,
-        "y2": 0.40370370370370373
-      },
-      "button_rect": null,
-      "text": "Waiting for other players.",
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "invasion_fight_waiting_in_battle",
-      "description": "DEPRECATED: WBI waiting for players in boss fight."
+      "description": "WBI character notification if you don't have enough characters for boss fight. Leads to OK button."
     }
   },
   {
@@ -907,10 +715,10 @@
     "INVASION_NO_CHARACTER_MAIN": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.46041666666666664,
-        "y1": 0.2972222222222222,
-        "x2": 0.553125,
-        "y2": 0.46111111111111114
+        "x1": 0.47530913730595625,
+        "y1": 0.23606127443004654,
+        "x2": 0.5656170664504736,
+        "y2": 0.38051268922847487
       },
       "text": null,
       "image_threshold": 0.8,
@@ -924,10 +732,10 @@
     "INVASION_NO_CHARACTER_LEFT": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.3625,
-        "y1": 0.2972222222222222,
-        "x2": 0.4322916666666667,
-        "y2": 0.4212962962962963
+        "x1": 0.36294657250917883,
+        "y1": 0.23523583777405555,
+        "x2": 0.4476828042257568,
+        "y2": 0.3829889991964479
       },
       "text": null,
       "image_threshold": 0.8,
@@ -941,10 +749,10 @@
     "INVASION_NO_CHARACTER_RIGHT": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.5859375,
-        "y1": 0.29814814814814816,
-        "x2": 0.6552083333333333,
-        "y2": 0.4203703703703704
+        "x1": 0.5895289345787134,
+        "y1": 0.23647399275804212,
+        "x2": 0.674497320354789,
+        "y2": 0.385465309164421
       },
       "text": null,
       "image_threshold": 0.8,
@@ -958,10 +766,10 @@
     "INVASION_CHARACTER_FILTER": {
       "text_rect": null,
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.225,
-        "x2": 0.7786458333333334,
-        "y2": 0.2638888888888889
+        "x1": 0.6904074108998302,
+        "y1": 0.24114599103084264,
+        "x2": 0.7509724855385997,
+        "y2": 0.2783656802464376
       },
       "text": null,
       "image_threshold": null,
@@ -973,16 +781,16 @@
   {
     "INVASION_CHARACTER_FILTER_ALL": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.225,
-        "x2": 0.7786458333333334,
-        "y2": 0.2638888888888889
+        "x1": 0.6904074108998302,
+        "y1": 0.24114599103084264,
+        "x2": 0.7509724855385997,
+        "y2": 0.2783656802464376
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.225,
-        "x2": 0.7786458333333334,
-        "y2": 0.2638888888888889
+        "x1": 0.6904074108998302,
+        "y1": 0.24114599103084264,
+        "x2": 0.7509724855385997,
+        "y2": 0.2783656802464376
       },
       "text": "ALL",
       "image_threshold": 150,
@@ -994,16 +802,16 @@
   {
     "INVASION_CHARACTER_FILTER_HERO": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.28703703703703703,
-        "x2": 0.7786458333333334,
-        "y2": 0.32685185185185184
+        "x1": 0.6896993464147937,
+        "y1": 0.29250439910133147,
+        "x2": 0.7485027056862712,
+        "y2": 0.32990057338057294
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.28703703703703703,
-        "x2": 0.7786458333333334,
-        "y2": 0.32685185185185184
+        "x1": 0.6896993464147937,
+        "y1": 0.29250439910133147,
+        "x2": 0.7485027056862712,
+        "y2": 0.32990057338057294
       },
       "text": "HERO",
       "image_threshold": 150,
@@ -1015,16 +823,16 @@
   {
     "INVASION_CHARACTER_FILTER_VILLAIN": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.3490740740740741,
-        "x2": 0.7786458333333334,
-        "y2": 0.387037037037037
+        "x1": 0.6892212703231557,
+        "y1": 0.34264926915758703,
+        "x2": 0.7920076300253318,
+        "y2": 0.3808953564886293
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.3490740740740741,
-        "x2": 0.7786458333333334,
-        "y2": 0.387037037037037
+        "x1": 0.6892212703231557,
+        "y1": 0.34264926915758703,
+        "x2": 0.7920076300253318,
+        "y2": 0.3808953564886293
       },
       "text": "SUPER VILLAIN",
       "image_threshold": 150,
@@ -1036,16 +844,16 @@
   {
     "INVASION_CHARACTER_FILTER_MALE": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.4148148148148148,
-        "x2": 0.7786458333333334,
-        "y2": 0.4537037037037037
+        "x1": 0.6901774225064318,
+        "y1": 0.39449396531744435,
+        "x2": 0.759976531885584,
+        "y2": 0.4386894440110932
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.4148148148148148,
-        "x2": 0.7786458333333334,
-        "y2": 0.4537037037037037
+        "x1": 0.6901774225064318,
+        "y1": 0.39449396531744435,
+        "x2": 0.759976531885584,
+        "y2": 0.4386894440110932
       },
       "text": "MALE",
       "image_threshold": 150,
@@ -1057,16 +865,16 @@
   {
     "INVASION_CHARACTER_FILTER_FEMALE": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.475,
-        "x2": 0.7786458333333334,
-        "y2": 0.5148148148148148
+        "x1": 0.6896993464147937,
+        "y1": 0.44803848758090364,
+        "x2": 0.7618888362521361,
+        "y2": 0.4888343140673487
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.475,
-        "x2": 0.7786458333333334,
-        "y2": 0.5148148148148148
+        "x1": 0.6896993464147937,
+        "y1": 0.44803848758090364,
+        "x2": 0.7618888362521361,
+        "y2": 0.4888343140673487
       },
       "text": "FEMALE",
       "image_threshold": 150,
@@ -1078,16 +886,16 @@
   {
     "INVASION_CHARACTER_FILTER_COMBAT": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.537962962962963,
-        "x2": 0.7786458333333334,
-        "y2": 0.575925925925926
+        "x1": 0.6882651181398797,
+        "y1": 0.500733096792562,
+        "x2": 0.7638011406186881,
+        "y2": 0.5364294449682012
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.537962962962963,
-        "x2": 0.7786458333333334,
-        "y2": 0.575925925925926
+        "x1": 0.6882651181398797,
+        "y1": 0.500733096792562,
+        "x2": 0.7638011406186881,
+        "y2": 0.5364294449682012
       },
       "text": "COMBAT",
       "image_threshold": 150,
@@ -1099,16 +907,16 @@
   {
     "INVASION_CHARACTER_FILTER_SPEED": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.600925925925926,
-        "x2": 0.7786458333333334,
-        "y2": 0.6388888888888888
+        "x1": 0.6896993464147937,
+        "y1": 0.5525777929524193,
+        "x2": 0.759976531885584,
+        "y2": 0.5933736194388644
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.600925925925926,
-        "x2": 0.7786458333333334,
-        "y2": 0.6388888888888888
+        "x1": 0.6896993464147937,
+        "y1": 0.5525777929524193,
+        "x2": 0.759976531885584,
+        "y2": 0.5933736194388644
       },
       "text": "SPEED",
       "image_threshold": 150,
@@ -1120,16 +928,16 @@
   {
     "INVASION_CHARACTER_FILTER_BLAST": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.6638888888888889,
-        "x2": 0.7786458333333334,
-        "y2": 0.7037037037037037
+        "x1": 0.6901774225064318,
+        "y1": 0.6052724021640775,
+        "x2": 0.7594984557939459,
+        "y2": 0.6460682286505226
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.6638888888888889,
-        "x2": 0.7786458333333334,
-        "y2": 0.7037037037037037
+        "x1": 0.6901774225064318,
+        "y1": 0.6052724021640775,
+        "x2": 0.7594984557939459,
+        "y2": 0.6460682286505226
       },
       "text": "BLAST",
       "image_threshold": 150,
@@ -1141,16 +949,16 @@
   {
     "INVASION_CHARACTER_FILTER_UNIVERSAL": {
       "text_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.7231481481481481,
-        "x2": 0.7786458333333334,
-        "y2": 0.762962962962963
+        "x1": 0.6896993464147937,
+        "y1": 0.6571170983239348,
+        "x2": 0.7733626624514488,
+        "y2": 0.6936633595513753
       },
       "button_rect": {
-        "x1": 0.6536458333333334,
-        "y1": 0.7231481481481481,
-        "x2": 0.7786458333333334,
-        "y2": 0.762962962962963
+        "x1": 0.6896993464147937,
+        "y1": 0.6571170983239348,
+        "x2": 0.7733626624514488,
+        "y2": 0.6936633595513753
       },
       "text": "UNIVERSAL",
       "image_threshold": 150,
@@ -1178,16 +986,16 @@
   {
     "INVASION_NO_CHEST_SLOTS": {
       "text_rect": {
-        "x1": 0.41225669774399937,
-        "y1": 0.5083301886142213,
-        "x2": 0.58497931801012,
-        "y2": 0.5814402924305687
+        "x1": 0.4204815844233385,
+        "y1": 0.5269400332220189,
+        "x2": 0.576754431330781,
+        "y2": 0.5934037639641528
       },
       "button_rect": {
-        "x1": 0.38085258496834107,
-        "y1": 0.7263312254484209,
-        "x2": 0.4660923196451279,
-        "y2": 0.7821607592718134
+        "x1": 0.3778617170849449,
+        "y1": 0.7143677539148369,
+        "x2": 0.46684003661597695,
+        "y2": 0.7728558369679147
       },
       "text": "Continue anyway?",
       "image_threshold": 150,
