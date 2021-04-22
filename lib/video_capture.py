@@ -54,6 +54,7 @@ class NoxPlayerSource:
 
     def _decorate(self):
         logger.debug("Decorating function for video capture.")
+        self._click_button = self.player.click_button
         self._get_screen_text = self.player.get_screen_text
         self._get_image_from_image = self.player.get_image_from_image
         self._is_ui_element_on_screen = self.player.is_ui_element_on_screen
@@ -61,6 +62,7 @@ class NoxPlayerSource:
         self._PostMessage = win32api.PostMessage
         self._control_click_by_handle = autoit.control_click_by_handle
 
+        self.player.click_button = self.click_button_decorator(self.player, self.player.click_button)
         self.player.get_screen_text = self.get_screen_text_decorator(self.player, self.player.get_screen_text)
         self.player.get_image_from_image = self.get_image_from_image_decorator(self.player,
                                                                                self.player.get_image_from_image)
@@ -78,6 +80,7 @@ class NoxPlayerSource:
         self.player.get_image_from_image = self._get_image_from_image
         self.player.is_ui_element_on_screen = self._is_ui_element_on_screen
         self.player.is_image_on_screen = self._is_image_on_screen
+        self.player.click_button = self._click_button
         win32api.PostMessage = self._PostMessage
         autoit.control_click_by_handle = self._control_click_by_handle
 
@@ -115,6 +118,17 @@ class NoxPlayerSource:
                     x, y = (element.box[0] + element.box[2] - w) / 2, (element.box[1] + element.box[3] - h) / 2
                     draw.text(xy=(x, y), text=element.name, font=self.font, fill=ElementOnScreen.GREEN_COLOR)
         return screen
+
+    @staticmethod
+    def click_button_decorator(player, click_button):
+        """player.click_button decorator for debug drawing of rectangle."""
+        def wrapped(button_rect, **kwargs):
+            box = (button_rect.global_rect[0] * player.width, button_rect.global_rect[1] * player.height,
+                   button_rect.global_rect[2] * player.width, button_rect.global_rect[3] * player.height)
+            element = ElementOnScreen(name="", box=box, color=ElementOnScreen.RED_COLOR)
+            player.screen_elements.append(element)
+            return click_button(button_rect=button_rect, **kwargs)
+        return wrapped
 
     @staticmethod
     def get_screen_text_decorator(player, get_screen_text):
