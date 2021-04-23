@@ -372,6 +372,14 @@ class ManualBattleBot(BattleBot):
                 r_sleep(1)
                 return self.load_skills()
 
+        locked_base_skills = [skill for skill in self.base_skills if skill.locked]
+        unlocked_base_skills = [skill for skill in self.base_skills if not skill.locked]
+        if locked_base_skills and unlocked_base_skills:
+            last_skill = unlocked_base_skills[-1]
+            last_skill._skill_locked = True
+            last_skill._skill_ready_image = None
+            logger.debug(f"Locking base skill {last_skill.name} because previous skills locked as well.")
+
     def get_available_bonus_skill(self):
         """Get available bonus skill and save it.
 
