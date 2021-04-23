@@ -228,6 +228,22 @@
     }
   },
   {
+    "SB_CLOSE_SET_SQUAD": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8451848238655747,
+        "y1": 0.048401171878654,
+        "x2": 0.872102634816139,
+        "y2": 0.09359650878330504
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "sb_close_set_squad",
+      "description": "Squad Battle: close SET SQUAD window when not enough characters for battle."
+    }
+  },
+  {
     "SB_BATTLE_POINTS": {
       "text_rect": {
         "x1": 0.28888339755391307,

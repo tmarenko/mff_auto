@@ -104,7 +104,8 @@ class SquadBattles(Missions):
         :param battle_num: number of the battle.
         """
         if self.select_squad_battle(squad_battle_ui=self.ui[battle_num]):
-            self.press_start_button()
+            if not self.press_start_button():
+                return self.end_missions()
             AutoBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_after_battle_notifications()
 
@@ -129,6 +130,13 @@ class SquadBattles(Missions):
             r_sleep(2)
             self.deploy_characters()
             self.player.click_button(self.ui[start_button_ui].button)
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['SB_EMPTY_TEAM_NOTIFICATION']):
+                logger.warning("Squad Battles: empty team notification again. Not enough characters for battle.")
+                self.player.click_button(self.ui['SB_EMPTY_TEAM_NOTIFICATION'].button)
+                self.player.click_button(self.ui['SB_CLOSE_SET_SQUAD'].button)
+                return False
+        return True
 
     def press_repeat_button(self, repeat_button_ui='SB_REPEAT_BUTTON', start_button_ui=None):
         """Press repeat button of the mission."""
