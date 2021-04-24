@@ -52,6 +52,7 @@ class Updater:
         self.new_version = None
         self.current_version_module = current_version_module
         self.current_version = Version(version_module=self.current_version_module)
+        self.is_new_updater = False
         logger.info(f"Loaded version: mff_auto={self.current_version.mff_auto}, game={self.current_version.mff}, "
                     f"updater={self.current_version.updater}")
 
@@ -89,6 +90,7 @@ class Updater:
         if self.new_version.updater > self.current_version.updater:
             logger.info(f"Found new version of Updater {self.new_version.updater}, cannot update. "
                         f"Download last release from project homepage.")
+            self.is_new_updater = True
             return False
         if self.new_version.mff_auto > self.current_version.mff_auto:
             logger.info(f"Found new version {self.new_version.mff_auto} for MFF {self.new_version.mff}.")

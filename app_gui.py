@@ -12,6 +12,9 @@ def main():
     window = MainWindow(file_logger=file_logger)
     window.setWindowTitle(f"{window.windowTitle()} {current_version}")
     window.show()
+    if is_new_updater:
+        notification = create_updater_notification()
+        notification.show()
     app.exec_()
 
 
@@ -22,7 +25,17 @@ def check_updates():
         updater.update_from_new_version()
         os.execl(sys.executable, sys.executable, *sys.argv)
     updater.clean()
-    return updater.current_version.mff_auto
+    return updater.current_version.mff_auto, updater.is_new_updater
+
+
+def create_updater_notification():
+    from PyQt5.QtWidgets import QDialog
+    from lib.gui.designes.updater_notification import Ui_Dialog
+    from lib.gui.helper import set_default_icon
+    notification = QDialog()
+    Ui_Dialog().setupUi(Dialog=notification)
+    set_default_icon(notification)
+    return notification
 
 
 def suppress_qt_warnings():
@@ -37,7 +50,7 @@ if __name__ == '__main__':
     suppress_qt_warnings()
     try:
         file_logger = logging.create_file_handler()
-        current_version = check_updates()
+        current_version, is_new_updater = check_updates()
         main()
     except BaseException as err:
         logging.root.error(f"{err}\n{traceback.format_exc()}")
