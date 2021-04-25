@@ -2,16 +2,16 @@
   {
     "DISCONNECT_FROM_SERVER": {
       "text_rect": {
-        "x1": 0.37744533947065595,
-        "y1": 0.4534288638689867,
-        "x2": 0.6260069044879172,
-        "y2": 0.5015353121801432
+        "x1": 0.3793571510266431,
+        "y1": 0.4644641263244128,
+        "x2": 0.6171311477566274,
+        "y2": 0.5282693078368615
       },
       "button_rect": {
-        "x1": 0.44649021864211735,
-        "y1": 0.7256908904810645,
-        "x2": 0.5558112773302647,
-        "y2": 0.781985670419652
+        "x1": 0.47656035723701395,
+        "y1": 0.7143677539148369,
+        "x2": 0.5214233754879544,
+        "y2": 0.7728558369679147
       },
       "text": "Disconnected from the server.",
       "image_threshold": 175,
@@ -174,7 +174,7 @@
         "y2": 0.8809523809523809
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_save_file": "melee_icon",
       "image_path": "melee.png",
@@ -430,17 +430,22 @@
   {
     "CANNOT_ENTER": {
       "text_rect": {
-        "x1": 0.4427083333333333,
-        "y1": 0.43425925925925923,
-        "x2": 0.5604166666666667,
-        "y2": 0.4759259259259259
+        "x1": 0.4429130935488087,
+        "y1": 0.44984210556114335,
+        "x2": 0.5543229222053108,
+        "y2": 0.4963667170806372
       },
-      "button_rect": null,
+      "button_rect": {
+        "x1": 0.47880350814956096,
+        "y1": 0.7117092046851513,
+        "x2": 0.5184325076045584,
+        "y2": 0.767538738508544
+      },
       "text": "Cannot enter.",
       "image_threshold": 155,
       "chars": null,
       "image_save_file": "cannot_enter",
-      "description": "The 'Cannot enter' message at the end of the mission."
+      "description": "The 'Cannot enter' message at the end of the mission. Leads to OK button."
     }
   },
   {

@@ -317,7 +317,7 @@
         "y2": 0.3738643954953758
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "sb_no_character_main",
@@ -334,7 +334,7 @@
         "y2": 0.3819400961124308
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "sb_no_character_left",
@@ -351,7 +351,7 @@
         "y2": 0.37951738592731427
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "sb_no_character_right",

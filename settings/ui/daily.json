@@ -311,7 +311,7 @@
         "y2": 0.7688680131233866
       },
       "text": "OK",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "enhance_potential_upgrade_ok",
       "description": "Enhance Potential confirm upgrade button."
@@ -411,7 +411,7 @@
         "y2": 0.8340024692506781
       },
       "text": "SELECT",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "cards_select_grade",
       "description": "Cards: Select in Upgrade menu button."
@@ -697,7 +697,7 @@
         "y2": 0.7741851115827575
       },
       "text": "OK",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "custom_gear_quick_upgrade_confirm",
       "description": "Inventory: Custom Gear: Confirm quick upgrade notification (leads to OK button)."
@@ -718,7 +718,7 @@
         "y2": 0.7688680131233866
       },
       "text": "OK",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "custom_gear_quick_upgrade_include_upgraded",
       "description": "Inventory: Custom Gear: Include upgraded gear notification (leads to OK button)."
@@ -944,15 +944,15 @@
     "ALLIANCE_LEVEL_UP_NOTIFICATION": {
       "text_rect": {
         "x1": 0.47955122512041004,
-        "y1": 0.8260268215616219,
-        "x2": 0.5214233754879544,
-        "y2": 0.8778685315404866
+        "y1": 0.8433073915545768,
+        "x2": 0.5251619603421994,
+        "y2": 0.9017954746076546
       },
       "button_rect": {
         "x1": 0.47955122512041004,
-        "y1": 0.8260268215616219,
-        "x2": 0.5214233754879544,
-        "y2": 0.8778685315404866
+        "y1": 0.8433073915545768,
+        "x2": 0.5251619603421994,
+        "y2": 0.9017954746076546
       },
       "text": "OK",
       "image_threshold": 150,

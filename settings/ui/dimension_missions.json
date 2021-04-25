@@ -290,7 +290,7 @@
         "y2": 0.8101851851851852
       },
       "text": "OK",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "dm_reward_acquired_ok",
       "description": "Dimensions Missions: OK button at the end of acquiring last reward."
@@ -332,7 +332,7 @@
         "y2": 0.7781729354272855
       },
       "text": "USE",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "USE",
       "image_save_file": "dm_ticket_notification_dont_use",
       "description": "Notification of you need to use hidden tickets. Leads to DON'T (don't use tickets) button."

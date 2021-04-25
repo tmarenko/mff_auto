@@ -508,7 +508,7 @@
         "y2": 0.46382246847486824
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_main",
@@ -525,7 +525,7 @@
         "y2": 0.4212962962962963
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_left",
@@ -542,7 +542,7 @@
         "y2": 0.4203703703703704
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_right",
@@ -559,7 +559,7 @@
         "y2": 0.26861003897943425
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_1",
@@ -576,7 +576,7 @@
         "y2": 0.41952173131865017
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_2",
@@ -593,7 +593,7 @@
         "y2": 0.5714600338098337
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_3",
@@ -610,7 +610,7 @@
         "y2": 0.7244249464529846
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_4",
@@ -627,7 +627,7 @@
         "y2": 0.8753366387922006
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "wb_no_character_ally_5",
@@ -670,7 +670,7 @@
         "y2": 0.7814814814814814
       },
       "text": "OK",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "wb_close_offer_ad_ok",
       "description": "Position of OK-button when you are trying to close ad in World Boss."
@@ -712,7 +712,7 @@
         "y2": 0.7768436608124428
       },
       "text": "OK",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "wb_low_valor_or_attack",
       "description": "Notification when you have low valor or team ATK. Leads to OK button."

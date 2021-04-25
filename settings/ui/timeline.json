@@ -285,7 +285,7 @@
         "y2": 0.7808314846569708
       },
       "text": "OK",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "tl_honor_tokens_limit",
       "description": "Timeline Honor Token notification if they are more than 60000."

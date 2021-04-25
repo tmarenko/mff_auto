@@ -39,16 +39,16 @@
   {
     "DANGER_ROOM_NO_ENERGY": {
       "text_rect": {
-        "x1": 0.38085258496834107,
-        "y1": 0.7250019508335783,
+        "x1": 0.377114000114096,
+        "y1": 0.7117092046851515,
         "x2": 0.46534460267427896,
-        "y2": 0.7834900338866562
+        "y2": 0.7755143861976
       },
       "button_rect": {
-        "x1": 0.38085258496834107,
-        "y1": 0.7250019508335783,
+        "x1": 0.377114000114096,
+        "y1": 0.7117092046851515,
         "x2": 0.46534460267427896,
-        "y2": 0.7834900338866562
+        "y2": 0.7755143861976
       },
       "text": "CANCEL",
       "image_threshold": 150,
@@ -500,7 +500,7 @@
         "y2": 0.7814814814814814
       },
       "text": "OK",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "danger_room_block_notice",
       "description": "Danger Room: notification when you blocked from the game after disconnect."
@@ -1041,7 +1041,7 @@
         "y2": 0.779502210042128
       },
       "text": "OK",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "danger_exit_lobby_ok",
       "description": "Danger Room: notification when you're trying to exit lobby (leads to OK button)."

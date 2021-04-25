@@ -294,7 +294,7 @@
       },
       "button_rect": null,
       "text": "RAGNAROK",
-      "image_threshold": 140,
+      "image_threshold": 130,
       "chars": "RAGNAROK",
       "image_save_file": "lb_ragnarok_battle_title",
       "description": "Legendary battle : Ragnarok (title on top)."
@@ -352,7 +352,7 @@
       },
       "button_rect": null,
       "text": "NEW HOPE",
-      "image_threshold": 140,
+      "image_threshold": 130,
       "chars": "NEW HOPE",
       "image_save_file": "lb_captain_marvel_battle_title",
       "description": "Legendary battle : Captain Marvel 'New Hope' (title on top)."
@@ -410,7 +410,7 @@
       },
       "button_rect": null,
       "text": "WAKANDA FOREVER",
-      "image_threshold": 140,
+      "image_threshold": 130,
       "chars": "WAKANDA FOREVER",
       "image_save_file": "lb_black_panther_battle_title",
       "description": "Legendary battle : Black Panther 'Wakanda Forever' (title on top)."
@@ -447,7 +447,7 @@
       },
       "button_rect": null,
       "text": "PENDING DANGER",
-      "image_threshold": 140,
+      "image_threshold": 130,
       "chars": "PENDING DANGER",
       "image_save_file": "lb_infinity_war_battle_title",
       "description": "Legendary battle : Infinity War 'Pending Danger' (title on top)."
@@ -484,7 +484,7 @@
       },
       "button_rect": null,
       "text": "INVISIBLE GHOST",
-      "image_threshold": 140,
+      "image_threshold": 130,
       "chars": "INVISIBLE GHOST",
       "image_save_file": "lb_ant_man_battle_title",
       "description": "Legendary battle : Ant-Man And The Wasp 'Invisible Ghost' (title on top)."

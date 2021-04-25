@@ -151,7 +151,7 @@
         "y2": 0.7787037037037037
       },
       "text": "OK",
-      "image_threshold": 170,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "main_menu_rewards_ok",
       "description": "OK-button of closing window with daily rewards in main menu.,."
@@ -491,7 +491,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 160,
+      "image_threshold": 170,
       "chars": null,
       "image_save_file": "content_status_element_label",
       "description": "Local position of stage label and button inside content status element."

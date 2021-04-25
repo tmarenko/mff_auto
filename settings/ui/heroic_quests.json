@@ -86,19 +86,19 @@
   {
     "HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK": {
       "text_rect": {
-        "x1": 0.5567708333333333,
-        "y1": 0.7268518518518519,
-        "x2": 0.6026041666666667,
-        "y2": 0.7842592592592592
+        "x1": 0.5515625,
+        "y1": 0.7138888888888889,
+        "x2": 0.6083333333333333,
+        "y2": 0.775
       },
       "button_rect": {
-        "x1": 0.5567708333333333,
-        "y1": 0.7268518518518519,
-        "x2": 0.6026041666666667,
-        "y2": 0.7842592592592592
+        "x1": 0.5515625,
+        "y1": 0.7138888888888889,
+        "x2": 0.6083333333333333,
+        "y2": 0.775
       },
       "text": "OK",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": "OK",
       "image_save_file": "hq_crystal_chest_notification_cancel_ok",
       "description": "Heroic Quests: OK button in Crystal Chest notification cancellation."

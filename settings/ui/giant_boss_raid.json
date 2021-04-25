@@ -81,16 +81,16 @@
   {
     "GBR_NOT_ENOUGH_ENERGY": {
       "text_rect": {
-        "x1": 0.380104867997492,
-        "y1": 0.7263312254484209,
+        "x1": 0.3793571510266431,
+        "y1": 0.7130384792999941,
         "x2": 0.4660923196451279,
-        "y2": 0.7834900338866562
+        "y2": 0.7755143861976
       },
       "button_rect": {
-        "x1": 0.380104867997492,
-        "y1": 0.7263312254484209,
+        "x1": 0.3793571510266431,
+        "y1": 0.7130384792999941,
         "x2": 0.4660923196451279,
-        "y2": 0.7834900338866562
+        "y2": 0.7755143861976
       },
       "text": "CANCEL",
       "image_threshold": 120,
@@ -219,27 +219,6 @@
       "chars": null,
       "image_save_file": "gbr_boost_points_no_more",
       "description": "Giant Boss Raid: not enough boost points notification."
-    }
-  },
-  {
-    "GBR_START_BUTTON_INACTIVE": {
-      "text_rect": {
-        "x1": 0.8392030880987825,
-        "y1": 0.8991369253779693,
-        "x2": 0.9162179360962303,
-        "y2": 0.962942106890418
-      },
-      "button_rect": {
-        "x1": 0.8392030880987825,
-        "y1": 0.8991369253779693,
-        "x2": 0.9162179360962303,
-        "y2": 0.962942106890418
-      },
-      "text": "START",
-      "image_threshold": 80,
-      "chars": null,
-      "image_save_file": "gbr_start_button_inactive",
-      "description": "Giant Boss Raid: Start (inactive) button in raid lobby."
     }
   },
   {
@@ -433,7 +412,7 @@
         "y2": 0.2907262591712603
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "invasion_no_character_main",
@@ -450,7 +429,7 @@
         "y2": 0.27945690482566865
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "invasion_no_character_left",
@@ -467,7 +446,7 @@
         "y2": 0.2856744796370295
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "invasion_no_character_right",

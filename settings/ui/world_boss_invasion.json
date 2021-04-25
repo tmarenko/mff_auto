@@ -721,7 +721,7 @@
         "y2": 0.38051268922847487
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "invasion_no_character_main",
@@ -738,7 +738,7 @@
         "y2": 0.3829889991964479
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "invasion_no_character_left",
@@ -755,7 +755,7 @@
         "y2": 0.385465309164421
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "invasion_no_character_right",

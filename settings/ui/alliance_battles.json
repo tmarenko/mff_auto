@@ -30,7 +30,7 @@
         "y2": 0.9764076534582031
       },
       "text": "NORMAL MODE READY",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "ab_normal_ready_button",
       "description": "Normal mode READY button."
@@ -253,7 +253,7 @@
         "y2": 0.4254372176968918
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "ab_no_character_main",
@@ -270,7 +270,7 @@
         "y2": 0.4124955501261754
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "ab_no_character_left",
@@ -287,7 +287,7 @@
         "y2": 0.41171120663704114
       },
       "text": null,
-      "image_threshold": 0.8,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "no_character.png",
       "image_save_file": "ab_no_character_right",
