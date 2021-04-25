@@ -132,6 +132,7 @@ class DangerRoom(Missions):
                 return
             if not self.select_character(mode=mode):
                 logger.debug("Danger Room: can't select character. Trying to select mode again.")
+                self.check_game_canceled()
                 if not self.select_mode(mode=mode):
                     return
                 continue
