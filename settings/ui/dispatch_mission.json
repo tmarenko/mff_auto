@@ -1,0 +1,339 @@
+[
+  {
+    "DISPATCH_MISSION": {
+      "text_rect": {
+        "x1": 0.5161893566920114,
+        "y1": 0.26906075794253886,
+        "x2": 0.6762007884536989,
+        "y2": 0.3288781156104595
+      },
+      "button_rect": {
+        "x1": 0.5460980355259717,
+        "y1": 0.36742707944089725,
+        "x2": 0.7262978255005824,
+        "y2": 0.6837944377734552
+      },
+      "text": "DISPATCH MISSION",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "dispatch_mission",
+      "description": "Dispatch Mission label in mission selection."
+    }
+  },
+  {
+    "DISPATCH_MISSION_LABEL": {
+      "text_rect": {
+        "x1": 0.04886624991138173,
+        "y1": 0.012510757277901676,
+        "x2": 0.2141117004690124,
+        "y2": 0.07764521340519293
+      },
+      "button_rect": null,
+      "text": "DISPATCH MISSION",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "dispatch_mission_label",
+      "description": "Dispatch Mission label inside mission."
+    }
+  },
+  {
+    "DISPATCH_SECTOR_BUTTON": {
+      "text_rect": {
+        "x1": 0.8638777481367997,
+        "y1": 0.22918251949725849,
+        "x2": 0.9506129167552847,
+        "y2": 0.2757071310167523
+      },
+      "button_rect": {
+        "x1": 0.8638777481367997,
+        "y1": 0.22918251949725849,
+        "x2": 0.9506129167552847,
+        "y2": 0.2757071310167523
+      },
+      "text": "DISPATCH",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "dispatch_sector_button",
+      "description": "Dispatch Mission: Dispatch button inside sector menu."
+    }
+  },
+  {
+    "DISPATCH_SECTOR_CLOSE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.9668258784516061,
+        "y1": 0.13789178599912807,
+        "x2": 0.97855315455397,
+        "y2": 0.15916965080117987
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "dispatch_sector_close",
+      "description": "Dispatch Mission: Close (X) button inside sector menu."
+    }
+  },
+  {
+    "DISPATCH_DRAG_RIGHT_POSITION": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.9588378034346238,
+        "y1": 0.10821852954657461,
+        "x2": 0.9790261616475469,
+        "y2": 0.13613329645827077
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "dispatch_drag_right_position",
+      "description": "Dispatch Mission: position for dragging from the right."
+    }
+  },
+  {
+    "DISPATCH_DRAG_LEFT_POSITION": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.009237250456384327,
+        "y1": 0.10954780416141716,
+        "x2": 0.02867789169845854,
+        "y2": 0.1454382187621697
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "dispatch_drag_left_position",
+      "description": "Dispatch Mission: position for dragging from the left."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_1": {
+      "text_rect": {
+        "x1": 0.07727949480364403,
+        "y1": 0.5202936601478054,
+        "x2": 0.1453217391509037,
+        "y2": 0.5548548001337152
+      },
+      "button_rect": {
+        "x1": 0.07727949480364403,
+        "y1": 0.5202936601478054,
+        "x2": 0.1453217391509037,
+        "y2": 0.5548548001337152
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_1",
+      "description": "Dispatch Mission: Acquire button in Sector 1."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_2": {
+      "text_rect": {
+        "x1": 0.2559838508365568,
+        "y1": 0.8153926246428804,
+        "x2": 0.32253066124211843,
+        "y2": 0.8526123138584755
+      },
+      "button_rect": {
+        "x1": 0.2559838508365568,
+        "y1": 0.8153926246428804,
+        "x2": 0.32253066124211843,
+        "y2": 0.8526123138584755
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_2",
+      "description": "Dispatch Mission: Acquire button in Sector 2."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_3": {
+      "text_rect": {
+        "x1": 0.4331927729277716,
+        "y1": 0.4578177532501994,
+        "x2": 0.49824414939163525,
+        "y2": 0.4950374424657945
+      },
+      "button_rect": {
+        "x1": 0.4331927729277716,
+        "y1": 0.4578177532501994,
+        "x2": 0.49824414939163525,
+        "y2": 0.4950374424657945
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_3",
+      "description": "Dispatch Mission: Acquire button in Sector 3."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_4": {
+      "text_rect": {
+        "x1": 0.6118971289606845,
+        "y1": 0.8140633500280379,
+        "x2": 0.678443939366246,
+        "y2": 0.8526123138584755
+      },
+      "button_rect": {
+        "x1": 0.6118971289606845,
+        "y1": 0.8140633500280379,
+        "x2": 0.678443939366246,
+        "y2": 0.8526123138584755
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_4",
+      "description": "Dispatch Mission: Acquire button in Sector 4."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_5": {
+      "text_rect": {
+        "x1": 0.7868629001393522,
+        "y1": 0.509659463229064,
+        "x2": 0.8519142766032158,
+        "y2": 0.5468791524446591
+      },
+      "button_rect": {
+        "x1": 0.7868629001393522,
+        "y1": 0.509659463229064,
+        "x2": 0.8519142766032158,
+        "y2": 0.5468791524446591
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_5",
+      "description": "Dispatch Mission: Acquire button in Sector 5."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_6": {
+      "text_rect": {
+        "x1": 0.9663149731431138,
+        "y1": 0.7768436608124428,
+        "x2": 0.9962236519770741,
+        "y2": 0.8114048007983525
+      },
+      "button_rect": {
+        "x1": 0.9663149731431138,
+        "y1": 0.7768436608124428,
+        "x2": 0.9962236519770741,
+        "y2": 0.8114048007983525
+      },
+      "text": "ACQ",
+      "image_threshold": 130,
+      "chars": "ACQ",
+      "image_save_file": "dispatch_acquire_sector_6",
+      "description": "Dispatch Mission: Acquire button in Sector 6."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_7": {
+      "text_rect": {
+        "x1": 0.03177083333333333,
+        "y1": 0.45092592592592595,
+        "x2": 0.0984375,
+        "y2": 0.48703703703703705
+      },
+      "button_rect": {
+        "x1": 0.03177083333333333,
+        "y1": 0.45092592592592595,
+        "x2": 0.0984375,
+        "y2": 0.48703703703703705
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_7",
+      "description": "Dispatch Mission: Acquire button in Sector 7."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_8": {
+      "text_rect": {
+        "x1": 0.20833333333333334,
+        "y1": 0.7481481481481481,
+        "x2": 0.2765625,
+        "y2": 0.7842592592592592
+      },
+      "button_rect": {
+        "x1": 0.20833333333333334,
+        "y1": 0.7481481481481481,
+        "x2": 0.2765625,
+        "y2": 0.7842592592592592
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_8",
+      "description": "Dispatch Mission: Acquire button in Sector 8."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_9": {
+      "text_rect": {
+        "x1": 0.38333333333333336,
+        "y1": 0.48333333333333334,
+        "x2": 0.45364583333333336,
+        "y2": 0.5259259259259259
+      },
+      "button_rect": {
+        "x1": 0.38333333333333336,
+        "y1": 0.48333333333333334,
+        "x2": 0.45364583333333336,
+        "y2": 0.5259259259259259
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_9",
+      "description": "Dispatch Mission: Acquire button in Sector 9."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_SECTOR_10": {
+      "text_rect": {
+        "x1": 0.5625,
+        "y1": 0.7314814814814815,
+        "x2": 0.6296875,
+        "y2": 0.7722222222222223
+      },
+      "button_rect": {
+        "x1": 0.5625,
+        "y1": 0.7314814814814815,
+        "x2": 0.6296875,
+        "y2": 0.7722222222222223
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "dispatch_acquire_sector_10",
+      "description": "Dispatch Mission: Acquire button in Sector 10."
+    }
+  },
+  {
+    "DISPATCH_ACQUIRE_OK_BUTTON": {
+      "text_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.742282520826533,
+        "x2": 0.5251619603421994,
+        "y2": 0.8060877023389817
+      },
+      "button_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.742282520826533,
+        "x2": 0.5251619603421994,
+        "y2": 0.8060877023389817
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "dispatch_acquire_ok_button",
+      "description": "Dispatch Mission: OK button after acquiring rewards in sector."
+    }
+  }
+]

@@ -20,6 +20,7 @@ from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
 from lib.game.missions.world_bosses import WorldBosses
 from lib.game.routines import DailyTrivia, ComicCards, CustomGear, ShieldLab, WaitUntil, Friends, Alliance
+from lib.game.dispatch_mission import DispatchMission
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -165,9 +166,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         playing_hero = _PlayingHero(game)
         golden_gods = _GoldenGods(game)
         reset_world_boss = _ResetWorldBoss(game)
+        acquire_dispatch_mission_rewards = _AcquireDispatchMissionRewards(game)
         self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, friends_send_all,
                         friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset,
-                        reset_world_boss]
+                        reset_world_boss, acquire_dispatch_mission_rewards]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -603,6 +605,13 @@ class _WaitDailyReset(Action):
     def __init__(self, game):
         self.wait_until = WaitUntil(game)
         super().__init__(game, "WAIT DAILY RESET", self.wait_until.wait_until_daily_reset)
+
+
+class _AcquireDispatchMissionRewards(Action):
+
+    def __init__(self, game):
+        self.dispatch_mission = DispatchMission(game)
+        super().__init__(game, "DISPATCH MISSION: ACQUIRE ALL REWARDS", self.dispatch_mission.acquire_all_rewards)
 
 
 class _LegendaryBattle(GameMode):

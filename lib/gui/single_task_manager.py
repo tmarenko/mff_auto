@@ -2,6 +2,7 @@
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.routines import DailyTrivia, ShieldLab, ComicCards, CustomGear
+from lib.game.dispatch_mission import DispatchMission
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battles import SquadBattles
@@ -224,3 +225,15 @@ class CustomGearTask(SingleTaskWithOptions):
             "Upgrade 1 gear": {"times": 1},
             "Upgrade ALL gear": {"times": 999}
         })
+
+
+class DispatchMissionAcquireTask(SingleTask):
+
+    def __init__(self, button, game: Game):
+        dm = DispatchMission(game)
+
+        @reset_player_and_logger(game=game)
+        def acquire_all_rewards():
+            return dm.acquire_all_rewards()
+
+        super().__init__(button, acquire_all_rewards, {})

@@ -218,6 +218,10 @@ class Ui_MainWindow(object):
         self.shield_lab_button.setMinimumSize(QtCore.QSize(120, 50))
         self.shield_lab_button.setObjectName("shield_lab_button")
         self.verticalLayout.addWidget(self.shield_lab_button)
+        self.dispatch_mission_rewards = QtWidgets.QPushButton(self.quick_start_group)
+        self.dispatch_mission_rewards.setMinimumSize(QtCore.QSize(120, 50))
+        self.dispatch_mission_rewards.setObjectName("dispatch_mission_rewards")
+        self.verticalLayout.addWidget(self.dispatch_mission_rewards)
         self.squad_battle_button = QtWidgets.QPushButton(self.quick_start_group)
         self.squad_battle_button.setMinimumSize(QtCore.QSize(120, 50))
         self.squad_battle_button.setObjectName("squad_battle_button")
@@ -325,6 +329,8 @@ class Ui_MainWindow(object):
         self.custom_gear_button.setText(_translate("MainWindow", "Custom Gear Upgrade"))
         self.shield_lab_button.setText(_translate("MainWindow", "Shield Lab:\n"
 " Collect Anti-Matter"))
+        self.dispatch_mission_rewards.setText(_translate("MainWindow", "Dispatch Mission:\n"
+" Acquire All Rewards"))
         self.squad_battle_button.setText(_translate("MainWindow", "Squad Battle:\n"
 " All Battles"))
         self.world_boss_invasion_button.setText(_translate("MainWindow", "World Boss Invasion:\n"

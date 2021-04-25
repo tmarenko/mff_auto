@@ -428,6 +428,16 @@ class Game:
                     r_sleep(1)
                     return True
 
+    def go_to_dispatch_mission(self):
+        """Go to Dispatch Mission screen."""
+        if self.go_to_mission_selection():
+            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DISPATCH_MISSION']):
+                self.player.click_button(self.ui['DISPATCH_MISSION'].button)
+                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['DISPATCH_MISSION_LABEL']):
+                    r_sleep(1)
+                    return True
+
     def restart_game(self, repeat_while=None):
         """Restart game.
 

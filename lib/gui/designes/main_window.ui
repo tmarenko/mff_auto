@@ -536,6 +536,20 @@ Upgrade All</string>
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="dispatch_mission_rewards">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Dispatch Mission:
+ Acquire All Rewards</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="squad_battle_button">
            <property name="minimumSize">
             <size>
