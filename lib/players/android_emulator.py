@@ -154,6 +154,8 @@ class AndroidEmulator(object):
         keys_found = self.key_handle is not None and self.player_key_handle is not None
         rect_found = self.x is not None and self.y is not None
         parent_found = self.parent_x is not None and self.parent_y is not None
+        # TODO: keys are not necessary, maybe remove them?
+        keys_found = True
         return hwnd_found and hwnd_active and keys_found and rect_found and parent_found
 
     @property

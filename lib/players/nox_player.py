@@ -137,4 +137,5 @@ class NoxWindow(AndroidEmulator):
     @property
     def restartable(self):
         """Returns if app can be restarted."""
-        return self.close_app_shortcut is not None
+        keys_found = self.key_handle is not None and self.player_key_handle is not None
+        return keys_found and self.close_app_shortcut is not None
