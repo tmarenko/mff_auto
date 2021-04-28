@@ -180,9 +180,12 @@ class TenStageEpicQuest(EpicQuests):
         if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.mission_selector):
             logger.debug(f"Selecting Epic Quest's mission: {self.mission_selector.name}")
             self.player.click_button(self.mission_selector.button)
-            return wait_until(self.player.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.mission_selector_label) and wait_until(
-                self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_RECOMMENDED_LVL'])
+            mission_label_on_screen = wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                                 ui_element=self.mission_selector_label)
+            # Usually 10 stage epic contains only button selector except Blindsided mission with mission's text
+            stage_selector_ui = self.stage_selector if self.stage_selector.text else self.ui['EQ_RECOMMENDED_LVL']
+            return mission_label_on_screen and wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                                                          ui_element=stage_selector_ui)
 
     def select_stage(self):
         """Select stage in missions in Epic Quest."""
