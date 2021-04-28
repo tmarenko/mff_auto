@@ -12,7 +12,7 @@ class Missions:
         STAGE_1 = "DIFFICULTY_STAGE_1"
         STAGE_2 = "DIFFICULTY_STAGE_2"
         STAGE_3 = "DIFFICULTY_STAGE_3"
-        STAGE_4 = "DIFFICULTY_STAGE_4"
+        STAGE_4 = "DIFFICULTY_STAGE_2_6"
 
     class _DIFFICULTY_6:
         STAGE_1 = "DIFFICULTY_STAGE_1"
@@ -179,6 +179,9 @@ class Missions:
             if wait_until(self.player.is_ui_element_on_screen, timeout=2,
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
                 self.player.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
+            if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
+                logger.debug(f"UI element {start_button_ui} still on screen. Trying to start battle again.")
+                return self.press_start_button(start_button_ui=start_button_ui)
             return True
         logger.warning("Unable to press START button.")
         return False
