@@ -167,6 +167,9 @@ class DimensionMissions(Missions):
             if wait_until(self.player.is_ui_element_on_screen, timeout=2,
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
                 self.player.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
+            if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
+                logger.debug(f"UI element {start_button_ui} still on screen. Trying to start battle again.")
+                return self.press_start_button(start_button_ui=start_button_ui, use_hidden_tickets=use_hidden_tickets)
             return True
         logger.warning("Unable to press START button.")
         return False

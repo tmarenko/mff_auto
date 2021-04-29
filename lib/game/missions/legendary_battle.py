@@ -161,5 +161,8 @@ class LegendaryBattle(Missions):
                 self.player.click_button(self.ui['LB_NO_REWARD_NOTICE'].button)
             if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['LB_IGNORE_NOTICE']):
                 self.player.click_button(self.ui['LB_IGNORE_NOTICE'].button)
+            if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
+                logger.debug(f"UI element {start_button_ui} still on screen. Trying to start battle again.")
+                return self.press_start_button(start_button_ui=start_button_ui)
             return True
         return False
