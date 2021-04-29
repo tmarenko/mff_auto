@@ -46,7 +46,7 @@
         "y2": 0.9602835576607327
       },
       "text": "START",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "mission_start_button",
       "description": "The mission start button."
@@ -668,16 +668,16 @@
   {
     "ITEM_MAX_LIMIT_NOTIFICATION": {
       "text_rect": {
-        "x1": 0.32395833333333335,
-        "y1": 0.38333333333333336,
-        "x2": 0.678125,
-        "y2": 0.43425925925925923
+        "x1": 0.33374641580485354,
+        "y1": 0.40464676865649224,
+        "x2": 0.6649850338909639,
+        "y2": 0.4578177532501994
       },
       "button_rect": {
-        "x1": 0.5520833333333334,
-        "y1": 0.7296296296296296,
-        "x2": 0.6083333333333333,
-        "y2": 0.7842592592592592
+        "x1": 0.5565660731178578,
+        "y1": 0.7117092046851513,
+        "x2": 0.6014290913687982,
+        "y2": 0.7728558369679147
       },
       "text": "One of your items has reached its max limit.",
       "image_threshold": 120,

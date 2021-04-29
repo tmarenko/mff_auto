@@ -63,22 +63,6 @@
     }
   },
   {
-    "CHAR_EXP": {
-      "text_rect": {
-        "x1": 0.4299544419134396,
-        "y1": 0.3896761133603239,
-        "x2": 0.45842824601366744,
-        "y2": 0.4149797570850202
-      },
-      "button_rect": null,
-      "text": "EXP",
-      "image_threshold": 120,
-      "chars": null,
-      "image_save_file": "char_exp",
-      "description": "EXP-text under middle character. Determines that we see end of battle screen."
-    }
-  },
-  {
     "LEGENDARY_SCORE": {
       "text_rect": {
         "x1": 0.0855043814829831,

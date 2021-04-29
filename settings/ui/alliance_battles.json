@@ -51,7 +51,7 @@
         "y2": 0.9527777777777777
       },
       "text": "NORMAL MODE START",
-      "image_threshold": 175,
+      "image_threshold": 150,
       "chars": null,
       "image_save_file": "ab_normal_start_button",
       "description": "Normal mode START button."

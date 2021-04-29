@@ -358,7 +358,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 200,
+      "image_threshold": 175,
       "chars": "0123456789/,",
       "image_save_file": "energy",
       "description": "Position of energy counter in top navigation bar."
@@ -390,7 +390,7 @@
       },
       "button_rect": null,
       "text": null,
-      "image_threshold": 150,
+      "image_threshold": 155,
       "chars": "0123456789",
       "image_save_file": "boost",
       "description": "Position of boost counter in top navigation bar."
