@@ -88,7 +88,7 @@
         "y2": 0.9629629629629629
       },
       "text": null,
-      "image_threshold": 0.7,
+      "image_threshold": 0.5,
       "chars": null,
       "image_path": "home_button.png",
       "image_save_file": "coop_home_button",
@@ -105,7 +105,7 @@
       },
       "button_rect": null,
       "text": "COMPLETION TIME:",
-      "image_threshold": 160,
+      "image_threshold": 170,
       "chars": null,
       "image_save_file": "coop_completion_time",
       "description": "Completion time in Coop battles. Determines that we see end of battle screen."
