@@ -1,11 +1,11 @@
 import lib.logger as logging
-from lib.functions import wait_until, is_strings_similar
+from lib.functions import wait_until
 from lib.game.battle_bot import AutoBattleBot
-from lib.game.heroic_quests import HeroicQuests
+from lib.game.notifications import Notifications
 logger = logging.get_logger(__name__)
 
 
-class Missions:
+class Missions(Notifications):
     """Class for working with mission's methods."""
 
     class _DIFFICULTY_4:
@@ -28,6 +28,7 @@ class Missions:
         :param game.Game game: instance of the game.
         :param string mode_label: mission's game mode label.
         """
+        super().__init__(game)
         self.player = game.player
         self.ui = game.ui
         self.game = game
@@ -198,129 +199,6 @@ class Missions:
         while not self.game.is_main_menu():
             self.close_after_mission_notifications(timeout=1)
         return True
-
-    def close_lvl_up_notification(self):
-        """Close LVL Up notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['LVL_UP_NOTIFICATION']):
-            self.player.click_button(self.ui['LVL_UP_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_stages_done_notification(self):
-        """Close Stages Done notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['STAGES_DONE_NOTIFICATION']):
-            self.player.click_button(self.ui['STAGES_DONE_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_rank_up_notification(self):
-        """Close Rank Up notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['RANK_UP_NOTIFICATION_1']):
-            self.player.click_button(self.ui['RANK_UP_NOTIFICATION_1'].button)
-            return True
-        if self.player.is_ui_element_on_screen(self.ui['RANK_UP_NOTIFICATION_2']):
-            self.player.click_button(self.ui['RANK_UP_NOTIFICATION_2'].button)
-            return True
-        return False
-
-    def close_items_def_notification(self):
-        """Close Item's Definition notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['TAP_TO_CONTINUE']):
-            self.player.click_button(self.ui['TAP_TO_CONTINUE'].button)
-            return True
-        return False
-
-    def close_shield_lvl_up_notification(self):
-        """Close S.H.I.E.L.D. LVL Up notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['SHIELD_LVL_UP_NOTIFICATION']):
-            self.player.click_button(self.ui['SHIELD_LVL_UP_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_recruit_character_notification(self):
-        """Close Recruit Character notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['RECRUIT_CHARACTER_NOTIFICATION']):
-            self.player.click_button(self.ui['RECRUIT_CHARACTER_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_heroic_quest_notification(self):
-        """Close Heroic Quest notification.
-
-        :return: True or False: was notification closed.
-        """
-        heroic_quest = self.player.get_screen_text(self.ui['HQ_NOTIFICATION_OK'])
-        # Use overlap less 0.25 because sometimes 'EPIC QUEST' is similar to 'HEROIC QUEST' with default overlap
-        if is_strings_similar(self.ui['HQ_NOTIFICATION_OK'].text, heroic_quest, overlap=0.15):
-            if self.game.ACQUIRE_HEROIC_QUEST_REWARDS:
-                self.player.click_button(self.ui['HQ_NOTIFICATION_OPEN'].button)
-                HeroicQuests(self.game).acquire_reward_and_return_back()
-            else:
-                self.player.click_button(self.ui['HQ_NOTIFICATION_OK'].button)
-            return True
-        return False
-
-    def close_epic_quest_notification(self):
-        """Close Epic Quest notification.
-
-        :return: True or False: was notification closed.
-        """
-        epic_quest = self.player.get_screen_text(self.ui['EQ_NOTIFICATION_OK'])
-        # Use overlap less 0.25 because sometimes 'EPIC QUEST' is similar to 'HEROIC QUEST' with default overlap
-        if is_strings_similar(self.ui['EQ_NOTIFICATION_OK'].text, epic_quest, overlap=0.15):
-            self.player.click_button(self.ui['EQ_NOTIFICATION_OK'].button)
-            return True
-        return False
-
-    def close_mission_notifications(self, timeout=5):
-        """Close all mission notifications after the battle.
-
-        :param timeout: timeout of waiting for notifications.
-        """
-        def close_notifications():
-            return self.close_lvl_up_notification() or \
-                   self.close_stages_done_notification() or \
-                   self.close_items_def_notification() or \
-                   self.close_rank_up_notification() or \
-                   self.close_shield_lvl_up_notification() or \
-                   self.close_recruit_character_notification()
-
-        for _ in range(timeout):
-            notification_closed = wait_until(close_notifications, timeout=1)
-            logger.debug(f"Notifications after end battle was closed: {notification_closed}")
-
-    def close_after_mission_notifications(self, timeout=3):
-        """Close after mission notifications outside of the battle.
-
-        :param timeout: timeout of waiting for notifications.
-        """
-        def close_notifications():
-            return self.game.close_complete_challenge_notification() or \
-                   self.close_heroic_quest_notification() or \
-                   self.close_epic_quest_notification() or \
-                   self.game.close_subscription_selector()
-
-        for _ in range(timeout):
-            notification_closed = wait_until(close_notifications, timeout=1)
-            logger.debug(f"After mission notifications was closed: {notification_closed}")
 
     def is_stage_startable(self):
         """Check if you can start stage safely.

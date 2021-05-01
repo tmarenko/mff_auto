@@ -6,16 +6,16 @@ from datetime import datetime, timedelta
 from math import ceil
 from random import randint
 from time import sleep
-from lib.game.missions.missions import Missions
+from lib.game.notifications import Notifications
 from lib.functions import wait_until, is_strings_similar, r_sleep
 
 logger = logging.get_logger(__name__)
 
 
-class Routine(Missions):
+class Routine(Notifications):
 
     def __init__(self, game):
-        super().__init__(game, "")
+        super().__init__(game)
 
 
 class DailyTrivia(Routine):
@@ -133,11 +133,14 @@ class EnhancePotential(Routine):
         :param click_speed: clicking speed of applying.
         """
         if material == self.COSMIC_CUBE_FRAGMENT:
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_COSMIC_CUBES'].button, click_speed, click_speed)
+            self.player.click_button(self.ui['ENHANCE_POTENTIAL_COSMIC_CUBES'].button, min_duration=click_speed,
+                                     max_duration=click_speed)
         if material == self.BLACK_ANTI_MATTER:
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_ANTI_MATTER'].button, click_speed, click_speed)
+            self.player.click_button(self.ui['ENHANCE_POTENTIAL_ANTI_MATTER'].button, min_duration=click_speed,
+                                     max_duration=click_speed)
         if material == self.NORN_STONE_OF_CHAOS:
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_NORN_STONES'].button, click_speed, click_speed)
+            self.player.click_button(self.ui['ENHANCE_POTENTIAL_NORN_STONES'].button, min_duration=click_speed,
+                                     max_duration=click_speed)
 
     def press_upgrade(self):
         """Press Upgrade button to enhance potential.

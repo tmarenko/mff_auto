@@ -1,6 +1,7 @@
 import re
 from lib.functions import wait_until, is_strings_similar, r_sleep, confirm_condition_by_time
 from lib.game import ui
+from lib.game.notifications import Notifications
 from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count
 import lib.logger as logging
@@ -21,7 +22,7 @@ class GameMode:
         self.ui_board = ui_board
 
 
-class Game:
+class Game(Notifications):
     """Class for working with main game methods."""
 
     ACQUIRE_HEROIC_QUEST_REWARDS = False
@@ -43,6 +44,7 @@ class Game:
         self.timeline_team = 1
         self.mission_team = 1
         self._modes = {}
+        super().__init__(self)
 
     def _do_after_loading_circle_decorator(self, func):
         """Emulator's decorator to detect game's loading state."""
@@ -487,110 +489,4 @@ class Game:
             logger.debug("Game started successfully.")
             return True
         logger.warning("Failed to start game")
-        return False
-
-    def close_subscription_selector(self):
-        """Close Biometrics and X-Gene selector window."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['BIOMETRICS_NOTIFICATION']):
-            self.player.click_button(self.ui['BIOMETRICS_NOTIFICATION'].button)
-            return True
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['X_GENE_NOTIFICATION']):
-            self.player.click_button(self.ui['X_GENE_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_alliance_conquest(self):
-        """Close Alliance Conquest notice window."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['ALLIANCE_CONQUEST_NOTIFICATION']):
-            self.player.click_button(self.ui['ALLIANCE_CONQUEST_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_alliance_conquest_results(self):
-        """Close Alliance Conquest Results notification."""
-        if self.player.is_ui_element_on_screen(self.ui['ALLIANCE_CONQUEST_REWARDS_ACQUIRE']):
-            self.player.click_button(self.ui['ALLIANCE_CONQUEST_REWARDS_ACQUIRE'].button)
-            return True
-        if self.player.is_ui_element_on_screen(self.ui['ALLIANCE_CONQUEST_REWARDS_CLOSE']):
-            self.player.click_button(self.ui['ALLIANCE_CONQUEST_REWARDS_CLOSE'].button)
-            return True
-        return False
-
-    def close_maintenance_notice(self):
-        """Close maintenance notice window."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['MAINTENANCE_NOTICE']):
-            self.player.click_button(self.ui['MAINTENANCE_NOTICE'].button)
-            return True
-        return False
-
-    def close_daily_rewards(self):
-        """Close daily rewards window and notification about rewards."""
-        if self.player.is_ui_element_on_screen(self.ui['MAIN_MENU_REWARDS']):
-            self.player.click_button(self.ui['MAIN_MENU_REWARDS'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_REWARDS_OK']):
-                self.player.click_button(self.ui['MAIN_MENU_REWARDS_OK'].button)
-                return True
-        return False
-
-    def close_battleworld_rewards(self):
-        """Close BattleWorld rewards notification."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['MAIN_MENU_REWARDS_OK']):
-            self.player.click_button(self.ui['MAIN_MENU_REWARDS_OK'].button)
-            return True
-        return False
-
-    def close_news(self):
-        """Close 'Don't Show Again' news on start of the game."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['NEWS_ON_START_GAME']):
-            self.player.click_button(self.ui['NEWS_ON_START_GAME'].button)
-            return True
-        return False
-
-    def close_ads(self, timeout=2):
-        """Close any ads on main menu screen.
-
-        :param timeout: timeout of waiting for ads.
-
-        :return: True or False: were ads closed.
-        """
-        def close_ad(ad_ui):
-            if self.player.is_ui_element_on_screen(ad_ui):
-                self.player.click_button(ad_ui.button)
-                if wait_until(self.player.is_ui_element_on_screen, timeout=1.5,
-                              ui_element=self.ui['MAIN_MENU_AD_CLOSE']):
-                    self.player.click_button(self.ui['MAIN_MENU_AD_CLOSE'].button)
-                    return True
-            return False
-
-        def close_ads():
-            return close_ad(self.ui['MAIN_MENU_AD']) or \
-                   close_ad(self.ui['MAIN_MENU_AD_2']) or \
-                   close_ad(self.ui['MAIN_MENU_AD_3']) or \
-                   close_ad(self.ui['MAIN_MENU_AD_4']) or \
-                   self.close_subscription_selector()
-
-        result = False
-        for _ in range(timeout):
-            result = result or wait_until(close_ads, timeout=1)
-        return result
-
-    def close_complete_challenge_notification(self):
-        """Close Complete Challenge notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self.player.is_ui_element_on_screen(self.ui['CHALLENGE_COMPLETE_NOTIFICATION']):
-            self.player.click_button(self.ui['CHALLENGE_COMPLETE_NOTIFICATION'].button)
-            return True
-        return False
-
-    def close_network_error_notification(self):
-        """Close Network Error notification.
-
-        :return: True or False: was notification closed.
-        """
-        if self._old_is_ui_element_on_screen(self.ui['NETWORK_ERROR_NOTIFICATION']):
-            logger.warning("Network Error notification occurred, trying to restore connection.")
-            self._old_click_button(self.ui['NETWORK_ERROR_NOTIFICATION'].button)
-            return True
         return False
