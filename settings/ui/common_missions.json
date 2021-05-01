@@ -324,7 +324,7 @@
       },
       "button_rect": null,
       "text": "An Enemy Shifter Appeared!",
-      "image_threshold": 120,
+      "image_threshold": 80,
       "chars": null,
       "image_save_file": "enemy_and_ally_appeared",
       "description": "When enemy and ally from another dimension appears you can see this message (enemy on bottom)."
