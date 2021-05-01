@@ -24,8 +24,8 @@ class DispatchMission:
         if self.player.is_ui_element_on_screen(ui_element=self.ui['DISPATCH_SECTOR_BUTTON']):
             logger.debug("Dispatch Mission: closing DISPATCH sector menu")
             self.player.click_button(self.ui['DISPATCH_SECTOR_CLOSE'].button)
-        self._acquire_sectors_from_the_left()
-        self._acquire_sectors_from_the_right()
+        if self._acquire_sectors_from_the_left():
+            self._acquire_sectors_from_the_right()
         self.game.go_to_main_menu()
 
     def _drag_to_the_left(self):
@@ -45,8 +45,12 @@ class DispatchMission:
         r_sleep(1)
 
     def _acquire_sectors_from_the_left(self):
-        """Acquire all available rewards in sectors from the left side."""
+        """Acquire all available rewards in sectors from the left side.
+
+        :return: True or False: were all dispatch missions closed on the left side.
+        """
         self._drag_to_the_left()
+        dispatch_closed = []
         for sector_index in range(1, 7):
             sector_ui = self.ui[f'DISPATCH_ACQUIRE_SECTOR_{sector_index}']
             if self.player.is_ui_element_on_screen(ui_element=sector_ui):
@@ -55,6 +59,8 @@ class DispatchMission:
                               ui_element=self.ui['DISPATCH_ACQUIRE_OK_BUTTON']):
                     logger.debug(f"Dispatch Mission: acquired rewards for sector #{sector_index}")
                     self.player.click_button(self.ui['DISPATCH_ACQUIRE_OK_BUTTON'].button)
+                    dispatch_closed.append(True)
+        return len(dispatch_closed) == 6
 
     def _acquire_sectors_from_the_right(self):
         """Acquire all available rewards in sectors from the right side."""
