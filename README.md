@@ -102,15 +102,16 @@ Check `example.py` for examples of running any modes.
 ```python
     from lib.players.nox_player import NoxWindow
     from lib.game.game import Game
-    from lib.video_capture import NoxCapture
+    from lib.video_capture import EmulatorCapture
     
     nox = NoxWindow("NoxPlayer")
     game = Game(nox)
-    with NoxCapture(nox) as nox_recorder:
+    with EmulatorCapture(nox) as recorder:
         # video file is in `logs` folder
-        nox_recorder.pause()
+        # ... do your stuff here ...
+        recorder.pause()
         # pause recording
-        nox_recorder.resume()
+        recorder.resume()
 ```
 
 ### Building release package from source code

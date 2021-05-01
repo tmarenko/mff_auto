@@ -23,6 +23,7 @@ class ScreenImageLabel(Timer):
         self.player = player
         self.set_timer(self.update_image)
         self.scaled_width, self.scaled_height = None, None
+        self.get_image_func = self.player.get_screen_image
 
     def update_image(self):
         """Update image from player and handle player resize."""
@@ -30,7 +31,7 @@ class ScreenImageLabel(Timer):
             self.player.update_windows()
             return
         self.player.update_windows_rect()
-        screen = self.player.get_screen_image()
+        screen = self.get_image_func()
         pix_map = screen_to_gui_image(screen)
         scale_pix_map = pix_map.scaled(self.widget.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.scaled_width, self.scaled_height = scale_pix_map.width(), scale_pix_map.height()

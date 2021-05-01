@@ -49,6 +49,9 @@ class AndroidEmulator(object):
         self.parent_x, self.parent_y, self.parent_width, self.parent_height, \
             self.parent_hwnd, self.parent_thread, self.player_key_handle = (None,) * 7
         self.x, self.y, self.width, self.height, self.hwnd, self.key_handle = (None,) * 6
+        # Storing external functions for process manager context (video_capture decorators)
+        self.autoit_control_click_by_handle = autoit.control_click_by_handle
+        self.win32_api_post_message = win32api.PostMessage
 
     def get_process(self):
         """Get path to process of emulator's executable."""
@@ -281,7 +284,7 @@ class AndroidEmulator(object):
         duration = random.uniform(min_duration, max_duration)
         r_sleep(duration)
         x, y = self.get_position_inside_screen_rectangle(button_rect)
-        autoit.control_click_by_handle(self.parent_hwnd, self.hwnd, x=x, y=y)
+        self.autoit_control_click_by_handle(self.parent_hwnd, self.hwnd, x=x, y=y)
         r_sleep(duration * 2)
 
     def press_key(self, key, system_key=False):
@@ -317,15 +320,16 @@ class AndroidEmulator(object):
 
         from_position = self.get_position_inside_screen_rectangle(from_rect)
         to_position = self.get_position_inside_screen_rectangle(to_rect)
-        win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, win32api.MAKELONG(*from_position))
-        win32api.PostMessage(self.hwnd, win32con.WM_LBUTTONDOWN, 0, win32api.MAKELONG(*from_position))
+        self.win32_api_post_message(self.hwnd, win32con.WM_MOUSEMOVE, 0, win32api.MAKELONG(*from_position))
+        self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONDOWN, 0, win32api.MAKELONG(*from_position))
 
         sleep_amount = duration / steps_count
         steps = [linear_point(*from_position, *to_position, n / steps_count) for n in range(steps_count)]
         for x, y in steps:
-            win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, win32con.WM_LBUTTONDOWN, win32api.MAKELONG(x, y))
+            self.win32_api_post_message(self.hwnd, win32con.WM_MOUSEMOVE, win32con.WM_LBUTTONDOWN,
+                                        win32api.MAKELONG(x, y))
             time.sleep(sleep_amount)
-        win32api.PostMessage(self.hwnd, win32con.WM_LBUTTONUP, 0, win32api.MAKELONG(*to_position))
+        self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONUP, 0, win32api.MAKELONG(*to_position))
 
     def _get_screen(self):
         """Get screen image from main window.

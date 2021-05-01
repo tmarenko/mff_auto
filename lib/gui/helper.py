@@ -174,6 +174,9 @@ def reset_player_and_logger(game):
                 return
             # Screen will never unlock itself inside side-process
             game.player.screen_locked = False
+            # Clear `screen_elements` from EmulatorImageSource if it exists
+            if hasattr(game.player, 'screen_elements') and game.player.screen_elements is not None:
+                game.player.screen_elements[:] = []
             return func(*args, **kwargs)
         return wrapper
     return decorator

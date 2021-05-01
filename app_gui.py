@@ -54,3 +54,5 @@ if __name__ == '__main__':
         main()
     except BaseException as err:
         logging.root.error(f"{err}\n{traceback.format_exc()}")
+    finally:
+        exit()

@@ -1,7 +1,9 @@
 from datetime import datetime
 from PIL import ImageDraw, ImageFont
 from threading import Thread
+from multiprocess.managers import SyncManager, RemoteError
 from lib.functions import bgr_to_rgb
+from lib.game import ui
 import autoit
 import cv2
 import numpy
@@ -39,18 +41,21 @@ class ElementOnScreen:
         return (datetime.now() - self.time).total_seconds()
 
 
-class NoxPlayerSource:
-    """Class for getting frames from Nox Player."""
+class EmulatorImageSource:
+    """Class for getting frames from Android emulator."""
 
     def __init__(self, player):
         """Class initialization.
 
-        :param player.NoxWindow player: instance of game player.
+        :param player: instance of Android emulator.
         """
         self.player = player
-        self.player.screen_elements = []
+        self.player.manager = SyncManager()
+        self.player.manager.start()
+        self.player.screen_elements = self.player.manager.list()
         self.font = ImageFont.load_default()
         self._decorate()
+        self.ui = ui.load_ui_settings()
 
     def _decorate(self):
         logger.debug("Decorating function for video capture.")
@@ -59,8 +64,8 @@ class NoxPlayerSource:
         self._get_image_from_image = self.player.get_image_from_image
         self._is_ui_element_on_screen = self.player.is_ui_element_on_screen
         self._is_image_on_screen = self.player.is_image_on_screen
-        self._PostMessage = win32api.PostMessage
-        self._control_click_by_handle = autoit.control_click_by_handle
+        self._PostMessage = self.player.win32_api_post_message
+        self._control_click_by_handle = self.player.autoit_control_click_by_handle
 
         self.player.click_button = self.click_button_decorator(self.player, self.player.click_button)
         self.player.get_screen_text = self.get_screen_text_decorator(self.player, self.player.get_screen_text)
@@ -70,9 +75,9 @@ class NoxPlayerSource:
                                                                                      self.player.is_ui_element_on_screen)
         self.player.is_image_on_screen = self.is_image_on_screen_decorator(self.player,
                                                                            self.player.is_image_on_screen)
-        win32api.PostMessage = self.win32api_post_message_decorator(self.player, win32api.PostMessage)
-        autoit.control_click_by_handle = self.control_click_by_handle_decorator(self.player,
-                                                                                autoit.control_click_by_handle)
+        self.player.win32_api_post_message = self.win32api_post_message_decorator(self.player, win32api.PostMessage)
+        self.player.autoit_control_click_by_handle = self.control_click_by_handle_decorator(self.player,
+                                                                                            autoit.control_click_by_handle)
 
     def undecorate(self):
         logger.debug("Reverting functions to original state.")
@@ -81,11 +86,11 @@ class NoxPlayerSource:
         self.player.is_ui_element_on_screen = self._is_ui_element_on_screen
         self.player.is_image_on_screen = self._is_image_on_screen
         self.player.click_button = self._click_button
-        win32api.PostMessage = self._PostMessage
-        autoit.control_click_by_handle = self._control_click_by_handle
+        self.player.win32_api_post_message = self._PostMessage
+        self.player.autoit_control_click_by_handle = self._control_click_by_handle
 
     def frame(self):
-        """Get frame from Nox Player.
+        """Get frame from emulator.
 
         :return: RGB numpy array of frame.
         """
@@ -93,15 +98,16 @@ class NoxPlayerSource:
         return bgr_to_rgb(image)
 
     def get_player_screen(self):
-        """Get player screen and add debug drawings on it.
+        """Get emulator's screen and add debug drawings on it.
 
         :return: PIL.Image image.
         """
         screen = self.player._get_screen().copy()
-        self.player.screen_elements = [element for element in self.player.screen_elements
-                                       if element.on_screen_seconds < ELEMENT_TIME_ON_SCREEN_SEC]
-        if self.player.screen_elements:
+        try:
+            self.player.screen_elements[:] = [element for element in self.player.screen_elements
+                                              if element.on_screen_seconds < ELEMENT_TIME_ON_SCREEN_SEC]
             draw = ImageDraw.Draw(screen)
+            self._hide_user_name(draw)
             for element in self.player.screen_elements:
                 if element.position:
                     x, y = element.position
@@ -117,7 +123,15 @@ class NoxPlayerSource:
                     w, h = draw.textsize(element.name, self.font)
                     x, y = (element.box[0] + element.box[2] - w) / 2, (element.box[1] + element.box[3] - h) / 2
                     draw.text(xy=(x, y), text=element.name, font=self.font, fill=ElementOnScreen.GREEN_COLOR)
+        except (KeyError, OSError, RemoteError, EOFError):
+            logger.debug(f"{self.__class__.__name__} got an error during it's closing.")
         return screen
+
+    def _hide_user_name(self, draw):
+        ui_element = self.ui['USER_NAME']
+        box = (ui_element.rect.global_rect[0] * self.player.width, ui_element.rect.global_rect[1] * self.player.height,
+               ui_element.rect.global_rect[2] * self.player.width, ui_element.rect.global_rect[3] * self.player.height)
+        draw.rectangle(xy=box, outline="#000000", fill="#000000")
 
     @staticmethod
     def click_button_decorator(player, click_button):
@@ -126,7 +140,8 @@ class NoxPlayerSource:
             box = (button_rect.global_rect[0] * player.width, button_rect.global_rect[1] * player.height,
                    button_rect.global_rect[2] * player.width, button_rect.global_rect[3] * player.height)
             element = ElementOnScreen(name="", box=box, color=ElementOnScreen.RED_COLOR)
-            player.screen_elements.append(element)
+            if player.screen_elements is not None:
+                player.screen_elements.append(element)
             return click_button(button_rect=button_rect, **kwargs)
         return wrapped
 
@@ -137,7 +152,8 @@ class NoxPlayerSource:
             box = (ui_element.rect.global_rect[0] * player.width, ui_element.rect.global_rect[1] * player.height,
                    ui_element.rect.global_rect[2] * player.width, ui_element.rect.global_rect[3] * player.height)
             element = ElementOnScreen(name=ui_element.name, box=box, color=ElementOnScreen.GREEN_COLOR)
-            player.screen_elements.append(element)
+            if player.screen_elements is not None:
+                player.screen_elements.append(element)
             return get_screen_text(ui_element=ui_element, screen=screen)
         return wrapped
 
@@ -148,7 +164,8 @@ class NoxPlayerSource:
             box = (ui_element.rect.global_rect[0] * player.width, ui_element.rect.global_rect[1] * player.height,
                    ui_element.rect.global_rect[2] * player.width, ui_element.rect.global_rect[3] * player.height)
             element = ElementOnScreen(name=ui_element.name, box=box, color=ElementOnScreen.GREEN_COLOR)
-            player.screen_elements.append(element)
+            if player.screen_elements is not None:
+                player.screen_elements.append(element)
             return get_image_from_image(image=image, ui_element=ui_element)
         return wrapped
 
@@ -157,11 +174,11 @@ class NoxPlayerSource:
         """player.is_ui_element_on_screen decorator for debug drawing of rectangle."""
         def wrapped(ui_element, screen=None):
             on_screen = is_ui_element_on_screen(ui_element=ui_element, screen=screen)
-            if on_screen and not os.path.exists(f"debug_screen\\{ui_element.name}.png"):
-                player.last_frame.copy().save(f"debug_screen\\{ui_element.name}.png")
             elements = [element for element in player.screen_elements if element.name == ui_element.name]
             for element in elements:
-                element.color = ElementOnScreen.MAGENTA_COLOR if on_screen else element.color
+                if player.screen_elements is not None and on_screen:
+                    element.color = ElementOnScreen.MAGENTA_COLOR
+                    player.screen_elements.append(element)
             return on_screen
         return wrapped
 
@@ -173,9 +190,10 @@ class NoxPlayerSource:
             box = (rect.global_rect[0] * player.width, rect.global_rect[1] * player.height,
                    rect.global_rect[2] * player.width, rect.global_rect[3] * player.height)
             element = ElementOnScreen(name=ui_element.name, box=box, color=ElementOnScreen.CYAN_COLOR)
-            player.screen_elements.append(element)
             on_screen = is_image_on_screen(ui_element=ui_element, screen=screen)
             element.color = ElementOnScreen.MAGENTA_COLOR if on_screen else element.color
+            if player.screen_elements is not None:
+                player.screen_elements.append(element)
             return on_screen
         return wrapped
 
@@ -187,7 +205,8 @@ class NoxPlayerSource:
                 dword = args[3]
                 x, y = dword & 0xffff, dword >> 16
                 element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
-                player.screen_elements.append(element)
+                if player.screen_elements is not None:
+                    player.screen_elements.append(element)
             return post_message(*args, **kwargs)
         return wrapped
 
@@ -197,21 +216,22 @@ class NoxPlayerSource:
         def wrapped(hwnd, h_ctrl, **kwargs):
             x, y = kwargs.get("x", 0), kwargs.get("y", 0)
             element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
-            player.screen_elements.append(element)
+            if player.screen_elements is not None:
+                player.screen_elements.append(element)
             return control_click_by_handle(hwnd, h_ctrl, **kwargs)
         return wrapped
 
 
-class NoxVideoWriter:
+class EmulatorVideoWriter:
     """Class for writing frames to video."""
 
-    def __init__(self, nox_player, output, fps=20.0):
+    def __init__(self, player, output, fps=10.0):
         """Class initialization.
 
-        :param player.NoxWindow nox_player: instance of game player.
+        :param player: instance of Android emulator.
         :param output: name of video output file.
         """
-        self.source = NoxPlayerSource(nox_player)
+        self.source = EmulatorImageSource(player)
         self.fps = fps
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # without dll
         # fourcc = cv2.VideoWriter_fourcc(*'avc1') # less size but requires `openh264` .dll in root folder
@@ -242,16 +262,16 @@ class NoxVideoWriter:
         self.video_writer.write(frame)
 
 
-class NoxCapture:
-    """Class for capturing video from Nox Player."""
+class EmulatorCapture:
+    """Class for capturing video from Android emulator."""
 
-    def __init__(self, nox_player):
+    def __init__(self, player):
         """Class initialization.
 
-        :param player.NoxWindow nox_player: instance of game player.
+        :param player: instance of Android emulator.
         """
         output = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
-        self.video_capture = NoxVideoWriter(nox_player, f"logs/{output}")
+        self.video_capture = EmulatorVideoWriter(player, f"logs/{output}")
         self.thread = Thread(target=self.capture)
         self.thread.daemon = True
         self._pause = False

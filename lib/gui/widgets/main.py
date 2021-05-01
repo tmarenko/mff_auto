@@ -1,5 +1,6 @@
 import json
 import lib.logger as logging
+from lib.functions import bgr_to_rgb
 from os.path import exists
 from PyQt5.QtWidgets import QMainWindow
 import lib.gui.designes.main_window as design
@@ -12,13 +13,14 @@ from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
 from lib.gui.widgets.setup_player import SetupPlayer
 from lib.gui.threading import ThreadPool
-from lib.gui.helper import TwoStateButton, set_default_icon, Timer
+from lib.gui.helper import TwoStateButton, set_default_icon, Timer, try_to_disconnect
 
 from lib.game.game import Game
 from lib.game.battle_bot import BattleBot
 from lib.game.ui import Rect
 from lib.players.nox_player import NoxWindow
 from lib.players.bluestacks import BlueStacks
+from lib.video_capture import EmulatorCapture
 
 logger = logging.get_logger(__name__)
 
@@ -107,6 +109,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                 if not self.game.go_to_main_menu():
                     logger.warning("Can't get to the main menu. Restarting the game just in case.")
                     self.restart_game_button.click()
+        self._create_menu_for_recorder()
 
     def update_labels(self):
         """Update game's labels in thread to prevent GUI freezing."""
@@ -226,6 +229,34 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.game = Game(self.player)
         if self.game_app_rect:
             self.game.ui['GAME_APP'].button = Rect(*self.game_app_rect)
+
+    def _create_menu_for_recorder(self):
+        """Creates menu bar for emulator recording."""
+        menu = self.menuBar.addMenu("Video Recorder")
+        self.recorder_action = menu.addAction(f"Start recording")
+        self.recorder_action.triggered.connect(self._start_recording)
+
+    def _start_recording(self):
+        """Start recording video from emulator."""
+        self.recorder = EmulatorCapture(self.player)
+        self.recorder.start()
+
+        self.recorder_action.setText(f"Stop recording")
+        try_to_disconnect(self.recorder_action.triggered, self._start_recording)
+        self.recorder_action.triggered.connect(self._stop_recording)
+
+        self.screen_image.get_image_func = lambda: bgr_to_rgb(self.recorder.video_capture.source.frame())
+
+    def _stop_recording(self):
+        """Stop recording video from emulator."""
+        self.recorder.stop()
+        self.recorder = None
+
+        self.recorder_action.setText(f"Start recording")
+        try_to_disconnect(self.recorder_action.triggered, self._stop_recording)
+        self.recorder_action.triggered.connect(self._start_recording)
+
+        self.screen_image.get_image_func = self.player.get_screen_image
 
     def closeEvent(self, event):
         """Main window close event."""
