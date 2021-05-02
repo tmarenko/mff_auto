@@ -17,7 +17,7 @@ class BattleBot:
         """
         self.game = game
         self.ui = game.ui
-        self.player = game.player
+        self.emulator = game.emulator
         self._is_battle_cached = None
         self._battle_over_conditions = battle_over_conditions if battle_over_conditions else []
         self._disconnect_conditions = disconnect_conditions if disconnect_conditions else []
@@ -31,7 +31,7 @@ class BattleBot:
 
         :return: True or False.
         """
-        is_battle = self.player.is_image_on_screen(self.ui['MELEE_BUTTON'])
+        is_battle = self.emulator.is_image_on_screen(self.ui['MELEE_BUTTON'])
         self._is_battle_cached = is_battle
         return is_battle
 
@@ -53,25 +53,25 @@ class BattleBot:
 
     def skip_cutscene(self):
         """Skip battle cutscene."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']):
+        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']):
             logger.debug("Skipping cutscene.")
-            self.player.click_button(self.ui['SKIP_CUTSCENE'].button)
+            self.emulator.click_button(self.ui['SKIP_CUTSCENE'].button)
         self.skip_tap_the_screen()
         self.skip_frost_beast()
 
     def skip_tap_the_screen(self):
         """Skip TAP SCREEN battle cutscene."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']) or \
-                self.player.is_ui_element_on_screen(ui_element=self._skip_tap_screen_high) or \
-                self.player.is_ui_element_on_screen(ui_element=self._skip_tap_screen_low):
+        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['SKIP_CUTSCENE']) or \
+                self.emulator.is_ui_element_on_screen(ui_element=self._skip_tap_screen_high) or \
+                self.emulator.is_ui_element_on_screen(ui_element=self._skip_tap_screen_low):
             logger.debug("Skipping TAP THE SCREEN.")
-            self.player.click_button(self.ui['SKIP_TAP_THE_SCREEN'].button)
+            self.emulator.click_button(self.ui['SKIP_TAP_THE_SCREEN'].button)
 
     def skip_frost_beast(self):
         """SKip Frost Beast cutscene."""
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['AB_FROST_BEAST_BATTLE_LABEL']):
+        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['AB_FROST_BEAST_BATTLE_LABEL']):
             logger.debug("Skipping Frost Beast.")
-            self.player.click_button(self.ui['AB_FROST_BEAST_BATTLE_LABEL'].button)
+            self.emulator.click_button(self.ui['AB_FROST_BEAST_BATTLE_LABEL'].button)
 
 
 class AutoBattleBot(BattleBot):
@@ -93,9 +93,9 @@ class AutoBattleBot(BattleBot):
             logger.info("Battle is started")
         else:
             logger.warning("Can't find MELEE button on screen after starting a battle.")
-        if not wait_until(self.player.is_image_on_screen, timeout=2, ui_element=self.ui['AUTOPLAY_TOGGLE']):
+        if not wait_until(self.emulator.is_image_on_screen, timeout=2, ui_element=self.ui['AUTOPLAY_TOGGLE']):
             logger.debug("Found AUTO PLAY toggle inactive. Clicking it.")
-            self.player.click_button(self.ui['AUTOPLAY_TOGGLE'].button)
+            self.emulator.click_button(self.ui['AUTOPLAY_TOGGLE'].button)
         while not self.is_battle_over():
             if not self.is_battle():
                 self.skip_cutscene()
@@ -110,10 +110,10 @@ class AutoBattleBot(BattleBot):
         """Wait until Ally or Enemy shifter appears."""
         logger.debug("Waiting for Shifter to appear.")
         while not self.is_battle():
-            shifter_appeared = self.player.is_ui_element_on_screen(ui_element=self.ui['ALLY_APPEARED']) or \
-                               self.player.is_ui_element_on_screen(ui_element=self.ui['ENEMY_APPEARED']) or \
-                               self.player.is_ui_element_on_screen(ui_element=self.ui['ALLY_AND_ENEMY_APPEARED']) or \
-                               self.player.is_ui_element_on_screen(ui_element=self.ui['ENEMY_AND_ALLY_APPEARED'])
+            shifter_appeared = self.emulator.is_ui_element_on_screen(ui_element=self.ui['ALLY_APPEARED']) or \
+                               self.emulator.is_ui_element_on_screen(ui_element=self.ui['ENEMY_APPEARED']) or \
+                               self.emulator.is_ui_element_on_screen(ui_element=self.ui['ALLY_AND_ENEMY_APPEARED']) or \
+                               self.emulator.is_ui_element_on_screen(ui_element=self.ui['ENEMY_AND_ALLY_APPEARED'])
             if shifter_appeared:
                 logger.debug("Shifter appeared.")
                 return True
@@ -132,14 +132,15 @@ class LockedSkill:
         :param game.Game game: instance of game.
         """
         self.ui = game.ui
-        self.player = game.player
+        self.emulator = game.emulator
         self._skill_locked = None
         self._skill_ready_image = None
         self.history = {}
         self.skill_ui = self.ui[skill_ui].copy() if self.ui.get(skill_ui) else None
         if isinstance(skill_locked_ui, str):
             skill_locked_ui = [skill_locked_ui]
-        self.skill_locked_ui = [self.ui[name].copy() for name in skill_locked_ui if self.ui.get(name)] if skill_locked_ui else None
+        self.skill_locked_ui = [self.ui[name].copy() for name in skill_locked_ui if
+                                self.ui.get(name)] if skill_locked_ui else None
         self.skill_label_ui = self.ui[skill_label_ui].copy() if self.ui.get(skill_label_ui) else None
         self.name = "_".join(self.skill_ui.name.split("_")[1:])
 
@@ -147,12 +148,12 @@ class LockedSkill:
     def locked(self):
         """Is skill locked property. Checking if locked version of the skill is on screen and storing result."""
         if self._skill_locked is None:
-            if self.skill_label_ui and not self.player.is_ui_element_on_screen(ui_element=self.skill_label_ui):
+            if self.skill_label_ui and not self.emulator.is_ui_element_on_screen(ui_element=self.skill_label_ui):
                 logger.debug(f"{self.name} skill label is not on a screen. Character does not have him.")
                 self._skill_locked = True
             elif self.skill_locked_ui:
                 for locked_ui in self.skill_locked_ui:
-                    if locked_ui and self.player.is_image_on_screen(locked_ui):
+                    if locked_ui and self.emulator.is_image_on_screen(locked_ui):
                         logger.debug(f"{self.name} skill is locked.")
                         self._skill_locked = True
                         return self._skill_locked
@@ -181,7 +182,7 @@ class LockedSkill:
         :param max_repetitions: max repetitions if "same" cooldown if skill cooldown is hard to read.
         :param forced: force to set skill available.
         """
-        cool_down = self.player.get_screen_text(self.skill_ui) if not forced else False
+        cool_down = self.emulator.get_screen_text(self.skill_ui) if not forced else False
         if not cool_down and not forced:
             cool_down = "EMPTY"
         if cool_down:
@@ -196,10 +197,10 @@ class LockedSkill:
         if not cool_down:
             if self.skill_ui.image is None:
                 logger.debug(f"Got {self.name} skill image from screen. Now available to cast.")
-                self._skill_ready_image = self.player.get_screen_image(rect=self.skill_ui.rect)
+                self._skill_ready_image = self.emulator.get_screen_image(rect=self.skill_ui.rect)
                 self.skill_ui.image = self._skill_ready_image
                 self.skill_ui.threshold = self.skill_locked_ui[0].threshold if self.skill_locked_ui else 0.8
-            elif self.player.is_image_on_screen(self.skill_ui):
+            elif self.emulator.is_image_on_screen(self.skill_ui):
                 logger.debug(f"Found {self.name} skill image on screen. Now available to cast.")
                 self._skill_ready_image = self.skill_ui.image
                 self._skill_locked = False
@@ -210,7 +211,7 @@ class LockedSkill:
     def is_skill_available(self):
         """Check if skill is available to cast."""
         if self.skill_image is not None:
-            return self.player.is_image_on_screen(self.skill_ui)
+            return self.emulator.is_image_on_screen(self.skill_ui)
         return False
 
     def cast_skill(self):
@@ -219,9 +220,9 @@ class LockedSkill:
         :return: was skill casted.
         """
         logger.debug(f"Casting {self.name} skill.")
-        self.player.click_button(self.skill_ui.button, min_duration=0.01, max_duration=0.01)
-        self.player.click_button(self.skill_ui.button, min_duration=0.03, max_duration=0.03)
-        self.player.click_button(self.skill_ui.button, min_duration=0.1, max_duration=0.1)
+        self.emulator.click_button(self.skill_ui.button, min_duration=0.01, max_duration=0.01)
+        self.emulator.click_button(self.skill_ui.button, min_duration=0.03, max_duration=0.03)
+        self.emulator.click_button(self.skill_ui.button, min_duration=0.1, max_duration=0.1)
         return not self.is_skill_available()
 
 
@@ -308,14 +309,14 @@ class ManualBattleBot(BattleBot):
         """Move character around."""
         logger.debug("Moving around.")
         next_position_from, next_position_to = self.moving_position_from, next(self.moving_positions)
-        self.player.drag(from_rect=self.ui[next_position_from].button, to_rect=self.ui[next_position_to].button,
-                         duration=0.5)
+        self.emulator.drag(from_rect=self.ui[next_position_from].button, to_rect=self.ui[next_position_to].button,
+                           duration=0.5)
         self.moving_position_from = next_position_to
 
     def load_character(self):
         """Load character image."""
         logger.debug("Loading character image for the fight.")
-        character_image = self.player.get_screen_image(rect=self.ui["CURRENT_CHARACTER"].rect)
+        character_image = self.emulator.get_screen_image(rect=self.ui["CURRENT_CHARACTER"].rect)
         self.ui["CURRENT_CHARACTER"].image = character_image
         self.current_character = character_image
 
@@ -324,7 +325,7 @@ class ManualBattleBot(BattleBot):
 
         :return True or False: was skills reloaded.
         """
-        is_same_character = self.player.is_image_on_screen(ui_element=self.ui["CURRENT_CHARACTER"])
+        is_same_character = self.emulator.is_image_on_screen(ui_element=self.ui["CURRENT_CHARACTER"])
         if not is_same_character:
             logger.debug("Current character is dead. Switching to new one.")
             r_sleep(1.1, radius_modifier=1.0)  # Wait for skill "reload" animation
@@ -343,7 +344,7 @@ class ManualBattleBot(BattleBot):
                 self.cached_available_skill = skill
 
         if not self.awakening_skill.locked or self.t3_skill.locked:
-            t3_percentage_text = self.player.get_screen_text(self.t3_skill.skill_ui)
+            t3_percentage_text = self.emulator.get_screen_text(self.t3_skill.skill_ui)
             is_t3 = t3_percentage_regexp.fullmatch(t3_percentage_text)
             if not self.awakening_skill.locked and not is_t3:
                 logger.debug(f"Cannot find T3 percentage (got {t3_percentage_text}). Assuming 6th skill as Awakening.")
@@ -391,7 +392,7 @@ class ManualBattleBot(BattleBot):
             if self.coop_skill.is_not_locked_and_has_skill_image():
                 self.current_bonus_skill = self.coop_skill
             else:
-                percentage_text = self.player.get_screen_text(self.danger_room_skill.skill_ui)
+                percentage_text = self.emulator.get_screen_text(self.danger_room_skill.skill_ui)
                 is_danger_room = t3_percentage_regexp.fullmatch(percentage_text)
                 if is_danger_room:
                     logger.debug(f"Found percentage on Danger Room skill = {percentage_text}.")

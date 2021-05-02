@@ -48,16 +48,20 @@ class TwoStateButton:
 
     def connect_first_state(self, func, *args, **kwargs):
         """Connect function to first state."""
+
         def proxy_func():
             return func(*args, **kwargs)
+
         self.first_state_funcs.append(proxy_func)
         if self.state == TwoStateButton.State.First:
             self.button.clicked.connect(proxy_func)
 
     def connect_second_state(self, func, *args, **kwargs):
         """Connect function to second state."""
+
         def proxy_func():
             return func(*args, **kwargs)
+
         self.second_state_funcs.append(proxy_func)
         if self.state == TwoStateButton.State.Second:
             self.button.clicked.connect(proxy_func)
@@ -128,12 +132,14 @@ class Timer:
 
 def safe_process_stop(func):
     """Decorator for safe process stopping."""
+
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
         except AttributeError:
             sleep(1)
             return wrapper(*args, **kwargs)
+
     return wrapper
 
 
@@ -158,25 +164,28 @@ def screen_to_gui_image(screen):
     return QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
 
 
-def reset_player_and_logger(game):
-    """Reset player screen and set file logger to existing file.
+def reset_emulator_and_logger(game):
+    """Reset emulator screen and set file logger to existing file.
 
     :param game.Game game: instance of game.
     """
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             import lib.logger as logging
             if game.file_logger_name:
                 logging.create_file_handler(file_name=game.file_logger_name)
-            if not game.player.initialized:
+            if not game.emulator.initialized:
                 name = func.__name__ if not func.__closure__ else func.__closure__[0].cell_contents.__module__
-                logging.get_logger(name).error(f"Can't find NoxWindow with name {game.player.name}.")
+                logging.get_logger(name).error(f"Can't find NoxWindow with name {game.emulator.name}.")
                 return
             # Screen will never unlock itself inside side-process
-            game.player.screen_locked = False
+            game.emulator.screen_locked = False
             # Clear `screen_elements` from EmulatorImageSource if it exists
-            if hasattr(game.player, 'screen_elements') and game.player.screen_elements is not None:
-                game.player.screen_elements[:] = []
+            if hasattr(game.emulator, 'screen_elements') and game.emulator.screen_elements is not None:
+                game.emulator.screen_elements[:] = []
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator

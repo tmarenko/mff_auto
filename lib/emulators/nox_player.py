@@ -4,7 +4,7 @@ import os
 import win32gui
 from xml.etree import ElementTree
 from configparser import ConfigParser
-from lib.players.android_emulator import AndroidEmulator
+from lib.emulators.android_emulator import AndroidEmulator
 
 NOX_EXE = "Nox.exe"
 GRAPHIC_ENGINE_TYPE_DIRECTX = 1
@@ -16,13 +16,13 @@ NOX_7_KEY_HANDLE_NAME = "Form"
 NOX_7_KEY_HANDLE_CLASS = "Qt5QWindowToolSaveBits"
 
 
-class NoxWindow(AndroidEmulator):
+class NoxPlayer(AndroidEmulator):
     """Class for working with NoxPlayer emulator."""
 
     def __init__(self, name="NoxPlayer", child_name="ScreenBoardClassWindow", key_handle_name=None):
         """Class initialization.
 
-        :param name: main window's name of the player.
+        :param name: main window's name of the emulator.
         :param child_name: child window's name of inner control window.
         :param key_handle_name: name of windows's key handler.
         """
@@ -51,8 +51,8 @@ class NoxWindow(AndroidEmulator):
             self.key_handle = hwnd
 
     def close_current_app(self):
-        """Close current opened app in player."""
-        hwnd = self.key_handle if self.key_handle else self.player_key_handle
+        """Close current opened app in emulator."""
+        hwnd = self.key_handle if self.key_handle else self.main_key_handle
         autoit.control_send_by_handle(hwnd, hwnd, f"^{self.close_app_shortcut}")
 
     def update_windows(self):
@@ -61,7 +61,7 @@ class NoxWindow(AndroidEmulator):
         win32gui.EnumWindows(self._get_window_info, None)
         win32gui.EnumWindows(self._get_key_layout_handle, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_key_layout_handle, None)
-        win32gui.EnumChildWindows(self.parent_hwnd, self._get_player_window_info, None)
+        win32gui.EnumChildWindows(self.parent_hwnd, self._get_emulator_window_info, None)
         if was_closed and self.initialized:
             self.close_app_shortcut = self._get_keyboard_shortcut_for_closing_app()
             self._get_key_handle_by_nox_version()
@@ -137,5 +137,5 @@ class NoxWindow(AndroidEmulator):
     @property
     def restartable(self):
         """Returns if app can be restarted."""
-        keys_found = self.key_handle is not None and self.player_key_handle is not None
+        keys_found = self.key_handle is not None and self.main_key_handle is not None
         return keys_found and self.close_app_shortcut is not None

@@ -100,11 +100,11 @@ Check `example.py` for examples of running any modes.
 ### Capture video for debugging
 
 ```python
-    from lib.players.nox_player import NoxWindow
+    from lib.emulators.nox_player import NoxPlayer
     from lib.game.game import Game
     from lib.video_capture import EmulatorCapture
     
-    nox = NoxWindow("NoxPlayer")
+    nox = NoxPlayer("NoxPlayer")
     game = Game(nox)
     with EmulatorCapture(nox) as recorder:
         # video file is in `logs` folder

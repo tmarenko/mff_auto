@@ -5,9 +5,9 @@ from lib.game.routines import DailyTrivia, ShieldLab, ComicCards, CustomGear
 from lib.game.dispatch_mission import DispatchMission
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
-from lib.game.missions.squad_battles import SquadBattles
+from lib.game.missions.squad_battle import SquadBattle
 from lib.gui.threading import ThreadPool
-from lib.gui.helper import safe_process_stop, reset_player_and_logger
+from lib.gui.helper import safe_process_stop, reset_emulator_and_logger
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -117,7 +117,7 @@ class AutoPlayTask(SingleTask):
     def __init__(self, button, game: Game):
         bot = ManualBattleBot(game, battle_over_conditions=None)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def fight(*args, **kwargs):
             return bot.fight(*args, **kwargs)
 
@@ -129,7 +129,7 @@ class DailyTriviaTask(SingleTask):
     def __init__(self, button, game: Game):
         dt = DailyTrivia(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def do_trivia():
             return dt.do_trivia()
 
@@ -141,7 +141,7 @@ class WorldBossInvasionTask(SingleTask):
     def __init__(self, button, game: Game):
         wbi = WorldBossInvasion(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def do_missions(*args, **kwargs):
             return wbi.do_missions(*args, **kwargs)
 
@@ -151,13 +151,13 @@ class WorldBossInvasionTask(SingleTask):
 class SquadBattleAllTask(SingleTask):
 
     def __init__(self, button, game: Game):
-        sb = SquadBattles(game)
+        sb = SquadBattle(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def do_missions(*args, **kwargs):
             return sb.do_missions(*args, **kwargs)
 
-        super().__init__(button, do_missions, {"mode": SquadBattles.MODE.ALL_BATTLES})
+        super().__init__(button, do_missions, {"mode": SquadBattle.MODE.ALL_BATTLES})
 
 
 class DangerRoomOneBattleTask(SingleTaskWithOptions):
@@ -165,7 +165,7 @@ class DangerRoomOneBattleTask(SingleTaskWithOptions):
     def __init__(self, button, game: Game):
         dr = DangerRoom(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def do_missions(*args, **kwargs):
             return dr.do_missions(*args, **kwargs)
 
@@ -180,7 +180,7 @@ class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
     def __init__(self, button, game: Game):
         sl = ShieldLab(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def collect_antimatter():
             return sl.collect_antimatter()
 
@@ -190,7 +190,7 @@ class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
 class RestartGameTask(SingleTask):
 
     def __init__(self, button, game: Game):
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def restart_game():
             return game.restart_game()
 
@@ -205,7 +205,7 @@ class ComicCardsTask(SingleTask):
     def __init__(self, button, game: Game):
         cc = ComicCards(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def upgrade_all_cards():
             return cc.upgrade_all_cards()
 
@@ -217,7 +217,7 @@ class CustomGearTask(SingleTaskWithOptions):
     def __init__(self, button, game: Game):
         cg = CustomGear(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def quick_upgrade_gear(*args, **kwargs):
             return cg.quick_upgrade_gear(*args, **kwargs)
 
@@ -232,7 +232,7 @@ class DispatchMissionAcquireTask(SingleTask):
     def __init__(self, button, game: Game):
         dm = DispatchMission(game)
 
-        @reset_player_and_logger(game=game)
+        @reset_emulator_and_logger(game=game)
         def acquire_all_rewards():
             return dm.acquire_all_rewards()
 

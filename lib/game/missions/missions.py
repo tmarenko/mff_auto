@@ -2,6 +2,7 @@ import lib.logger as logging
 from lib.functions import wait_until
 from lib.game.battle_bot import AutoBattleBot
 from lib.game.notifications import Notifications
+
 logger = logging.get_logger(__name__)
 
 
@@ -29,9 +30,6 @@ class Missions(Notifications):
         :param string mode_label: mission's game mode label.
         """
         super().__init__(game)
-        self.player = game.player
-        self.ui = game.ui
-        self.game = game
         self.mode_name = game.ui[mode_label].text if mode_label else None
 
     @property
@@ -40,7 +38,7 @@ class Missions(Notifications):
 
         :return: energy cost.
         """
-        cost = self.player.get_screen_text(self.ui['ENERGY_COST'])
+        cost = self.emulator.get_screen_text(self.ui['ENERGY_COST'])
         return int(cost) if cost.isdigit() else None
 
     @property
@@ -49,7 +47,7 @@ class Missions(Notifications):
 
         :return: boost points cost.
         """
-        cost = self.player.get_screen_text(self.ui['BOOST_COST'])
+        cost = self.emulator.get_screen_text(self.ui['BOOST_COST'])
         return int(cost) if cost.isdigit() else None
 
     @property
@@ -78,12 +76,12 @@ class Missions(Notifications):
     @property
     def battle_over_conditions(self):
         def cannot_enter():
-            return self.player.is_ui_element_on_screen(self.ui['CANNOT_ENTER'])
+            return self.emulator.is_ui_element_on_screen(self.ui['CANNOT_ENTER'])
 
         def home_button():
-            if self.player.is_image_on_screen(self.ui['HOME_BUTTON']) or \
-                    self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
-                    self.player.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_3']):
+            if self.emulator.is_image_on_screen(self.ui['HOME_BUTTON']) or \
+                    self.emulator.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
+                    self.emulator.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_3']):
                 logger.debug("Found HOME button image on screen.")
                 return True
 
@@ -94,18 +92,18 @@ class Missions(Notifications):
     @property
     def disconnect_conditions(self):
         def disconnect():
-            if self.player.is_ui_element_on_screen(self.ui['DISCONNECT_FROM_SERVER']):
-                self.player.click_button(self.ui['DISCONNECT_FROM_SERVER'].button)
+            if self.emulator.is_ui_element_on_screen(self.ui['DISCONNECT_FROM_SERVER']):
+                self.emulator.click_button(self.ui['DISCONNECT_FROM_SERVER'].button)
                 return True
 
         def new_opponent():
-            if self.player.is_ui_element_on_screen(self.ui['DISCONNECT_NEW_OPPONENT']):
-                self.player.click_button(self.ui['DISCONNECT_NEW_OPPONENT'].button)
+            if self.emulator.is_ui_element_on_screen(self.ui['DISCONNECT_NEW_OPPONENT']):
+                self.emulator.click_button(self.ui['DISCONNECT_NEW_OPPONENT'].button)
                 return True
 
         def kicked():
-            if self.player.is_ui_element_on_screen(self.ui['KICKED_FROM_THE_SYSTEM']):
-                self.player.click_button(self.ui['KICKED_FROM_THE_SYSTEM'].button)
+            if self.emulator.is_ui_element_on_screen(self.ui['KICKED_FROM_THE_SYSTEM']):
+                self.emulator.click_button(self.ui['KICKED_FROM_THE_SYSTEM'].button)
                 return True
 
         return [disconnect, new_opponent, kicked]
@@ -118,7 +116,7 @@ class Missions(Notifications):
         """End missions."""
         self.game.clear_modes()
         if not self.game.is_main_menu():
-            self.game.player.click_button(self.ui['HOME'].button)
+            self.game.emulator.click_button(self.ui['HOME'].button)
             self.close_after_mission_notifications()
             self.game.close_ads()
 
@@ -134,7 +132,7 @@ class Missions(Notifications):
         """Select team for missions."""
         team_element = self.ui[f'SELECT_TEAM_{self.game.mission_team}']
         logger.debug(f"Selecting team: {team_element.name}")
-        self.player.click_button(team_element.button)
+        self.emulator.click_button(team_element.button)
 
     def repeat_mission(self, times):
         """Repeat missions.
@@ -148,11 +146,11 @@ class Missions(Notifications):
             AutoBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_mission_notifications()
             repeat_button_ui = None
-            if wait_until(self.player.is_image_on_screen, timeout=2,
+            if wait_until(self.emulator.is_image_on_screen, timeout=2,
                           ui_element=self.ui['REPEAT_BUTTON_IMAGE_POSITION_2']):
                 repeat_button_ui = 'REPEAT_BUTTON_IMAGE_POSITION_2'
             else:
-                if wait_until(self.player.is_image_on_screen, timeout=2,
+                if wait_until(self.emulator.is_image_on_screen, timeout=2,
                               ui_element=self.ui['REPEAT_BUTTON_IMAGE_POSITION_1']):
                     repeat_button_ui = 'REPEAT_BUTTON_IMAGE_POSITION_1'
             if repeat_button_ui:
@@ -163,21 +161,21 @@ class Missions(Notifications):
 
         :return: was button clicked.
         """
-        if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
+        if self.emulator.is_ui_element_on_screen(self.ui[start_button_ui]):
             self.select_team()
-            self.player.click_button(self.ui[start_button_ui].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['NOT_ENOUGH_ENERGY']):
-                self.player.click_button(self.ui['NOT_ENOUGH_ENERGY'].button)
+            self.emulator.click_button(self.ui[start_button_ui].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2, ui_element=self.ui['NOT_ENOUGH_ENERGY']):
+                self.emulator.click_button(self.ui['NOT_ENOUGH_ENERGY'].button)
                 logger.warning(f"Not enough energy for starting mission, current energy: {self.game.energy}")
                 return False
-            if wait_until(self.player.is_ui_element_on_screen, timeout=2, ui_element=self.ui['INVENTORY_FULL']):
-                self.player.click_button(self.ui['INVENTORY_FULL'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2, ui_element=self.ui['INVENTORY_FULL']):
+                self.emulator.click_button(self.ui['INVENTORY_FULL'].button)
                 logger.warning("Your inventory is full, cannot start mission.")
                 return False
-            if wait_until(self.player.is_ui_element_on_screen, timeout=2,
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2,
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
-                self.player.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
-            if self.player.is_ui_element_on_screen(self.ui[start_button_ui]):
+                self.emulator.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
+            if self.emulator.is_ui_element_on_screen(self.ui[start_button_ui]):
                 logger.debug(f"UI element {start_button_ui} still on screen. Trying to start battle again.")
                 return self.press_start_button(start_button_ui=start_button_ui)
             return True
@@ -187,15 +185,15 @@ class Missions(Notifications):
     def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui='START_BUTTON'):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
-        self.player.click_button(self.ui[repeat_button_ui].button)
-        while not self.player.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
+        self.emulator.click_button(self.ui[repeat_button_ui].button)
+        while not self.emulator.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
             self.close_after_mission_notifications(timeout=1)
         return True
 
     def press_home_button(self, home_button='HOME_BUTTON'):
         """Press home button of the mission."""
         logger.debug(f"Clicking HOME button with UI Element: {home_button}.")
-        self.player.click_button(self.ui[home_button].button)
+        self.emulator.click_button(self.ui[home_button].button)
         while not self.game.is_main_menu():
             self.close_after_mission_notifications(timeout=1)
         return True

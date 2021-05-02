@@ -1,16 +1,16 @@
 import lib.logger as logging
-from lib.players.nox_player import NoxWindow
+from lib.emulators.nox_player import NoxPlayer
 from lib.game.missions.legendary_battle import LegendaryBattle
-from lib.game.missions.alliance_battles import AllianceBattles
-from lib.game.missions.dimension_missions import DimensionMissions
-from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
+from lib.game.missions.alliance_battle import AllianceBattle
+from lib.game.missions.dimension_mission import DimensionMission
+from lib.game.missions.epic_quest import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
     TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse
-from lib.game.missions.coop import CoopPlay
+from lib.game.missions.coop_play import CoopPlay
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
-from lib.game.missions.squad_battles import SquadBattles
-from lib.game.missions.world_bosses import WorldBosses
+from lib.game.missions.squad_battle import SquadBattle
+from lib.game.missions.world_boss import WorldBoss
 from lib.game.routines import DailyTrivia, ShieldLab, EnhancePotential
 from lib.game.game import Game
 
@@ -20,7 +20,7 @@ logging.create_file_handler()
 
 if __name__ == '__main__':
 
-    nox = NoxWindow("NoxPlayer")              # Use your window's name of emulator to get a handle
+    nox = NoxPlayer("NoxPlayer")              # Use your window's name of emulator to get a handle
 
     game = Game(nox)
     game.set_mission_team(1)                  # Setup your team for common missions to get EXP
@@ -54,15 +54,15 @@ if __name__ == '__main__':
                                            mode=LegendaryBattle.MODE.NORMAL)
 
     # Available: SquadBattles.MODE.DAILY_RANDOM and SquadBattles.MODE.ALL_BATTLES
-    sb = SquadBattles(game).do_missions(mode=SquadBattles.MODE.DAILY_RANDOM)
+    sb = SquadBattle(game).do_missions(mode=SquadBattle.MODE.DAILY_RANDOM)
 
     # Available: AllianceBattles.MODE.NORMAL or AllianceBattles.MODE.ALL_BATTLES
-    ab = AllianceBattles(game).do_missions(AllianceBattles.MODE.ALL_BATTLES)
+    ab = AllianceBattle(game).do_missions(AllianceBattle.MODE.ALL_BATTLES)
 
     # Available: WorldBosses.MODE.BEGINNER or WorldBosses.MODE.NORMAL or WorldBosses.MODE.ULTIMATE
-    wb = WorldBosses(game).do_missions(mode=WorldBosses.MODE.ULTIMATE, difficulty=1)
+    wb = WorldBoss(game).do_missions(mode=WorldBoss.MODE.ULTIMATE, difficulty=1)
 
-    dm = DimensionMissions(game).do_missions(times=20, difficulty=10, use_hidden_tickets=True, acquire_rewards=True)
+    dm = DimensionMission(game).do_missions(times=20, difficulty=10, use_hidden_tickets=True, acquire_rewards=True)
 
     # Available: DangerRoom.MODE.NORMAL or DangerRoom.MODE.EXTREME
     DangerRoom(game).do_missions(times=1, mode=DangerRoom.MODE.NORMAL)

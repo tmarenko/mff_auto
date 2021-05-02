@@ -1,24 +1,24 @@
 ﻿from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
 from PyQt5.QtCore import Qt
 import lib.gui.designes.queue_editor_window as design
-from lib.gui.helper import set_default_icon, reset_player_and_logger
+from lib.gui.helper import set_default_icon, reset_emulator_and_logger
 
 from lib.game.missions.legendary_battle import LegendaryBattle
-from lib.game.missions.alliance_battles import AllianceBattles
-from lib.game.missions.dimension_missions import DimensionMissions
-from lib.game.missions.epic_quests import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
+from lib.game.missions.alliance_battle import AllianceBattle
+from lib.game.missions.dimension_mission import DimensionMission
+from lib.game.missions.epic_quest import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
     TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse, DangerousSisters, CosmicRider, QuantumPower, \
     WingsOfDarkness, InhumanPrincess, MeanAndGreen, ClobberinTime, Hothead, AwManThisGuy, DominoFalls, GoingRogue, \
     FriendsAndEnemies, WeatheringTheStorm, Blindsided, DarkAdvent, IncreasingDarkness, RoadToMonastery, \
     MysteriousAmbush, MonasteryInTrouble, PowerOfTheDark, StingOfTheScorpion, SelfDefenseProtocol, LegacyOfBlood, \
     PlayingHero, GoldenGods
 from lib.game.missions.giant_boss_raid import GiantBossRaid
-from lib.game.missions.coop import CoopPlay
+from lib.game.missions.coop_play import CoopPlay
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
-from lib.game.missions.squad_battles import SquadBattles
-from lib.game.missions.world_bosses import WorldBosses
+from lib.game.missions.squad_battle import SquadBattle
+from lib.game.missions.world_boss import WorldBoss
 from lib.game.routines import DailyTrivia, ComicCards, CustomGear, ShieldLab, WaitUntil, Friends, Alliance
 from lib.game.dispatch_mission import DispatchMission
 import lib.logger as logging
@@ -448,7 +448,7 @@ class GameMode:
         """Render function and settings for game mode."""
         game_mode = self.mode_module(self.game)
 
-        @reset_player_and_logger(game=self.game)
+        @reset_emulator_and_logger(game=self.game)
         def do_missions(*args, **kwargs):
             return game_mode.do_missions(*args, **kwargs)
 
@@ -462,7 +462,7 @@ class GameMode:
         for setting in self.mode_settings:
             gui_element = setting.render_gui()
             gui_element.add_to_layout(layout=parent_layout)
-            if setting.setting_key == "farm_shifter_bios" and not self.game.player.restartable:
+            if setting.setting_key == "farm_shifter_bios" and not self.game.emulator.restartable:
                 gui_element.widget.setEnabled(False)
 
         # Make "All stages" checkbox and "Stages" spinbox relatable
@@ -516,7 +516,7 @@ class Action(GameMode):
         """Render function and settings for action."""
         action_executable = self.action_executable  # Only function without class reference (GUI cannot be pickled)
 
-        @reset_player_and_logger(game=self.game)
+        @reset_emulator_and_logger(game=self.game)
         def action(*args, **kwargs):
             return action_executable(*args, **kwargs)
 
@@ -815,12 +815,12 @@ class _CoopPlay(GameMode):
 class _AllianceBattle(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "ALLIANCE BATTLE", AllianceBattles)
+        super().__init__(game, "ALLIANCE BATTLE", AllianceBattle)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select Alliance Battle mode",
-                                                       values_dict={"All battles (Normal and Extreme)": AllianceBattles.MODE.ALL_BATTLES,
-                                                                    "Only Normal battle": AllianceBattles.MODE.NORMAL}))
+                                                       values_dict={"All battles (Normal and Extreme)": AllianceBattle.MODE.ALL_BATTLES,
+                                                                    "Only Normal battle": AllianceBattle.MODE.NORMAL}))
 
 
 class _TimelineBattle(GameMode):
@@ -843,7 +843,7 @@ class _TimelineBattle(GameMode):
 class _WorldBosses(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "WORLD BOSS", WorldBosses)
+        super().__init__(game, "WORLD BOSS", WorldBoss)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -854,25 +854,25 @@ class _WorldBosses(GameMode):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select World Boss mode",
-                                                       values_dict={"Beginner": WorldBosses.MODE.BEGINNER,
-                                                                    "Normal": WorldBosses.MODE.NORMAL,
-                                                                    "Ultimate / Legend": WorldBosses.MODE.ULTIMATE}))
+                                                       values_dict={"Beginner": WorldBoss.MODE.BEGINNER,
+                                                                    "Normal": WorldBoss.MODE.NORMAL,
+                                                                    "Ultimate / Legend": WorldBoss.MODE.ULTIMATE}))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="boss",
                                                        text="Select World Boss",
-                                                       values_dict={"Today's Boss": WorldBosses.BOSS.TODAYS_BOSS,
-                                                                    "Proxima Midnight": WorldBosses.BOSS.PROXIMA_MIDNIGHT,
-                                                                    "Black Dwarf": WorldBosses.BOSS.BLACK_DWARF,
-                                                                    "Corvus Glaive": WorldBosses.BOSS.CORVUS_GLAIVE,
-                                                                    "Supergiant": WorldBosses.BOSS.SUPERGIANT,
-                                                                    "Ebony Maw": WorldBosses.BOSS.EBONY_MAW,
-                                                                    "Thanos": WorldBosses.BOSS.THANOS,
-                                                                    "Quicksilver": WorldBosses.BOSS.QUICKSILVER,
-                                                                    "Cable": WorldBosses.BOSS.CABLE,
-                                                                    "Scarlet Witch": WorldBosses.BOSS.SCARLET_WITCH,
-                                                                    "Apocalypse": WorldBosses.BOSS.APOCALYPSE,
-                                                                    "Knull": WorldBosses.BOSS.KNULL,
-                                                                    "Mephisto": WorldBosses.BOSS.MEPHISTO
+                                                       values_dict={"Today's Boss": WorldBoss.BOSS.TODAYS_BOSS,
+                                                                    "Proxima Midnight": WorldBoss.BOSS.PROXIMA_MIDNIGHT,
+                                                                    "Black Dwarf": WorldBoss.BOSS.BLACK_DWARF,
+                                                                    "Corvus Glaive": WorldBoss.BOSS.CORVUS_GLAIVE,
+                                                                    "Supergiant": WorldBoss.BOSS.SUPERGIANT,
+                                                                    "Ebony Maw": WorldBoss.BOSS.EBONY_MAW,
+                                                                    "Thanos": WorldBoss.BOSS.THANOS,
+                                                                    "Quicksilver": WorldBoss.BOSS.QUICKSILVER,
+                                                                    "Cable": WorldBoss.BOSS.CABLE,
+                                                                    "Scarlet Witch": WorldBoss.BOSS.SCARLET_WITCH,
+                                                                    "Apocalypse": WorldBoss.BOSS.APOCALYPSE,
+                                                                    "Knull": WorldBoss.BOSS.KNULL,
+                                                                    "Mephisto": WorldBoss.BOSS.MEPHISTO
                                                                     }))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
@@ -883,7 +883,7 @@ class _WorldBosses(GameMode):
 class _DimensionMissions(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DIMENSION MISSION", DimensionMissions)
+        super().__init__(game, "DIMENSION MISSION", DimensionMission)
 
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
@@ -903,12 +903,12 @@ class _DimensionMissions(GameMode):
 class _SquadBattles(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "SQUAD BATTLE", SquadBattles)
+        super().__init__(game, "SQUAD BATTLE", SquadBattle)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select Squad Battle mode",
-                                                       values_dict={"All battles": SquadBattles.MODE.ALL_BATTLES,
-                                                                    "One daily (random)": SquadBattles.MODE.DAILY_RANDOM}))
+                                                       values_dict={"All battles": SquadBattle.MODE.ALL_BATTLES,
+                                                                    "One daily (random)": SquadBattle.MODE.DAILY_RANDOM}))
 
 
 class _WorldBossInvasion(GameMode):
@@ -1271,7 +1271,7 @@ class _GoldenGods(GameMode):
 class _ResetWorldBoss(Action):
 
     def __init__(self, game):
-        self.world_boss = WorldBosses(game)
+        self.world_boss = WorldBoss(game)
         super().__init__(game, "RESET TODAY'S WORLD BOSS", self.world_boss.change_world_boss_of_the_day)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="max_resets",
@@ -1279,16 +1279,16 @@ class _ResetWorldBoss(Action):
                                                        min=0, max=99, initial_value=99))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.MultiCheckbox,
                                                        setting_key="world_boss",
-                                                       values_dict={"Proxima Midnight": WorldBosses.BOSS_OF_THE_DAY.PROXIMA_MIDNIGHT,
-                                                                    "Black Dwarf": WorldBosses.BOSS_OF_THE_DAY.BLACK_DWARF,
-                                                                    "Corvus Glave": WorldBosses.BOSS_OF_THE_DAY.CORVUS_GLAIVE,
-                                                                    "Supergiant": WorldBosses.BOSS_OF_THE_DAY.SUPERGIANT,
-                                                                    "Ebony Maw": WorldBosses.BOSS_OF_THE_DAY.EBONY_MAW,
-                                                                    "Thanos": WorldBosses.BOSS_OF_THE_DAY.THANOS,
-                                                                    "Quicksilver": WorldBosses.BOSS_OF_THE_DAY.QUICKSILVER,
-                                                                    "Cable": WorldBosses.BOSS_OF_THE_DAY.CABLE,
-                                                                    "Scarlet Witch": WorldBosses.BOSS_OF_THE_DAY.SCARLET_WITCH,
-                                                                    "Apocalypse": WorldBosses.BOSS_OF_THE_DAY.APOCALYPSE,
-                                                                    "Knull": WorldBosses.BOSS_OF_THE_DAY.KNULL,
-                                                                    "Mephisto": WorldBosses.BOSS_OF_THE_DAY.MEPHISTO
+                                                       values_dict={"Proxima Midnight": WorldBoss.BOSS_OF_THE_DAY.PROXIMA_MIDNIGHT,
+                                                                    "Black Dwarf": WorldBoss.BOSS_OF_THE_DAY.BLACK_DWARF,
+                                                                    "Corvus Glave": WorldBoss.BOSS_OF_THE_DAY.CORVUS_GLAIVE,
+                                                                    "Supergiant": WorldBoss.BOSS_OF_THE_DAY.SUPERGIANT,
+                                                                    "Ebony Maw": WorldBoss.BOSS_OF_THE_DAY.EBONY_MAW,
+                                                                    "Thanos": WorldBoss.BOSS_OF_THE_DAY.THANOS,
+                                                                    "Quicksilver": WorldBoss.BOSS_OF_THE_DAY.QUICKSILVER,
+                                                                    "Cable": WorldBoss.BOSS_OF_THE_DAY.CABLE,
+                                                                    "Scarlet Witch": WorldBoss.BOSS_OF_THE_DAY.SCARLET_WITCH,
+                                                                    "Apocalypse": WorldBoss.BOSS_OF_THE_DAY.APOCALYPSE,
+                                                                    "Knull": WorldBoss.BOSS_OF_THE_DAY.KNULL,
+                                                                    "Mephisto": WorldBoss.BOSS_OF_THE_DAY.MEPHISTO
                                                                     }))

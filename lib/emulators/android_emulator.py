@@ -26,7 +26,7 @@ class AndroidEmulator(object):
     def __init__(self, name, child_name, key_handle_name):
         """Class initialization.
 
-        :param name: main window's name of the player.
+        :param name: main window's name of the emulator.
         :param child_name: child window's name of inner control window.
         :param key_handle_name: name of windows's key handler.
         """
@@ -47,7 +47,7 @@ class AndroidEmulator(object):
     def _init_variables(self):
         """Variables initialization."""
         self.parent_x, self.parent_y, self.parent_width, self.parent_height, \
-            self.parent_hwnd, self.parent_thread, self.player_key_handle = (None,) * 7
+            self.parent_hwnd, self.parent_thread, self.main_key_handle = (None,) * 7
         self.x, self.y, self.width, self.height, self.hwnd, self.key_handle = (None,) * 6
         # Storing external functions for process manager context (video_capture decorators)
         self.autoit_control_click_by_handle = autoit.control_click_by_handle
@@ -76,12 +76,12 @@ class AndroidEmulator(object):
         """Update window's handlers."""
         win32gui.EnumWindows(self._get_window_info, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_key_layout_handle, None)
-        win32gui.EnumChildWindows(self.parent_hwnd, self._get_player_window_info, None)
+        win32gui.EnumChildWindows(self.parent_hwnd, self._get_emulator_window_info, None)
 
     def update_windows_rect(self):
         """Update window's rectangles."""
         self._update_rect_from_parent_hwnd()
-        self._update_rect_from_player_hwnd()
+        self._update_rect_from_main_hwnd()
 
     def _update_rect_from_parent_hwnd(self):
         """Update parent's window rectangle."""
@@ -96,8 +96,8 @@ class AndroidEmulator(object):
         except pywintypes.error:
             pass
 
-    def _update_rect_from_player_hwnd(self):
-        """Update player's window rectangle."""
+    def _update_rect_from_main_hwnd(self):
+        """Update emulator's window rectangle."""
         if not self.hwnd:
             return
         try:
@@ -123,12 +123,12 @@ class AndroidEmulator(object):
             try:
                 self.parent_hwnd = hwnd
                 self.parent_thread = win32process.GetWindowThreadProcessId(self.parent_hwnd)
-                self.player_key_handle = win32gui.GetDlgItem(self.parent_hwnd, 0)
+                self.main_key_handle = win32gui.GetDlgItem(self.parent_hwnd, 0)
                 self._update_rect_from_parent_hwnd()
             except pywintypes.error:
                 pass
 
-    def _get_player_window_info(self, hwnd, wildcard):
+    def _get_emulator_window_info(self, hwnd, wildcard):
         """Get child window info.
 
         :param hwnd: window handle.
@@ -136,7 +136,7 @@ class AndroidEmulator(object):
         """
         if self.child_name in win32gui.GetWindowText(hwnd):
             self.hwnd = hwnd
-            self._update_rect_from_player_hwnd()
+            self._update_rect_from_main_hwnd()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
         """Get window's key handler.
@@ -148,13 +148,13 @@ class AndroidEmulator(object):
 
     @property
     def initialized(self):
-        """Was player initialized properly.
+        """Was emulator initialized properly.
 
         :return: True or False.
         """
         hwnd_found = self.hwnd is not None and self.parent_hwnd is not None
         hwnd_active = win32gui.GetWindowText(self.parent_hwnd) == self.name and win32gui.GetWindowText(self.hwnd) == self.child_name
-        keys_found = self.key_handle is not None and self.player_key_handle is not None
+        keys_found = self.key_handle is not None and self.main_key_handle is not None
         rect_found = self.x is not None and self.y is not None
         parent_found = self.parent_x is not None and self.parent_y is not None
         # TODO: keys are not necessary, maybe remove them?
@@ -163,11 +163,11 @@ class AndroidEmulator(object):
 
     @property
     def is_minimized(self):
-        """Is player's window minimized."""
+        """Is emulator's window minimized."""
         return win32gui.IsIconic(self.parent_hwnd)
 
     def maximize(self):
-        """Maximize player's window."""
+        """Maximize emulator's window."""
         win32api.PostMessage(self.parent_hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
 
     def get_screen_image(self, rect=(0, 0, 1, 1)):
@@ -288,16 +288,16 @@ class AndroidEmulator(object):
         r_sleep(duration * 2)
 
     def press_key(self, key, system_key=False):
-        """Press key (keys should be configured inside player).
+        """Press key (keys should be configured inside emulator).
 
         :param key: key name.
-        :param system_key: is player's system key or not.
+        :param system_key: is emulator's system key or not.
         """
-        handle = self.key_handle if not system_key else self.player_key_handle
-        autoit.control_send_by_handle(self.player_key_handle, handle, key)
+        handle = self.key_handle if not system_key else self.main_key_handle
+        autoit.control_send_by_handle(self.main_key_handle, handle, key)
 
     def close_current_app(self):
-        """Close current opened app in player."""
+        """Close current opened app in emulator."""
         raise NotImplementedError
 
     @property

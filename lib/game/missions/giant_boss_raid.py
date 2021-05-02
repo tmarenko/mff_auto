@@ -7,7 +7,7 @@ logger = logging.get_logger(__name__)
 
 
 class GiantBossRaid(Missions):
-    """Class for working with Giant Boss Raids."""
+    """Class for working with Giant Boss Raid missions."""
 
     def __init__(self, game):
         """Class initialization.
@@ -19,16 +19,16 @@ class GiantBossRaid(Missions):
     @property
     def battle_over_conditions(self):
         def damage_list():
-            return self.player.is_ui_element_on_screen(self.ui['GBR_DAMAGE_LIST'])
+            return self.emulator.is_ui_element_on_screen(self.ui['GBR_DAMAGE_LIST'])
 
         def damage_list_failure():
-            on_screen = self.player.is_ui_element_on_screen(self.ui['GBR_FAILURE_DAMAGE_LIST'])
+            on_screen = self.emulator.is_ui_element_on_screen(self.ui['GBR_FAILURE_DAMAGE_LIST'])
             if on_screen:
                 logger.info("Giant Boss Raid: you've lost the raid.")
             return on_screen
 
         def rewards_list():
-            return self.player.is_ui_element_on_screen(self.ui['GBR_REWARDS_LIST'])
+            return self.emulator.is_ui_element_on_screen(self.ui['GBR_REWARDS_LIST'])
 
         return [damage_list, rewards_list, damage_list_failure]
 
@@ -39,8 +39,8 @@ class GiantBossRaid(Missions):
 
     def start_missions(self, times=0, max_rewards=None):
         """Start Giant Boss Raid."""
-        if self.go_to_gbr():
-            logger.info(f"Giant Boss Raid: starting {times} raid(s).")
+        if self.open_giant_boss_raid():
+            logger.info(f"Starting {times} raid(s).")
             while times > 0:
                 if not self.press_start_button(max_rewards=max_rewards):
                     return
@@ -51,25 +51,25 @@ class GiantBossRaid(Missions):
                     self.press_repeat_button(repeat_button_ui="GBR_REPEAT_BUTTON", start_button_ui="GBR_QUICK_START")
                 else:
                     self.press_home_button(home_button="GBR_HOME_BUTTON")
-        logger.info("No more stages for Giant Boss Raid.")
+        logger.info("No more stages.")
 
     def end_missions(self):
         """End missions."""
         if not self.game.is_main_menu():
-            self.game.player.click_button(self.ui['HOME'].button)
+            self.game.emulator.click_button(self.ui['HOME'].button)
             self.close_after_mission_notifications()
             self.game.close_ads()
 
-    def go_to_gbr(self):
-        """Go to Giant Boss Raid missions.
+    def open_giant_boss_raid(self):
+        """Open Giant Boss Raid mission lobby.
 
         :return: True or False: is GBR missions open.
         """
         self.game.go_to_coop()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_LABEL']):
-            self.player.click_button(self.ui['GBR_LABEL'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_MENU_LABEL']):
-                return wait_until(self.player.is_ui_element_on_screen, timeout=10,
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_LABEL']):
+            self.emulator.click_button(self.ui['GBR_LABEL'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_MENU_LABEL']):
+                return wait_until(self.emulator.is_ui_element_on_screen, timeout=10,
                                   ui_element=self.ui['GBR_QUICK_START'])
         return False
 
@@ -78,52 +78,53 @@ class GiantBossRaid(Missions):
 
         :return: was button clicked successfully.
         """
-        logger.debug("Pressing START button.")
-        self.player.click_button(self.ui[start_button_ui].button)
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_NOT_ENOUGH_ENERGY']):
-            logger.debug("Giant Boss Raid: not enough energy.")
-            self.player.click_button(self.ui['GBR_NOT_ENOUGH_ENERGY'].button)
+        logger.debug(f"Pressing START button with UI element: {start_button_ui}.")
+        self.emulator.click_button(self.ui[start_button_ui].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_NOT_ENOUGH_ENERGY']):
+            logger.debug("Not enough energy.")
+            self.emulator.click_button(self.ui['GBR_NOT_ENOUGH_ENERGY'].button)
             return False
-        if wait_until(self.player.is_ui_element_on_screen, timeout=30, ui_element=self.ui['GBR_SELECT_CHARACTERS']):
-            self.deploy_characters()
-            self.player.click_button(self.ui['GBR_SELECT_CHARACTERS_OK'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=30, ui_element=self.ui['GBR_SELECT_CHARACTERS']):
+            self._deploy_characters()
+            self.emulator.click_button(self.ui['GBR_SELECT_CHARACTERS_OK'].button)
             if max_rewards:
-                logger.debug("Giant Boss Raid: maxing out rewards via boost points.")
-                while not self.player.is_ui_element_on_screen(self.ui['GBR_BOOST_POINTS_NO_MORE']):
-                    self.player.click_button(self.ui['GBR_BOOST_POINTS_PLUS'].button)
-                self.player.click_button(self.ui['GBR_BOOST_POINTS_NO_MORE'].button)
-            if not wait_until(self.player.is_image_on_screen, timeout=1, ui_element=self.ui['GBR_PUBLIC_LOBBY_TOGGLE']):
-                logger.debug("Giant Boss Raid: Found PUBLIC LOBBY toggle inactive. Clicking it.")
-                self.player.click_button(self.ui['GBR_PUBLIC_LOBBY_TOGGLE'].button)
+                logger.debug("Maxing out rewards via boost points.")
+                while not self.emulator.is_ui_element_on_screen(self.ui['GBR_BOOST_POINTS_NO_MORE']):
+                    self.emulator.click_button(self.ui['GBR_BOOST_POINTS_PLUS'].button)
+                self.emulator.click_button(self.ui['GBR_BOOST_POINTS_NO_MORE'].button)
+            if not wait_until(self.emulator.is_image_on_screen, timeout=1,
+                              ui_element=self.ui['GBR_PUBLIC_LOBBY_TOGGLE']):
+                logger.debug("Found PUBLIC LOBBY toggle inactive. Clicking it.")
+                self.emulator.click_button(self.ui['GBR_PUBLIC_LOBBY_TOGGLE'].button)
 
-            logger.debug("Giant Boss Raid: waiting for players in lobby.")
+            logger.debug("Waiting for players in lobby.")
             waiting_time, timeout_to_kick = 1, 120
-            while not self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_START_BUTTON']):
+            while not self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_START_BUTTON']):
                 if waiting_time % timeout_to_kick == 0:
-                    logger.debug(f"Giant Boss Raid: too long, kicking all players. Wait time is {waiting_time} secs.")
-                    if self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_2']):
-                        logger.debug("Giant Boss Raid: kicking player #2.")
-                        self.player.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
-                    if self.player.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_3']):
-                        logger.debug("Giant Boss Raid: kicking player #3.")
-                        self.player.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
+                    logger.debug(f"Too long, kicking all players. Wait time is {waiting_time} secs.")
+                    if self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_2']):
+                        logger.debug("Kicking emulator #2.")
+                        self.emulator.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
+                    if self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_3']):
+                        logger.debug("Kicking emulator #3.")
+                        self.emulator.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
                 r_sleep(1)
                 waiting_time += 1
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_START_BUTTON']):
-                logger.debug("Giant Boss Raid: all players are ready. Starting the raid.")
-                self.player.click_button(self.ui['GBR_START_BUTTON'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_START_BUTTON']):
+                logger.debug("All players are ready. Starting the raid.")
+                self.emulator.click_button(self.ui['GBR_START_BUTTON'].button)
                 return True
         logger.warning("Unable to press START button.")
         return False
 
-    def deploy_characters(self):
+    def _deploy_characters(self):
         """Deploy 3 characters to battle."""
-        no_main = self.player.is_image_on_screen(ui_element=self.ui['GBR_NO_CHARACTER_MAIN'])
-        no_left = self.player.is_image_on_screen(ui_element=self.ui['GBR_NO_CHARACTER_LEFT'])
-        no_right = self.player.is_image_on_screen(ui_element=self.ui['GBR_NO_CHARACTER_RIGHT'])
+        no_main = self.emulator.is_image_on_screen(ui_element=self.ui['GBR_NO_CHARACTER_MAIN'])
+        no_left = self.emulator.is_image_on_screen(ui_element=self.ui['GBR_NO_CHARACTER_LEFT'])
+        no_right = self.emulator.is_image_on_screen(ui_element=self.ui['GBR_NO_CHARACTER_RIGHT'])
         if no_main:
-            self.player.click_button(self.ui['GBR_CHARACTER_1'].button)
+            self.emulator.click_button(self.ui['GBR_CHARACTER_1'].button)
         if no_left:
-            self.player.click_button(self.ui['GBR_CHARACTER_2'].button)
+            self.emulator.click_button(self.ui['GBR_CHARACTER_2'].button)
         if no_right:
-            self.player.click_button(self.ui['GBR_CHARACTER_3'].button)
+            self.emulator.click_button(self.ui['GBR_CHARACTER_3'].button)

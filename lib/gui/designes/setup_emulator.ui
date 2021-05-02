@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="select_player_label">
+      <widget class="QLabel" name="select_emulator_label">
        <property name="font">
         <font>
          <pointsize>13</pointsize>
@@ -31,7 +31,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="selected_player_info_label">
+      <widget class="QLabel" name="selected_emulator_info_label">
        <property name="font">
         <font>
          <pointsize>13</pointsize>
@@ -50,7 +50,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="players_list_widget">
+    <widget class="QListWidget" name="emulators_list_widget">
      <property name="iconSize">
       <size>
        <width>256</width>

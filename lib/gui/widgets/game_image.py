@@ -10,27 +10,27 @@ logger = logging.get_logger(__name__)
 class ScreenImageLabel(Timer):
     """Class for updating GUI label with game screen image."""
 
-    def __init__(self, widget, player):
+    def __init__(self, widget, emulator):
         """Class initialization.
 
         :param QtWidgets.QLabel widget: label widget for image.
-        :param lib.player player: instance of game player.
+        :param lib.emulator emulator: instance of game emulator.
         """
         super().__init__()
         self.widget = widget
         self.widget.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         self.widget.mousePressEvent = self.screen_click_event
-        self.player = player
+        self.emulator = emulator
         self.set_timer(self.update_image)
         self.scaled_width, self.scaled_height = None, None
-        self.get_image_func = self.player.get_screen_image
+        self.get_image_func = self.emulator.get_screen_image
 
     def update_image(self):
-        """Update image from player and handle player resize."""
-        if not self.player.initialized:
-            self.player.update_windows()
+        """Update image from emulator and handle emulator resize."""
+        if not self.emulator.initialized:
+            self.emulator.update_windows()
             return
-        self.player.update_windows_rect()
+        self.emulator.update_windows_rect()
         screen = self.get_image_func()
         pix_map = screen_to_gui_image(screen)
         scale_pix_map = pix_map.scaled(self.widget.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
@@ -39,14 +39,14 @@ class ScreenImageLabel(Timer):
 
     def screen_click_event(self, event):
         """Click event on screen image."""
-        if not self.player.initialized:
+        if not self.emulator.initialized:
             return
         x, y = self.translate_coordinate_from_label_to_screen(x=event.pos().x(), y=event.pos().y())
         if x and y:
             click_rect = Rect(x / self.scaled_width, y / self.scaled_height,
                               x / self.scaled_width, y / self.scaled_height)
             logger.debug(f"Sending clicking event by coordinates {(x,y)}; rect: {click_rect.value}")
-            self.player.click_button(click_rect)
+            self.emulator.click_button(click_rect)
 
     def translate_coordinate_from_label_to_screen(self, x, y):
         """Calculate coordinates inside game's screen label and translate them to scaled screen coordinates.

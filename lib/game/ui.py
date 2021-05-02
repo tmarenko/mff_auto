@@ -115,7 +115,7 @@ class UIElement:
         """
         for key in json_data:
             data = json_data[key]
-            image = rgb_to_bgr(  # Player's screen operates in BGR mode. All loaded images must be converted
+            image = rgb_to_bgr(  # Emulator's screen operates in BGR mode. All loaded images must be converted
                 load_image(os.path.join(path_to_images or "", data['image_path']))) if 'image_path' in data else None
             text_rect = data['text_rect']
             text_rect = text_rect if not text_rect else Rect(text_rect['x1'], text_rect['y1'],
@@ -136,8 +136,8 @@ class UIElement:
         return copy
 
 
-def load_ui_settings(path="settings/ui", path_to_images="images"):
-    """Load UI settings from JSON files.
+def load_ui_elements(path="settings/ui", path_to_images="images"):
+    """Load UI elements from JSON files.
 
     :param path: path to settings.
     :param path_to_images: path to images.

@@ -11,15 +11,15 @@ from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBoss
 from lib.gui.queue_manager import QueueList
 from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
-from lib.gui.widgets.setup_player import SetupPlayer
+from lib.gui.widgets.setup_emulator import SetupEmulator
 from lib.gui.threading import ThreadPool
 from lib.gui.helper import TwoStateButton, set_default_icon, Timer, try_to_disconnect
 
 from lib.game.game import Game
 from lib.game.battle_bot import BattleBot
 from lib.game.ui import Rect
-from lib.players.nox_player import NoxWindow
-from lib.players.bluestacks import BlueStacks
+from lib.emulators.nox_player import NoxPlayer
+from lib.emulators.bluestacks import BlueStacks
 from lib.video_capture import EmulatorCapture
 
 logger = logging.get_logger(__name__)
@@ -52,7 +52,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         set_default_icon(window=self)
-        self.player_name, self.player_type, self.game_app_rect, self.player, self.game = None, None, None, None, None
+        self.emulator_name, self.emulator_type, self.game_app_rect, self.emulator, self.game = None, None, None, None, None
         self.load_settings_from_file()
         self.game.file_logger_name = None
         if file_logger:
@@ -86,7 +86,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.comic_cards = ComicCardsTask(game=self.game, button=comic_cards_button)
         self.custom_gear = CustomGearTask(game=self.game, button=custom_gear_button)
         self.dispatch_mission = DispatchMissionAcquireTask(game=self.game, button=dispatch_mission_button)
-        self.screen_image = ScreenImageLabel(player=self.player, widget=self.screen_label)
+        self.screen_image = ScreenImageLabel(emulator=self.emulator, widget=self.screen_label)
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
         self.low_memory_mode_checkbox.stateChanged.connect(self.low_memory_mode_state_changed)
         self.mission_team_spin_box.valueChanged.connect(self.mission_team_changed)
@@ -104,7 +104,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
                       self.shield_lab, self.restart_game, self.comic_cards, self.custom_gear, self.dispatch_mission]
 
-        if self.player.initialized and self.player.restartable:
+        if self.emulator.initialized and self.emulator.restartable:
             if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
                 if not self.game.go_to_main_menu():
                     logger.warning("Can't get to the main menu. Restarting the game just in case.")
@@ -117,7 +117,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def _update_labels(self):
         """Update game's labels such as: username, energy, gold and boost points."""
-        if not self.player.initialized:
+        if not self.emulator.initialized:
             return
         if not self._user_name_acquired and self.game.is_main_menu():
             self.label_username.setText(self.game.user_name)
@@ -165,13 +165,17 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             self.setup_gui_first_time()
             return self.load_settings_from_file()
         self.game_app_rect = game_settings.get("game_app_rect")
-        self.player_name = game_settings.get("player_name")
-        self.player_type = game_settings.get("player_type")
+        self.emulator_name = game_settings.get("emulator_name")
+        self.emulator_type = game_settings.get("emulator_type")
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards", True))
         self.low_memory_mode_checkbox.setChecked(game_settings.get("low_memory_mode", False))
-        self.init_player_and_game()
+        # TODO: backwards compatability, remove after few updates
+        self.emulator_name = game_settings['player_name'] if 'player_name' in game_settings else self.emulator_name
+        self.emulator_type = game_settings['player_type'] if 'player_type' in game_settings else self.emulator_type
+        # TODO: end
+        self.init_emulator_and_game()
         self.game.set_mission_team(self.mission_team_spin_box.value())
         self.game.set_timeline_team(self.timeline_team_spin_box.value())
         self.game.ACQUIRE_HEROIC_QUEST_REWARDS = self.acquire_heroic_quest_rewards_checkbox.isChecked()
@@ -184,8 +188,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "mission_team": self.game.mission_team,
             "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS,
             "low_memory_mode": self.game.LOW_MEMORY_MODE,
-            "player_name": self.player_name,
-            "player_type": self.player_type,
+            "emulator_name": self.emulator_name,
+            "emulator_type": self.emulator_type,
             "game_app_rect": self.game_app_rect
         }
         save_game_settings(game_settings)
@@ -193,55 +197,59 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def setup_gui_first_time(self):
         """Setup GUI settings for first time.
-        Run `SetupPlayer` and retrieve information about emulator and game app."""
-        setup = SetupPlayer()
-        setup.run_player_setup()
-        self.player_name, self.player_type, self.game_app_rect = setup.get_player_and_game_app()
+        Run `SetupEmulator` and retrieve information about emulator and game app."""
+        setup = SetupEmulator()
+        setup.run_emulator_setup()
+        self.emulator_name, self.emulator_type, self.game_app_rect = setup.get_emulator_and_game_app()
         game_settings = {
             "timeline_team": self.timeline_team_spin_box.value(),
             "mission_team": self.mission_team_spin_box.value(),
             "acquire_heroic_quest_rewards": self.acquire_heroic_quest_rewards_checkbox.isChecked(),
             "low_memory_mode": self.low_memory_mode_checkbox.isChecked(),
-            "player_name": self.player_name,
-            "player_type": self.player_type,
+            "emulator_name": self.emulator_name,
+            "emulator_type": self.emulator_type,
             "game_app_rect": self.game_app_rect
         }
         save_game_settings(game_settings)
         logger.debug("Saving setting from first setup.")
 
-    def init_player_and_game(self):
-        """Init player and game."""
-        if not self.player_name:
+    def init_emulator_and_game(self):
+        """Init emulator and game."""
+        if not self.emulator_name:
             self.setup_gui_first_time()
-        if self.player_type == NoxWindow.__name__:
-            self.player = NoxWindow(self.player_name)
-            if self.player.get_version() and not self.player.get_version().startswith("7."):
+        # TODO: backwards compatability, remove after few updates
+        if self.emulator_type == "NoxWindow":
+            self.emulator_type = NoxPlayer.__name__
+        # TODO: end
+        if self.emulator_type == NoxPlayer.__name__:
+            self.emulator = NoxPlayer(self.emulator_name)
+            if self.emulator.get_version() and not self.emulator.get_version().startswith("7."):
                 menu = self.menuBar.addMenu("Emulator")
-                action = menu.addAction(f"Make {self.player.name} restartable")
-                action.triggered.connect(self.player.set_config_for_bot)
-        if self.player_type == BlueStacks.__name__:
-            self.player = BlueStacks(self.player_name)
-        if not self.player.restartable:
+                action = menu.addAction(f"Make {self.emulator.name} restartable")
+                action.triggered.connect(self.emulator.set_config_for_bot)
+        if self.emulator_type == BlueStacks.__name__:
+            self.emulator = BlueStacks(self.emulator_name)
+        if not self.emulator.restartable:
             self.restart_game_button.setEnabled(False)
             self.restart_game_button.setText(f"{self.restart_game_button.text()}\n"
                                              "[Unavailable (check logs)]")
             self.restart_game_button = None
-        self.game = Game(self.player)
+        self.game = Game(self.emulator)
         if self.game_app_rect:
             self.game.ui['GAME_APP'].button = Rect(*self.game_app_rect)
 
     def _create_menu_for_recorder(self):
         """Creates menu bar for emulator recording."""
         menu = self.menuBar.addMenu("Video Recorder")
-        self.recorder_action = menu.addAction(f"Start recording")
+        self.recorder_action = menu.addAction("Start recording")
         self.recorder_action.triggered.connect(self._start_recording)
 
     def _start_recording(self):
         """Start recording video from emulator."""
-        self.recorder = EmulatorCapture(self.player)
+        self.recorder = EmulatorCapture(self.emulator)
         self.recorder.start()
 
-        self.recorder_action.setText(f"Stop recording")
+        self.recorder_action.setText("Stop recording")
         try_to_disconnect(self.recorder_action.triggered, self._start_recording)
         self.recorder_action.triggered.connect(self._stop_recording)
 
@@ -252,11 +260,11 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.recorder.stop()
         self.recorder = None
 
-        self.recorder_action.setText(f"Start recording")
+        self.recorder_action.setText("Start recording")
         try_to_disconnect(self.recorder_action.triggered, self._stop_recording)
         self.recorder_action.triggered.connect(self._start_recording)
 
-        self.screen_image.get_image_func = self.player.get_screen_image
+        self.screen_image.get_image_func = self.emulator.get_screen_image
 
     def closeEvent(self, event):
         """Main window close event."""

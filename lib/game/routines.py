@@ -12,13 +12,7 @@ from lib.functions import wait_until, is_strings_similar, r_sleep
 logger = logging.get_logger(__name__)
 
 
-class Routine(Notifications):
-
-    def __init__(self, game):
-        super().__init__(game)
-
-
-class DailyTrivia(Routine):
+class DailyTrivia(Notifications):
     """Class for working with Daily Trivia."""
 
     @staticmethod
@@ -43,17 +37,17 @@ class DailyTrivia(Routine):
     def do_trivia(self):
         """Do trivia."""
         self.game.go_to_challenges()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DAILY_TRIVIA_STAGE']):
-            self.player.click_button(self.ui['DAILY_TRIVIA_STAGE'].button)
-            if not self.player.is_ui_element_on_screen(ui_element=self.ui['DAILY_TRIVIA_TODAY_TEXT']):
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DAILY_TRIVIA_STAGE']):
+            self.emulator.click_button(self.ui['DAILY_TRIVIA_STAGE'].button)
+            if not self.emulator.is_ui_element_on_screen(ui_element=self.ui['DAILY_TRIVIA_TODAY_TEXT']):
                 logger.debug("Daily Trivia isn't started, starting it.")
-                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['DAILY_TRIVIA_START_BUTTON']):
-                    self.player.click_button(self.ui['DAILY_TRIVIA_START_BUTTON'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                    self.emulator.click_button(self.ui['DAILY_TRIVIA_START_BUTTON'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['DAILY_TRIVIA_TODAY_TEXT']):
                 logger.debug("Daily Trivia started, solving questions.")
-                while wait_until(self.player.is_ui_element_on_screen, timeout=1,
+                while wait_until(self.emulator.is_ui_element_on_screen, timeout=1,
                                  ui_element=self.ui['DAILY_TRIVIA_TODAY_TEXT']):
                     if not self.solve_trivia():
                         break
@@ -61,10 +55,11 @@ class DailyTrivia(Routine):
 
     def solve_trivia(self):
         """Solve trivia question."""
+
         def close_notifications():
             return self.game.close_complete_challenge_notification() or self.close_shield_lvl_up_notification()
 
-        question = self.player.get_screen_text(ui_element=self.ui['DAILY_TRIVIA_QUESTION'])
+        question = self.emulator.get_screen_text(ui_element=self.ui['DAILY_TRIVIA_QUESTION'])
         logger.debug(f"Found question: {question}")
         answers = [value for key, value in self.trivia.items() if is_strings_similar(question, key)]
         if not answers:
@@ -74,14 +69,14 @@ class DailyTrivia(Routine):
         for answer in answers:
             for i in range(1, 5):
                 available_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{i}']
-                available_answer = self.player.get_screen_text(ui_element=available_answer_ui)
+                available_answer = self.emulator.get_screen_text(ui_element=available_answer_ui)
                 logger.debug(f"Found available answer: {available_answer}.")
                 if is_strings_similar(answer, available_answer):
                     logger.debug(f"Found correct answer on UI element: {available_answer_ui.name}, clicking.")
-                    self.player.click_button(available_answer_ui.button)
-                    if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                    self.emulator.click_button(available_answer_ui.button)
+                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                                   ui_element=self.ui['DAILY_TRIVIA_CLOSE_ANSWER']):
-                        self.player.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
+                        self.emulator.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
                         notification_closed = wait_until(close_notifications, timeout=3)
                         logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
                         return True
@@ -92,27 +87,27 @@ class DailyTrivia(Routine):
             random_answer = randint(1, 4)
             random_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{random_answer}']
             logger.warning(f"Selecting random answer: {random_answer}.")
-            self.player.click_button(random_answer_ui.button)
+            self.emulator.click_button(random_answer_ui.button)
             return True
 
 
-class ShieldLab(Routine):
+class ShieldLab(Notifications):
     """Class for working with Shield Lab."""
 
     def collect_antimatter(self):
         """Collect all available antimatter in the lab."""
         self.game.go_to_lab()
         r_sleep(1)  # Wait for button's animation
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1']):
+        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1']):
             logger.debug("Found COLLECT button with max lvl generator, collecting.")
-            self.player.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1'].button)
-        if self.player.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_2']):
+            self.emulator.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1'].button)
+        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_2']):
             logger.debug("Found COLLECT button with not max lvl generator, collecting.")
-            self.player.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_2'].button)
+            self.emulator.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_2'].button)
         self.game.go_to_main_menu()
 
 
-class EnhancePotential(Routine):
+class EnhancePotential(Notifications):
     """Class for working with character's potential enhancement."""
 
     COSMIC_CUBE_FRAGMENT = "COSMIC_CUBE_FRAGMENT"
@@ -122,7 +117,7 @@ class EnhancePotential(Routine):
     @property
     def success_rate(self):
         """Returns Success Rate number of enhancement."""
-        success_rate_text = self.player.get_screen_text(ui_element=self.ui['ENHANCE_POTENTIAL_RATE'])
+        success_rate_text = self.emulator.get_screen_text(ui_element=self.ui['ENHANCE_POTENTIAL_RATE'])
         success_rate = success_rate_text.replace("%", "").replace(" ", "")
         return float(success_rate)
 
@@ -133,27 +128,27 @@ class EnhancePotential(Routine):
         :param click_speed: clicking speed of applying.
         """
         if material == self.COSMIC_CUBE_FRAGMENT:
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_COSMIC_CUBES'].button, min_duration=click_speed,
-                                     max_duration=click_speed)
+            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_COSMIC_CUBES'].button, min_duration=click_speed,
+                                       max_duration=click_speed)
         if material == self.BLACK_ANTI_MATTER:
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_ANTI_MATTER'].button, min_duration=click_speed,
-                                     max_duration=click_speed)
+            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_ANTI_MATTER'].button, min_duration=click_speed,
+                                       max_duration=click_speed)
         if material == self.NORN_STONE_OF_CHAOS:
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_NORN_STONES'].button, min_duration=click_speed,
-                                     max_duration=click_speed)
+            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_NORN_STONES'].button, min_duration=click_speed,
+                                       max_duration=click_speed)
 
     def press_upgrade(self):
         """Press Upgrade button to enhance potential.
 
         :return: was button pressed successful or not.
         """
-        if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_UPGRADE'],
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_UPGRADE'],
                       timeout=3):
             logger.debug(f"Upgrading potential with rate: {self.success_rate}.")
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE'].button)
-            if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'],
+            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'],
                           timeout=3):
-                self.player.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'].button)
+                self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'].button)
                 return True
         logger.error("Can't find Upgrade button to click.")
         return False
@@ -163,15 +158,15 @@ class EnhancePotential(Routine):
 
         :return: was enhancement successful or not.
         """
-        if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_FAILED'],
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_FAILED'],
                       timeout=3):
             logger.debug("Enhance Potential failed.")
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_FAILED'].button, min_duration=1, max_duration=1.5)
+            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_FAILED'].button, min_duration=1, max_duration=1.5)
             return False
-        if wait_until(self.player.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_SUCCESS'],
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_SUCCESS'],
                       timeout=3):
             logger.debug("Enhance Potential succeeded.")
-            self.player.click_button(self.ui['ENHANCE_POTENTIAL_SUCCESS'].button, min_duration=1, max_duration=1.5)
+            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_SUCCESS'].button, min_duration=1, max_duration=1.5)
             return True
 
     def enhance_potential(self, target_success_rate=10.00, material_to_use=(NORN_STONE_OF_CHAOS, BLACK_ANTI_MATTER)):
@@ -180,7 +175,7 @@ class EnhancePotential(Routine):
         :param target_success_rate: minimal success rate of enhancement to proceed upgrading.
         :param material_to_use: name of materials to use in enhancement.
         """
-        if not self.player.is_ui_element_on_screen(ui_element=self.ui['ENHANCE_POTENTIAL_LABEL']):
+        if not self.emulator.is_ui_element_on_screen(ui_element=self.ui['ENHANCE_POTENTIAL_LABEL']):
             logger.error("Open Enhance Potential menu to enhance potential.")
             return
         if not isinstance(material_to_use, (list, tuple)):
@@ -200,7 +195,7 @@ class EnhancePotential(Routine):
                 continue
             steps_count = ceil((target_success_rate - self.success_rate) / material_cost)
             logger.debug(f"{material} material cost = {material_cost}, "
-                         f"steps to achieve target {target_success_rate} from {current_rate } is {steps_count} steps.")
+                         f"steps to achieve target {target_success_rate} from {current_rate} is {steps_count} steps.")
             for _ in range(steps_count):
                 self.apply_material(material)
             r_sleep(1)  # Wait for success rate animation
@@ -216,40 +211,40 @@ class EnhancePotential(Routine):
             return
 
 
-class ComicCards(Routine):
+class ComicCards(Notifications):
     """Class for working with Comic Cards."""
 
     def upgrade_all_cards(self):
         """Upgrade all available Comic Cards."""
         self.game.go_to_comic_cards()
         logger.info("Comic Cards: upgrading all available cards.")
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL']):
-            self.player.click_button(self.ui['CARDS_UPGRADE_ALL'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL']):
+            self.emulator.click_button(self.ui['CARDS_UPGRADE_ALL'].button)
             for card_index in range(1, 6):
                 card_select_ui = self.ui[f'CARDS_SELECT_GRADE_{card_index}']
-                self.player.click_button(card_select_ui.button)
+                self.emulator.click_button(card_select_ui.button)
                 logger.debug(f"Comic Cards: starting to upgrade UI Element {card_select_ui.name}")
-                if not wait_until(self.player.is_image_on_screen, timeout=3, ui_element=card_select_ui):
+                if not wait_until(self.emulator.is_image_on_screen, timeout=3, ui_element=card_select_ui):
                     logger.warning("Comic Cards: can't select card's grade.")
                     continue
                 logger.debug(f"Comic Cards: successfully selected UI Element {card_select_ui.name}")
-                self.player.click_button(self.ui['CARDS_SELECT_GRADE'].button)
-                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                self.emulator.click_button(self.ui['CARDS_SELECT_GRADE'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['CARDS_UPGRADE_CONFIRM']):
-                    self.player.click_button(self.ui['CARDS_UPGRADE_CONFIRM'].button)
-                    if wait_until(self.player.is_ui_element_on_screen, timeout=10,
+                    self.emulator.click_button(self.ui['CARDS_UPGRADE_CONFIRM'].button)
+                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=10,
                                   ui_element=self.ui['CARDS_UPGRADE_RESULTS_OK']):
                         logger.debug(f"Comic Cards: successfully upgraded UI Element {card_select_ui.name}")
-                        self.player.click_button(self.ui['CARDS_UPGRADE_RESULTS_OK'].button)
-                        wait_until(self.player.is_image_on_screen, timeout=3, ui_element=card_select_ui)
+                        self.emulator.click_button(self.ui['CARDS_UPGRADE_RESULTS_OK'].button)
+                        wait_until(self.emulator.is_image_on_screen, timeout=3, ui_element=card_select_ui)
                         continue
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL_CANCEL']):
-            self.player.click_button(self.ui['CARDS_UPGRADE_ALL_CANCEL'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['CARDS_UPGRADE_ALL_CANCEL']):
+            self.emulator.click_button(self.ui['CARDS_UPGRADE_ALL_CANCEL'].button)
             self.close_after_mission_notifications()
             self.game.go_to_main_menu()
 
 
-class CustomGear(Routine):
+class CustomGear(Notifications):
     """Class for working with Custom Gear."""
 
     def __init__(self, game):
@@ -267,7 +262,7 @@ class CustomGear(Routine):
         """
         self.game.go_to_inventory()
         logger.info(f"Custom Gear: upgrading gear {times} times.")
-        self.player.click_button(self.ui['INVENTORY_CUSTOM_GEAR_TAB'].button)
+        self.emulator.click_button(self.ui['INVENTORY_CUSTOM_GEAR_TAB'].button)
         if wait_until(self.is_custom_gear_tab, timeout=3, period=1):
             if not self.try_to_select_gear_for_upgrade():
                 logger.error("Custom Gear: can't select gear for upgrade, probably you have none, exiting.")
@@ -282,69 +277,70 @@ class CustomGear(Routine):
                     logger.error("Custom Gear: can't select gear for upgrade, probably you have none, exiting.")
                     self.game.go_to_main_menu()
                     break
-                self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE'].button)
-                if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM']):
                     logger.debug("Custom Gear: confirming upgrading.")
-                    self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM'].button)
-                    if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                    self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM'].button)
+                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                                   ui_element=self.ui['CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED']):
                         logger.debug("Custom Gear: confirming to use upgraded gear.")
-                        self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED'].button)
+                        self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED'].button)
                     self.close_upgrade_result()
                 else:
-                    if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                                   ui_element=self.ui['CUSTOM_GEAR_NO_MATERIALS']):
                         logger.error("Custom Gear: you have no materials for gear upgrade.")
-                        self.player.click_button(self.ui['CUSTOM_GEAR_NO_MATERIALS'].button)
+                        self.emulator.click_button(self.ui['CUSTOM_GEAR_NO_MATERIALS'].button)
                         break
 
         # `self.is_quick_toggle is False` not working o_O
         if self.is_quick_toggle is not None and not self.is_quick_toggle:
             logger.debug("Custom Gear: returning Quick Upgrade toggle to inactive.")
-            self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'].button)
+            self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'].button)
         self.game.go_to_main_menu()
 
     def is_custom_gear_tab(self):
         """Check if Custom Gear tab is opened."""
-        return self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE']) or \
-               self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_ENHANCE']) or \
-               self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION'])
+        return self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE']) or \
+               self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_ENHANCE']) or \
+               self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION'])
 
     def toggle_quick_upgrade(self):
         """Toggle Quick Upgrade toggle."""
-        self.is_quick_toggle = self.player.is_image_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'])
+        self.is_quick_toggle = self.emulator.is_image_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'])
         if not self.is_quick_toggle:
             logger.debug("Custom Gear: found Quick Upgrade toggle inactive. Clicking it.")
-            self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'].button)
-            wait_until(self.player.is_image_on_screen, timeout=3,
+            self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'].button)
+            wait_until(self.emulator.is_image_on_screen, timeout=3,
                        ui_element=self.ui['CUSTOM_GEAR_QUICK_UPGRADE_TOGGLE'])
-        return self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE'])
+        return self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE'])
 
     def close_upgrade_result(self):
         """Close upgrade's result notification."""
+
         def is_results_window():
-            return self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1']) or \
-                   self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2'])
+            return self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1']) or \
+                   self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2'])
 
         if wait_until(is_results_window, timeout=10):
-            if self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1']):
-                self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1'].button)
-            if self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2']):
-                self.player.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2'].button)
+            if self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1']):
+                self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_1'].button)
+            if self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2']):
+                self.emulator.click_button(self.ui['CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2'].button)
             self.close_after_mission_notifications()
-        if is_results_window() or not self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_SELL_ALL']):
+        if is_results_window() or not self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_SELL_ALL']):
             return self.close_upgrade_result()
         logger.debug("Custom Gear: successfully upgraded custom gear.")
 
     def try_to_select_gear_for_upgrade(self):
         """Try to select gear for upgrade from inventory."""
-        if self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION']):
-            self.player.click_button(self.ui['CUSTOM_GEAR_1'].button)
-        return not self.player.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION'])
+        if self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION']):
+            self.emulator.click_button(self.ui['CUSTOM_GEAR_1'].button)
+        return not self.emulator.is_ui_element_on_screen(self.ui['CUSTOM_GEAR_CHANGE_OPTION'])
 
 
-class WaitUntil(Routine):
+class WaitUntil(Notifications):
     """Class for working with waiting different events."""
 
     def wait_until_boost_points(self, value=100):
@@ -383,14 +379,14 @@ class WaitUntil(Routine):
         logger.debug(f"Current time is {current_time}, done.")
 
 
-class Friends(Routine):
+class Friends(Notifications):
     """Class for working with Friends."""
 
     def send_all(self):
         """Send all tokens to friends."""
         self.game.go_to_friends()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_SEND_ALL']):
-            self.player.click_button(self.ui['FRIENDS_TOKEN_SEND_ALL'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_SEND_ALL']):
+            self.emulator.click_button(self.ui['FRIENDS_TOKEN_SEND_ALL'].button)
             notification_closed = wait_until(self.game.close_complete_challenge_notification, timeout=3)
             logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
         self.game.go_to_main_menu()
@@ -398,26 +394,28 @@ class Friends(Routine):
     def acquire_all(self):
         """Acquire all tokens from friends."""
         self.game.go_to_friends()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL']):
-            self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL']):
+            self.emulator.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE']):
-                self.player.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['FRIENDS_ACQUIRE_NOTICE']):
+                self.emulator.click_button(self.ui['FRIENDS_TOKEN_ACQUIRE_ALL_CLOSE'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['FRIENDS_ACQUIRE_NOTICE']):
                 logger.debug("Friends: can't acquire more tokens, exiting.")
-                self.player.click_button(self.ui['FRIENDS_ACQUIRE_NOTICE'].button)
+                self.emulator.click_button(self.ui['FRIENDS_ACQUIRE_NOTICE'].button)
         self.game.go_to_main_menu()
 
 
-class Alliance(Routine):
+class Alliance(Notifications):
     """Class for working with Alliance."""
 
     def check_in(self):
         """Click Check-In button in Alliance."""
         self.game.go_to_alliance()
-        if wait_until(self.player.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_CHECK_IN']):
-            self.player.click_button(self.ui['ALLIANCE_CHECK_IN'].button)
-            if wait_until(self.player.is_ui_element_on_screen, timeout=3,
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_CHECK_IN']):
+            self.emulator.click_button(self.ui['ALLIANCE_CHECK_IN'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['ALLIANCE_CHECK_IN_CLOSE']):
-                self.player.click_button(self.ui['ALLIANCE_CHECK_IN_CLOSE'].button)
+                self.emulator.click_button(self.ui['ALLIANCE_CHECK_IN_CLOSE'].button)
         self.game.go_to_main_menu()
