@@ -82,7 +82,6 @@ class Missions(Notifications):
             if self.emulator.is_image_on_screen(self.ui['HOME_BUTTON']) or \
                     self.emulator.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_2']) or \
                     self.emulator.is_image_on_screen(self.ui['HOME_BUTTON_POSITION_3']):
-                logger.debug("Found HOME button image on screen.")
                 return True
 
         return [cannot_enter, home_button, self.close_lvl_up_notification,
@@ -175,9 +174,6 @@ class Missions(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, timeout=2,
                           ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
                 self.emulator.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
-            if self.emulator.is_ui_element_on_screen(self.ui[start_button_ui]):
-                logger.debug(f"UI element {start_button_ui} still on screen. Trying to start battle again.")
-                return self.press_start_button(start_button_ui=start_button_ui)
             return True
         logger.warning("Unable to press START button.")
         return False
