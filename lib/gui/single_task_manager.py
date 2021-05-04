@@ -34,8 +34,11 @@ class SingleTask:
     def execute(self):
         """Execute function in safe thread."""
         logger.debug(f"Executing single task: {self.__class__.__name__} {self.task_func.__name__}")
+        from lib.gui.widgets.main import MainWindow
+        MainWindow.resume_recorder()
         worker = self.threads.run_thread(target=self._execute)
         worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
+        worker.signals.finished.connect(MainWindow.pause_recorder)
         self.run_and_stop_button.set_second_state()
 
     @safe_process_stop
@@ -46,6 +49,8 @@ class SingleTask:
             self.process.terminate()
         self.threads.thread_pool.clear()
         self.run_and_stop_button.set_first_state()
+        from lib.gui.widgets.main import MainWindow
+        MainWindow.pause_recorder()
 
     def _execute(self):
         """Execute function."""
@@ -80,9 +85,12 @@ class SingleTaskWithOptions:
         """Execute function in safe thread."""
         logger.debug(f"Executing single task: {self.__class__.__name__} {self.task_func.__name__} "
                      f"with parameters {parameters}")
+        from lib.gui.widgets.main import MainWindow
+        MainWindow.resume_recorder()
         worker = self.threads.run_thread(target=lambda: self._execute(parameters=parameters))
         worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
         worker.signals.finished.connect(self._set_menu)
+        worker.signals.finished.connect(MainWindow.pause_recorder)
         self._clear_menu()
         self.run_and_stop_button.set_second_state()
 
@@ -103,6 +111,8 @@ class SingleTaskWithOptions:
         self.threads.thread_pool.clear()
         self._set_menu()
         self.run_and_stop_button.set_first_state()
+        from lib.gui.widgets.main import MainWindow
+        MainWindow.pause_recorder()
 
     def _execute(self, parameters):
         """Execute function."""

@@ -273,7 +273,6 @@ class EmulatorCapture:
         output = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
         self.video_capture = EmulatorVideoWriter(emulator, f"logs/{output}")
         self.thread = Thread(target=self.capture)
-        self.thread.daemon = True
         self._pause = False
 
     def __enter__(self):

@@ -47,6 +47,18 @@ def save_game_settings(json_data, path="settings/gui/game.json"):
 class MainWindow(QMainWindow, design.Ui_MainWindow):
     """Class for working with main GUI window."""
 
+    recorder = None
+
+    @classmethod
+    def pause_recorder(cls):
+        if isinstance(cls.recorder, EmulatorCapture):
+            cls.recorder.pause()
+
+    @classmethod
+    def resume_recorder(cls):
+        if isinstance(cls.recorder, EmulatorCapture):
+            cls.recorder.resume()
+
     def __init__(self, file_logger):
         """Class initialization."""
         super().__init__()
@@ -246,19 +258,20 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def _start_recording(self):
         """Start recording video from emulator."""
-        self.recorder = EmulatorCapture(self.emulator)
-        self.recorder.start()
+        MainWindow.recorder = EmulatorCapture(self.emulator)
+        MainWindow.recorder.start()
+        MainWindow.recorder.pause()
 
         self.recorder_action.setText("Stop recording")
         try_to_disconnect(self.recorder_action.triggered, self._start_recording)
         self.recorder_action.triggered.connect(self._stop_recording)
 
-        self.screen_image.get_image_func = lambda: bgr_to_rgb(self.recorder.video_capture.source.frame())
+        self.screen_image.get_image_func = lambda: bgr_to_rgb(MainWindow.recorder.video_capture.source.frame())
 
     def _stop_recording(self):
         """Stop recording video from emulator."""
-        self.recorder.stop()
-        self.recorder = None
+        MainWindow.recorder.stop()
+        MainWindow.recorder = None
 
         self.recorder_action.setText("Start recording")
         try_to_disconnect(self.recorder_action.triggered, self._stop_recording)

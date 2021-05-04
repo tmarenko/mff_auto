@@ -236,11 +236,14 @@ class QueueList:
     def run_queue(self):
         """Run and execute all items in queue."""
         logger.debug("Running queue.")
+        from lib.gui.widgets.main import MainWindow
+        MainWindow.resume_recorder()
         self.run_and_stop_button.set_second_state()
         self.widget.setDragDropMode(QAbstractItemView.NoDragDrop)
         worker = self.threads.run_thread(target=self._run_queue, with_progress=True)
         worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
         worker.signals.finished.connect(self.reset_background)
+        worker.signals.finished.connect(MainWindow.pause_recorder)
         worker.signals.progress.connect(self.mark_execution_background)
 
     def mark_execution_background(self, cur_index):
@@ -263,6 +266,8 @@ class QueueList:
     @safe_process_stop
     def stop_queue(self):
         """Stop queue execution."""
+        from lib.gui.widgets.main import MainWindow
+        MainWindow.pause_recorder()
         self.widget.setDragDropMode(QAbstractItemView.InternalMove)
         self.stop_queue_flag = True
         if self.process:
