@@ -225,7 +225,7 @@ class EmulatorImageSource:
 class EmulatorVideoWriter:
     """Class for writing frames to video."""
 
-    def __init__(self, emulator, output, fps=10.0):
+    def __init__(self, emulator, output, fps=24.0):
         """Class initialization.
 
         :param emulator: instance of Android emulator.
@@ -274,6 +274,7 @@ class EmulatorCapture:
         self.video_capture = EmulatorVideoWriter(emulator, f"logs/{output}")
         self.thread = Thread(target=self.capture)
         self._pause = False
+        self._stopped = False
 
     def __enter__(self):
         """Context manager's enter."""
@@ -288,7 +289,7 @@ class EmulatorCapture:
         """Capture video."""
         logger.debug("Started capturing video.")
         fps_wait = 1 / self.video_capture.fps
-        while True:
+        while not self._stopped:
             if not self._pause:
                 frame = self.video_capture.frame()
                 self.video_capture.write(frame)
@@ -303,7 +304,7 @@ class EmulatorCapture:
         """Stop capturing."""
         logger.debug("Stopping video capture.")
         self.video_capture.release()
-        self._pause = True
+        self._stopped = True
 
     def pause(self):
         """Pause capturing."""
