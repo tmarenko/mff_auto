@@ -1,6 +1,6 @@
 from lib.game.battle_bot import AutoBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import wait_until, r_sleep
+from lib.functions import wait_until, r_sleep, convert_colors_in_image
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -15,9 +15,16 @@ class CoopPlay(Missions):
         :param game.Game game: instance of the game.
         """
         super().__init__(game, 'COOP_PLAY_LABEL')
+        self._gray_color = ([100, 110, 120], [130, 140, 150])
 
     @property
     def battle_over_conditions(self):
+        def coop_total_damage():
+            image = self.emulator.get_screen_image(rect=self.ui['COOP_TOTAL_DAMAGE'].rect)
+            converted_image = convert_colors_in_image(image=image, colors=[self._gray_color])
+            return self.emulator.is_ui_element_on_screen(ui_element=self.ui['COOP_TOTAL_DAMAGE'],
+                                                         screen=converted_image)
+
         def coop_completion():
             return self.emulator.is_ui_element_on_screen(self.ui['COOP_COMPLETION'])
 
@@ -26,7 +33,7 @@ class CoopPlay(Missions):
                 logger.debug("Found COOP HOME button image on screen.")
                 return True
 
-        return [coop_completion, coop_home_button]
+        return [coop_completion, coop_total_damage, coop_home_button]
 
     def start_missions(self):
         """Start available missions."""

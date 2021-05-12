@@ -88,7 +88,7 @@
         "y2": 0.9629629629629629
       },
       "text": null,
-      "image_threshold": 0.5,
+      "image_threshold": 0.7,
       "chars": null,
       "image_path": "home_button.png",
       "image_save_file": "coop_home_button",
@@ -109,6 +109,22 @@
       "chars": null,
       "image_save_file": "coop_completion_time",
       "description": "Completion time in Coop battles. Determines that we see end of battle screen."
+    }
+  },
+  {
+    "COOP_TOTAL_DAMAGE": {
+      "text_rect": {
+        "x1": 0.40517901391711203,
+        "y1": 0.2828189512053463,
+        "x2": 0.4895685220383367,
+        "y2": 0.3209283968163603
+      },
+      "button_rect": null,
+      "text": "Total Damage",
+      "image_threshold": 140,
+      "chars": null,
+      "image_save_file": "coop_total_damage",
+      "description": "Total Damage in Coop battles. Determines that we see end of battle screen."
     }
   },
   {
