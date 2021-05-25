@@ -270,7 +270,49 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "maintenance_notice",
-      "description": "Maintenance notification on game start."
+      "description": "Maintenance notification on game start. Leads to CLOSE button."
+    }
+  },
+  {
+    "MAINTENANCE_NOTICE_ACQUIRE": {
+      "text_rect": {
+        "x1": 0.5326391300506894,
+        "y1": 0.8659050600069023,
+        "x2": 0.6261037514068154,
+        "y2": 0.9270516922896657
+      },
+      "button_rect": {
+        "x1": 0.5326391300506894,
+        "y1": 0.8659050600069023,
+        "x2": 0.6261037514068154,
+        "y2": 0.9270516922896657
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "maintenance_notice_acquire",
+      "description": "Maintenance notification on game start. Leads to ACQUIRE button."
+    }
+  },
+  {
+    "MAINTENANCE_NOTICE_ACQUIRE_OK": {
+      "text_rect": {
+        "x1": 0.44665167840305375,
+        "y1": 0.16670661259965244,
+        "x2": 0.5535752052344617,
+        "y2": 0.22918251949725849
+      },
+      "button_rect": {
+        "x1": 0.477308074207863,
+        "y1": 0.7130384792999941,
+        "x2": 0.5236665264005015,
+        "y2": 0.7728558369679147
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 130,
+      "chars": null,
+      "image_save_file": "maintenance_notice_acquire_ok",
+      "description": "Maintenance notification on game start. Notification after acquiring. Leads to OK button."
     }
   },
   {

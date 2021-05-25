@@ -49,6 +49,12 @@ class Notifications:
         if self.emulator.is_ui_element_on_screen(ui_element=self.ui['MAINTENANCE_NOTICE']):
             self.emulator.click_button(self.ui['MAINTENANCE_NOTICE'].button)
             return True
+        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['MAINTENANCE_NOTICE_ACQUIRE']):
+            self.emulator.click_button(self.ui['MAINTENANCE_NOTICE_ACQUIRE'].button)
+            if wait_until(self.emulator.is_image_on_screen, timeout=3,
+                          ui_element=self.ui['MAINTENANCE_NOTICE_ACQUIRE_OK']):
+                self.emulator.click_button(self.ui['MAINTENANCE_NOTICE_ACQUIRE_OK'].button)
+                return True
         return False
 
     def close_daily_rewards(self):
