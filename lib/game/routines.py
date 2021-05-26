@@ -55,10 +55,6 @@ class DailyTrivia(Notifications):
 
     def solve_trivia(self):
         """Solve trivia question."""
-
-        def close_notifications():
-            return self.game.close_complete_challenge_notification() or self.close_shield_lvl_up_notification()
-
         question = self.emulator.get_screen_text(ui_element=self.ui['DAILY_TRIVIA_QUESTION'])
         logger.debug(f"Found question: {question}")
         answers = [value for key, value in self.trivia.items() if is_strings_similar(question, key)]
@@ -74,21 +70,14 @@ class DailyTrivia(Notifications):
                 if is_strings_similar(answer, available_answer):
                     logger.debug(f"Found correct answer on UI element: {available_answer_ui.name}, clicking.")
                     self.emulator.click_button(available_answer_ui.button)
-                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['DAILY_TRIVIA_CLOSE_ANSWER']):
-                        self.emulator.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
-                        notification_closed = wait_until(close_notifications, timeout=3)
-                        logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
-                        return True
-                    else:
-                        logger.error("Something went wrong after selecting correct answer.")
+                    return self.close_daily_trivia_answer_notification()
         else:
             logger.error("No available answers was found for trivia question.")
             random_answer = randint(1, 4)
             random_answer_ui = self.ui[f'DAILY_TRIVIA_ANSWER_{random_answer}']
             logger.warning(f"Selecting random answer: {random_answer}.")
             self.emulator.click_button(random_answer_ui.button)
-            return True
+            return self.close_daily_trivia_answer_notification()
 
 
 class ShieldLab(Notifications):

@@ -272,3 +272,20 @@ class Notifications:
         for _ in range(timeout):
             notification_closed = wait_until(self.close_squad_battle_rank_change_notification, timeout=1)
             logger.debug(f"After Squad Battle notifications was closed: {notification_closed}")
+
+    def close_daily_trivia_answer_notification(self, timeout=3):
+        """Close Daily Trivia answer notifications.
+
+        :param timeout: timeout of waiting for notifications.
+        """
+        def close_notifications():
+            return self.game.close_complete_challenge_notification() or self.close_shield_lvl_up_notification()
+
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['DAILY_TRIVIA_CLOSE_ANSWER']):
+            self.emulator.click_button(self.ui['DAILY_TRIVIA_CLOSE_ANSWER'].button)
+            notification_closed = wait_until(close_notifications, timeout=timeout)
+            logger.debug(f"Complete challenge notifications was closed: {notification_closed}")
+            return True
+        else:
+            logger.error("Something went wrong after selecting correct answer.")
