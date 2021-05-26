@@ -679,6 +679,22 @@
     }
   },
   {
+    "INVASION_END_BATTLE_DAMAGE": {
+      "text_rect": {
+        "x1": 0.581240733155875,
+        "y1": 0.18930428105197797,
+        "x2": 0.6418058077946446,
+        "y2": 0.2318410687269438
+      },
+      "button_rect": null,
+      "text": "Damage",
+      "image_threshold": 140,
+      "chars": null,
+      "image_save_file": "invasion_end_battle_damage",
+      "description": "WBI damage label after the boss fight."
+    }
+  },
+  {
     "INVASION_HOME_BUTTON": {
       "text_rect": null,
       "button_rect": {
