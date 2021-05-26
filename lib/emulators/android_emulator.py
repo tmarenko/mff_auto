@@ -1,4 +1,4 @@
-import autoit
+﻿import autoit
 import ctypes
 import logging
 import win32gui, win32ui, win32process, win32api, win32con
@@ -12,10 +12,15 @@ from numpy import array
 from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
     is_color_similar, r_sleep, get_file_properties
 
-# Set process as high-DPI aware to get actual window's coordinates
+PW_CLIENTONLY = 1  # Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
+PW_RENDERFULLCONTENT = 2  # Properly capture DirectComposition window contents. Available from Windows 8.1
+
+# Set process as high-DPI aware to get actual window's coordinates. Set WM_PAINT flag by OS version
 if release() == "10":
+    PRINT_FLAG = PW_RENDERFULLCONTENT
     ctypes.windll.shcore.SetProcessDpiAwareness(2)
 else:
+    PRINT_FLAG = PW_CLIENTONLY
     ctypes.windll.user32.SetProcessDPIAware()
 ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000040)  # Prevent Windows going to sleep mode
 
@@ -355,7 +360,7 @@ class AndroidEmulator(object):
         bit_map.CreateCompatibleBitmap(mfc_dc, self.parent_width, self.parent_height)
 
         save_dc.SelectObject(bit_map)
-        windll.user32.PrintWindow(self.parent_hwnd, save_dc.GetSafeHdc(), 1)
+        windll.user32.PrintWindow(self.parent_hwnd, save_dc.GetSafeHdc(), PW_RENDERFULLCONTENT)
 
         bmp_info = bit_map.GetInfo()
         bmp_arr = bit_map.GetBitmapBits(True)
