@@ -1,4 +1,5 @@
 import json
+from distutils.version import LooseVersion
 import lib.logger as logging
 from lib.functions import bgr_to_rgb
 from os.path import exists
@@ -232,7 +233,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         # TODO: end
         if self.emulator_type == NoxPlayer.__name__:
             self.emulator = NoxPlayer(self.emulator_name)
-            if self.emulator.get_version() and not self.emulator.get_version().startswith("7."):
+            if self.emulator.get_version() and self.emulator.get_version() < LooseVersion('7.0.0.0'):
                 menu = self.menuBar.addMenu("Emulator")
                 action = menu.addAction(f"Make {self.emulator.name} restartable")
                 action.triggered.connect(self.emulator.set_config_for_bot)

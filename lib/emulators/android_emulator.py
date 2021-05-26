@@ -9,6 +9,7 @@ from platform import release
 from PIL import Image
 from ctypes import windll
 from numpy import array
+from distutils.version import LooseVersion
 from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
     is_color_similar, r_sleep, get_file_properties
 
@@ -74,7 +75,7 @@ class AndroidEmulator(object):
             return self._version
         process_exe = self.get_process()
         if process_exe:
-            self._version = get_file_properties(process_exe).get("FileVersion")
+            self._version = LooseVersion(get_file_properties(process_exe).get("FileVersion"))
         return self._version
 
     def update_windows(self):
