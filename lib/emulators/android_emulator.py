@@ -1,4 +1,4 @@
-﻿import autoit
+import autoit
 import ctypes
 import logging
 import win32gui, win32ui, win32process, win32api, win32con
