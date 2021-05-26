@@ -358,19 +358,6 @@ class Game(Notifications):
             self.emulator.click_button(self.ui['MAIN_MENU'].button)
         return False
 
-    def go_to_lab(self):
-        """Go to Lab screen."""
-        self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_LAB']):
-                self.emulator.click_button(self.ui['MAIN_MENU_LAB'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['LAB_LABEL'])
-            logger.warning("Can't find Lab button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        return False
-
     def go_to_comic_cards(self):
         """Go to Comic Cards screen."""
         self.go_to_main_menu()

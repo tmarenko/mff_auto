@@ -19,7 +19,7 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battle import SquadBattle
 from lib.game.missions.world_boss import WorldBoss
-from lib.game.routines import DailyTrivia, ComicCards, CustomGear, ShieldLab, WaitUntil, Friends, Alliance
+from lib.game.routines import DailyTrivia, ComicCards, CustomGear, WaitUntil, Friends, Alliance
 from lib.game.dispatch_mission import DispatchMission
 import lib.logger as logging
 
@@ -152,7 +152,6 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         daily_trivia = _DailyTrivia(game)
         comic_cards = _ComicCards(game)
         custom_gear = _CustomGear(game)
-        collect_antimatter = _CollectAntiMatter(game)
         wait_boost_points = _WaitBoostPoints(game)
         wait_max_energy = _WaitMaxEnergy(game)
         wait_daily_reset = _WaitDailyReset(game)
@@ -167,9 +166,9 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         golden_gods = _GoldenGods(game)
         reset_world_boss = _ResetWorldBoss(game)
         acquire_dispatch_mission_rewards = _AcquireDispatchMissionRewards(game)
-        self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, collect_antimatter, friends_send_all,
-                        friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset,
-                        reset_world_boss, acquire_dispatch_mission_rewards]
+        self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, friends_send_all, friends_acquire_all,
+                        alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset, reset_world_boss,
+                        acquire_dispatch_mission_rewards]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -551,13 +550,6 @@ class _CustomGear(Action):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many time to upgrade"))
-
-
-class _CollectAntiMatter(Action):
-
-    def __init__(self, game):
-        self.shield_lab = ShieldLab(game)
-        super().__init__(game, "SHIELD LAB: COLLECT ANTI-MATTER", self.shield_lab.collect_antimatter)
 
 
 class _WaitBoostPoints(Action):

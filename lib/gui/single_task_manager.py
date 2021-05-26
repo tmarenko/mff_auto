@@ -1,7 +1,7 @@
 ﻿from multiprocess.context import Process
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
-from lib.game.routines import DailyTrivia, ShieldLab, ComicCards, CustomGear
+from lib.game.routines import DailyTrivia, ComicCards, CustomGear
 from lib.game.dispatch_mission import DispatchMission
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
@@ -183,18 +183,6 @@ class DangerRoomOneBattleTask(SingleTaskWithOptions):
             "NORMAL mode": {"times": 1, "mode": dr.MODE.NORMAL},
             "EXTREME mode": {"times": 1, "mode": dr.MODE.EXTREME}
         })
-
-
-class ShieldLabCollectAntimatterOneBattleTask(SingleTask):
-
-    def __init__(self, button, game: Game):
-        sl = ShieldLab(game)
-
-        @reset_emulator_and_logger(game=game)
-        def collect_antimatter():
-            return sl.collect_antimatter()
-
-        super().__init__(button, collect_antimatter, {})
 
 
 class RestartGameTask(SingleTask):

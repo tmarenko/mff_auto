@@ -80,22 +80,6 @@ class DailyTrivia(Notifications):
             return self.close_daily_trivia_answer_notification()
 
 
-class ShieldLab(Notifications):
-    """Class for working with Shield Lab."""
-
-    def collect_antimatter(self):
-        """Collect all available antimatter in the lab."""
-        self.game.go_to_lab()
-        r_sleep(1)  # Wait for button's animation
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1']):
-            logger.debug("Found COLLECT button with max lvl generator, collecting.")
-            self.emulator.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_1'].button)
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_2']):
-            logger.debug("Found COLLECT button with not max lvl generator, collecting.")
-            self.emulator.click_button(self.ui['LAB_ANTIMATTER_GENERATOR_COLLECT_2'].button)
-        self.game.go_to_main_menu()
-
-
 class EnhancePotential(Notifications):
     """Class for working with character's potential enhancement."""
 

@@ -11,7 +11,7 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battle import SquadBattle
 from lib.game.missions.world_boss import WorldBoss
-from lib.game.routines import DailyTrivia, ShieldLab, EnhancePotential
+from lib.game.routines import DailyTrivia,  EnhancePotential
 from lib.game.game import Game
 
 logger = logging.get_logger(__name__)
@@ -29,7 +29,6 @@ if __name__ == '__main__':
 
     # Daily routines
     dt = DailyTrivia(game).do_trivia()
-    sl = ShieldLab(game).collect_antimatter()
 
     # Missions
     wbi = WorldBossInvasion(game).do_missions()

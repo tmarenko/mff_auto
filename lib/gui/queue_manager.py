@@ -142,9 +142,10 @@ class QueueList:
             queue_items = []
             for settings in queue:
                 editor = QueueItemEditor.from_settings(game=self.game, settings=settings)
-                item = editor.render_queue_item()
-                item.set_checked(settings.get("checked", False))
-                queue_items.append(item)
+                if editor:
+                    item = editor.render_queue_item()
+                    item.set_checked(settings.get("checked", False))
+                    queue_items.append(item)
             self.stored_queues[queue_index] = queue_items
         self.change_queue(index=0)
 
