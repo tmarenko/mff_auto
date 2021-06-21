@@ -105,9 +105,13 @@ class GiantBossRaid(Missions):
                     if self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_2']):
                         logger.debug("Kicking emulator #2.")
                         self.emulator.click_button(self.ui['GBR_KICK_PLAYER_2'].button)
+                        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_OK']):
+                            self.emulator.click_button(self.ui['GBR_KICK_PLAYER_OK'].button)
                     if self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_3']):
                         logger.debug("Kicking emulator #3.")
                         self.emulator.click_button(self.ui['GBR_KICK_PLAYER_3'].button)
+                        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['GBR_KICK_PLAYER_OK']):
+                            self.emulator.click_button(self.ui['GBR_KICK_PLAYER_OK'].button)
                 r_sleep(1)
                 waiting_time += 1
             if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['GBR_START_BUTTON']):

@@ -260,6 +260,27 @@
     }
   },
   {
+    "GBR_KICK_PLAYER_OK": {
+      "text_rect": {
+        "x1": 0.5543229222053108,
+        "y1": 0.7117092046851515,
+        "x2": 0.5991859404562513,
+        "y2": 0.7701972877382294
+      },
+      "button_rect": {
+        "x1": 0.5543229222053108,
+        "y1": 0.7117092046851515,
+        "x2": 0.5991859404562513,
+        "y2": 0.7701972877382294
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "GBR_KICK_PLAYER_OK",
+      "description": "Giant Boss Raid: confirm to kick player. Leads to OK button."
+    }
+  },
+  {
     "GBR_KICK_PLAYER_2": {
       "text_rect": {
         "x1": 0.8406985220404806,
