@@ -7,6 +7,7 @@ import importlib.util
 import urllib.request as request
 import urllib.error as urlib_error
 import version as current_version_module
+from http.client import InvalidURL
 from distutils.version import StrictVersion
 from distutils.dir_util import copy_tree
 
@@ -74,10 +75,14 @@ class Updater:
         with open(self.NEW_VERSION_FILE, "wb") as file:
             req = request.Request(self.GITHUB_VERSION_LINK)
             req.add_header('Cache-Control', 'max-age=0')
-            with request.urlopen(req) as url_file:
-                content = url_file.read()
-                file.write(content)
-                return file.name
+            try:
+                with request.urlopen(req) as url_file:
+                    content = url_file.read()
+                    file.write(content)
+                    return file.name
+            except InvalidURL as err:
+                logger.error(f"Got error while trying to access URL: {req.full_url}\n{err}")
+                return None
 
     def check_updates(self):
         """Check updates in GitHub.
@@ -85,6 +90,8 @@ class Updater:
         :return: True or False: was new version found or not.
         """
         self.new_version_file = self.download_version_file()
+        if not self.new_version_file:
+            return False
         new_version_module = self.import_version_file(version_file_path=self.new_version_file)
         self.new_version = Version(version_module=new_version_module)
         if self.new_version.updater > self.current_version.updater:
