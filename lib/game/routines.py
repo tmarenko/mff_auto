@@ -315,6 +315,7 @@ class CustomGear(Notifications):
 
 class WaitUntil(Notifications):
     """Class for working with waiting different events."""
+    GAME_RESET_HOUR_UTC = 15
 
     def wait_until_boost_points(self, value=100):
         """Wait until boost points value is equal or greater then given amount.
@@ -333,8 +334,10 @@ class WaitUntil(Notifications):
             sleep(120)
         logger.debug(f"Current energy: {self.game.energy}, done.")
 
-    def wait_until_daily_reset(self):
+    def wait_until_daily_reset(self, hour_offset=0):
         """Wait until game's daily reset."""
+        if not isinstance(hour_offset, int):
+            hour_offset = 0
         try:
             with request.urlopen("http://worldtimeapi.org/api/timezone/Etc/UTC") as url_data:
                 content = url_data.read()
@@ -345,8 +348,9 @@ class WaitUntil(Notifications):
             sleep(10)
             return self.wait_until_daily_reset()
         current_time = datetime.strptime(time_data['datetime'][:-6], '%Y-%m-%dT%H:%M:%S.%f')
-        logger.debug(f"Current time is {current_time} (UTC timezone), waiting until 3 PM.")
-        while current_time.hour < 15:
+        logger.debug(f"Current time is {current_time} (UTC timezone), "
+                     f"waiting until {self.GAME_RESET_HOUR_UTC - hour_offset}:00.")
+        while current_time.hour < self.GAME_RESET_HOUR_UTC - hour_offset:
             sleep(60)
             current_time += timedelta(seconds=60)
         logger.debug(f"Current time is {current_time}, done.")

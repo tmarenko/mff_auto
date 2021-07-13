@@ -76,9 +76,12 @@ class QueueItem(QListWidgetItem):
     @property
     def name(self):
         """Get queue item's name for GUI."""
-        if self.parameters.get("action"):
-            return f"[Action] {self.mode_name.title()}"
         additional_text = ''
+        if self.parameters.get("action"):
+            hour_offset = self.parameters.get("hour_offset")
+            if hour_offset:
+                additional_text += f"[-{hour_offset} hour(s)]"
+            return f"[Action] {self.mode_name.title()} {additional_text}"
         farm_bios = self.parameters.get("farm_shifter_bios")
         battle = self.parameters.get("battle")
         mission_mode = self.parameters.get("mode")
@@ -597,6 +600,10 @@ class _WaitDailyReset(Action):
     def __init__(self, game):
         self.wait_until = WaitUntil(game)
         super().__init__(game, "WAIT DAILY RESET", self.wait_until.wait_until_daily_reset)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="hour_offset",
+                                                       text="Offset in hours before daily reset",
+                                                       initial_value=0, min=0, max=24))
 
 
 class _AcquireDispatchMissionRewards(Action):
