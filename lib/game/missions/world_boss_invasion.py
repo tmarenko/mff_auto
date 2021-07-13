@@ -140,12 +140,12 @@ class WorldBossInvasion(Missions):
 
         return [damage, chest, failed]
 
-    def do_missions(self, times=None):
+    def do_missions(self, times=None, ignore_coop_mission=False):
         """Do missions."""
-        self.start_missions(times=times)
+        self.start_missions(times=times, ignore_coop_mission=ignore_coop_mission)
         self.end_missions()
 
-    def start_missions(self, times=None):
+    def start_missions(self, times=None, ignore_coop_mission=False):
         """Start World Boss Invasion."""
         if self.open_world_boss_invasion():
             if self.chests > 0:
@@ -155,7 +155,7 @@ class WorldBossInvasion(Missions):
                 self._max_chests = times
             if self.chests < self.max_chests and self._find_boss_for_fight():
                 while self.chests < self.max_chests:
-                    if not self.press_start_button():
+                    if not self.press_start_button(ignore_coop_mission=ignore_coop_mission):
                         return
                     self._wait_for_players_and_start_fight()
         logger.info("No more stages.")
@@ -299,14 +299,14 @@ class WorldBossInvasion(Missions):
             return False
         return True
 
-    def press_start_button(self, start_button_ui='INVASION_BOSS_FIGHT_START'):
+    def press_start_button(self, start_button_ui='INVASION_BOSS_FIGHT_START', ignore_coop_mission=False):
         """Press start button of the mission.
 
         :return: was button clicked successfully.
         """
         logger.debug(f"Pressing START button with UI Element: {start_button_ui}.")
         if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui[start_button_ui]):
-            self._deploy_characters()
+            self._deploy_characters(ignore_coop_mission=ignore_coop_mission)
             self.emulator.click_button(self.ui[start_button_ui].button)
             if wait_until(self._check_notifications_before_fight, timeout=10):
                 return True
@@ -323,12 +323,12 @@ class WorldBossInvasion(Missions):
         logger.warning("Unable to press START button.")
         return False
 
-    def _deploy_characters(self):
+    def _deploy_characters(self, ignore_coop_mission=False):
         """Deploy 3 characters to battle."""
         no_main = self.emulator.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_MAIN'])
         no_left = self.emulator.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_LEFT'])
         no_right = self.emulator.is_image_on_screen(ui_element=self.ui['INVASION_NO_CHARACTER_RIGHT'])
-        if no_main or no_left or no_right:
+        if not ignore_coop_mission and (no_main or no_left or no_right):
             self._select_character_filter_by_mission()
         if no_main:
             self.emulator.click_button(self.ui['INVASION_CHARACTER_1'].button)

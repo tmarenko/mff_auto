@@ -914,6 +914,10 @@ class _WorldBossInvasion(GameMode):
                                                        setting_key="times",
                                                        text="Select how many times to complete",
                                                        min=1, max=5))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="ignore_coop_mission",
+                                                       text="Do not filter characters by Co-op mission",
+                                                       initial_state=False))
 
 
 class _DangerRoom(GameMode):
