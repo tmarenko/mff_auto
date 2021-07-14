@@ -149,7 +149,7 @@ class EnhancePotential(Notifications):
         :param material_to_use: name of materials to use in enhancement.
         """
         if not self.emulator.is_ui_element_on_screen(ui_element=self.ui['ENHANCE_POTENTIAL_LABEL']):
-            logger.error("Open Enhance Potential menu to enhance potential.")
+            logger.error("Open character's Enhance Potential menu to enhance the potential.")
             return
         if not isinstance(material_to_use, (list, tuple)):
             material_to_use = [material_to_use]

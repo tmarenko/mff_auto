@@ -578,6 +578,20 @@ Upgrade All</string>
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="enhance_potential_button">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Enhance Potential
+with 10% success rate</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>

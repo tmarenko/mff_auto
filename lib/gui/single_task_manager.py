@@ -1,7 +1,7 @@
 ﻿from multiprocess.context import Process
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
-from lib.game.routines import DailyTrivia, ComicCards, CustomGear
+from lib.game.routines import DailyTrivia, ComicCards, CustomGear, EnhancePotential
 from lib.game.dispatch_mission import DispatchMission
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
@@ -235,3 +235,22 @@ class DispatchMissionAcquireTask(SingleTask):
             return dm.acquire_all_rewards()
 
         super().__init__(button, acquire_all_rewards, {})
+
+
+class EnhancePotentialTask(SingleTaskWithOptions):
+
+    def __init__(self, button, game: Game):
+        ep = EnhancePotential(game)
+
+        @reset_emulator_and_logger(game=game)
+        def enhance_potential(*args, **kwargs):
+            return ep.enhance_potential(*args, **kwargs)
+
+        super().__init__(button, task_func=enhance_potential, task_options={
+            "Use Black Anti-Matter / Phoenix Feather": {"target_success_rate": 10.0,
+                                                        "material_to_use": (ep.BLACK_ANTI_MATTER,
+                                                                            ep.NORN_STONE_OF_CHAOS)},
+            "Use Norn Stone of Chaos / M'kraan Crystal":  {"target_success_rate": 10.0,
+                                                           "material_to_use": (ep.NORN_STONE_OF_CHAOS,
+                                                                               ep.BLACK_ANTI_MATTER)}
+        })

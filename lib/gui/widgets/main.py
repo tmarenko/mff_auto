@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QMainWindow
 import lib.gui.designes.main_window as design
 
 from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask, \
-    DangerRoomOneBattleTask, RestartGameTask, ComicCardsTask, CustomGearTask, DispatchMissionAcquireTask
+    DangerRoomOneBattleTask, RestartGameTask, ComicCardsTask, CustomGearTask, DispatchMissionAcquireTask, \
+    EnhancePotentialTask
 from lib.gui.queue_manager import QueueList
 from lib.gui.logger import QTextEditFileLogger
 from lib.gui.widgets.game_image import ScreenImageLabel
@@ -82,6 +83,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         comic_cards_button = self.create_blockable_button(button=self.comic_cards_button)
         custom_gear_button = self.create_blockable_button(button=self.custom_gear_button)
         dispatch_mission_button = self.create_blockable_button(button=self.dispatch_mission_rewards)
+        enhance_potential_button = self.create_blockable_button(button=self.enhance_potential_button)
         self.queue_list = QueueList(list_widget=self.queue_list_widget, run_and_stop_button=run_and_stop_button,
                                     add_button=self.add_queue_button, edit_button=self.edit_queue_button,
                                     remove_button=self.remove_queue_button, game=self.game,
@@ -96,6 +98,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.comic_cards = ComicCardsTask(game=self.game, button=comic_cards_button)
         self.custom_gear = CustomGearTask(game=self.game, button=custom_gear_button)
         self.dispatch_mission = DispatchMissionAcquireTask(game=self.game, button=dispatch_mission_button)
+        self.enhance_potential = EnhancePotentialTask(game=self.game, button=enhance_potential_button)
         self.screen_image = ScreenImageLabel(emulator=self.emulator, widget=self.screen_label)
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
         self.low_memory_mode_checkbox.stateChanged.connect(self.low_memory_mode_state_changed)
@@ -112,7 +115,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                                   self.restart_game_button, self.comic_cards_button, self.custom_gear_button,
                                   self.dispatch_mission_rewards]
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
-                      self.restart_game, self.comic_cards, self.custom_gear, self.dispatch_mission]
+                      self.restart_game, self.comic_cards, self.custom_gear, self.dispatch_mission,
+                      self.enhance_potential]
 
         if self.emulator.initialized and self.emulator.restartable:
             if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():

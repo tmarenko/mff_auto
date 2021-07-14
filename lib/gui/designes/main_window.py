@@ -230,6 +230,10 @@ class Ui_MainWindow(object):
         self.danger_room_button.setMinimumSize(QtCore.QSize(120, 50))
         self.danger_room_button.setObjectName("danger_room_button")
         self.verticalLayout.addWidget(self.danger_room_button)
+        self.enhance_potential_button = QtWidgets.QPushButton(self.quick_start_group)
+        self.enhance_potential_button.setMinimumSize(QtCore.QSize(120, 50))
+        self.enhance_potential_button.setObjectName("enhance_potential_button")
+        self.verticalLayout.addWidget(self.enhance_potential_button)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
         self.horizontalLayout_5.addWidget(self.quick_start_group)
@@ -331,5 +335,7 @@ class Ui_MainWindow(object):
 " All Battles"))
         self.danger_room_button.setText(_translate("MainWindow", "Danger Room:\n"
 " 1 Battle"))
+        self.enhance_potential_button.setText(_translate("MainWindow", "Enhance Potential\n"
+"with 10% success rate"))
         self.game_screen_group.setTitle(_translate("MainWindow", "Game Screen"))
         self.logs_group.setTitle(_translate("MainWindow", "Logs"))
