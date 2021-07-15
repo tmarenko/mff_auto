@@ -2,29 +2,8 @@
 from PyQt5.QtCore import Qt
 import lib.gui.designes.queue_editor_window as design
 from lib.gui.helper import set_default_icon, reset_emulator_and_logger
-
-from lib.game.missions.legendary_battle import LegendaryBattle
-from lib.game.missions.alliance_battle import AllianceBattle
-from lib.game.missions.dimension_mission import DimensionMission
-from lib.game.missions.epic_quest import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, \
-    TwistedWorld, TheBigTwin, VeiledSecret, TheFault, FateOfTheUniverse, DangerousSisters, CosmicRider, QuantumPower, \
-    WingsOfDarkness, InhumanPrincess, MeanAndGreen, ClobberinTime, Hothead, AwManThisGuy, DominoFalls, GoingRogue, \
-    FriendsAndEnemies, WeatheringTheStorm, Blindsided, DarkAdvent, IncreasingDarkness, RoadToMonastery, \
-    MysteriousAmbush, MonasteryInTrouble, PowerOfTheDark, StingOfTheScorpion, SelfDefenseProtocol, LegacyOfBlood, \
-    PlayingHero, GoldenGods
-from lib.game.missions.giant_boss_raid import GiantBossRaid
-from lib.game.missions.coop_play import CoopPlay
-from lib.game.missions.danger_room import DangerRoom
-from lib.game.missions.timeline import TimelineBattle
-from lib.game.missions.world_boss_invasion import WorldBossInvasion
-from lib.game.missions.squad_battle import SquadBattle
-from lib.game.missions.world_boss import WorldBoss
-from lib.game.routines.general import WaitUntil
-from lib.game.routines.alliance import Alliance
-from lib.game.routines.challanges import DailyTrivia, DailyRewards
-from lib.game.routines.friends import Friends
-from lib.game.routines.inventory import ComicCards, CustomGear
-from lib.game.routines.inbox import Inbox
+import lib.game.missions as missions
+import lib.game.routines as routines
 from lib.game.dispatch_mission import DispatchMission
 import lib.logger as logging
 
@@ -249,6 +228,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         :param menu: menu to populate.
         :param dictionary: dictionary of game modes.
         """
+
         def add_mode_to_menu(menu_obj, mode):
             action = menu_obj.addAction(mode.mode_name_formatted)
             action.triggered.connect(lambda: self.select_mode(mode))
@@ -542,28 +522,28 @@ class _RestartGame(Action):
 class _DailyTrivia(Action):
 
     def __init__(self, game):
-        self.daily_trivia = DailyTrivia(game)
+        self.daily_trivia = routines.DailyTrivia(game)
         super().__init__(game, "DAILY TRIVIA", self.daily_trivia.do_trivia)
 
 
 class _DailyRewards(Action):
 
     def __init__(self, game):
-        self.daily_rewards = DailyRewards(game)
+        self.daily_rewards = routines.DailyRewards(game)
         super().__init__(game, "DAILY REWARDS: ACQUIRE ALL", self.daily_rewards.acquire_all_daily_rewards)
 
 
 class _ComicCards(Action):
 
     def __init__(self, game):
-        self.comic_cards = ComicCards(game)
+        self.comic_cards = routines.ComicCards(game)
         super().__init__(game, "COMIC CARDS: UPGRADE ALL", self.comic_cards.upgrade_all_cards)
 
 
 class _CustomGear(Action):
 
     def __init__(self, game):
-        self.custom_gear = CustomGear(game)
+        self.custom_gear = routines.CustomGear(game)
         super().__init__(game, "CUSTOM GEAR: UPGRADE", self.custom_gear.quick_upgrade_gear)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
@@ -573,7 +553,7 @@ class _CustomGear(Action):
 class _WaitBoostPoints(Action):
 
     def __init__(self, game):
-        self.wait_until = WaitUntil(game)
+        self.wait_until = routines.WaitUntil(game)
         super().__init__(game, "WAIT FOR BOOST POINTS", self.wait_until.wait_until_boost_points)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="value",
@@ -585,35 +565,35 @@ class _WaitBoostPoints(Action):
 class _FriendsSendAll(Action):
 
     def __init__(self, game):
-        self.friends = Friends(game)
+        self.friends = routines.Friends(game)
         super().__init__(game, "FRIENDS: SEND ALL TOKENS", self.friends.send_all)
 
 
 class _FriendsAcquireAll(Action):
 
     def __init__(self, game):
-        self.friends = Friends(game)
+        self.friends = routines.Friends(game)
         super().__init__(game, "FRIENDS: ACQUIRE ALL TOKENS", self.friends.acquire_all)
 
 
 class _AllianceCheckIn(Action):
 
     def __init__(self, game):
-        self.alliance = Alliance(game)
+        self.alliance = routines.Alliance(game)
         super().__init__(game, "ALLIANCE: CHECK-IN", self.alliance.check_in)
 
 
 class _WaitMaxEnergy(Action):
 
     def __init__(self, game):
-        self.wait_until = WaitUntil(game)
+        self.wait_until = routines.WaitUntil(game)
         super().__init__(game, "WAIT FOR MAX ENERGY", self.wait_until.wait_until_max_energy)
 
 
 class _WaitDailyReset(Action):
 
     def __init__(self, game):
-        self.wait_until = WaitUntil(game)
+        self.wait_until = routines.WaitUntil(game)
         super().__init__(game, "WAIT DAILY RESET", self.wait_until.wait_until_daily_reset)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="hour_offset",
@@ -631,7 +611,7 @@ class _AcquireDispatchMissionRewards(Action):
 class _AcquireAllGifts(Action):
 
     def __init__(self, game):
-        self.inbox = Inbox(game)
+        self.inbox = routines.Inbox(game)
         super().__init__(game, "INBOX - GIFTS: ACQUIRE ALL", self.inbox.acquire_all_gifts)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="acquire_energy",
@@ -642,14 +622,21 @@ class _AcquireAllGifts(Action):
 class _AcquireAllChests(Action):
 
     def __init__(self, game):
-        self.inbox = Inbox(game)
+        self.inbox = routines.Inbox(game)
         super().__init__(game, "INBOX - CHESTS: ACQUIRE ALL", self.inbox.acquire_all_chests)
 
 
 class _LegendaryBattle(GameMode):
+    legendary_battles = {
+        "Thor: Ragnarok": missions.LegendaryBattle.THOR_RAGNAROK,
+        "Black Panther": missions.LegendaryBattle.BLACK_PANTHER,
+        "Infinity War": missions.LegendaryBattle.INFINITY_WAR,
+        "Ant-Man & The Wasp": missions.LegendaryBattle.ANT_MAN,
+        "Captain Marvel": missions.LegendaryBattle.CAPTAIN_MARVEL
+    }
 
     def __init__(self, game):
-        super().__init__(game, "LEGENDARY BATTLE", LegendaryBattle)
+        super().__init__(game, "LEGENDARY BATTLE", missions.LegendaryBattle)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -659,30 +646,27 @@ class _LegendaryBattle(GameMode):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select Legendary Battle mode",
-                                                       values_dict={"Normal": LegendaryBattle.MODE.NORMAL,
-                                                                    "Extreme": LegendaryBattle.MODE.EXTREME}))
+                                                       values_dict={
+                                                           "Normal": missions.LegendaryBattle.MODE.NORMAL,
+                                                           "Extreme": missions.LegendaryBattle.MODE.EXTREME}))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        text="Select Legendary Battle",
                                                        setting_key="battle",
-                                                       values_dict={"Thor: Ragnarok": LegendaryBattle.THOR_RAGNAROK,
-                                                                    "Black Panther": LegendaryBattle.BLACK_PANTHER,
-                                                                    "Infinity War": LegendaryBattle.INFINITY_WAR,
-                                                                    "Ant-Man & The Wasp": LegendaryBattle.ANT_MAN,
-                                                                    "Captain Marvel": LegendaryBattle.CAPTAIN_MARVEL}))
+                                                       values_dict=self.legendary_battles))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        text="Select Legendary Battle mission",
                                                        setting_key="stage",
                                                        values_dict={
-                                                           "Battle #1": LegendaryBattle.STAGE.BATTLE_1,
-                                                           "Battle #2": LegendaryBattle.STAGE.BATTLE_2,
-                                                           "Battle #3": LegendaryBattle.STAGE.BATTLE_3
+                                                           "Battle #1": missions.LegendaryBattle.STAGE.BATTLE_1,
+                                                           "Battle #2": missions.LegendaryBattle.STAGE.BATTLE_2,
+                                                           "Battle #3": missions.LegendaryBattle.STAGE.BATTLE_3
                                                        }))
 
 
 class _VeiledSecret(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "VEILED SECRET", VeiledSecret, "Veiled Secret [Feathers/Crystals]")
+        super().__init__(game, "VEILED SECRET", missions.VeiledSecret, "Veiled Secret [Feathers/Crystals]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -695,7 +679,7 @@ class _VeiledSecret(GameMode):
 class _MutualEnemy(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "MUTUAL ENEMY", MutualEnemy, "Mutual Enemy [Magneto]")
+        super().__init__(game, "MUTUAL ENEMY", missions.MutualEnemy, "Mutual Enemy [Magneto]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -713,7 +697,7 @@ class _MutualEnemy(GameMode):
 class _StupidXMen(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "STUPID X-MEN", StupidXMen, "Stupid X-Men [Colossus]")
+        super().__init__(game, "STUPID X-MEN", missions.StupidXMen, "Stupid X-Men [Colossus]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -731,7 +715,7 @@ class _StupidXMen(GameMode):
 class _TheBigTwin(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "THE BIG TWIN", TheBigTwin, "The Big Twin [Feathers/Crystals]")
+        super().__init__(game, "THE BIG TWIN", missions.TheBigTwin, "The Big Twin [Feathers/Crystals]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -744,7 +728,8 @@ class _TheBigTwin(GameMode):
 class _BeginningOfTheChaos(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "BEGINNING OF THE CHAOS", BeginningOfTheChaos, "Beginning Of The Chaos [Psylocke]")
+        super().__init__(game, "BEGINNING OF THE CHAOS", missions.BeginningOfTheChaos,
+                         "Beginning Of The Chaos [Psylocke]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -762,7 +747,7 @@ class _BeginningOfTheChaos(GameMode):
 class _TwistedWorld(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "TWISTED WORLD", TwistedWorld, "Twisted World [Victorious]")
+        super().__init__(game, "TWISTED WORLD", missions.TwistedWorld, "Twisted World [Victorious]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -780,7 +765,7 @@ class _TwistedWorld(GameMode):
 class _DoomsDay(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DOOM'S DAY", DoomsDay, "Doom's Day [Invisible Woman]")
+        super().__init__(game, "DOOM'S DAY", missions.DoomsDay, "Doom's Day [Invisible Woman]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -798,7 +783,7 @@ class _DoomsDay(GameMode):
 class _TheFault(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "THE FAULT", TheFault, "The Fault [Phyla-Vell]")
+        super().__init__(game, "THE FAULT", missions.TheFault, "The Fault [Phyla-Vell]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -816,7 +801,7 @@ class _TheFault(GameMode):
 class _FateOfTheUniverse(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "FATE OF THE UNIVERSE", FateOfTheUniverse, "Fate Of The Universe [Nova]")
+        super().__init__(game, "FATE OF THE UNIVERSE", missions.FateOfTheUniverse, "Fate Of The Universe [Nova]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -834,7 +819,7 @@ class _FateOfTheUniverse(GameMode):
 class _CoopPlay(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "CO-OP PLAY", CoopPlay)
+        super().__init__(game, "CO-OP PLAY", missions.CoopPlay)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -847,18 +832,20 @@ class _CoopPlay(GameMode):
 class _AllianceBattle(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "ALLIANCE BATTLE", AllianceBattle)
+        super().__init__(game, "ALLIANCE BATTLE", missions.AllianceBattle)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select Alliance Battle mode",
-                                                       values_dict={"All battles (Normal and Extreme)": AllianceBattle.MODE.ALL_BATTLES,
-                                                                    "Only Normal battle": AllianceBattle.MODE.NORMAL}))
+                                                       values_dict={
+                                                           "All battles (Normal and Extreme)": missions.AllianceBattle.MODE.ALL_BATTLES,
+                                                           "Only Normal battle": missions.AllianceBattle.MODE.NORMAL
+                                                       }))
 
 
 class _TimelineBattle(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "TIMELINE BATTLE", TimelineBattle)
+        super().__init__(game, "TIMELINE BATTLE", missions.TimelineBattle)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -873,9 +860,24 @@ class _TimelineBattle(GameMode):
 
 
 class _WorldBosses(GameMode):
+    world_bosses = {
+        "Today's Boss": missions.WorldBoss.BOSS.TODAYS_BOSS,
+        "Proxima Midnight": missions.WorldBoss.BOSS.PROXIMA_MIDNIGHT,
+        "Black Dwarf": missions.WorldBoss.BOSS.BLACK_DWARF,
+        "Corvus Glaive": missions.WorldBoss.BOSS.CORVUS_GLAIVE,
+        "Supergiant": missions.WorldBoss.BOSS.SUPERGIANT,
+        "Ebony Maw": missions.WorldBoss.BOSS.EBONY_MAW,
+        "Thanos": missions.WorldBoss.BOSS.THANOS,
+        "Quicksilver": missions.WorldBoss.BOSS.QUICKSILVER,
+        "Cable": missions.WorldBoss.BOSS.CABLE,
+        "Scarlet Witch": missions.WorldBoss.BOSS.SCARLET_WITCH,
+        "Apocalypse": missions.WorldBoss.BOSS.APOCALYPSE,
+        "Knull": missions.WorldBoss.BOSS.KNULL,
+        "Mephisto": missions.WorldBoss.BOSS.MEPHISTO
+    }
 
     def __init__(self, game):
-        super().__init__(game, "WORLD BOSS", WorldBoss)
+        super().__init__(game, "WORLD BOSS", missions.WorldBoss)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -886,26 +888,15 @@ class _WorldBosses(GameMode):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select World Boss mode",
-                                                       values_dict={"Beginner": WorldBoss.MODE.BEGINNER,
-                                                                    "Normal": WorldBoss.MODE.NORMAL,
-                                                                    "Ultimate / Legend": WorldBoss.MODE.ULTIMATE}))
+                                                       values_dict={
+                                                           "Beginner": missions.WorldBoss.MODE.BEGINNER,
+                                                           "Normal": missions.WorldBoss.MODE.NORMAL,
+                                                           "Ultimate / Legend": missions.WorldBoss.MODE.ULTIMATE
+                                                       }))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="boss",
                                                        text="Select World Boss",
-                                                       values_dict={"Today's Boss": WorldBoss.BOSS.TODAYS_BOSS,
-                                                                    "Proxima Midnight": WorldBoss.BOSS.PROXIMA_MIDNIGHT,
-                                                                    "Black Dwarf": WorldBoss.BOSS.BLACK_DWARF,
-                                                                    "Corvus Glaive": WorldBoss.BOSS.CORVUS_GLAIVE,
-                                                                    "Supergiant": WorldBoss.BOSS.SUPERGIANT,
-                                                                    "Ebony Maw": WorldBoss.BOSS.EBONY_MAW,
-                                                                    "Thanos": WorldBoss.BOSS.THANOS,
-                                                                    "Quicksilver": WorldBoss.BOSS.QUICKSILVER,
-                                                                    "Cable": WorldBoss.BOSS.CABLE,
-                                                                    "Scarlet Witch": WorldBoss.BOSS.SCARLET_WITCH,
-                                                                    "Apocalypse": WorldBoss.BOSS.APOCALYPSE,
-                                                                    "Knull": WorldBoss.BOSS.KNULL,
-                                                                    "Mephisto": WorldBoss.BOSS.MEPHISTO
-                                                                    }))
+                                                       values_dict=self.world_bosses))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="difficulty",
                                                        text="Select World Boss stage difficulty",
@@ -915,7 +906,7 @@ class _WorldBosses(GameMode):
 class _DimensionMissions(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DIMENSION MISSION", DimensionMission)
+        super().__init__(game, "DIMENSION MISSION", missions.DimensionMission)
 
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
@@ -935,18 +926,20 @@ class _DimensionMissions(GameMode):
 class _SquadBattles(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "SQUAD BATTLE", SquadBattle)
+        super().__init__(game, "SQUAD BATTLE", missions.SquadBattle)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select Squad Battle mode",
-                                                       values_dict={"All battles": SquadBattle.MODE.ALL_BATTLES,
-                                                                    "One daily (random)": SquadBattle.MODE.DAILY_RANDOM}))
+                                                       values_dict={
+                                                           "All battles": missions.SquadBattle.MODE.ALL_BATTLES,
+                                                           "One daily (random)": missions.SquadBattle.MODE.DAILY_RANDOM
+                                                       }))
 
 
 class _WorldBossInvasion(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "WORLD BOSS INVASION", WorldBossInvasion)
+        super().__init__(game, "WORLD BOSS INVASION", missions.WorldBossInvasion)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All available"))
@@ -963,7 +956,7 @@ class _WorldBossInvasion(GameMode):
 class _DangerRoom(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DANGER ROOM", DangerRoom)
+        super().__init__(game, "DANGER ROOM", missions.DangerRoom)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All available daily entries"))
@@ -973,14 +966,16 @@ class _DangerRoom(GameMode):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
                                                        setting_key="mode",
                                                        text="Select Danger Room mode",
-                                                       values_dict={"Normal": DangerRoom.MODE.NORMAL,
-                                                                    "Extreme": DangerRoom.MODE.EXTREME}))
+                                                       values_dict={
+                                                           "Normal": missions.DangerRoom.MODE.NORMAL,
+                                                           "Extreme": missions.DangerRoom.MODE.EXTREME
+                                                       }))
 
 
 class _DangerousSisters(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DANGEROUS SISTERS", DangerousSisters, "Dangerous Sisters [Nebula]")
+        super().__init__(game, "DANGEROUS SISTERS", missions.DangerousSisters, "Dangerous Sisters [Nebula]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -989,7 +984,7 @@ class _DangerousSisters(GameMode):
 class _CosmicRider(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "COSMIC RIDER", CosmicRider, "Cosmic Rider [Punisher]")
+        super().__init__(game, "COSMIC RIDER", missions.CosmicRider, "Cosmic Rider [Punisher]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -998,7 +993,7 @@ class _CosmicRider(GameMode):
 class _QuantumPower(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "QUANTUM POWER", QuantumPower, "Quantum Power [Gamora]")
+        super().__init__(game, "QUANTUM POWER", missions.QuantumPower, "Quantum Power [Gamora]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1011,7 +1006,7 @@ class _QuantumPower(GameMode):
 class _WingsOfDarkness(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "WINGS OF DARKNESS", WingsOfDarkness, "Wings Of Darkness [Darkhawk]")
+        super().__init__(game, "WINGS OF DARKNESS", missions.WingsOfDarkness, "Wings Of Darkness [Darkhawk]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1024,7 +1019,7 @@ class _WingsOfDarkness(GameMode):
 class _InhumanPrincess(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "INHUMAN PRINCESS", InhumanPrincess, "Inhuman Princess [Crystal]")
+        super().__init__(game, "INHUMAN PRINCESS", missions.InhumanPrincess, "Inhuman Princess [Crystal]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1033,7 +1028,7 @@ class _InhumanPrincess(GameMode):
 class _MeanAndGreen(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "MEAN AND GREEN", MeanAndGreen, "Mean And Green [She-Hulk]")
+        super().__init__(game, "MEAN AND GREEN", missions.MeanAndGreen, "Mean And Green [She-Hulk]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1042,7 +1037,7 @@ class _MeanAndGreen(GameMode):
 class _ClobberinTime(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "CLOBBERIN TIME", ClobberinTime, "Clobberin Time [Thing]")
+        super().__init__(game, "CLOBBERIN TIME", missions.ClobberinTime, "Clobberin Time [Thing]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1055,7 +1050,7 @@ class _ClobberinTime(GameMode):
 class _Hothead(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "HOTHEAD", Hothead, "Hothead [Human Torch]")
+        super().__init__(game, "HOTHEAD", missions.Hothead, "Hothead [Human Torch]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1068,7 +1063,7 @@ class _Hothead(GameMode):
 class _AwManThisGuy(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "AW MAN THIS GUY", AwManThisGuy, "Aw, Man. This Guy? [Fantomex]")
+        super().__init__(game, "AW MAN THIS GUY", missions.AwManThisGuy, "Aw, Man. This Guy? [Fantomex]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1081,7 +1076,7 @@ class _AwManThisGuy(GameMode):
 class _DominoFalls(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DOMINO FALLS", DominoFalls, "Domino Falls [Domino]")
+        super().__init__(game, "DOMINO FALLS", missions.DominoFalls, "Domino Falls [Domino]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1094,7 +1089,7 @@ class _DominoFalls(GameMode):
 class _GoingRogue(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "GOING ROGUE", GoingRogue, "Going Rogue [Rogue]")
+        super().__init__(game, "GOING ROGUE", missions.GoingRogue, "Going Rogue [Rogue]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1107,8 +1102,7 @@ class _GoingRogue(GameMode):
 class _FriendsAndEnemies(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "FRIENDS AND ENEMIES", FriendsAndEnemies, "Friends And Enemies [Beast]")
-
+        super().__init__(game, "FRIENDS AND ENEMIES", missions.FriendsAndEnemies, "Friends And Enemies [Beast]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1121,8 +1115,7 @@ class _FriendsAndEnemies(GameMode):
 class _WeatheringTheStorm(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "WEATHERING THE STORM", WeatheringTheStorm, "Weathering The Storm [Storm]")
-
+        super().__init__(game, "WEATHERING THE STORM", missions.WeatheringTheStorm, "Weathering The Storm [Storm]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1135,7 +1128,7 @@ class _WeatheringTheStorm(GameMode):
 class _Blindsided(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "BLINDSIDED", Blindsided, "Blindsided [Cyclops]")
+        super().__init__(game, "BLINDSIDED", missions.Blindsided, "Blindsided [Cyclops]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1144,7 +1137,7 @@ class _Blindsided(GameMode):
 class _DarkAdvent(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "DARK ADVENT", DarkAdvent, "Dark Advent [Satana/Cleo]")
+        super().__init__(game, "DARK ADVENT", missions.DarkAdvent, "Dark Advent [Satana/Cleo]")
 
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
@@ -1159,7 +1152,8 @@ class _DarkAdvent(GameMode):
 class _IncreasingDarkness(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "INCREASING DARKNESS", IncreasingDarkness, "Increasing Darkness [Hellstorm/Cleo]")
+        super().__init__(game, "INCREASING DARKNESS", missions.IncreasingDarkness,
+                         "Increasing Darkness [Hellstorm/Cleo]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1173,7 +1167,7 @@ class _IncreasingDarkness(GameMode):
 class _RoadToMonastery(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "ROAD TO MONASTERY", RoadToMonastery, "Road To Monastery [Baron Mordo]")
+        super().__init__(game, "ROAD TO MONASTERY", missions.RoadToMonastery, "Road To Monastery [Baron Mordo]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1186,8 +1180,7 @@ class _RoadToMonastery(GameMode):
 class _MysteriousAmbush(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "MYSTERIOUS AMBUSH", MysteriousAmbush, "Mysterious Ambush [Wong]")
-
+        super().__init__(game, "MYSTERIOUS AMBUSH", missions.MysteriousAmbush, "Mysterious Ambush [Wong]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1200,8 +1193,8 @@ class _MysteriousAmbush(GameMode):
 class _MonasteryInTrouble(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "MONASTERY IN TROUBLE", MonasteryInTrouble, "Monastery In Trouble [Ancient One]")
-
+        super().__init__(game, "MONASTERY IN TROUBLE", missions.MonasteryInTrouble,
+                         "Monastery In Trouble [Ancient One]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1214,8 +1207,7 @@ class _MonasteryInTrouble(GameMode):
 class _PowerOfTheDark(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "POWER OF THE DARK", PowerOfTheDark, "Power Of The Dark [Kaecilius]")
-
+        super().__init__(game, "POWER OF THE DARK", missions.PowerOfTheDark, "Power Of The Dark [Kaecilius]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1227,7 +1219,7 @@ class _PowerOfTheDark(GameMode):
 
 class _GiantBossRaid(GameMode):
     def __init__(self, game):
-        super().__init__(game, "GIANT BOSS RAID", GiantBossRaid)
+        super().__init__(game, "GIANT BOSS RAID", missions.GiantBossRaid)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1239,7 +1231,7 @@ class _GiantBossRaid(GameMode):
 class _StingOfTheScorpion(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "STING OF THE SCORPION", StingOfTheScorpion, "Sting Of The Scorpion [Scorpion]")
+        super().__init__(game, "STING OF THE SCORPION", missions.StingOfTheScorpion, "Sting Of The Scorpion [Scorpion]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1248,7 +1240,8 @@ class _StingOfTheScorpion(GameMode):
 class _SelfDefenseProtocol(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "STING OF THE SCORPION", SelfDefenseProtocol, "Self-Defense Protocol [Green Goblin]")
+        super().__init__(game, "STING OF THE SCORPION", missions.SelfDefenseProtocol,
+                         "Self-Defense Protocol [Green Goblin]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
                                                        text="Select how many stages to complete"))
@@ -1257,7 +1250,7 @@ class _SelfDefenseProtocol(GameMode):
 class _LegacyOfBlood(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "LEGACY OF BLOOD", LegacyOfBlood, "Legacy Of Blood [Daken]")
+        super().__init__(game, "LEGACY OF BLOOD", missions.LegacyOfBlood, "Legacy Of Blood [Daken]")
 
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="times",
@@ -1271,7 +1264,7 @@ class _LegacyOfBlood(GameMode):
 class _PlayingHero(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "PLAYING HERO", PlayingHero, "Playing Hero [Moonstone]")
+        super().__init__(game, "PLAYING HERO", missions.PlayingHero, "Playing Hero [Moonstone]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -1289,7 +1282,7 @@ class _PlayingHero(GameMode):
 class _GoldenGods(GameMode):
 
     def __init__(self, game):
-        super().__init__(game, "GOLDEN GODS", GoldenGods, "Golden Gods [Ares]")
+        super().__init__(game, "GOLDEN GODS", missions.GoldenGods, "Golden Gods [Ares]")
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
                                                        setting_key="all_stages",
                                                        text="All stages"))
@@ -1305,9 +1298,24 @@ class _GoldenGods(GameMode):
 
 
 class _ResetWorldBoss(Action):
+    world_bosses = {
+        "Proxima Midnight": missions.WorldBoss.BOSS_OF_THE_DAY.PROXIMA_MIDNIGHT,
+        "Black Dwarf": missions.WorldBoss.BOSS_OF_THE_DAY.BLACK_DWARF,
+        "Corvus Glave": missions.WorldBoss.BOSS_OF_THE_DAY.CORVUS_GLAIVE,
+        "Supergiant": missions.WorldBoss.BOSS_OF_THE_DAY.SUPERGIANT,
+        "Ebony Maw": missions.WorldBoss.BOSS_OF_THE_DAY.EBONY_MAW,
+        "Thanos": missions.WorldBoss.BOSS_OF_THE_DAY.THANOS,
+        "Quicksilver": missions.WorldBoss.BOSS_OF_THE_DAY.QUICKSILVER,
+        "Cable": missions.WorldBoss.BOSS_OF_THE_DAY.CABLE,
+        "Scarlet Witch": missions.WorldBoss.BOSS_OF_THE_DAY.SCARLET_WITCH,
+        "Apocalypse": missions.WorldBoss.BOSS_OF_THE_DAY.APOCALYPSE,
+        "Knull": missions.WorldBoss.BOSS_OF_THE_DAY.KNULL,
+        "Mephisto": missions.WorldBoss.BOSS_OF_THE_DAY.MEPHISTO
+
+    }
 
     def __init__(self, game):
-        self.world_boss = WorldBoss(game)
+        self.world_boss = missions.WorldBoss(game)
         super().__init__(game, "RESET TODAY'S WORLD BOSS", self.world_boss.change_world_boss_of_the_day)
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="max_resets",
@@ -1315,16 +1323,4 @@ class _ResetWorldBoss(Action):
                                                        min=0, max=99, initial_value=99))
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.MultiCheckbox,
                                                        setting_key="world_boss",
-                                                       values_dict={"Proxima Midnight": WorldBoss.BOSS_OF_THE_DAY.PROXIMA_MIDNIGHT,
-                                                                    "Black Dwarf": WorldBoss.BOSS_OF_THE_DAY.BLACK_DWARF,
-                                                                    "Corvus Glave": WorldBoss.BOSS_OF_THE_DAY.CORVUS_GLAIVE,
-                                                                    "Supergiant": WorldBoss.BOSS_OF_THE_DAY.SUPERGIANT,
-                                                                    "Ebony Maw": WorldBoss.BOSS_OF_THE_DAY.EBONY_MAW,
-                                                                    "Thanos": WorldBoss.BOSS_OF_THE_DAY.THANOS,
-                                                                    "Quicksilver": WorldBoss.BOSS_OF_THE_DAY.QUICKSILVER,
-                                                                    "Cable": WorldBoss.BOSS_OF_THE_DAY.CABLE,
-                                                                    "Scarlet Witch": WorldBoss.BOSS_OF_THE_DAY.SCARLET_WITCH,
-                                                                    "Apocalypse": WorldBoss.BOSS_OF_THE_DAY.APOCALYPSE,
-                                                                    "Knull": WorldBoss.BOSS_OF_THE_DAY.KNULL,
-                                                                    "Mephisto": WorldBoss.BOSS_OF_THE_DAY.MEPHISTO
-                                                                    }))
+                                                       values_dict=self.world_bosses))

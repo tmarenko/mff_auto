@@ -1,13 +1,9 @@
 ﻿from multiprocess.context import Process
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
-from lib.game.routines.challanges import DailyTrivia
-from lib.game.routines.inventory import ComicCards, CustomGear
-from lib.game.routines.enhance_potential import EnhancePotential
+import lib.game.missions as missions
+import lib.game.routines as routines
 from lib.game.dispatch_mission import DispatchMission
-from lib.game.missions.danger_room import DangerRoom
-from lib.game.missions.world_boss_invasion import WorldBossInvasion
-from lib.game.missions.squad_battle import SquadBattle
 from lib.gui.threading import ThreadPool
 from lib.gui.helper import safe_process_stop, reset_emulator_and_logger
 import lib.logger as logging
@@ -139,7 +135,7 @@ class AutoPlayTask(SingleTask):
 class DailyTriviaTask(SingleTask):
 
     def __init__(self, button, game: Game):
-        dt = DailyTrivia(game)
+        dt = routines.DailyTrivia(game)
 
         @reset_emulator_and_logger(game=game)
         def do_trivia():
@@ -151,7 +147,7 @@ class DailyTriviaTask(SingleTask):
 class WorldBossInvasionTask(SingleTask):
 
     def __init__(self, button, game: Game):
-        wbi = WorldBossInvasion(game)
+        wbi = missions.WorldBossInvasion(game)
 
         @reset_emulator_and_logger(game=game)
         def do_missions(*args, **kwargs):
@@ -163,19 +159,19 @@ class WorldBossInvasionTask(SingleTask):
 class SquadBattleAllTask(SingleTask):
 
     def __init__(self, button, game: Game):
-        sb = SquadBattle(game)
+        sb = missions.SquadBattle(game)
 
         @reset_emulator_and_logger(game=game)
         def do_missions(*args, **kwargs):
             return sb.do_missions(*args, **kwargs)
 
-        super().__init__(button, do_missions, {"mode": SquadBattle.MODE.ALL_BATTLES})
+        super().__init__(button, do_missions, {"mode": missions.SquadBattle.MODE.ALL_BATTLES})
 
 
 class DangerRoomOneBattleTask(SingleTaskWithOptions):
 
     def __init__(self, button, game: Game):
-        dr = DangerRoom(game)
+        dr = missions.DangerRoom(game)
 
         @reset_emulator_and_logger(game=game)
         def do_missions(*args, **kwargs):
@@ -203,7 +199,7 @@ class RestartGameTask(SingleTask):
 class ComicCardsTask(SingleTask):
 
     def __init__(self, button, game: Game):
-        cc = ComicCards(game)
+        cc = routines.ComicCards(game)
 
         @reset_emulator_and_logger(game=game)
         def upgrade_all_cards():
@@ -215,7 +211,7 @@ class ComicCardsTask(SingleTask):
 class CustomGearTask(SingleTaskWithOptions):
 
     def __init__(self, button, game: Game):
-        cg = CustomGear(game)
+        cg = routines.CustomGear(game)
 
         @reset_emulator_and_logger(game=game)
         def quick_upgrade_gear(*args, **kwargs):
@@ -242,7 +238,7 @@ class DispatchMissionAcquireTask(SingleTask):
 class EnhancePotentialTask(SingleTaskWithOptions):
 
     def __init__(self, button, game: Game):
-        ep = EnhancePotential(game)
+        ep = routines.EnhancePotential(game)
 
         @reset_emulator_and_logger(game=game)
         def enhance_potential(*args, **kwargs):
