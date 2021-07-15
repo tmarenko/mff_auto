@@ -11,7 +11,8 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battle import SquadBattle
 from lib.game.missions.world_boss import WorldBoss
-from lib.game.routines import DailyTrivia,  EnhancePotential
+from lib.game.routines.challenges import DailyTrivia
+from lib.game.routines.enhance_potential import EnhancePotential
 from lib.game.game import Game
 
 logger = logging.get_logger(__name__)

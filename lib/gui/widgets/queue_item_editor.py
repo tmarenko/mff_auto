@@ -19,7 +19,12 @@ from lib.game.missions.timeline import TimelineBattle
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
 from lib.game.missions.squad_battle import SquadBattle
 from lib.game.missions.world_boss import WorldBoss
-from lib.game.routines import DailyTrivia, ComicCards, CustomGear, WaitUntil, Friends, Alliance, Inbox
+from lib.game.routines.general import WaitUntil
+from lib.game.routines.alliance import Alliance
+from lib.game.routines.challanges import DailyTrivia
+from lib.game.routines.friends import Friends
+from lib.game.routines.inventory import ComicCards, CustomGear
+from lib.game.routines.inbox import Inbox
 from lib.game.dispatch_mission import DispatchMission
 import lib.logger as logging
 

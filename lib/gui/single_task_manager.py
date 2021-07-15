@@ -1,7 +1,9 @@
 ﻿from multiprocess.context import Process
 from lib.game.game import Game
 from lib.game.battle_bot import ManualBattleBot
-from lib.game.routines import DailyTrivia, ComicCards, CustomGear, EnhancePotential
+from lib.game.routines.challanges import DailyTrivia
+from lib.game.routines.inventory import ComicCards, CustomGear
+from lib.game.routines.enhance_potential import EnhancePotential
 from lib.game.dispatch_mission import DispatchMission
 from lib.game.missions.danger_room import DangerRoom
 from lib.game.missions.world_boss_invasion import WorldBossInvasion
