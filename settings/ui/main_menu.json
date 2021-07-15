@@ -884,6 +884,27 @@
     }
   },
   {
+    "MAIN_MENU_INBOX": {
+      "text_rect": {
+        "x1": 0.9058998265460138,
+        "y1": 0.4142444603856568,
+        "x2": 0.9513409093601491,
+        "y2": 0.44503039614766887
+      },
+      "button_rect": {
+        "x1": 0.9010822905456615,
+        "y1": 0.29179513694126324,
+        "x2": 0.959022926225576,
+        "y2": 0.3915600866662796
+      },
+      "text": "INBOX",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "main_menu_inbox",
+      "description": "Main Menu Inbox button."
+    }
+  },
+  {
     "CHALLENGE_COMPLETE_NOTIFICATION": {
       "text_rect": {
         "x1": 0.79757343550447,

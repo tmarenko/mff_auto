@@ -1002,5 +1002,269 @@
       "image_save_file": "alliance_check_in_close",
       "description": "Alliance check-in reward notification. Leads to OK button."
     }
+  },
+  {
+    "INBOX_LABEL": {
+      "text_rect": {
+        "x1": 0.04737081596968373,
+        "y1": 0.012510757277901676,
+        "x2": 0.12064707911288644,
+        "y2": 0.081633037249721
+      },
+      "button_rect": null,
+      "text": "INBOX",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_label",
+      "description": "Inbox menu label."
+    }
+  },
+  {
+    "INBOX_CHEST_TAB": {
+      "text_rect": {
+        "x1": 0.3531870570469278,
+        "y1": 0.15740169029575374,
+        "x2": 0.4204815844233385,
+        "y2": 0.19993847797071945
+      },
+      "button_rect": {
+        "x1": 0.3531870570469278,
+        "y1": 0.15740169029575374,
+        "x2": 0.4204815844233385,
+        "y2": 0.19993847797071945
+      },
+      "text": "CHEST",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_chest_menu",
+      "description": "Inbox Chest tab button."
+    }
+  },
+  {
+    "INBOX_GIFT_TAB": {
+      "text_rect": {
+        "x1": 0.587222468922667,
+        "y1": 0.16006023952543905,
+        "x2": 0.6373195059695506,
+        "y2": 0.19860920335587678
+      },
+      "button_rect": {
+        "x1": 0.587222468922667,
+        "y1": 0.16006023952543905,
+        "x2": 0.6373195059695506,
+        "y2": 0.19860920335587678
+      },
+      "text": "GIFT",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_gift_tab",
+      "description": "Inbox Gift tab button."
+    }
+  },
+  {
+    "INBOX_ACQUIRE_BUTTON": {
+      "text_rect": {
+        "x1": 0.8077989753231243,
+        "y1": 0.2916584263948644,
+        "x2": 0.8930387099999112,
+        "y2": 0.3461586856034143
+      },
+      "button_rect": {
+        "x1": 0.8077989753231243,
+        "y1": 0.2916584263948644,
+        "x2": 0.8930387099999112,
+        "y2": 0.3461586856034143
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_acquire_button",
+      "description": "Inbox: acquire button for first element."
+    }
+  },
+  {
+    "INBOX_ACQUIRE_ALL_BUTTON": {
+      "text_rect": {
+        "x1": 0.43767907475286555,
+        "y1": 0.8765392569256438,
+        "x2": 0.5640432428263479,
+        "y2": 0.9443322622826203
+      },
+      "button_rect": {
+        "x1": 0.43767907475286555,
+        "y1": 0.8765392569256438,
+        "x2": 0.5640432428263479,
+        "y2": 0.9443322622826203
+      },
+      "text": "ACQUIRE ALL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_acquire_all_button",
+      "description": "Inbox: acquire all button."
+    }
+  },
+  {
+    "INBOX_GIFT_ACQUIRE_ALL_TOGGLE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.44121850264897766,
+        "y1": 0.6157311742017736,
+        "x2": 0.45987142159236816,
+        "y2": 0.6519222742578795
+      },
+      "text": null,
+      "image_threshold": 0.7,
+      "chars": null,
+      "image_path": "repeat_toggle.png",
+      "image_save_file": "inbox_gift_acquire_all_toggle",
+      "description": "Inbox Acquire All: toggle for acquiring energy."
+    }
+  },
+  {
+    "INBOX_GIFT_ACQUIRE_ALL_NOTICE": {
+      "text_rect": {
+        "x1": 0.4219770183650365,
+        "y1": 0.40597604327133496,
+        "x2": 0.574511280418234,
+        "y2": 0.472439774013469
+      },
+      "button_rect": {
+        "x1": 0.5535752052344617,
+        "y1": 0.7130384792999941,
+        "x2": 0.6036722422813452,
+        "y2": 0.7755143861976
+      },
+      "text": "Collect all items?",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_gift_acquire_all_notice",
+      "description": "Inbox Gift: notice about acquiring all items. Leads to OK button."
+    }
+  },
+  {
+    "INBOX_GIFT_ACQUIRE_CLOSE_RESULTS": {
+      "text_rect": {
+        "x1": 0.4444085274905067,
+        "y1": 0.16537733798480989,
+        "x2": 0.5558183561470088,
+        "y2": 0.2344996179566292
+      },
+      "button_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7143677539148369,
+        "x2": 0.5229188094296525,
+        "y2": 0.7728558369679147
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_gift_acquire_close_results",
+      "description": "Inbox Gift: result of acquiring all items. Leads to OK button."
+    }
+  },
+  {
+    "INBOX_GIFT_ACQUIRE_CLOSE_ONE_RESULT": {
+      "text_rect": {
+        "x1": 0.44739939537390266,
+        "y1": 0.16537733798480989,
+        "x2": 0.5528274882636128,
+        "y2": 0.22785324488241582
+      },
+      "button_rect": {
+        "x1": 0.47656035723701395,
+        "y1": 0.7502581685155891,
+        "x2": 0.5244142433713505,
+        "y2": 0.8114048007983525
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_gift_acquire_close_one_result",
+      "description": "Inbox Gift: result of acquiring one item. Leads to OK button."
+    }
+  },
+  {
+    "INBOX_GIFT_ACQUIRE_NOTICE_NO_ITEMS": {
+      "text_rect": {
+        "x1": 0.45487656508239277,
+        "y1": 0.19860920335587678,
+        "x2": 0.5460980355259717,
+        "y2": 0.2597558356386401
+      },
+      "button_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7156970285296794,
+        "x2": 0.5266573942838976,
+        "y2": 0.7741851115827575
+      },
+      "text": "NOTICE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_gift_acquire_notice_no_items",
+      "description": "Inbox Gift: notice of failed acquiring with no new items. Leads to OK button."
+    }
+  },
+  {
+    "INBOX_CHEST_ACQUIRE_CLOSE_ONE_RESULT": {
+      "text_rect": {
+        "x1": 0.48029894209125895,
+        "y1": 0.7569045415898026,
+        "x2": 0.5236665264005015,
+        "y2": 0.808746251568667
+      },
+      "button_rect": {
+        "x1": 0.48029894209125895,
+        "y1": 0.7569045415898026,
+        "x2": 0.5236665264005015,
+        "y2": 0.808746251568667
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "inbox_chest_acquire_close_one_result",
+      "description": "Inbox Chest: notice of failed acquiring with no new items. Leads to OK button."
+    }
+  },
+  {
+    "INBOX_CHEST_ACQUIRE_ALL_NOTICE": {
+      "text_rect": {
+        "x1": 0.42795875413182854,
+        "y1": 0.4631348517095702,
+        "x2": 0.571520412534838,
+        "y2": 0.5269400332220189
+      },
+      "button_rect": {
+        "x1": 0.5543229222053109,
+        "y1": 0.7117092046851513,
+        "x2": 0.6006813743979492,
+        "y2": 0.7688680131233866
+      },
+      "text": "Claim All Chests?",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "inbox_chest_acquire_all_notice",
+      "description": "Inbox Chest: notice about acquiring all chests. Leads to OK button."
+    }
+  },
+  {
+    "INBOX_CHEST_ACQUIRE_CLOSE_RESULTS": {
+      "text_rect": {
+        "x1": 0.4735694893536179,
+        "y1": 0.8433073915545768,
+        "x2": 0.5251619603421994,
+        "y2": 0.9057832984521828
+      },
+      "button_rect": {
+        "x1": 0.4735694893536179,
+        "y1": 0.8433073915545768,
+        "x2": 0.5251619603421994,
+        "y2": 0.9057832984521828
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "inbox_gift_acquire_close_results",
+      "description": "Inbox Chest: result of acquiring all chests. Leads to OK button."
+    }
   }
 ]
