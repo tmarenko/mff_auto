@@ -113,7 +113,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                                   self.remove_queue_button, self.squad_battle_button, self.world_boss_invasion_button,
                                   self.daily_trivia_button, self.autoplay_button, self.danger_room_button,
                                   self.restart_game_button, self.comic_cards_button, self.custom_gear_button,
-                                  self.dispatch_mission_rewards]
+                                  self.dispatch_mission_rewards, self.enhance_potential_button]
         self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
                       self.restart_game, self.comic_cards, self.custom_gear, self.dispatch_mission,
                       self.enhance_potential]
