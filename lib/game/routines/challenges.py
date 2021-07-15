@@ -73,3 +73,24 @@ class DailyTrivia(Notifications):
             logger.warning(f"Selecting random answer: {random_answer}.")
             self.emulator.click_button(random_answer_ui.button)
             return self.close_daily_trivia_answer_notification()
+
+
+class DailyRewards(Notifications):
+    """Class for working Daily rewards."""
+
+    def acquire_all_daily_rewards(self):
+        self.game.go_to_challenges()
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DAILY_REWARDS_TAB']):
+            self.emulator.click_button(self.ui['DAILY_REWARDS_TAB'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['DAILY_REWARDS_ACQUIRE_ALL_BUTTON']):
+                logger.debug("Acquiring daily rewards.")
+                self.emulator.click_button(self.ui['DAILY_REWARDS_ACQUIRE_ALL_BUTTON'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=1,
+                              ui_element=self.ui['DAILY_REWARDS_ACQUIRE_ALL_CLOSE']):
+                    logger.info("Daily rewards acquired, exiting.")
+                    self.emulator.click_button(self.ui['DAILY_REWARDS_ACQUIRE_ALL_CLOSE'].button)
+                    return True
+            else:
+                logger.debug("No rewards to acquire.")
+        self.game.go_to_main_menu()

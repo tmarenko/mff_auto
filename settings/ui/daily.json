@@ -16,6 +16,69 @@
     }
   },
   {
+    "DAILY_REWARDS_TAB": {
+      "text_rect": {
+        "x1": 0.16251922948043085,
+        "y1": 0.1348040218434282,
+        "x2": 0.22308430411920047,
+        "y2": 0.1786700841332367
+      },
+      "button_rect": {
+        "x1": 0.16251922948043085,
+        "y1": 0.1348040218434282,
+        "x2": 0.22308430411920047,
+        "y2": 0.1786700841332367
+      },
+      "text": "DAILY",
+      "image_threshold": 125,
+      "chars": null,
+      "image_save_file": "daily_rewards_tab",
+      "description": "Challenges: Daily Rewards stage text and button."
+    }
+  },
+  {
+    "DAILY_REWARDS_ACQUIRE_ALL_BUTTON": {
+      "text_rect": {
+        "x1": 0.8549051444866118,
+        "y1": 0.22918251949725849,
+        "x2": 0.9423880300759457,
+        "y2": 0.26640220871285347
+      },
+      "button_rect": {
+        "x1": 0.8549051444866118,
+        "y1": 0.22918251949725849,
+        "x2": 0.9423880300759457,
+        "y2": 0.26640220871285347
+      },
+      "text": "ACQUIRE ALL",
+      "image_threshold": 125,
+      "chars": null,
+      "image_save_file": "daily_rewards_acquire_all_button",
+      "description": "Challenges: Daily Rewards 'Acquire All' button."
+    }
+  },
+  {
+    "DAILY_REWARDS_ACQUIRE_ALL_CLOSE": {
+      "text_rect": {
+        "x1": 0.48104665906210803,
+        "y1": 0.7662094638937013,
+        "x2": 0.5221710924588034,
+        "y2": 0.8220389977170939
+      },
+      "button_rect": {
+        "x1": 0.48104665906210803,
+        "y1": 0.7662094638937013,
+        "x2": 0.5221710924588034,
+        "y2": 0.8220389977170939
+      },
+      "text": "OK",
+      "image_threshold": 120,
+      "chars": "OK",
+      "image_save_file": "daily_rewards_acquire_all_close",
+      "description": "Challenges: Daily Rewards 'Acquire All' results. Leads to OK button."
+    }
+  },
+  {
     "DAILY_TRIVIA_STAGE": {
       "text_rect": {
         "x1": 0.4375,

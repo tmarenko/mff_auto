@@ -21,7 +21,7 @@ from lib.game.missions.squad_battle import SquadBattle
 from lib.game.missions.world_boss import WorldBoss
 from lib.game.routines.general import WaitUntil
 from lib.game.routines.alliance import Alliance
-from lib.game.routines.challanges import DailyTrivia
+from lib.game.routines.challanges import DailyTrivia, DailyRewards
 from lib.game.routines.friends import Friends
 from lib.game.routines.inventory import ComicCards, CustomGear
 from lib.game.routines.inbox import Inbox
@@ -176,9 +176,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         acquire_dispatch_mission_rewards = _AcquireDispatchMissionRewards(game)
         acquire_all_gifts = _AcquireAllGifts(game)
         acquire_all_chests = _AcquireAllChests(game)
-        self.actions = [restart_game, daily_trivia, comic_cards, custom_gear, friends_send_all, friends_acquire_all,
-                        alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset, reset_world_boss,
-                        acquire_dispatch_mission_rewards, acquire_all_gifts, acquire_all_chests]
+        daily_rewards = _DailyRewards(game)
+        self.actions = [restart_game, daily_trivia, daily_rewards, comic_cards, custom_gear, friends_send_all,
+                        friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset,
+                        reset_world_boss, acquire_dispatch_mission_rewards, acquire_all_gifts, acquire_all_chests]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -543,6 +544,13 @@ class _DailyTrivia(Action):
     def __init__(self, game):
         self.daily_trivia = DailyTrivia(game)
         super().__init__(game, "DAILY TRIVIA", self.daily_trivia.do_trivia)
+
+
+class _DailyRewards(Action):
+
+    def __init__(self, game):
+        self.daily_rewards = DailyRewards(game)
+        super().__init__(game, "DAILY REWARDS: ACQUIRE ALL", self.daily_rewards.acquire_all_daily_rewards)
 
 
 class _ComicCards(Action):
