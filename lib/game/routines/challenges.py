@@ -90,7 +90,6 @@ class DailyRewards(Notifications):
                               ui_element=self.ui['DAILY_REWARDS_ACQUIRE_ALL_CLOSE']):
                     logger.info("Daily rewards acquired, exiting.")
                     self.emulator.click_button(self.ui['DAILY_REWARDS_ACQUIRE_ALL_CLOSE'].button)
-                    return True
             else:
                 logger.debug("No rewards to acquire.")
         self.game.go_to_main_menu()
