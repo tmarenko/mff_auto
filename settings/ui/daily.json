@@ -1329,5 +1329,237 @@
       "image_save_file": "inbox_gift_acquire_close_results",
       "description": "Inbox Chest: result of acquiring all chests. Leads to OK button."
     }
+  },
+  {
+    "STORE_LABEL": {
+      "text_rect": {
+        "x1": 0.04886624991138173,
+        "y1": 0.016498581122429547,
+        "x2": 0.11466534334609442,
+        "y2": 0.07099884033097952
+      },
+      "button_rect": null,
+      "text": "STORE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_label",
+      "description": "Store menu label."
+    }
+  },
+  {
+    "STORE_COLLECT_ENERGY_PLUS_SIGN": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.47545583746833414,
+        "y1": 0.04051123995288863,
+        "x2": 0.4832839607484612,
+        "y2": 0.05543861097495583
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "store_collect_energy_plus_sign",
+      "description": "Plus button sign near energy tab."
+    }
+  },
+  {
+    "STORE_COLLECT_ENERGY_FREE": {
+      "text_rect": {
+        "x1": 0.3255215291255145,
+        "y1": 0.7768436608124428,
+        "x2": 0.38459116982258607,
+        "y2": 0.8406488423248915
+      },
+      "button_rect": {
+        "x1": 0.3255215291255145,
+        "y1": 0.7768436608124428,
+        "x2": 0.38459116982258607,
+        "y2": 0.8406488423248915
+      },
+      "text": "FREE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_collect_energy_free",
+      "description": "Store - Energy: button to collect daily free energy."
+    }
+  },
+  {
+    "STORE_COLLECT_ENERGY_FREE_PURCHASE": {
+      "text_rect": {
+        "x1": 0.5939519216603081,
+        "y1": 0.7555752669749598,
+        "x2": 0.6933982787832261,
+        "y2": 0.8193804484874085
+      },
+      "button_rect": {
+        "x1": 0.5939519216603081,
+        "y1": 0.7555752669749598,
+        "x2": 0.6933982787832261,
+        "y2": 0.8193804484874085
+      },
+      "text": "PURCHASE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_collect_energy_free_purchase",
+      "description": "Store - Energy: purchase button to collect daily free energy."
+    }
+  },
+  {
+    "STORE_COLLECT_ENERGY_FREE_PURCHASE_CLOSE": {
+      "text_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7489288939007465,
+        "x2": 0.5214233754879544,
+        "y2": 0.8127340754131951
+      },
+      "button_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7489288939007465,
+        "x2": 0.5214233754879544,
+        "y2": 0.8127340754131951
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "store_collect_energy_free_purchase_close",
+      "description": "Store - Energy: close results of purchase button to collect daily free energy."
+    }
+  },
+  {
+    "STORE_COLLECT_ENERGY_FREE_FULL": {
+      "text_rect": {
+        "x1": 0.4100135468314523,
+        "y1": 0.4644641263244128,
+        "x2": 0.586474751951818,
+        "y2": 0.5256107586071762
+      },
+      "button_rect": {
+        "x1": 0.47880350814956096,
+        "y1": 0.7143677539148366,
+        "x2": 0.5229188094296525,
+        "y2": 0.7701972877382294
+      },
+      "text": "Energy is already full.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_collect_energy_free_full",
+      "description": "Store - Energy: notification when trying to collect daily free energy with full energy."
+    }
+  },
+  {
+    "STORE_RECHARGE_ENERGY_VIA_POINTS": {
+      "text_rect": {
+        "x1": 0.5191802245754074,
+        "y1": 0.14676749337701225,
+        "x2": 0.683677958162189,
+        "y2": 0.19595065412619148
+      },
+      "button_rect": {
+        "x1": 0.5640432428263479,
+        "y1": 0.7781729354272855,
+        "x2": 0.6418058077946447,
+        "y2": 0.837990293095206
+      },
+      "text": "RECHARGE 25 ENERGY",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_points",
+      "description": "Store - Energy: recharge 25 energy via assemble points. Leads to 500 button."
+    }
+  },
+  {
+    "STORE_RECHARGE_ENERGY_VIA_POINTS_PURCHASE": {
+      "text_rect": {
+        "x1": 0.5894656198352142,
+        "y1": 0.7542459923601172,
+        "x2": 0.6941459957540752,
+        "y2": 0.8193804484874085
+      },
+      "button_rect": {
+        "x1": 0.5894656198352142,
+        "y1": 0.7542459923601172,
+        "x2": 0.6941459957540752,
+        "y2": 0.8193804484874085
+      },
+      "text": "PURCHASE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_points_purchase",
+      "description": "Store - Energy: purchase button to recharge 25 energy via assemble points."
+    }
+  },
+  {
+    "STORE_RECHARGE_ENERGY_VIA_POINTS_CANCEL": {
+      "text_rect": {
+        "x1": 0.34122358551334364,
+        "y1": 0.7582338162046454,
+        "x2": 0.4242201692775835,
+        "y2": 0.8207097231022513
+      },
+      "button_rect": {
+        "x1": 0.34122358551334364,
+        "y1": 0.7582338162046454,
+        "x2": 0.4242201692775835,
+        "y2": 0.8207097231022513
+      },
+      "text": "CANCEL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_points_cancel",
+      "description": "Store - Energy: cancel button to recharge 25 energy via assemble points."
+    }
+  },
+  {
+    "STORE_RECHARGE_ENERGY_VIA_MINUS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.40552724500635834,
+        "y1": 0.6545503962469162,
+        "x2": 0.42795875413182854,
+        "y2": 0.6904408108476686
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_minus",
+      "description": "Store - Energy: minus button to recharge 25 energy via assemble points."
+    }
+  },
+  {
+    "STORE_RECHARGE_ENERGY_VIA_PLUS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5677818276805929,
+        "y1": 0.6505625724023881,
+        "x2": 0.5932042046894591,
+        "y2": 0.6944286346921966
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_plus",
+      "description": "Store - Energy: plus button to recharge 25 energy via assemble points."
+    }
+  },
+  {
+    "STORE_RECHARGE_ENERGY_VIA_NO_POINTS": {
+      "text_rect": {
+        "x1": 0.38160030193919,
+        "y1": 0.46446412632441286,
+        "x2": 0.6148879968440804,
+        "y2": 0.5269400332220189
+      },
+      "button_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7130384792999941,
+        "x2": 0.5259096773130485,
+        "y2": 0.7728558369679147
+      },
+      "text": "Not enough Assemble Points.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_no_points",
+      "description": "Store - Energy: not enough points notification. Leads to OK button."
+    }
   }
 ]

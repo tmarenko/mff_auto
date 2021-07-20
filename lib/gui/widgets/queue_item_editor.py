@@ -156,9 +156,12 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         acquire_all_gifts = _AcquireAllGifts(game)
         acquire_all_chests = _AcquireAllChests(game)
         daily_rewards = _DailyRewards(game)
+        collect_free_energy = _CollectFreeEnergy(game)
+        collect_energy_via_points = _CollectEnergyViaAssemblePoints(game)
         self.actions = [restart_game, daily_trivia, daily_rewards, comic_cards, custom_gear, friends_send_all,
-                        friends_acquire_all, alliance_check_in, wait_boost_points, wait_max_energy, wait_daily_reset,
-                        reset_world_boss, acquire_dispatch_mission_rewards, acquire_all_gifts, acquire_all_chests]
+                        friends_acquire_all, alliance_check_in, collect_free_energy, collect_energy_via_points,
+                        wait_boost_points, wait_max_energy, wait_daily_reset, reset_world_boss,
+                        acquire_dispatch_mission_rewards, acquire_all_gifts, acquire_all_chests,]
         self.modes = [dooms_day, beginning_of_the_chaos, mutual_enemy, fate_of_the_universe,
                       twisted_world, stupid_x_men, the_big_twin, veiled_secret, the_fault,
                       coop_play, timeline_battle, legendary_battles, squad_battles,
@@ -581,6 +584,23 @@ class _AllianceCheckIn(Action):
     def __init__(self, game):
         self.alliance = routines.Alliance(game)
         super().__init__(game, "ALLIANCE: CHECK-IN", self.alliance.check_in)
+
+
+class _CollectFreeEnergy(Action):
+
+    def __init__(self, game):
+        self.store = routines.EnergyStore(game)
+        super().__init__(game, "ENERGY: COLLECT FREE 24H", self.store.collect_free_energy)
+
+
+class _CollectEnergyViaAssemblePoints(Action):
+
+    def __init__(self, game):
+        self.store = routines.EnergyStore(game)
+        super().__init__(game, "ENERGY: COLLECT VIA ASSEMBLE POINTS", self.store.collect_energy_via_assemble_points)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="use_all_points",
+                                                       text="Use all available Assemble Points"))
 
 
 class _WaitMaxEnergy(Action):
