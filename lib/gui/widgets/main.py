@@ -185,10 +185,6 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards", True))
         self.low_memory_mode_checkbox.setChecked(game_settings.get("low_memory_mode", False))
-        # TODO: backwards compatability, remove after few updates
-        self.emulator_name = game_settings['player_name'] if 'player_name' in game_settings else self.emulator_name
-        self.emulator_type = game_settings['player_type'] if 'player_type' in game_settings else self.emulator_type
-        # TODO: end
         self.init_emulator_and_game()
         self.game.set_mission_team(self.mission_team_spin_box.value())
         self.game.set_timeline_team(self.timeline_team_spin_box.value())
@@ -231,10 +227,6 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         """Init emulator and game."""
         if not self.emulator_name:
             self.setup_gui_first_time()
-        # TODO: backwards compatability, remove after few updates
-        if self.emulator_type == "NoxWindow":
-            self.emulator_type = NoxPlayer.__name__
-        # TODO: end
         if self.emulator_type == NoxPlayer.__name__:
             self.emulator = NoxPlayer(self.emulator_name)
             if self.emulator.get_version() and self.emulator.get_version() < LooseVersion('7.0.0.0'):
