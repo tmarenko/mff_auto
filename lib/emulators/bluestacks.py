@@ -2,8 +2,11 @@
 import time
 import logging
 from lib.emulators.android_emulator import AndroidEmulator
+from distutils.version import LooseVersion
 
-BLUESTACKS_EXE = "Bluestacks.exe"
+BLUESTACKS_4_EXE = "Bluestacks.exe"
+BLUESTACKS_5_CHILD_NAME = "plrNativeInputWindow"
+BLUESTACKS_5_EXE = "HD-Player.exe"
 
 
 class BlueStacks(AndroidEmulator):
@@ -17,6 +20,13 @@ class BlueStacks(AndroidEmulator):
         :param key_handle_name: name of windows's key handler.
         """
         super().__init__(name=name, child_name=child_name, key_handle_name=key_handle_name)
+
+    def _set_params_by_version(self):
+        """Set params for BlueStacks by its version."""
+        version = self.get_version()
+        if version and version >= LooseVersion('5.0'):
+            self.child_name = BLUESTACKS_5_CHILD_NAME
+        self.update_windows()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
         """Get window's key handler.

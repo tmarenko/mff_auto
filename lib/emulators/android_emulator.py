@@ -44,6 +44,7 @@ class AndroidEmulator(object):
         self.screen_locked = False
         self.last_frame = None
         self.update_windows()
+        self._set_params_by_version()
         if self.initialized:
             logging.debug(f"Initialized {self.__class__.__name__} object with name {self.name} "
                           f"version {self.get_version()} "
@@ -77,6 +78,10 @@ class AndroidEmulator(object):
         if process_exe:
             self._version = LooseVersion(get_file_properties(process_exe).get("FileVersion"))
         return self._version
+
+    def _set_params_by_version(self):
+        """Set params for different versions of emulator"""
+        pass
 
     def update_windows(self):
         """Update window's handlers."""

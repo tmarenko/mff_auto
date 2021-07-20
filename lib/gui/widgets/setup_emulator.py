@@ -9,7 +9,7 @@ import lib.gui.designes.setup_game as game_design
 
 from lib.game.game import Game
 from lib.emulators.nox_player import NoxPlayer, NOX_EXE
-from lib.emulators.bluestacks import BlueStacks, BLUESTACKS_EXE
+from lib.emulators.bluestacks import BlueStacks, BLUESTACKS_4_EXE, BLUESTACKS_5_EXE
 from lib.game.ui import Rect
 import lib.logger as logging
 
@@ -94,7 +94,7 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
         try:
             process = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ, 0, process_id)
             process_exe = win32process.GetModuleFileNameEx(process, 0)
-            if any(exe_name in process_exe for exe_name in [NOX_EXE, BLUESTACKS_EXE]):
+            if any(exe_name in process_exe for exe_name in [NOX_EXE, BLUESTACKS_4_EXE, BLUESTACKS_5_EXE]):
                 self.add_process_to_list(process_name=name, process_id=process_id, process_exe=process_exe)
         except pywintypes.error:
             pass
@@ -110,7 +110,7 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
             return
         if NOX_EXE in process_exe:
             emulator = NoxPlayer(name=process_name)
-        if BLUESTACKS_EXE in process_exe:
+        if BLUESTACKS_4_EXE in process_exe or BLUESTACKS_5_EXE in process_exe:
             emulator = BlueStacks(name=process_name)
         if emulator.initialized:
             process = EmulatorProcess(emulator=emulator, process_name=process_name, process_id=process_id)
