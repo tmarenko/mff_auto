@@ -9,6 +9,8 @@ logger = logging.get_logger(__name__)
 class DimensionMission(Missions):
     """Class for working with Dimension Missions."""
 
+    MISSION_MULTIPLIER = 5  # How many missions needs to complete for one reward
+
     def __init__(self, game):
         """Class initialization.
 
@@ -21,12 +23,9 @@ class DimensionMission(Missions):
 
         :return: True or False: is Dimension Missions open.
         """
-        if self.game.go_to_mission_selection():
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_MISSION']):
-                self.emulator.click_button(self.ui['DM_MISSION'].button)
-                self.game.close_ads(timeout=5)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL'])
-        return False
+        self.game.select_mode(self.mode_name)
+        self.game.close_ads(timeout=5)
+        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL'])
 
     @property
     def stage_level(self):
@@ -99,7 +98,10 @@ class DimensionMission(Missions):
 
     def do_missions(self, times=0, difficulty=15, use_hidden_tickets=False, acquire_rewards=False):
         """Do missions."""
-        self.start_missions(times=times, difficulty=difficulty, use_hidden_tickets=use_hidden_tickets)
+        if times == 0:
+            times = self.MISSION_MULTIPLIER * self.stages
+        if times != 0:
+            self.start_missions(times=times, difficulty=difficulty, use_hidden_tickets=use_hidden_tickets)
         if acquire_rewards:
             self.acquire_rewards()
         self.end_missions()
