@@ -1,0 +1,460 @@
+[
+  {
+    "EVENT_LIST_DRAG_FROM": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7233069576171864,
+        "y1": 0.48041542170252505,
+        "x2": 0.9760352937641509,
+        "y2": 0.5282693078368617
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "event_list_drag_from",
+      "description": "Event: start position of dragging the list."
+    }
+  },
+  {
+    "EVENT_LIST_DRAG_TO": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7233069576171864,
+        "y1": 0.8140633500280379,
+        "x2": 0.9737921428516039,
+        "y2": 0.8579294123178464
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "event_list_drag_to",
+      "description": "Event: end position of dragging the list."
+    }
+  },
+  {
+    "EVENT_BUTTON_1_1": {
+      "text_rect": {
+        "x1": 0.7233663865283669,
+        "y1": 0.788477455844055,
+        "x2": 0.848876348914871,
+        "y2": 0.8571324780041942
+      },
+      "button_rect": {
+        "x1": 0.7233663865283669,
+        "y1": 0.788477455844055,
+        "x2": 0.848876348914871,
+        "y2": 0.8571324780041942
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_1_1",
+      "description": "Event button on main screen: #1 from bottom to top without scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_1_2": {
+      "text_rect": {
+        "x1": 0.7242440785730276,
+        "y1": 0.6987578246120553,
+        "x2": 0.8475598108478797,
+        "y2": 0.7666326760658291
+      },
+      "button_rect": {
+        "x1": 0.7242440785730276,
+        "y1": 0.6987578246120553,
+        "x2": 0.8475598108478797,
+        "y2": 0.7666326760658291
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_1_2",
+      "description": "Event button on main screen: #2 from bottom to top without scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_1_3": {
+      "text_rect": {
+        "x1": 0.7238052325506973,
+        "y1": 0.6090381933800554,
+        "x2": 0.8449267347138971,
+        "y2": 0.6769130448338292
+      },
+      "button_rect": {
+        "x1": 0.7238052325506973,
+        "y1": 0.6090381933800554,
+        "x2": 0.8449267347138971,
+        "y2": 0.6769130448338292
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_1_3",
+      "description": "Event button on main screen: #3 from bottom to top without scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_1_4": {
+      "text_rect": {
+        "x1": 0.7233663865283668,
+        "y1": 0.5200987328544207,
+        "x2": 0.8453655807362276,
+        "y2": 0.5856330721890989
+      },
+      "button_rect": {
+        "x1": 0.7233663865283668,
+        "y1": 0.5200987328544207,
+        "x2": 0.8453655807362276,
+        "y2": 0.5856330721890989
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_1_4",
+      "description": "Event button on main screen: #4 from bottom to top without scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_2_1": {
+      "text_rect": {
+        "x1": 0.7228805306401055,
+        "y1": 0.7640989230504723,
+        "x2": 0.8604153690112154,
+        "y2": 0.8320866662815425
+      },
+      "button_rect": {
+        "x1": 0.7228805306401055,
+        "y1": 0.7640989230504723,
+        "x2": 0.8604153690112154,
+        "y2": 0.8320866662815425
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_2_1",
+      "description": "Event button on main screen: #1 from bottom to top after scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_2_2": {
+      "text_rect": {
+        "x1": 0.7225296764605872,
+        "y1": 0.6749039938574171,
+        "x2": 0.8597136606521791,
+        "y2": 0.7416442555613116
+      },
+      "button_rect": {
+        "x1": 0.7225296764605872,
+        "y1": 0.6749039938574171,
+        "x2": 0.8597136606521791,
+        "y2": 0.7416442555613116
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_2_2",
+      "description": "Event button on main screen: #2 from bottom to top after scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_2_3": {
+      "text_rect": {
+        "x1": 0.7228805306401055,
+        "y1": 0.584461583137186,
+        "x2": 0.8590119522931429,
+        "y2": 0.6524493263682561
+      },
+      "button_rect": {
+        "x1": 0.7228805306401055,
+        "y1": 0.584461583137186,
+        "x2": 0.8590119522931429,
+        "y2": 0.6524493263682561
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_2_3",
+      "description": "Event button on main screen: #3 from bottom to top after scrolling."
+    }
+  },
+  {
+    "EVENT_BUTTON_2_4": {
+      "text_rect": {
+        "x1": 0.7228805306401055,
+        "y1": 0.4940191724169549,
+        "x2": 0.8597136606521791,
+        "y2": 0.562630656411613
+      },
+      "button_rect": {
+        "x1": 0.7228805306401055,
+        "y1": 0.4940191724169549,
+        "x2": 0.8597136606521791,
+        "y2": 0.562630656411613
+      },
+      "text": null,
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_button_2_4",
+      "description": "Event button on main screen: #4 from bottom to top after scrolling."
+    }
+  },
+  {
+    "EVENT_WORLD_BOSS_LABEL": {
+      "text_rect": {
+        "x1": 0.04737081596968373,
+        "y1": 0.015169306507586995,
+        "x2": 0.2193457192649554,
+        "y2": 0.07764521340519293
+      },
+      "button_rect": {
+        "x1": 0.04737081596968373,
+        "y1": 0.015169306507586995,
+        "x2": 0.2193457192649554,
+        "y2": 0.07764521340519293
+      },
+      "text": "EVENT WORLD BOSS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_boss_label",
+      "description": "Event World Boss mission label."
+    }
+  },
+  {
+    "EVENT_WORLD_BOSS_ENTER": {
+      "text_rect": {
+        "x1": 0.11391762637524536,
+        "y1": 0.8273560961764647,
+        "x2": 0.18868932346014614,
+        "y2": 0.8885027284592278
+      },
+      "button_rect": {
+        "x1": 0.11391762637524536,
+        "y1": 0.8273560961764647,
+        "x2": 0.18868932346014614,
+        "y2": 0.8885027284592278
+      },
+      "text": "ENTER",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_boss_enter",
+      "description": "Event World Boss enter button."
+    }
+  },
+  {
+    "EVENT_WORLD_BOSS_ALLIES": {
+      "text_rect": {
+        "x1": 0.678443939366246,
+        "y1": 0.218548322578517,
+        "x2": 0.7502247685677508,
+        "y2": 0.26906075794253886
+      },
+      "button_rect": null,
+      "text": "ALLIES",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_boss_allies",
+      "description": "Event World Boss: Allies label at the end of the battle."
+    }
+  },
+  {
+    "EVENT_WORLD_BOSS_LIMIT_REACHED": {
+      "text_rect": {
+        "x1": 0.45637199902409076,
+        "y1": 0.20126775258556223,
+        "x2": 0.5453503185551227,
+        "y2": 0.2597558356386401
+      },
+      "button_rect": {
+        "x1": 0.48029894209125895,
+        "y1": 0.7156970285296794,
+        "x2": 0.5236665264005015,
+        "y2": 0.7741851115827575
+      },
+      "text": "NOTICE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_boss_limit_reached",
+      "description": "Event World Boss: notice when all entries are used at the end of the battle. Leads to OK button."
+    }
+  },
+  {
+    "EVENT_WORLD_BOSS_HOME_BUTTON": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.40477952803550926,
+        "y1": 0.8765392569256438,
+        "x2": 0.4503902632572988,
+        "y2": 0.9469908115123059
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "event_world_boss_home_button",
+      "description": "Event World Boss: HOME button at the end of the battle."
+    }
+  },
+  {
+    "EVENT_WORLD_BOSS_REPEAT_BUTTON": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5498366203802166,
+        "y1": 0.8805270807701718,
+        "x2": 0.5939519216603081,
+        "y2": 0.9496493607419912
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "event_world_boss_repeat_button",
+      "description": "Event World Boss: REPEAT button at the end of the battle."
+    }
+  },
+  {
+    "EVENT_WORLD_LABEL": {
+      "text_rect": {
+        "x1": 0.04737081596968373,
+        "y1": 0.012510757277901676,
+        "x2": 0.176725851926562,
+        "y2": 0.08030376263487823
+      },
+      "button_rect": {
+        "x1": 0.04737081596968373,
+        "y1": 0.012510757277901676,
+        "x2": 0.176725851926562,
+        "y2": 0.08030376263487823
+      },
+      "text": "WORLD EVENT",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_label",
+      "description": "World Event mission label."
+    }
+  },
+  {
+    "EVENT_WORLD_LOBBY_READY_BUTTON": {
+      "text_rect": {
+        "x1": 0.7786380134600129,
+        "y1": 0.9031247492224974,
+        "x2": 0.8638777481367997,
+        "y2": 0.9656006561201034
+      },
+      "button_rect": {
+        "x1": 0.7786380134600129,
+        "y1": 0.9031247492224974,
+        "x2": 0.8638777481367997,
+        "y2": 0.9656006561201034
+      },
+      "text": "READY",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_lobby_ready_button",
+      "description": "World Event: Ready button in mission lobby."
+    }
+  },
+  {
+    "EVENT_WORLD_BATTLE_READY_BUTTON": {
+      "text_rect": {
+        "x1": 0.8220055977692555,
+        "y1": 0.8871734538443853,
+        "x2": 0.8982727287958542,
+        "y2": 0.9430029876677778
+      },
+      "button_rect": {
+        "x1": 0.8220055977692555,
+        "y1": 0.8871734538443853,
+        "x2": 0.8982727287958542,
+        "y2": 0.9430029876677778
+      },
+      "text": "Ready",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_battle_ready_button",
+      "description": "World Event: Ready button in team selector."
+    }
+  },
+  {
+    "EVENT_WORLD_SELECT_BATTLE_READY": {
+      "text_rect": {
+        "x1": 0.3890774716476801,
+        "y1": 0.016498581122429547,
+        "x2": 0.6104016950189863,
+        "y2": 0.08562086109424909
+      },
+      "button_rect": {
+        "x1": 0.11466534334609442,
+        "y1": 0.2225361464230451,
+        "x2": 0.3359895667174006,
+        "y2": 0.6399283754836467
+      },
+      "text": "Select Battle System",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_select_battle_ready",
+      "description": "World Event: menu of selecting battle system. Leads to READY selector."
+    }
+  },
+  {
+    "EVENT_WORLD_SELECT_BATTLE_READY_OK": {
+      "text_rect": {
+        "x1": 0.5618000919138009,
+        "y1": 0.6784773393140843,
+        "x2": 0.6074108271355902,
+        "y2": 0.7396239715968477
+      },
+      "button_rect": {
+        "x1": 0.5618000919138009,
+        "y1": 0.6784773393140843,
+        "x2": 0.6074108271355902,
+        "y2": 0.7396239715968477
+      },
+      "text": "OK",
+      "image_threshold": 120,
+      "chars": "OK",
+      "image_save_file": "event_world_select_battle_ready_ok",
+      "description": "World Event: conformation of selecting the battle. Leads to OK button."
+    }
+  },
+  {
+    "EVENT_WORLD_BATTLE_START_BUTTON": {
+      "text_rect": {
+        "x1": 0.772656277693221,
+        "y1": 0.8845149046147,
+        "x2": 0.8481756917489707,
+        "y2": 0.9469908115123059
+      },
+      "button_rect": {
+        "x1": 0.772656277693221,
+        "y1": 0.8845149046147,
+        "x2": 0.8481756917489707,
+        "y2": 0.9469908115123059
+      },
+      "text": "START",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_battle_start_button",
+      "description": "World Event: Start button in team selector."
+    }
+  },
+  {
+    "EVENT_WORLD_BATTLE_TOTAL_SCORE": {
+      "text_rect": {
+        "x1": 0.12064707911288644,
+        "y1": 0.4259151624939752,
+        "x2": 0.21785028532325743,
+        "y2": 0.4830739709322104
+      },
+      "button_rect": {
+        "x1": 0.40627496197720725,
+        "y1": 0.8512830392436328,
+        "x2": 0.4533811311406948,
+        "y2": 0.9177467699857669
+      },
+      "text": "TOTAL SCORE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_world_battle_total_score",
+      "description": "World Event: total score at the of the battle. Leads to HOME button."
+    }
+  }
+]

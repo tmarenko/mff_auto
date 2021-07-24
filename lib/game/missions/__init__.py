@@ -8,6 +8,7 @@ from .epic_quest import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, 
     FriendsAndEnemies, WeatheringTheStorm, Blindsided, DarkAdvent, IncreasingDarkness, RoadToMonastery, \
     MysteriousAmbush, MonasteryInTrouble, PowerOfTheDark, StingOfTheScorpion, SelfDefenseProtocol, LegacyOfBlood, \
     PlayingHero, GoldenGods
+from .events import EventWorldBoss, WorldEvent
 from .giant_boss_raid import GiantBossRaid
 from .legendary_battle import LegendaryBattle
 from .squad_battle import SquadBattle

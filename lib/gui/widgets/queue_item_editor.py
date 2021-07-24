@@ -39,6 +39,8 @@ class QueueItem(QListWidgetItem):
             parameters.pop("all_stages")  # Remove `all_stages` kwarg anyway
         if "action" in parameters.keys():
             parameters.pop("action")
+        if "event" in parameters.keys():
+            parameters.pop("event")
         return parameters
 
     def get_executor(self):
@@ -66,6 +68,8 @@ class QueueItem(QListWidgetItem):
             if hour_offset:
                 additional_text += f"[-{hour_offset} hour(s)]"
             return f"[Action] {self.mode_name.title()} {additional_text}"
+        if self.parameters.get("event"):
+            return f"[Event] {self.mode_name.title()} {additional_text}"
         farm_bios = self.parameters.get("farm_shifter_bios")
         battle = self.parameters.get("battle")
         mission_mode = self.parameters.get("mode")
@@ -158,6 +162,9 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         daily_rewards = _DailyRewards(game)
         collect_free_energy = _CollectFreeEnergy(game)
         collect_energy_via_points = _CollectEnergyViaAssemblePoints(game)
+        event_world_boss = _EventWorldBoss(game)
+        world_event = _WorldEvent(game)
+        self.events = [event_world_boss, world_event]
         self.actions = [restart_game, daily_trivia, daily_rewards, comic_cards, custom_gear, friends_send_all,
                         friends_acquire_all, alliance_check_in, collect_free_energy, collect_energy_via_points,
                         wait_boost_points, wait_max_energy, wait_daily_reset, reset_world_boss,
@@ -171,7 +178,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
                       friends_and_enemies, weathering_the_storm, blindsided, dark_advent, increasing_darkness,
                       road_to_monastery, mysterious_ambush, monastery_in_trouble, power_of_the_dark, giant_boss_raid,
                       sting_of_the_scorpion, self_defense_protocol, legacy_of_blood, playing_hero, golden_gods,
-                      *self.actions]
+                      *self.actions, *self.events]
         self.mode_names = [mode.mode_name for mode in self.modes]
         self.queue_item = None
         self.current_mode = None
@@ -179,6 +186,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
 
         menu_dict = {
             "[ACTIONS]": self.actions,
+            "[EVENTS]": self.events,
             "EPIC QUESTS": {
                 "DARK REIGN": [playing_hero, golden_gods, sting_of_the_scorpion, self_defense_protocol,
                                legacy_of_blood],
@@ -514,6 +522,20 @@ class Action(GameMode):
             return action_executable(*args, **kwargs)
 
         return action, {**self.render_execution_params(), "action": True}
+
+
+class Event(Action):
+    """Class for working with in-game mission events."""
+
+    def render_executable(self):
+        """Render function and settings for event."""
+        event_executable = self.action_executable  # Only function without class reference (GUI cannot be pickled)
+
+        @reset_emulator_and_logger(game=self.game)
+        def event(*args, **kwargs):
+            return event_executable(*args, **kwargs)
+
+        return event, {**self.render_execution_params(), "event": True}
 
 
 class _RestartGame(Action):
@@ -1346,3 +1368,17 @@ class _ResetWorldBoss(Action):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.MultiCheckbox,
                                                        setting_key="world_boss",
                                                        values_dict=self.world_bosses))
+
+
+class _EventWorldBoss(Event):
+
+    def __init__(self, game):
+        self.event_world_boss = missions.EventWorldBoss(game)
+        super().__init__(game, "EVENT WORLD BOSS", self.event_world_boss.complete_event_world_boss)
+
+
+class _WorldEvent(Event):
+
+    def __init__(self, game):
+        self.event_world_boss = missions.WorldEvent(game)
+        super().__init__(game, "WORLD EVENT", self.event_world_boss.complete_world_event)

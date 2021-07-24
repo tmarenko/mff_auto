@@ -156,7 +156,7 @@ class WorldBoss(Missions):
     def _start_world_boss_battle(self, check_inventory=True):
         """Start World Boss battle.
 
-        :param: deploy characters or not.
+        :param: check_inventory check for full inventory or not.
         """
         self.emulator.click_button(self.ui['WB_READY_BUTTON'].button)
         self.close_mission_notifications()
