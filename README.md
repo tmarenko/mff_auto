@@ -11,7 +11,7 @@ Also it can enable *Autoplay++* feature anywhere and do your daily routines.
 
 **Q**: Which Android emulators are supported?
 
-**A**: [NoxPlayer](https://bignox.com) and [BlueStacks](https://www.bluestacks.com).
+**A**: [NoxPlayer](https://bignox.com) (up to 7.0.1.0) and [BlueStacks](https://www.bluestacks.com).
 
 **Q**: Why are you suggesting to use **NoxPlayer**?
 
