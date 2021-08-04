@@ -144,7 +144,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_2",
-      "description": "Dispatch Mission: Acquire button in Sector 2."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 2."
     }
   },
   {
@@ -165,7 +165,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_3",
-      "description": "Dispatch Mission: Acquire button in Sector 3."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 3."
     }
   },
   {
@@ -186,7 +186,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_4",
-      "description": "Dispatch Mission: Acquire button in Sector 4."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 4."
     }
   },
   {
@@ -207,7 +207,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_5",
-      "description": "Dispatch Mission: Acquire button in Sector 5."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 5."
     }
   },
   {
@@ -228,7 +228,7 @@
       "image_threshold": 130,
       "chars": "ACQ",
       "image_save_file": "dispatch_acquire_sector_6",
-      "description": "Dispatch Mission: Acquire button in Sector 6."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 6."
     }
   },
   {
@@ -249,7 +249,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_7",
-      "description": "Dispatch Mission: Acquire button in Sector 7."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 7."
     }
   },
   {
@@ -270,7 +270,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_8",
-      "description": "Dispatch Mission: Acquire button in Sector 8."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 8."
     }
   },
   {
@@ -291,7 +291,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_9",
-      "description": "Dispatch Mission: Acquire button in Sector 9."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 9."
     }
   },
   {
@@ -312,7 +312,7 @@
       "image_threshold": 130,
       "chars": null,
       "image_save_file": "dispatch_acquire_sector_10",
-      "description": "Dispatch Mission: Acquire button in Sector 10."
+      "description": "DEPRECATED: Dispatch Mission: Acquire button in Sector 10."
     }
   },
   {
@@ -334,6 +334,27 @@
       "chars": "OK",
       "image_save_file": "dispatch_acquire_ok_button",
       "description": "Dispatch Mission: OK button after acquiring rewards in sector."
+    }
+  },
+  {
+    "DISPATCH_NEXT_REWARD": {
+      "text_rect": {
+        "x1": 0.5139462057794643,
+        "y1": 0.7436117954413758,
+        "x2": 0.6477875435614368,
+        "y2": 0.8047584277241392
+      },
+      "button_rect": {
+        "x1": 0.5139462057794643,
+        "y1": 0.7436117954413758,
+        "x2": 0.6477875435614368,
+        "y2": 0.8047584277241392
+      },
+      "text": "NEXT REWARD",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "dispatch_next_reward",
+      "description": "Dispatch Mission: next reward button while acquiring rewards."
     }
   }
 ]
