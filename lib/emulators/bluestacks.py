@@ -26,6 +26,7 @@ class BlueStacks(AndroidEmulator):
         version = self.get_version()
         if version and version >= LooseVersion('5.0'):
             self.child_name = BLUESTACKS_5_CHILD_NAME
+            self.drag = super().drag
         self.update_windows()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
