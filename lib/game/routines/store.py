@@ -88,6 +88,7 @@ class CharacterStore(Notifications):
         if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
             if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_DIMENSION_CHEST']):
                 self.emulator.click_button(self.ui['MAIN_MENU_DIMENSION_CHEST'].button)
+                self.close_ads()
                 if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST']):
                     logger.debug("Opening Character tab.")
