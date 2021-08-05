@@ -207,12 +207,7 @@
         "x2": 0.2193457192649554,
         "y2": 0.07764521340519293
       },
-      "button_rect": {
-        "x1": 0.04737081596968373,
-        "y1": 0.015169306507586995,
-        "x2": 0.2193457192649554,
-        "y2": 0.07764521340519293
-      },
+      "button_rect": null,
       "text": "EVENT WORLD BOSS",
       "image_threshold": 120,
       "chars": null,
@@ -318,12 +313,7 @@
         "x2": 0.176725851926562,
         "y2": 0.08030376263487823
       },
-      "button_rect": {
-        "x1": 0.04737081596968373,
-        "y1": 0.012510757277901676,
-        "x2": 0.176725851926562,
-        "y2": 0.08030376263487823
-      },
+      "button_rect": null,
       "text": "WORLD EVENT",
       "image_threshold": 120,
       "chars": null,
@@ -455,6 +445,85 @@
       "chars": null,
       "image_save_file": "event_world_battle_total_score",
       "description": "World Event: total score at the of the battle. Leads to HOME button."
+    }
+  },
+  {
+    "EVENT_FUTURE_PASS_LABEL": {
+      "text_rect": {
+        "x1": 0.04811853294053273,
+        "y1": 0.01384003189274423,
+        "x2": 0.16850096524722294,
+        "y2": 0.07365738956066484
+      },
+      "button_rect": null,
+      "text": "FUTURE PASS",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_future_pass_label",
+      "description": "Future Pass event label."
+    }
+  },
+  {
+    "EVENT_FUTURE_PASS_ACQUIRE_POINTS": {
+      "text_rect": {
+        "x1": 0.8518891517050018,
+        "y1": 0.24615171941830244,
+        "x2": 0.9546349104613838,
+        "y2": 0.2833410354236121
+      },
+      "button_rect": {
+        "x1": 0.8518891517050018,
+        "y1": 0.24615171941830244,
+        "x2": 0.9546349104613838,
+        "y2": 0.2833410354236121
+      },
+      "text": "ACQUIRE FOR FREE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_future_pass_acquire_points",
+      "description": "Future Pass: acquire free points."
+    }
+  },
+  {
+    "EVENT_FUTURE_PASS_CLAIM_REWARDS": {
+      "text_rect": {
+        "x1": 0.05410026870732481,
+        "y1": 0.3528050586776278,
+        "x2": 0.13036739973392356,
+        "y2": 0.40730531788617763
+      },
+      "button_rect": {
+        "x1": 0.05410026870732481,
+        "y1": 0.3528050586776278,
+        "x2": 0.13036739973392356,
+        "y2": 0.40730531788617763
+      },
+      "text": "CLAIM ALL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_future_pass_claim_rewards",
+      "description": "Future Pass: claim all rewards."
+    }
+  },
+  {
+    "EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE": {
+      "text_rect": {
+        "x1": 0.44066994263626164,
+        "y1": 0.11087707877625992,
+        "x2": 0.5580615070595558,
+        "y2": 0.16138951414028183
+      },
+      "button_rect": {
+        "x1": 0.482542093003806,
+        "y1": 0.8153926246428804,
+        "x2": 0.5199279415462564,
+        "y2": 0.8645757853920596
+      },
+      "text": "CLAIM ALL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "event_future_pass_claim_rewards_close",
+      "description": "Future Pass: close Claim All notification. Leads to OK button."
     }
   }
 ]

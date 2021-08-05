@@ -17,25 +17,38 @@ class EventMissions(Missions):
         """
         super().__init__(game, "")
 
-    def find_event_ui_by_name(self, name):
+    def _is_event_ui_has_same_name(self, name, event_ui, similar_to_full_line):
+        """Check if event UI element has same name as given event name.
+
+        :param name: event name.
+        :param event_ui: event UI Element
+        :param similar_to_full_line: take name of event as full line of text or part of any line.
+        """
+        event_text = self.emulator.get_screen_text(event_ui)
+        logger.debug(f"Found text inside event list: {event_text}")
+        if similar_to_full_line and is_strings_similar(event_text, name):
+            return True
+        if not similar_to_full_line:
+            for line in event_text.split("\n"):
+                if is_strings_similar(line, name):
+                    return True
+
+    def find_event_ui_by_name(self, name, similar_to_full_line=True):
         """Find UI element of Event by it's name.
 
         :param name: name of event.
+        :param similar_to_full_line: take name of event as full line of text or part of any line.
         :return: UI element of event in Event List.
         """
         self._drag_event_list_to_the_bottom()
         for ui_index in range(1, 5):
             event_ui = self.game.ui[f"EVENT_BUTTON_1_{ui_index}"]
-            event_text = self.emulator.get_screen_text(event_ui)
-            logger.debug(f"Found text inside event list: {event_text}")
-            if is_strings_similar(event_text, name):
+            if self._is_event_ui_has_same_name(name=name, event_ui=event_ui, similar_to_full_line=similar_to_full_line):
                 return event_ui
         self._drag_event_list_to_the_top()
         for ui_index in range(1, 5):
             event_ui = self.game.ui[f"EVENT_BUTTON_2_{ui_index}"]
-            event_text = self.emulator.get_screen_text(event_ui)
-            logger.debug(f"Found text inside event list: {event_text}")
-            if is_strings_similar(event_text, name):
+            if self._is_event_ui_has_same_name(name=name, event_ui=event_ui, similar_to_full_line=similar_to_full_line):
                 return event_ui
 
     def _drag_event_list_to_the_top(self):
@@ -215,3 +228,58 @@ class WorldEvent(EventMissions):
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                 self.emulator.click_button(self.ui['EVENT_WORLD_BATTLE_TOTAL_SCORE'].button)
                 self.game.go_to_main_menu()
+
+
+class FuturePass(EventMissions):
+    """Class for working with Future Pass event."""
+
+    EVENT_NAME = "FUTURE PASS"
+
+    def open_future_pass(self):
+        """Open Future Pass in Event List."""
+        self.game.go_to_main_menu()
+        event_ui = self.find_event_ui_by_name(self.EVENT_NAME, similar_to_full_line=False)
+        if not event_ui:
+            logger.info("Can't find Future Pass, probably event isn't on right now.")
+            return
+        self.emulator.click_button(event_ui.button)
+        self.close_ads()
+        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['EVENT_FUTURE_PASS_LABEL'])
+
+    def _acquire_free_points(self):
+        """Acquire free points.
+
+        :return: were points acquired (True or False).
+        """
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['EVENT_FUTURE_PASS_ACQUIRE_POINTS']):
+            logger.info("Acquiring free points.")
+            self.emulator.click_button(self.ui['EVENT_FUTURE_PASS_ACQUIRE_POINTS'].button)
+            r_sleep(1)  # Wait for animation
+            return True
+        logger.info("No available free points.")
+        return False
+
+    def _claim_rewards(self):
+        """Claim all rewards.
+
+        :return: were points acquired (True or False).
+        """
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS']):
+            logger.info("Claiming all rewards.")
+            self.emulator.click_button(self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE']):
+                self.emulator.click_button(self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE'].button)
+                return True
+        logger.info("No available rewards to claim.")
+        return False
+
+    def acquire_points_and_claim_rewards(self):
+        """Acquire free points and claim all available rewards."""
+        self.open_future_pass()
+        self._acquire_free_points()
+        self._claim_rewards()
+        self.game.go_to_main_menu()
