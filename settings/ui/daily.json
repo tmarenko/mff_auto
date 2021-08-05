@@ -1687,5 +1687,238 @@
       "image_save_file": "store_character_free_hero_chest_purchase_close",
       "description": "Store - Character: Free Hero Chest: Close purchase results."
     }
+  },
+  {
+    "SUPPORT_SHOP_LABEL": {
+      "text_rect": {
+        "x1": 0.04662309899883474,
+        "y1": 0.015169306507586995,
+        "x2": 0.1842030216350521,
+        "y2": 0.07764521340519293
+      },
+      "button_rect": {
+        "x1": 0.04662309899883474,
+        "y1": 0.015169306507586995,
+        "x2": 0.1842030216350521,
+        "y2": 0.07764521340519293
+      },
+      "text": "SUPPORT SHOP",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "support_shop_label",
+      "description": "Support Shop label."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_TAB": {
+      "text_rect": {
+        "x1": 0.44814711234475174,
+        "y1": 0.15075531722154034,
+        "x2": 0.5505843373510657,
+        "y2": 0.20259702720040487
+      },
+      "button_rect": {
+        "x1": 0.44814711234475174,
+        "y1": 0.15075531722154034,
+        "x2": 0.5505843373510657,
+        "y2": 0.20259702720040487
+      },
+      "text": "MATERIAL",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "support_shop_material_tab",
+      "description": "Support Shop: Material tab."
+    }
+  },
+  {
+    "SUPPORT_SHOP_BUY_MATERIAL_MAX_BUTTON": {
+      "text_rect": {
+        "x1": 0.6283469023193625,
+        "y1": 0.6518918470172308,
+        "x2": 0.6762007884536989,
+        "y2": 0.6944286346921965
+      },
+      "button_rect": {
+        "x1": 0.6283469023193625,
+        "y1": 0.6518918470172308,
+        "x2": 0.6762007884536989,
+        "y2": 0.6944286346921965
+      },
+      "text": "MAX",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "support_shop_buy_material_max_button",
+      "description": "Support Shop: Material: Max button for exchange."
+    }
+  },
+  {
+    "SUPPORT_SHOP_BUY_MATERIAL_EXCHANGE_BUTTON": {
+      "text_rect": {
+        "x1": 0.5894656198352141,
+        "y1": 0.7688680131233866,
+        "x2": 0.6881642599872831,
+        "y2": 0.8313439200209926
+      },
+      "button_rect": {
+        "x1": 0.5894656198352141,
+        "y1": 0.7688680131233866,
+        "x2": 0.6881642599872831,
+        "y2": 0.8313439200209926
+      },
+      "text": "Exchange",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "support_shop_buy_material_exchange_button",
+      "description": "Support Shop: Material: Exchange button for exchange."
+    }
+  },
+  {
+    "SUPPORT_SHOP_BUY_MATERIAL_CLOSE_PURCHASE": {
+      "text_rect": {
+        "x1": 0.47880350814956096,
+        "y1": 0.7529167177452745,
+        "x2": 0.5214233754879544,
+        "y2": 0.8100755261835098
+      },
+      "button_rect": {
+        "x1": 0.47880350814956096,
+        "y1": 0.7529167177452745,
+        "x2": 0.5214233754879544,
+        "y2": 0.8100755261835098
+      },
+      "text": "OK",
+      "image_threshold": 120,
+      "chars": "OK",
+      "image_save_file": "support_shop_buy_material_close_purchase",
+      "description": "Support Shop: Material: Close results of purchase."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_NORN_STONE_OF_STRENGTH": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.10045872089996326,
+        "y1": 0.3940125717377509,
+        "x2": 0.1954187761977872,
+        "y2": 0.5654889970524567
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_norn_stone_of_strength",
+      "description": "Support Shop: Material: Norn Stone of Strength."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_NORN_STONE_OF_ENERGY": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.27617220904948,
+        "y1": 0.3966711209674362,
+        "x2": 0.37262769828900194,
+        "y2": 0.5628304478227711
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_norn_stone_of_energy",
+      "description": "Support Shop: Material: Norn Stone of Energy."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_NORN_STONE_OF_BRILLIANCE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.4518856971989968,
+        "y1": 0.3980003955822788,
+        "x2": 0.5475934694676696,
+        "y2": 0.5734646447415127
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_norn_stone_of_brilliance",
+      "description": "Support Shop: Material: Norn Stone of Brilliance."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_NORN_STONE_OF_OMNIPOTENCE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6275991853485134,
+        "y1": 0.39800039558227884,
+        "x2": 0.7240546745880355,
+        "y2": 0.5681475462821419
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_norn_stone_of_omnipotence",
+      "description": "Support Shop: Material: Norn Stone of Omnipotence."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_MKRAAN_SHARD": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.8025649565271813,
+        "y1": 0.3926832971229082,
+        "x2": 0.9005158797084012,
+        "y2": 0.5628304478227711
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_mkraan_shard",
+      "description": "Support Shop: Material: M'Kraan Chard."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_GEAR_UP_KIT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.09971100392911426,
+        "y1": 0.7117092046851513,
+        "x2": 0.1946710592269382,
+        "y2": 0.8831856299998572
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_gear_up_kit",
+      "description": "Support Shop: Material: Gear Up Kit."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_DIMENSION_DEBRIS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.274676775107782,
+        "y1": 0.7117092046851513,
+        "x2": 0.371879981318153,
+        "y2": 0.8831856299998572
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_dimension_debris",
+      "description": "Support Shop: Material: Dimension Debris."
+    }
+  },
+  {
+    "SUPPORT_SHOP_MATERIAL_UNIFORM_UPGRADE_KIT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.4503902632572988,
+        "y1": 0.7117092046851513,
+        "x2": 0.5475934694676696,
+        "y2": 0.8831856299998572
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "support_shop_material_uniform_upgrade_kit",
+      "description": "Support Shop: Material: Uniform Upgrade Kit."
+    }
   }
 ]

@@ -1125,6 +1125,27 @@
       "image_save_file": "main_menu_dimension_chest",
       "description": "Main menu: Store: Dimension Chest button."
     }
+  },
+  {
+    "MAIN_MENU_SUPPORT_SHOP": {
+      "text_rect": {
+        "x1": 0.4497058193093056,
+        "y1": 0.7425602179891547,
+        "x2": 0.5336722813084339,
+        "y2": 0.7724573673373294
+      },
+      "button_rect": {
+        "x1": 0.47332138674656044,
+        "y1": 0.6596539385910256,
+        "x2": 0.5144697239478379,
+        "y2": 0.7264454424539685
+      },
+      "text": "SUPPORT SHOP",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "main_menu_support_shop",
+      "description": "Main menu: Store: Support Shop button."
+    }
   }
 ]
 

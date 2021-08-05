@@ -168,3 +168,23 @@ class _ResetWorldBoss(Action):
         self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
                                                      setting_key="world_boss",
                                                      values_dict=self.world_bosses))
+
+
+class _SupportShopBuyMaterials(Action):
+    material_list = {
+        "Norn Stone of Strength (Red)": routines.SupportShop.MATERIALS.NORN_STONE_OF_STRENGTH,
+        "Norn Stone of Energy (Blue)": routines.SupportShop.MATERIALS.NORN_STONE_OF_ENERGY,
+        "Norn Stone of Brilliance (Green)": routines.SupportShop.MATERIALS.NORN_STONE_OF_BRILLIANCE,
+        "Norn Stone of Omnipotence (Purple)": routines.SupportShop.MATERIALS.NORN_STONE_OF_OMNIPOTENCE,
+        "M'Kraan Shard": routines.SupportShop.MATERIALS.MKRAAN_SHARD,
+        "Gear Up Kit": routines.SupportShop.MATERIALS.GEAR_UP_KIT,
+        "Dimension Debris": routines.SupportShop.MATERIALS.DIMENSION_DEBRIS,
+        "Uniform Upgrade Kit": routines.SupportShop.MATERIALS.UNIFORM_UPGRADE_KIT,
+    }
+
+    def __init__(self, game):
+        self.support_shop = routines.SupportShop(game)
+        super().__init__(game, "SUPPORT SHOP: BUY MATERIALS", self.support_shop.buy_materials)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="materials_list",
+                                                     values_dict=self.material_list))
