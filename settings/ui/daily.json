@@ -1561,5 +1561,131 @@
       "image_save_file": "store_recharge_energy_via_no_points",
       "description": "Store - Energy: not enough points notification. Leads to OK button."
     }
+  },
+  {
+    "STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST": {
+      "text_rect": {
+        "x1": 0.044343265734895235,
+        "y1": 0.5331204678505089,
+        "x2": 0.1372878016979911,
+        "y2": 0.5787115498185842
+      },
+      "button_rect": {
+        "x1": 0.044343265734895235,
+        "y1": 0.5331204678505089,
+        "x2": 0.1372878016979911,
+        "y2": 0.5787115498185842
+      },
+      "text": "CHARACTER",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_open_character_from_dimension_chest",
+      "description": "Store - Character: open Character tab in Store when Dimension Chest tab is on top."
+    }
+  },
+  {
+    "STORE_CHARACTER_HERO_CHEST_TAB": {
+      "text_rect": {
+        "x1": 0.04311817569798001,
+        "y1": 0.3952458893413346,
+        "x2": 0.13088145515138225,
+        "y2": 0.4391119516311431
+      },
+      "button_rect": {
+        "x1": 0.04311817569798001,
+        "y1": 0.3952458893413346,
+        "x2": 0.13088145515138225,
+        "y2": 0.4391119516311431
+      },
+      "text": "HERO CHEST",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_character_hero_chest_tab",
+      "description": "Store - Character: Hero Chest tab."
+    }
+  },
+  {
+    "STORE_CHARACTER_FREE_HERO_CHEST_BUTTON": {
+      "text_rect": {
+        "x1": 0.3270169630672125,
+        "y1": 0.7781729354272854,
+        "x2": 0.38459116982258607,
+        "y2": 0.8393195677100487
+      },
+      "button_rect": {
+        "x1": 0.3270169630672125,
+        "y1": 0.7781729354272854,
+        "x2": 0.38459116982258607,
+        "y2": 0.8393195677100487
+      },
+      "text": "FREE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_character_free_hero_chest_button",
+      "description": "Store - Character: Free Hero Chest acquire button."
+    }
+  },
+  {
+    "STORE_CHARACTER_FREE_HERO_CHEST_BUTTON_ACQUIRE": {
+      "text_rect": {
+        "x1": 0.8384553711279336,
+        "y1": 0.7542459923601172,
+        "x2": 0.896777294854156,
+        "y2": 0.8114048007983525
+      },
+      "button_rect": {
+        "x1": 0.8384553711279336,
+        "y1": 0.7542459923601172,
+        "x2": 0.896777294854156,
+        "y2": 0.8114048007983525
+      },
+      "text": "FREE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_character_free_hero_chest_button_acquire",
+      "description": "Store - Character: Free Hero Chest second acquire button."
+    }
+  },
+  {
+    "STORE_CHARACTER_FREE_HERO_CHEST_PURCHASE": {
+      "text_rect": {
+        "x1": 0.5894656198352141,
+        "y1": 0.7569045415898026,
+        "x2": 0.6926505618123772,
+        "y2": 0.8207097231022513
+      },
+      "button_rect": {
+        "x1": 0.5894656198352141,
+        "y1": 0.7569045415898026,
+        "x2": 0.6926505618123772,
+        "y2": 0.8207097231022513
+      },
+      "text": "PURCHASE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_character_free_hero_chest_purchase",
+      "description": "Store - Character: Free Hero Chest: Purchase button."
+    }
+  },
+  {
+    "STORE_CHARACTER_FREE_HERO_CHEST_PURCHASE_CLOSE": {
+      "text_rect": {
+        "x1": 0.46684003661597695,
+        "y1": 0.875209982310801,
+        "x2": 0.5356299979340856,
+        "y2": 0.9336980653638791
+      },
+      "button_rect": {
+        "x1": 0.46684003661597695,
+        "y1": 0.875209982310801,
+        "x2": 0.5356299979340856,
+        "y2": 0.9336980653638791
+      },
+      "text": "CLOSE",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_character_free_hero_chest_purchase_close",
+      "description": "Store - Character: Free Hero Chest: Close purchase results."
+    }
   }
 ]

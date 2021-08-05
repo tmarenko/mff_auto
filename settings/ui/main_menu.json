@@ -1104,6 +1104,27 @@
       "image_save_file": "network_error_notification",
       "description": "Network error notification. Can be anywhere. Leads to OK button."
     }
+  },
+  {
+    "MAIN_MENU_DIMENSION_CHEST": {
+      "text_rect": {
+        "x1": 0.44228507450668303,
+        "y1": 0.6064373308060554,
+        "x2": 0.540805524468089,
+        "y2": 0.6368380668897042
+      },
+      "button_rect": {
+        "x1": 0.47394842180670943,
+        "y1": 0.519157798178805,
+        "x2": 0.5111280317025593,
+        "y2": 0.5917272972171931
+      },
+      "text": "DIMENSION CHEST",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "main_menu_dimension_chest",
+      "description": "Main menu: Store: Dimension Chest button."
+    }
   }
 ]
 

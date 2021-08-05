@@ -127,6 +127,13 @@ class _AcquireAllGifts(Action):
                                                      initial_state=False))
 
 
+class _AcquireFreeHeroChest(Action):
+
+    def __init__(self, game):
+        self.store = routines.CharacterStore(game)
+        super().__init__(game, "STORE: ACQUIRE FREE HERO CHEST", self.store.acquire_free_hero_chest)
+
+
 class _AcquireAllChests(Action):
 
     def __init__(self, game):

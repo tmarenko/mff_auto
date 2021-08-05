@@ -5,4 +5,4 @@ from .friends import Friends
 from .general import WaitUntil
 from .inbox import Inbox
 from .inventory import CustomGear, ComicCards
-from .store import EnergyStore
+from .store import EnergyStore, CharacterStore

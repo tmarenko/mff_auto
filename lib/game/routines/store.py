@@ -1,6 +1,6 @@
 ﻿import lib.logger as logging
 from lib.game.notifications import Notifications
-from lib.functions import wait_until
+from lib.functions import wait_until, r_sleep
 
 logger = logging.get_logger(__name__)
 
@@ -76,3 +76,58 @@ class EnergyStore(Notifications):
                     logger.info("Not enough Assemble Points for energy recharge.")
                     self.emulator.click_button(self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS'].button)
         return False
+
+
+class CharacterStore(Notifications):
+    """Class for working with Character Store."""
+
+    def open_character_store(self):
+        """Open energy store using plus button near energy counter."""
+        self.game.go_to_main_menu()
+        self.emulator.click_button(self.ui['MAIN_MENU'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_DIMENSION_CHEST']):
+                self.emulator.click_button(self.ui['MAIN_MENU_DIMENSION_CHEST'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST']):
+                    logger.debug("Opening Character tab.")
+                    self.emulator.click_button(self.ui['STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST'].button)
+                    return True
+        return False
+
+    def _open_hero_chest_tab(self):
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['STORE_CHARACTER_HERO_CHEST_TAB']):
+            logger.debug("Opening Hero Chest tab.")
+            self.emulator.click_button(self.ui['STORE_CHARACTER_HERO_CHEST_TAB'].button)
+            return True
+        return False
+
+    def acquire_free_hero_chest(self):
+        """Acquire available Free Hero Chest."""
+        self.open_character_store()
+        if self._open_hero_chest_tab():
+            if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['STORE_CHARACTER_FREE_HERO_CHEST_BUTTON']):
+                logger.info("No available Free Hero Chest, exiting.")
+                return self.game.go_to_main_menu()
+
+            logger.info("Free Hero Chest is available.")
+            self.emulator.click_button(self.ui['STORE_CHARACTER_FREE_HERO_CHEST_BUTTON'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['STORE_CHARACTER_FREE_HERO_CHEST_BUTTON_ACQUIRE']):
+                self.emulator.click_button(self.ui['STORE_CHARACTER_FREE_HERO_CHEST_BUTTON_ACQUIRE'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['STORE_CHARACTER_FREE_HERO_CHEST_PURCHASE']):
+                    self.emulator.click_button(self.ui['STORE_CHARACTER_FREE_HERO_CHEST_PURCHASE'].button)
+                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                                  ui_element=self.ui['SKIP_CUTSCENE']):
+                        self.emulator.click_button(self.ui['SKIP_CUTSCENE'].button)
+                        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                                      ui_element=self.ui['STORE_CHARACTER_FREE_HERO_CHEST_PURCHASE_CLOSE']):
+                            self.emulator.click_button(
+                                self.ui['STORE_CHARACTER_FREE_HERO_CHEST_PURCHASE_CLOSE'].button)
+                            r_sleep(1)  # Wait for animation
+                            logger.info("Free Hero Chest acquired.")
+                            self.emulator.click_button(self.ui['MENU_BACK'].button)
+        self.game.go_to_main_menu()
