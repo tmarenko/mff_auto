@@ -98,7 +98,7 @@ class GameMode:
             @value.setter
             def value(self, values):
                 for widget in self.widgets:
-                    if widget.text() in values:
+                    if self.values_dict[widget.text()] in values:
                         widget.setCheckState(Qt.Checked)
                     else:
                         widget.setCheckState(Qt.Unchecked)
