@@ -131,4 +131,5 @@ class CharacterStore(Notifications):
                             r_sleep(1)  # Wait for animation
                             logger.info("Free Hero Chest acquired.")
                             self.emulator.click_button(self.ui['MENU_BACK'].button)
+                            r_sleep(1)  # Wait for animation
         self.game.go_to_main_menu()
