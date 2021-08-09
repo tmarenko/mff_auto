@@ -5,7 +5,7 @@ pillow==8.2.0
 regex==2020.9.27
 scipy==1.4.1
 pyautoit==0.6.0
-pywin32==228
+pywin32==301
 win32gui==221.6
 
 #   gui
