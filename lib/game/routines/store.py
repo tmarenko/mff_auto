@@ -75,6 +75,12 @@ class EnergyStore(Notifications):
                               ui_element=self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS']):
                     logger.info("Not enough Assemble Points for energy recharge.")
                     self.emulator.click_button(self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS'].button)
+                    return False
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['STORE_RECHARGE_ENERGY_VIA_POINTS_LIMIT']):
+                    logger.info("Reached daily limit for energy recharging.")
+                    self.emulator.click_button(self.ui['STORE_RECHARGE_ENERGY_VIA_POINTS_LIMIT'].button)
+                    return False
         return False
 
 

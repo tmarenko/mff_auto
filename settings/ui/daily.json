@@ -1563,6 +1563,27 @@
     }
   },
   {
+    "STORE_RECHARGE_ENERGY_VIA_POINTS_LIMIT": {
+      "text_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.4697812247837836,
+        "x2": 0.6133925629023823,
+        "y2": 0.5295985824517042
+      },
+      "button_rect": {
+        "x1": 0.48029894209125895,
+        "y1": 0.7130384792999941,
+        "x2": 0.5221710924588034,
+        "y2": 0.7755143861976
+      },
+      "text": "Daily purchase limit reached.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "store_recharge_energy_via_points_limit",
+      "description": "Store - Energy: daily purchase limit reached notification. Leads to OK button."
+    }
+  },
+  {
     "STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST": {
       "text_rect": {
         "x1": 0.044343265734895235,
