@@ -277,6 +277,10 @@ class _WorldBosses(GameMode):
                                                        setting_key="difficulty",
                                                        text="Select World Boss stage difficulty",
                                                        min=1, max=99))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="sync_character_and_ally_teams",
+                                                       initial_state=False,
+                                                       text="Synchronize Character Team and Ally Team selection"))
 
 
 class _DimensionMissions(GameMode):

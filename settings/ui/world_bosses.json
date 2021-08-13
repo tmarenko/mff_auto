@@ -1015,5 +1015,165 @@
       "image_save_file": "wb_reset_todays_boss_name",
       "description": "World Boss: Reset Today's Boss name."
     }
+  },
+  {
+    "WB_SELECT_CHARACTER_TEAM_1": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.3700398337729587,
+        "y1": 0.2294839602093952,
+        "x2": 0.3896005720284959,
+        "y2": 0.2529463718251399
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_character_team_1",
+      "description": "World Boss: Select Characters menu: Team #1."
+    }
+  },
+  {
+    "WB_SELECT_CHARACTER_TEAM_2": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.4376775672589728,
+        "y1": 0.23074087511738156,
+        "x2": 0.45205353151906635,
+        "y2": 0.2529463718251399
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_character_team_2",
+      "description": "World Boss: Select Characters menu: Team #2."
+    }
+  },
+  {
+    "WB_SELECT_CHARACTER_TEAM_3": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5041369430187497,
+        "y1": 0.22906498857339977,
+        "x2": 0.5192199219145855,
+        "y2": 0.2546222583691217
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_character_team_3",
+      "description": "World Boss: Select Characters menu: Team #3."
+    }
+  },
+  {
+    "WB_SELECT_CHARACTER_TEAM_4": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5691822895070421,
+        "y1": 0.22822704530140886,
+        "x2": 0.5856792976743624,
+        "y2": 0.25504123000511714
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_character_team_4",
+      "description": "World Boss: Select Characters menu: Team #4."
+    }
+  },
+  {
+    "WB_SELECT_CHARACTER_TEAM_5": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6346989790858291,
+        "y1": 0.2278080736654134,
+        "x2": 0.6521386734341393,
+        "y2": 0.25504123000511714
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_character_team_5",
+      "description": "World Boss: Select Characters menu: Team #5."
+    }
+  },
+  {
+    "WB_SELECT_ALLY_TEAM_1": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.45386403168436806,
+        "y1": 0.22588051827432573,
+        "x2": 0.47151326768378327,
+        "y2": 0.2560384360985691
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_ally_team_1",
+      "description": "World Boss: Select Characters menu: Team #1."
+    }
+  },
+  {
+    "WB_SELECT_ALLY_TEAM_2": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.502699296342944,
+        "y1": 0.22709902000459817,
+        "x2": 0.5191490697016221,
+        "y2": 0.2563430615311371
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_ally_team_2",
+      "description": "World Boss: Select Characters menu: Team #2."
+    }
+  },
+  {
+    "WB_SELECT_ALLY_TEAM_3": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5493069875258653,
+        "y1": 0.22557589284175766,
+        "x2": 0.5669562235252805,
+        "y2": 0.2566476869637053
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_ally_team_3",
+      "description": "World Boss: Select Characters menu: Team #3."
+    }
+  },
+  {
+    "WB_SELECT_ALLY_TEAM_4": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5974568449611629,
+        "y1": 0.22527126740918949,
+        "x2": 0.6163055436013151,
+        "y2": 0.25817081412654586
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_ally_team_4",
+      "description": "World Boss: Select Characters menu: Team #4."
+    }
+  },
+  {
+    "WB_SELECT_ALLY_TEAM_5": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.6461207578139191,
+        "y1": 0.22527126740918949,
+        "x2": 0.6644554010366126,
+        "y2": 0.25786618869397776
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "wb_select_ally_team_5",
+      "description": "World Boss: Select Characters menu: Team #5."
+    }
   }
 ]

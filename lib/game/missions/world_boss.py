@@ -55,6 +55,7 @@ class WorldBoss(Missions):
         self._stage_ui = None
         self._plus_ui = None
         self._minus_ui = None
+        self._sync_character_and_ally_teams = False
 
     @property
     def battle_over_conditions(self):
@@ -66,11 +67,13 @@ class WorldBoss(Missions):
 
         return [score, respawn]
 
-    def do_missions(self, times=None, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS):
+    def do_missions(self, times=None, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS,
+                    sync_character_and_ally_teams=False):
         """Do missions."""
         if mode == self.MODE.ULTIMATE and difficulty == 0:
             logger.error(f"With mode {mode} difficulty should be greater than {difficulty}.")
             return
+        self._sync_character_and_ally_teams = sync_character_and_ally_teams
         if times:
             self.stages = times
         if self.stages > 0:
@@ -200,6 +203,9 @@ class WorldBoss(Missions):
 
     def _deploy_characters(self):
         """Deploy 3 characters to battle."""
+        if self._sync_character_and_ally_teams:
+            logger.debug(f"Selecting Character Team #{self.stages}")
+            self.emulator.click_button(self.ui[f'WB_SELECT_CHARACTER_TEAM_{self.stages}'].button)
         no_main = self.emulator.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_MAIN'])
         no_left = self.emulator.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_LEFT'])
         no_right = self.emulator.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_RIGHT'])
@@ -216,6 +222,9 @@ class WorldBoss(Missions):
 
     def _deploy_allies(self):
         """Deploy 4 characters as allies to battle."""
+        if self._sync_character_and_ally_teams:
+            logger.debug(f"Selecting Ally Team #{self.stages}")
+            self.emulator.click_button(self.ui[f'WB_SELECT_ALLY_TEAM_{self.stages}'].button)
         if self.emulator.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_ALLY_1']):
             self.emulator.click_button(self.ui['WB_ALLY_CHARACTER_1'].button)
         if self.emulator.is_image_on_screen(ui_element=self.ui['WB_NO_CHARACTER_ALLY_2']):

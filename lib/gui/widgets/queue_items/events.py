@@ -7,6 +7,10 @@ class _EventWorldBoss(Event):
     def __init__(self, game):
         self.event_world_boss = missions.EventWorldBoss(game)
         super().__init__(game, "EVENT WORLD BOSS", self.event_world_boss.complete_event_world_boss)
+        self.mode_settings.append(Event.ModeSetting(setting_type=Event.ModeSetting.Checkbox,
+                                                    setting_key="sync_character_and_ally_teams",
+                                                    initial_state=False,
+                                                    text="Synchronize Character Team and Ally Team selection"))
 
 
 class _WorldEvent(Event):

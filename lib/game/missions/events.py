@@ -104,12 +104,13 @@ class EventWorldBoss(EventMissions, WorldBoss):
         return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['EVENT_WORLD_BOSS_LABEL'])
 
-    def complete_event_world_boss(self):
+    def complete_event_world_boss(self, sync_character_and_ally_teams=False):
         """Complete all available stages in Event World Boss."""
         self.open_event_world_boss()
         if not self.emulator.is_ui_element_on_screen(self.ui['EVENT_WORLD_BOSS_ENTER']):
             logger.info("No available Event World Boss battles.")
             return self.game.go_to_main_menu()
+        self._sync_character_and_ally_teams = sync_character_and_ally_teams
         self.emulator.click_button(self.ui['EVENT_WORLD_BOSS_ENTER'].button)
         while self._stages > 0:
             if not self._start_world_boss_battle():
