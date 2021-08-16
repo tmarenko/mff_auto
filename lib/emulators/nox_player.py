@@ -69,7 +69,14 @@ class NoxPlayer(AndroidEmulator):
     def close_current_app(self):
         """Close current opened app in emulator."""
         hwnd = self.key_handle if self.key_handle else self.main_key_handle
-        autoit.control_send_by_handle(hwnd, hwnd, f"^{self.close_app_shortcut}")
+        try:
+            autoit.control_send_by_handle(hwnd, hwnd, f"^{self.close_app_shortcut}")
+        except autoit.AutoItError as err:
+            logging.error(f"Error during sending to control {hwnd}:\n{err}")
+            self.update_windows()
+            hwnd = self.key_handle if self.key_handle else self.main_key_handle
+            logging.warning(f"Updating window's info, new control is {hwnd}")
+            autoit.control_send_by_handle(hwnd, hwnd, f"^{self.close_app_shortcut}")
 
     def update_windows(self):
         """Update window's handlers."""
