@@ -74,6 +74,19 @@ class _AllianceCheckIn(Action):
         super().__init__(game, "ALLIANCE: CHECK-IN", self.alliance.check_in)
 
 
+class _AllianceDonate(Action):
+
+    def __init__(self, game):
+        self.alliance = routines.Alliance(game)
+        super().__init__(game, "ALLIANCE: DONATE", self.alliance.donate_resources)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Checkbox,
+                                                     setting_key="donate_gold",
+                                                     text="Donate Gold"))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Checkbox,
+                                                     setting_key="donate_memento",
+                                                     text="Donate Alliance Memento"))
+
+
 class _CollectFreeEnergy(Action):
 
     def __init__(self, game):

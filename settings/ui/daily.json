@@ -1067,6 +1067,138 @@
     }
   },
   {
+    "ALLIANCE_DONATE": {
+      "text_rect": {
+        "x1": 0.3905729055893782,
+        "y1": 0.5920744893493103,
+        "x2": 0.4601105838783358,
+        "y2": 0.6372698262539613
+      },
+      "button_rect": {
+        "x1": 0.3905729055893782,
+        "y1": 0.5920744893493103,
+        "x2": 0.4601105838783358,
+        "y2": 0.6372698262539613
+      },
+      "text": "DONATE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_donate",
+      "description": "Alliance: donate button."
+    }
+  },
+  {
+    "ALLIANCE_DONATION_MENU": {
+      "text_rect": {
+        "x1": 0.3860866037642841,
+        "y1": 0.08030376263487823,
+        "x2": 0.6133925629023823,
+        "y2": 0.1414503949176416
+      },
+      "button_rect": null,
+      "text": "ALLIANCE DONATION",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_donation_menu",
+      "description": "Alliance: Donation menu label."
+    }
+  },
+  {
+    "ALLIANCE_DONATION_MAX_MEMENTO": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7375135800633175,
+        "y1": 0.2956462502393925,
+        "x2": 0.7853674661976541,
+        "y2": 0.3461586856034143
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_donation_max_memento",
+      "description": "Alliance: Donation menu: MAX memento button."
+    }
+  },
+  {
+    "ALLIANCE_DONATION_MAX_GOLD": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7360181461216195,
+        "y1": 0.44186645787208734,
+        "x2": 0.7891060510518992,
+        "y2": 0.49104961862126645
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_donation_max_gold",
+      "description": "Alliance: Donation menu: MAX gold button."
+    }
+  },
+  {
+    "ALLIANCE_DONATION_CONFIRM": {
+      "text_rect": {
+        "x1": 0.5468457524968208,
+        "y1": 0.8326731946358353,
+        "x2": 0.6447966756780407,
+        "y2": 0.8991369253779693
+      },
+      "button_rect": {
+        "x1": 0.5468457524968208,
+        "y1": 0.8326731946358353,
+        "x2": 0.6447966756780407,
+        "y2": 0.8991369253779693
+      },
+      "text": "DONATE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_donation_confirm",
+      "description": "Alliance: Donation menu: Donate confirm button."
+    }
+  },
+  {
+    "ALLIANCE_DONATION_CANCEL": {
+      "text_rect": {
+        "x1": 0.3614119437262668,
+        "y1": 0.8326731946358353,
+        "x2": 0.4533811311406948,
+        "y2": 0.896478376148284
+      },
+      "button_rect": {
+        "x1": 0.3614119437262668,
+        "y1": 0.8326731946358353,
+        "x2": 0.4533811311406948,
+        "y2": 0.896478376148284
+      },
+      "text": "CANCEL",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_donation_cancel",
+      "description": "Alliance: Donation menu: Cancel button."
+    }
+  },
+  {
+    "ALLIANCE_DONATION_REWARD_CLOSE": {
+      "text_rect": {
+        "x1": 0.39505920741447215,
+        "y1": 0.16670661259965244,
+        "x2": 0.6059153931938923,
+        "y2": 0.2251946956527304
+      },
+      "button_rect": {
+        "x1": 0.477308074207863,
+        "y1": 0.7143677539148366,
+        "x2": 0.5244142433713505,
+        "y2": 0.7755143861976
+      },
+      "text": "DONATION REWARD",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_donation_reward_close",
+      "description": "Alliance: Donation menu: rewards notification after donating. Leads to OK button."
+    }
+  },
+  {
     "INBOX_LABEL": {
       "text_rect": {
         "x1": 0.04737081596968373,
