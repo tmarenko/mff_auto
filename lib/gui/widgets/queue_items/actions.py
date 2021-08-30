@@ -87,6 +87,16 @@ class _AllianceDonate(Action):
                                                      text="Donate Alliance Memento"))
 
 
+class _AllianceBuyEnergy(Action):
+
+    def __init__(self, game):
+        self.alliance = routines.Alliance(game)
+        super().__init__(game, "ALLIANCE: BUY ENERGY", self.alliance.donate_resources)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Checkbox,
+                                                     setting_key="buy_all_available_energy",
+                                                     text="Buy all available today's energy"))
+
+
 class _CollectFreeEnergy(Action):
 
     def __init__(self, game):

@@ -1199,6 +1199,111 @@
     }
   },
   {
+    "ALLIANCE_STORE_TAB": {
+      "text_rect": {
+        "x1": 0.5453503185551227,
+        "y1": 0.14277966953248417,
+        "x2": 0.6051676762230433,
+        "y2": 0.18265790797776457
+      },
+      "button_rect": {
+        "x1": 0.5453503185551227,
+        "y1": 0.14277966953248417,
+        "x2": 0.6051676762230433,
+        "y2": 0.18265790797776457
+      },
+      "text": "STORE",
+      "image_threshold": 125,
+      "chars": null,
+      "image_save_file": "alliance_store_tab",
+      "description": "Alliance: Store tab."
+    }
+  },
+  {
+    "ALLIANCE_STORE_ENERGY_ITEM_1": {
+      "text_rect": {
+        "x1": 0.08400894754128506,
+        "y1": 0.25045091333474134,
+        "x2": 0.1468171730926017,
+        "y2": 0.29298770100970706
+      },
+      "button_rect": {
+        "x1": 0.1041973057542083,
+        "y1": 0.875209982310801,
+        "x2": 0.16476238039297791,
+        "y2": 0.941673713052935
+      },
+      "text": "ENERGY",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_store_energy_item_1",
+      "description": "Alliance: Store: Energy item in Store at #1 position (without Alliance sale event). Leads to BUY button."
+    }
+  },
+  {
+    "ALLIANCE_STORE_PURCHASE": {
+      "text_rect": {
+        "x1": 0.5902133368060629,
+        "y1": 0.7555752669749598,
+        "x2": 0.6933982787832261,
+        "y2": 0.8167218992577232
+      },
+      "button_rect": {
+        "x1": 0.5902133368060629,
+        "y1": 0.7555752669749598,
+        "x2": 0.6933982787832261,
+        "y2": 0.8167218992577232
+      },
+      "text": "PURCHASE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_store_purchase",
+      "description": "Alliance: Store: Purchase item button."
+    }
+  },
+  {
+    "ALLIANCE_STORE_PURCHASE_CLOSE": {
+      "text_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7515874431304319,
+        "x2": 0.5251619603421994,
+        "y2": 0.8100755261835098
+      },
+      "button_rect": {
+        "x1": 0.47805579117871205,
+        "y1": 0.7515874431304319,
+        "x2": 0.5251619603421994,
+        "y2": 0.8100755261835098
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "alliance_store_purchase_close",
+      "description": "Alliance: Store: Purchase: Close results."
+    }
+  },
+  {
+    "ALLIANCE_STORE_PURCHASE_LIMIT": {
+      "text_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.4697812247837836,
+        "x2": 0.6133925629023823,
+        "y2": 0.5295985824517042
+      },
+      "button_rect": {
+        "x1": 0.48029894209125895,
+        "y1": 0.7130384792999941,
+        "x2": 0.5221710924588034,
+        "y2": 0.7755143861976
+      },
+      "text": "Daily purchase limit reached.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "alliance_store_purchase_limit",
+      "description": "Alliance: Store: Purchase: daily purchase limit reached notification. Leads to OK button."
+    }
+  },
+  {
     "INBOX_LABEL": {
       "text_rect": {
         "x1": 0.04737081596968373,

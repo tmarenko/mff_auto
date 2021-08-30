@@ -49,3 +49,51 @@ class Alliance(Notifications):
                     logger.info("Can't donate resource for Alliance. Probably already donated, exiting.")
                     self.emulator.click_button(self.ui['ALLIANCE_DONATION_CANCEL'].button)
         self.game.go_to_main_menu()
+
+    def buy_energy(self, buy_all_available_energy=True):
+        """Buy energy from Alliance Store.
+
+        :param buy_all_available_energy: buy all available energy or not.
+        """
+        self.game.go_to_alliance()
+        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_STORE_TAB']):
+            logger.error("Can't find STORE tab, exiting.")
+            return self.game.go_to_main_menu()
+        self.emulator.click_button(self.ui['ALLIANCE_STORE_TAB'].button)
+        self.game.close_ads()
+        bought = self._buy_energy()
+        if buy_all_available_energy and bought:
+            while bought:
+                logger.debug("Trying to buy energy again.")
+                bought = self._buy_energy()
+        self.game.go_to_main_menu()
+
+    def _buy_energy(self):
+        """Buy energy from Alliance Store.
+
+        :return: (bool) was energy bought or not.
+        """
+        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                      ui_element=self.ui['ALLIANCE_STORE_ENERGY_ITEM_1']):
+            self.emulator.click_button(self.ui['ALLIANCE_STORE_ENERGY_ITEM_1'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['ALLIANCE_STORE_PURCHASE']):
+                logger.debug("Purchasing energy via Alliance Tokens.")
+                self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['ALLIANCE_STORE_PURCHASE_CLOSE']):
+                    logger.info("Energy bought.")
+                    self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_CLOSE'].button)
+                    return True
+                # TODO: no tokens scenario
+                # if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                #               ui_element=self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS']):
+                #     logger.info("Not enough Assemble Points for energy recharge.")
+                #     self.emulator.click_button(self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS'].button)
+                #     return False
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['ALLIANCE_STORE_PURCHASE_LIMIT']):
+                    logger.info("Reached daily limit for energy purchasing.")
+                    self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_LIMIT'].button)
+                    return False
+        return False
