@@ -26,6 +26,7 @@ class Alliance(Notifications):
         """
         if not donate_gold and not donate_memento:
             logger.info("Nothing to donate.")
+            return self.game.go_to_main_menu()
         self.game.go_to_alliance()
         if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_DONATE']):
             self.emulator.click_button(self.ui['ALLIANCE_DONATE'].button)
