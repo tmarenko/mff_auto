@@ -8,6 +8,12 @@ logger = logging.get_logger(__name__)
 class Alliance(Notifications):
     """Class for working with Alliance."""
 
+    class STORE_ITEM:
+        ENERGY = "ALLIANCE_STORE_ENERGY_ITEM_1"
+        UNIFORM_EXP_CHIP = "ALLIANCE_STORE_UNIFORM_EXP_CHIP_ITEM_2"
+        HIDDEN_TICKET = "ALLIANCE_STORE_HIDDEN_TICKET_ITEM_3"
+        BOOST_POINT = "ALLIANCE_STORE_BOOST_POINT_ITEM_4"
+
     def check_in(self):
         """Click Check-In button in Alliance."""
         self.game.go_to_alliance()
@@ -51,10 +57,11 @@ class Alliance(Notifications):
                     self.emulator.click_button(self.ui['ALLIANCE_DONATION_CANCEL'].button)
         self.game.go_to_main_menu()
 
-    def buy_energy(self, buy_all_available_energy=True):
-        """Buy energy from Alliance Store.
+    def buy_items_from_store(self, items=None, buy_all_available=True):
+        """Buy items from Alliance Store.
 
-        :param buy_all_available_energy: buy all available energy or not.
+        :param items: list of UI Elements of items to buy.
+        :param buy_all_available: (bool) buy all available copies of item for today or not.
         """
         self.game.go_to_alliance()
         if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_STORE_TAB']):
@@ -62,28 +69,32 @@ class Alliance(Notifications):
             return self.game.go_to_main_menu()
         self.emulator.click_button(self.ui['ALLIANCE_STORE_TAB'].button)
         self.game.close_ads()
-        bought = self._buy_energy()
-        if buy_all_available_energy and bought:
-            while bought:
-                logger.debug("Trying to buy energy again.")
-                bought = self._buy_energy()
+        if isinstance(items, str):
+            items = [items]
+        for item in items:
+            logger.debug(f"Trying to buy {item}.")
+            bought = self._buy_item_once(item)
+            if buy_all_available and bought:
+                while bought:
+                    logger.debug(f"Trying to buy {item} again.")
+                    bought = self._buy_item_once(item)
         self.game.go_to_main_menu()
 
-    def _buy_energy(self):
-        """Buy energy from Alliance Store.
+    def _buy_item_once(self, item):
+        """Buy item from Alliance Store once.
 
-        :return: (bool) was energy bought or not.
+        :return: (bool) was item bought or not.
         """
         if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['ALLIANCE_STORE_ENERGY_ITEM_1']):
-            self.emulator.click_button(self.ui['ALLIANCE_STORE_ENERGY_ITEM_1'].button)
+                      ui_element=self.ui[item]):
+            self.emulator.click_button(self.ui[item].button)
             if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                           ui_element=self.ui['ALLIANCE_STORE_PURCHASE']):
-                logger.debug("Purchasing energy via Alliance Tokens.")
+                logger.debug("Purchasing via Alliance Tokens.")
                 self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE'].button)
                 if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['ALLIANCE_STORE_PURCHASE_CLOSE']):
-                    logger.info("Energy bought.")
+                    logger.info("Item was bought.")
                     self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_CLOSE'].button)
                     return True
                 # TODO: no tokens scenario
@@ -94,7 +105,8 @@ class Alliance(Notifications):
                 #     return False
                 if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['ALLIANCE_STORE_PURCHASE_LIMIT']):
-                    logger.info("Reached daily limit for energy purchasing.")
+                    logger.info("Reached daily limit for purchasing.")
                     self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_LIMIT'].button)
                     return False
+        logger.warning(f"Item {item} was not found in the Alliance Store.")
         return False

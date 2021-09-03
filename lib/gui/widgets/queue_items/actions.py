@@ -89,12 +89,22 @@ class _AllianceDonate(Action):
 
 class _AllianceBuyEnergy(Action):
 
+    items = {
+        "Energy": routines.Alliance.STORE_ITEM.ENERGY,
+        "Boost Point": routines.Alliance.STORE_ITEM.BOOST_POINT,
+        "Hidden Ticket": routines.Alliance.STORE_ITEM.HIDDEN_TICKET,
+        "Uniform EXP Chip": routines.Alliance.STORE_ITEM.UNIFORM_EXP_CHIP,
+    }
+
     def __init__(self, game):
         self.alliance = routines.Alliance(game)
-        super().__init__(game, "ALLIANCE: BUY ENERGY", self.alliance.donate_resources)
+        super().__init__(game, "ALLIANCE: BUY ITEMS FROM STORE", self.alliance.buy_items_from_store)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="items",
+                                                     values_dict=self.items))
         self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Checkbox,
-                                                     setting_key="buy_all_available_energy",
-                                                     text="Buy all available today's energy"))
+                                                     setting_key="buy_all_available",
+                                                     text="Buy all available copies of item for today"))
 
 
 class _CollectFreeEnergy(Action):

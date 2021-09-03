@@ -1241,6 +1241,69 @@
     }
   },
   {
+    "ALLIANCE_STORE_UNIFORM_EXP_CHIP_ITEM_2": {
+      "text_rect": {
+        "x1": 0.3172966424461754,
+        "y1": 0.251780187949584,
+        "x2": 0.4421653765779597,
+        "y2": 0.2916584263948644
+      },
+      "button_rect": {
+        "x1": 0.3531870570469278,
+        "y1": 0.8765392569256438,
+        "x2": 0.41599528259824436,
+        "y2": 0.9403444384380925
+      },
+      "text": "Uniform EXP Chip",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_store_uniform_exp_chip_item_2",
+      "description": "Alliance: Store: Uniform EXP Chip item in Store at #2 position (with Alliance sale event). Leads to BUY button."
+    }
+  },
+  {
+    "ALLIANCE_STORE_HIDDEN_TICKET_ITEM_3": {
+      "text_rect": {
+        "x1": 0.5565660731178578,
+        "y1": 0.251780187949584,
+        "x2": 0.6657327508618128,
+        "y2": 0.2969755248542352
+      },
+      "button_rect": {
+        "x1": 0.5984382234854022,
+        "y1": 0.8725514330811157,
+        "x2": 0.6642373169201148,
+        "y2": 0.9443322622826203
+      },
+      "text": "HIDDEN TICKET",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_store_hidden_ticket_item_3",
+      "description": "Alliance: Store: Hidden Ticket item in Store at #3 position (with Alliance sale event). Leads to BUY button."
+    }
+  },
+  {
+    "ALLIANCE_STORE_BOOST_POINT_ITEM_4": {
+      "text_rect": {
+        "x1": 0.8085466922939732,
+        "y1": 0.24912163871989867,
+        "x2": 0.9064976154751931,
+        "y2": 0.29298770100970706
+      },
+      "button_rect": {
+        "x1": 0.8429416729530277,
+        "y1": 0.8765392569256438,
+        "x2": 0.9132270682128343,
+        "y2": 0.9469908115123059
+      },
+      "text": "BOOST POINT",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_store_boost_point_item_4",
+      "description": "Alliance: Store: Boost Point item in Store at #4 position (with Alliance sale event). Leads to BUY button."
+    }
+  },
+  {
     "ALLIANCE_STORE_PURCHASE": {
       "text_rect": {
         "x1": 0.5902133368060629,
