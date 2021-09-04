@@ -1199,6 +1199,27 @@
     }
   },
   {
+    "ALLIANCE_SUPPORT_TAB": {
+      "text_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.1454382187621697,
+        "x2": 0.4645968857034299,
+        "y2": 0.18398718259260732
+      },
+      "button_rect": {
+        "x1": 0.38384345285173704,
+        "y1": 0.1454382187621697,
+        "x2": 0.4645968857034299,
+        "y2": 0.18398718259260732
+      },
+      "text": "SUPPORT",
+      "image_threshold": 125,
+      "chars": null,
+      "image_save_file": "alliance_support_tab",
+      "description": "Alliance: Support tab."
+    }
+  },
+  {
     "ALLIANCE_STORE_TAB": {
       "text_rect": {
         "x1": 0.5453503185551227,
@@ -1364,6 +1385,314 @@
       "chars": null,
       "image_save_file": "alliance_store_purchase_limit",
       "description": "Alliance: Store: Purchase: daily purchase limit reached notification. Leads to OK button."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_CLAIM": {
+      "text_rect": {
+        "x1": 0.8040603904688794,
+        "y1": 0.29431697562454984,
+        "x2": 0.8765889366412328,
+        "y2": 0.35014650944794234
+      },
+      "button_rect": {
+        "x1": 0.8040603904688794,
+        "y1": 0.29431697562454984,
+        "x2": 0.8765889366412328,
+        "y2": 0.35014650944794234
+      },
+      "text": "CLAIM",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_support_claim",
+      "description": "Alliance: Support: Claim button."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_CLAIM_CLOSE": {
+      "text_rect": {
+        "x1": 0.44814711234475174,
+        "y1": 0.23051179411210115,
+        "x2": 0.5528274882636128,
+        "y2": 0.28767060255033644
+      },
+      "button_rect": {
+        "x1": 0.48104665906210803,
+        "y1": 0.6917700854625112,
+        "x2": 0.5221710924588034,
+        "y2": 0.7475996192859039
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_support_claim_close",
+      "description": "Alliance: Support: close Claim results. Leads to OK button."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST": {
+      "text_rect": {
+        "x1": 0.7950877868186912,
+        "y1": 0.2916584263948644,
+        "x2": 0.8870569742331191,
+        "y2": 0.3528050586776278
+      },
+      "button_rect": {
+        "x1": 0.7950877868186912,
+        "y1": 0.2916584263948644,
+        "x2": 0.8870569742331191,
+        "y2": 0.3528050586776278
+      },
+      "text": "REQUEST",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_support_request",
+      "description": "Alliance: Support: Request button."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_MENU": {
+      "text_rect": {
+        "x1": 0.3778617170849449,
+        "y1": 0.09758433262783313,
+        "x2": 0.6216174495817215,
+        "y2": 0.16006023952543905
+      },
+      "button_rect": null,
+      "text": "REQUEST FOR SUPPORT",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_support_request_menu",
+      "description": "Alliance: Support: Request For Support menu."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_NORN_STONE_OF_STRENGTH": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.38533888679343503,
+        "y1": 0.35546360790731313,
+        "x2": 0.4698309044993729,
+        "y2": 0.40464676865649224
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_norn_stone_of_strength",
+      "description": "Alliance: Support: Request For Support: Norn Stone of Strength."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_NORN_STONE_OF_ENERGY": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7375135800633177,
+        "y1": 0.3594514317518412,
+        "x2": 0.8235010317109535,
+        "y2": 0.40464676865649224
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_norn_stone_of_energy",
+      "description": "Alliance: Support: Request For Support: Norn Stone of Energy."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_NORN_STONE_OF_BRILLIANCE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.3860866037642841,
+        "y1": 0.5455498778298165,
+        "x2": 0.4713263384410709,
+        "y2": 0.5947330385789955
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_norn_stone_of_brilliance",
+      "description": "Alliance: Support: Request For Support: Norn Stone of Brilliance."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_NORN_STONE_OF_OMNIPOTENCE": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7367658630924686,
+        "y1": 0.542891328600131,
+        "x2": 0.8220055977692554,
+        "y2": 0.5907452147344675
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_norn_stone_of_omnipotence",
+      "description": "Alliance: Support: Request For Support: Norn Stone of Omnipotence."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_BLACK_ANTI_MATTER": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.38533888679343503,
+        "y1": 0.7356361477523196,
+        "x2": 0.47057862147022195,
+        "y2": 0.7569045415898026
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_black_anti_matter",
+      "description": "Alliance: Support: Request For Support: Black Anti-Matter."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_NORN_STONE_OF_CHAOS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7360181461216195,
+        "y1": 0.7356361477523196,
+        "x2": 0.8235010317109535,
+        "y2": 0.7582338162046451
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_norn_stone_of_chaos",
+      "description": "Alliance: Support: Request For Support: Norn Stone of Chaos."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_BOTTOM": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5251619603421994,
+        "y1": 0.675818790084399,
+        "x2": 0.5647909597971968,
+        "y2": 0.7489288939007465
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_menu_drag_bottom",
+      "description": "Alliance: Support: Request For Support: Drag position (bottom)."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_TOP": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.5191802245754075,
+        "y1": 0.26374365948316814,
+        "x2": 0.5647909597971968,
+        "y2": 0.3315366648401448
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_menu_drag_top",
+      "description": "Alliance: Support: Request For Support: Drag position (top)."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_MKRAAN_SHARD": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.3875820377059821,
+        "y1": 0.30760972177297663,
+        "x2": 0.4698309044993729,
+        "y2": 0.3581221571369984
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_mkraan_shard",
+      "description": "Alliance: Support: Request For Support: M'kraan Shard."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_PHOENIX_FEATHER": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7375135800633176,
+        "y1": 0.31026827100266197,
+        "x2": 0.8197624468567084,
+        "y2": 0.35413433329247046
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_phoenix_feather",
+      "description": "Alliance: Support: Request For Support: Phoenix Feather."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_MKRAAN_CRYSTAL": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.38533888679343503,
+        "y1": 0.5003545409251653,
+        "x2": 0.4698309044993729,
+        "y2": 0.5442206032149738
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_mkraan_crystal",
+      "description": "Alliance: Support: Request For Support: M'kraan Crystal."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_GEAR_UP_KIT": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.7382612970341665,
+        "y1": 0.49769599169547984,
+        "x2": 0.8190147298858593,
+        "y2": 0.5455498778298165
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_gear_up_kit",
+      "description": "Alliance: Support: Request For Support: Gear Up Kit."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_DIMENSION_DEBRIS": {
+      "text_rect": null,
+      "button_rect": {
+        "x1": 0.3830957358808881,
+        "y1": 0.6851237123882977,
+        "x2": 0.46833547055767494,
+        "y2": 0.7329775985226343
+      },
+      "text": null,
+      "image_threshold": null,
+      "chars": null,
+      "image_save_file": "alliance_support_request_dimension_debris",
+      "description": "Alliance: Support: Request For Support: Dimension Debris."
+    }
+  },
+  {
+    "ALLIANCE_SUPPORT_REQUEST_CONFIRM": {
+      "text_rect": {
+        "x1": 0.5610523749429518,
+        "y1": 0.7436117954413758,
+        "x2": 0.6036722422813452,
+        "y2": 0.7981120546499255
+      },
+      "button_rect": {
+        "x1": 0.5610523749429518,
+        "y1": 0.7436117954413758,
+        "x2": 0.6036722422813452,
+        "y2": 0.7981120546499255
+      },
+      "text": "OK",
+      "image_threshold": 150,
+      "chars": "OK",
+      "image_save_file": "alliance_support_request_confirm",
+      "description": "Alliance: Support: Request For Support: Confirm request."
     }
   },
   {

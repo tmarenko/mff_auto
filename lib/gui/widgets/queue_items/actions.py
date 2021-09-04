@@ -107,6 +107,31 @@ class _AllianceBuyEnergy(Action):
                                                      text="Buy all available copies of item for today"))
 
 
+class _AllianceRequestSupport(Action):
+
+    support_items = {
+        "Norn Stone of Strength": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_STRENGTH,
+        "Norn Stone of Energy": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_ENERGY,
+        "Norn Stone of Brilliance": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_BRILLIANCE,
+        "Norn Stone of Omnipotence": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_OMNIPOTENCE,
+        "Black Anti-Matter": routines.Alliance.SUPPORT_ITEM.BLACK_ANTI_MATTER,
+        "Norn Stone of Chaos": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_CHAOS,
+        "M'kraan Shard": routines.Alliance.SUPPORT_ITEM.MKRAAN_SHARD,
+        "Phoenix Feather": routines.Alliance.SUPPORT_ITEM.PHOENIX_FEATHER,
+        "M'kraan Crystal": routines.Alliance.SUPPORT_ITEM.MKRAAN_CRYSTAL,
+        "Gear Up Kit": routines.Alliance.SUPPORT_ITEM.GEAR_UP_KIT,
+        "Dimension Debris": routines.Alliance.SUPPORT_ITEM.DIMENSION_DEBRIS,
+    }
+
+    def __init__(self, game):
+        self.alliance = routines.Alliance(game)
+        super().__init__(game, "ALLIANCE: REQUEST SUPPORT", self.alliance.request_support_item)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Combobox,
+                                                     setting_key="support_item",
+                                                     text="Select item to request",
+                                                     values_dict=self.support_items))
+
+
 class _CollectFreeEnergy(Action):
 
     def __init__(self, game):
