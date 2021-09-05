@@ -174,3 +174,31 @@ class Alliance(Notifications):
         self.emulator.drag(self.ui['ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_BOTTOM'].button,
                            self.ui['ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_TOP'].button)
         r_sleep(1)
+
+    def collect_energy_from_challenges(self, collect_daily=True, collect_weekly=True):
+        if not collect_daily and not collect_weekly:
+            logger.info("Nothing to collect.")
+            return self.game.go_to_main_menu()
+        self.game.go_to_alliance()
+        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_CHALLENGES_TAB']):
+            logger.error("Can't find CHALLENGES tab, exiting.")
+            return self.game.go_to_main_menu()
+        self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_TAB'].button)
+
+        if collect_daily and wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                                        ui_element=self.ui['ALLIANCE_CHALLENGES_DAILY_ENERGY']):
+            logger.info(f"Collecting daily energy from challenge.")
+            self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_DAILY_ENERGY'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE']):
+                self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE'].button)
+
+        if collect_weekly and wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                                         ui_element=self.ui['ALLIANCE_CHALLENGES_WEEKLY_ENERGY']):
+            logger.info(f"Collecting weekly energy from challenge.")
+            self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_WEEKLY_ENERGY'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                          ui_element=self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE']):
+                self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE'].button)
+
+        self.game.go_to_main_menu()

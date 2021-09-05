@@ -1199,6 +1199,27 @@
     }
   },
   {
+    "ALLIANCE_CHALLENGES_TAB": {
+      "text_rect": {
+        "x1": 0.2178502853232574,
+        "y1": 0.1454382187621697,
+        "x2": 0.32926011397975957,
+        "y2": 0.1853164572074501
+      },
+      "button_rect": {
+        "x1": 0.2178502853232574,
+        "y1": 0.1454382187621697,
+        "x2": 0.32926011397975957,
+        "y2": 0.1853164572074501
+      },
+      "text": "CHALLENGES",
+      "image_threshold": 125,
+      "chars": null,
+      "image_save_file": "alliance_challenges_tab",
+      "description": "Alliance: Challenges tab."
+    }
+  },
+  {
     "ALLIANCE_SUPPORT_TAB": {
       "text_rect": {
         "x1": 0.38384345285173704,
@@ -1693,6 +1714,69 @@
       "chars": "OK",
       "image_save_file": "alliance_support_request_confirm",
       "description": "Alliance: Support: Request For Support: Confirm request."
+    }
+  },
+  {
+    "ALLIANCE_CHALLENGES_DAILY_ENERGY": {
+      "text_rect": {
+        "x1": 0.22757060594429449,
+        "y1": 0.875209982310801,
+        "x2": 0.3158012085044774,
+        "y2": 0.9363566145935645
+      },
+      "button_rect": {
+        "x1": 0.22757060594429449,
+        "y1": 0.875209982310801,
+        "x2": 0.3158012085044774,
+        "y2": 0.9363566145935645
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_challenges_daily_energy",
+      "description": "Alliance: Challenges: Daily energy acquire button.."
+    }
+  },
+  {
+    "ALLIANCE_CHALLENGES_WEEKLY_ENERGY": {
+      "text_rect": {
+        "x1": 0.6769485054245481,
+        "y1": 0.8738807076959585,
+        "x2": 0.7831243152851071,
+        "y2": 0.9336980653638791
+      },
+      "button_rect": {
+        "x1": 0.6769485054245481,
+        "y1": 0.8738807076959585,
+        "x2": 0.7831243152851071,
+        "y2": 0.9336980653638791
+      },
+      "text": "ACQUIRE",
+      "image_threshold": 150,
+      "chars": null,
+      "image_save_file": "alliance_challenges_weekly_energy",
+      "description": "Alliance: Challenges: Weekly energy acquire button.."
+    }
+  },
+  {
+    "ALLIANCE_CHALLENGES_REWARD_CLOSE": {
+      "text_rect": {
+        "x1": 0.47880350814956096,
+        "y1": 0.763550914664016,
+        "x2": 0.5259096773130485,
+        "y2": 0.8233682723319365
+      },
+      "button_rect": {
+        "x1": 0.47880350814956096,
+        "y1": 0.763550914664016,
+        "x2": 0.5259096773130485,
+        "y2": 0.8233682723319365
+      },
+      "text": "OK",
+      "image_threshold": 125,
+      "chars": "OK",
+      "image_save_file": "alliance_challenges_reward_close",
+      "description": "Alliance: Challenges: Energy acquire notification. Leads to OK button."
     }
   },
   {

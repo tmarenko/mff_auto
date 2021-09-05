@@ -132,6 +132,19 @@ class _AllianceRequestSupport(Action):
                                                      values_dict=self.support_items))
 
 
+class _AllianceChallengesEnergy(Action):
+
+    def __init__(self, game):
+        self.alliance = routines.Alliance(game)
+        super().__init__(game, "ALLIANCE: COLLECT ENERGY FROM CHALLENGES", self.alliance.collect_energy_from_challenges)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Checkbox,
+                                                     setting_key="collect_daily",
+                                                     text="Collect daily Challenges energy"))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Checkbox,
+                                                     setting_key="collect_weekly",
+                                                     text="Collect weekly Challenges energy"))
+
+
 class _CollectFreeEnergy(Action):
 
     def __init__(self, game):
