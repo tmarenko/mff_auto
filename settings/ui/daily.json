@@ -1409,6 +1409,27 @@
     }
   },
   {
+    "ALLIANCE_STORE_PURCHASE_NO_TOKENS": {
+      "text_rect": {
+        "x1": 0.4197338674524894,
+        "y1": 0.40996386711586297,
+        "x2": 0.578249865272479,
+        "y2": 0.45515920402051413
+      },
+      "button_rect": {
+        "x1": 0.3883297546768311,
+        "y1": 0.7156970285296794,
+        "x2": 0.4571197159949398,
+        "y2": 0.7728558369679147
+      },
+      "text": "Not enough Tokens.",
+      "image_threshold": 120,
+      "chars": null,
+      "image_save_file": "alliance_store_purchase_no_tokens",
+      "description": "Alliance: Store: Purchase: not enough tokens notification. Leads to CLOSE button."
+    }
+  },
+  {
     "ALLIANCE_SUPPORT_CLAIM": {
       "text_rect": {
         "x1": 0.8040603904688794,

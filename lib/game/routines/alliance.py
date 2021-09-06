@@ -112,12 +112,11 @@ class Alliance(Notifications):
                     logger.info("Item was bought.")
                     self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_CLOSE'].button)
                     return True
-                # TODO: no tokens scenario
-                # if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                #               ui_element=self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS']):
-                #     logger.info("Not enough Assemble Points for energy recharge.")
-                #     self.emulator.click_button(self.ui['STORE_RECHARGE_ENERGY_VIA_NO_POINTS'].button)
-                #     return False
+                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
+                              ui_element=self.ui['ALLIANCE_STORE_PURCHASE_NO_TOKENS']):
+                    logger.info("Not enough Alliance Tokens for purchase.")
+                    self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_NO_TOKENS'].button)
+                    return False
                 if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
                               ui_element=self.ui['ALLIANCE_STORE_PURCHASE_LIMIT']):
                     logger.info("Reached daily limit for purchasing.")
