@@ -106,13 +106,6 @@ class DimensionMission(Missions):
             self.acquire_rewards()
         self.end_missions()
 
-    def end_missions(self):
-        """End missions."""
-        if not self.game.is_main_menu():
-            self.game.emulator.click_button(self.ui['HOME'].button)
-            self.close_after_mission_notifications()
-            self.game.close_ads()
-
     def start_missions(self, times=0, difficulty=15, use_hidden_tickets=False):
         """Start Dimension Missions.
 
