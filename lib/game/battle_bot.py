@@ -19,6 +19,7 @@ class BattleBot:
         self.ui = game.ui
         self.emulator = game.emulator
         self._is_battle_cached = None
+        self._disconnected = False
         self._battle_over_conditions = battle_over_conditions if battle_over_conditions else []
         self._disconnect_conditions = disconnect_conditions if disconnect_conditions else []
         self._skip_tap_screen_high = self.ui['SKIP_TAP_THE_SCREEN'].copy()
@@ -42,6 +43,7 @@ class BattleBot:
         """
         for condition in self._disconnect_conditions:
             if condition():
+                self._disconnected = True
                 return True
         is_battle = self.is_battle() if not self._is_battle_cached else self._is_battle_cached
         if not is_battle:
@@ -101,6 +103,9 @@ class AutoBattleBot(BattleBot):
                 self.skip_cutscene()
             r_sleep(self._30_FPS)
         r_sleep(1)  # Wait for end of the battle animations
+        if self._disconnected:
+            logger.debug("Disconnect condition was triggered.")
+            return
         # Check for possible notifications after end of the battle
         if not wait_until(confirm_condition_by_time, confirm_condition=self.is_battle_over, timeout=10):
             return self.fight()
