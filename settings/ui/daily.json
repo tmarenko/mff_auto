@@ -1381,7 +1381,7 @@
         "y2": 0.8100755261835098
       },
       "text": "OK",
-      "image_threshold": 150,
+      "image_threshold": 120,
       "chars": "OK",
       "image_save_file": "alliance_store_purchase_close",
       "description": "Alliance: Store: Purchase: Close results."
