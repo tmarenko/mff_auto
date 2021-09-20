@@ -111,6 +111,7 @@ class Ui_MainWindow(object):
         self.queue_list_widget.setLineWidth(-1)
         self.queue_list_widget.setMidLineWidth(0)
         self.queue_list_widget.setDragDropMode(QtWidgets.QAbstractItemView.InternalMove)
+        self.queue_list_widget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.queue_list_widget.setProperty("isWrapping", True)
         self.queue_list_widget.setResizeMode(QtWidgets.QListView.Adjust)
         self.queue_list_widget.setWordWrap(False)

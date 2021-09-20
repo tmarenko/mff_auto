@@ -1,4 +1,4 @@
-﻿import json
+import json
 from os.path import exists
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem, QListWidget
@@ -130,6 +130,9 @@ class QueueList:
             if state == Qt.Unchecked:
                 self.deselect_all()
         if isinstance(item, QueueItem):
+            if len(self.widget.selectedItems()) > 1:
+                for selected_item in self.widget.selectedItems():
+                    selected_item.setCheckState(item.checkState())
             self.change_select_all_state()
 
     def load_queue_from_file(self):
@@ -222,6 +225,9 @@ class QueueList:
         """Remove current item from queue."""
         item = self.widget.currentItem()
         if item and isinstance(item, QueueItem):
+            if len(self.widget.selectedItems()) > 1:
+                for selected_item in self.widget.selectedItems():
+                    self.remove_item(selected_item)
             self.remove_item(item)
 
     def remove_item(self, item):

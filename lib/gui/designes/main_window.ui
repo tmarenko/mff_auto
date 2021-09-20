@@ -232,6 +232,9 @@
            <property name="dragDropMode">
             <enum>QAbstractItemView::InternalMove</enum>
            </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
            <property name="isWrapping" stdset="0">
             <bool>true</bool>
            </property>
