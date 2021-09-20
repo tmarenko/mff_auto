@@ -48,11 +48,11 @@ class BlueStacks(AndroidEmulator):
         logging.warning(f"{self.name} {self.get_version()}: doesn't support closing apps through shortcuts.")
         return False
 
-    def drag(self, from_rect, to_rect, duration=0.7, steps_count=100):
+    def drag(self, from_ui, to_ui, duration=0.7, steps_count=100):
         """Click, hold and drag.
 
-        :param from_rect: rectangle of dragging position "From".
-        :param to_rect: rectangle of dragging position "To".
+        :param from_ui: UI element of dragging position "From".
+        :param to_ui: UI element of dragging position "To".
         :param duration: duration of dragging.
         :param steps_count: steps of dragging.
         """
@@ -61,8 +61,8 @@ class BlueStacks(AndroidEmulator):
             p_y = ((y2 - y1) * n) + y1
             return int(p_x), int(p_y)
 
-        from_position = self.get_position_inside_screen_rectangle(from_rect)
-        to_position = self.get_position_inside_screen_rectangle(to_rect)
+        from_position = self.get_position_inside_screen_rectangle(from_ui.button_rect.global_rect)
+        to_position = self.get_position_inside_screen_rectangle(to_ui.button_rect.global_rect)
         self.win32_api_post_message(self.hwnd, win32con.WM_MOUSEMOVE, 0, win32api.MAKELONG(*from_position))
         self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONDOWN, 0, win32api.MAKELONG(*from_position))
 

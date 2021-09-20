@@ -1,4 +1,5 @@
-import logging
+﻿import logging
+from lib.game import ui
 from lib.functions import wait_until
 
 logger = logging.getLogger(__name__)
@@ -13,26 +14,23 @@ class HeroicQuests:
         :param game.Game game: instance of the game.
         """
         self.emulator = game.emulator
-        self.ui = game.ui
         self.game = game
 
     def close_chest_notification(self):
         """Close 'Buy Crystal Chest' notification."""
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL']):
-            self.emulator.click_button(self.ui['HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK']):
-                self.emulator.click_button(self.ui['HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL):
+            self.emulator.click_button(ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK):
+                self.emulator.click_button(ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK)
                 return True
         return False
 
     def acquire_reward(self):
         """Acquire quest reward."""
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['HQ_ACQUIRE_REWARD']):
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.HQ_ACQUIRE_REWARD):
             logger.debug("Acquiring Heroic Quest reward.")
-            self.emulator.click_button(self.ui['HQ_ACQUIRE_REWARD'].button, min_duration=0.5, max_duration=0.7)
-            self.emulator.click_button(self.ui['HQ_ACQUIRE_REWARD'].button)
+            self.emulator.click_button(ui.HQ_ACQUIRE_REWARD, min_duration=0.5, max_duration=0.7)
+            self.emulator.click_button(ui.HQ_ACQUIRE_REWARD)
             return True
         return False
 
@@ -43,7 +41,7 @@ class HeroicQuests:
             return True
         if self.acquire_reward():
             logger.info("Heroic Quest reward acquired. Going back.")
-            self.emulator.click_button(self.ui['MENU_BACK'].button)
+            self.emulator.click_button(ui.MENU_BACK)
             return True
         logger.warning("Something went wrong while acquiring Heroic Quest reward. Going to main menu.")
         self.game.go_to_main_menu()

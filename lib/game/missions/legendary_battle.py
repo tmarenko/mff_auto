@@ -1,6 +1,7 @@
-from lib.functions import wait_until, r_sleep
+﻿from lib.functions import wait_until, r_sleep
 from lib.game.missions.missions import Missions
 from lib.game.battle_bot import ManualBattleBot
+from lib.game import ui
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -29,12 +30,12 @@ class LegendaryBattle(Missions):
 
         :param game.Game game: instance of the game.
         """
-        super().__init__(game, 'LB_LABEL')
+        super().__init__(game, mode_name='LEGENDARY BATTLE')
 
     @property
     def battle_over_conditions(self):
         def score():
-            return self.emulator.is_ui_element_on_screen(self.ui['LEGENDARY_SCORE'])
+            return self.emulator.is_ui_element_on_screen(ui.LEGENDARY_SCORE)
 
         return [score]
 
@@ -65,17 +66,15 @@ class LegendaryBattle(Missions):
                 ManualBattleBot(self.game, self.battle_over_conditions).fight()
                 self.stages -= 1
                 if self.stages > 0:
-                    self.press_repeat_button(repeat_button_ui='LB_REPEAT_BUTTON', start_button_ui='LB_START_BUTTON')
-            self.press_home_button(home_button='LB_HOME_BUTTON')
+                    self.press_repeat_button(repeat_button_ui=ui.LB_REPEAT_BUTTON, start_button_ui=ui.LB_START_BUTTON)
+            self.press_home_button(home_button=ui.LB_HOME_BUTTON)
         logger.info("No more stages.")
 
     def open_legendary_battle(self):
         """Go to Legendary Battle stages list screen."""
         self.game.select_mode(self.mode_name)
-        legendary_home = wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                    ui_element=self.ui['LB_MENU_LABEL'])
-        difficulty_on_screen = wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                          ui_element=self.ui['LB_DIFFICULTY_NORMAL'])
+        legendary_home = wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_MENU_LABEL)
+        difficulty_on_screen = wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_DIFFICULTY_NORMAL)
         return legendary_home and difficulty_on_screen
 
     def _select_legendary_battle(self, battle, mode):
@@ -91,20 +90,20 @@ class LegendaryBattle(Missions):
             logger.error(f"Got wrong battle: {battle}.")
             return False
         if battle == self.THOR_RAGNAROK:
-            return self._select_legendary_battle_from_bottom(title=self.ui['LB_RAGNAROK_BATTLE_TITLE'],
-                                                             battle=self.ui['LB_RAGNAROK_BATTLE'], mode=mode)
+            return self._select_legendary_battle_from_bottom(title=ui.LB_RAGNAROK_BATTLE_TITLE,
+                                                             battle=ui.LB_RAGNAROK_BATTLE, mode=mode)
         if battle == self.BLACK_PANTHER:
-            return self._select_legendary_battle_from_bottom(title=self.ui['LB_BLACK_PANTHER_BATTLE_TITLE'],
-                                                             battle=self.ui['LB_BLACK_PANTHER_BATTLE'], mode=mode)
+            return self._select_legendary_battle_from_bottom(title=ui.LB_BLACK_PANTHER_BATTLE_TITLE,
+                                                             battle=ui.LB_BLACK_PANTHER_BATTLE, mode=mode)
         if battle == self.INFINITY_WAR:
-            return self._select_legendary_battle_from_bottom(title=self.ui['LB_INFINITY_WAR_BATTLE_TITLE'],
-                                                             battle=self.ui['LB_INFINITY_WAR_BATTLE'], mode=mode)
+            return self._select_legendary_battle_from_bottom(title=ui.LB_INFINITY_WAR_BATTLE_TITLE,
+                                                             battle=ui.LB_INFINITY_WAR_BATTLE, mode=mode)
         if battle == self.ANT_MAN:
-            return self._select_legendary_battle_from_bottom(title=self.ui['LB_ANT_MAN_BATTLE_TITLE'],
-                                                             battle=self.ui['LB_ANT_MAN_BATTLE'], mode=mode)
+            return self._select_legendary_battle_from_bottom(title=ui.LB_ANT_MAN_BATTLE_TITLE,
+                                                             battle=ui.LB_ANT_MAN_BATTLE, mode=mode)
         if battle == self.CAPTAIN_MARVEL:
-            return self._select_legendary_battle_from_bottom(title=self.ui['LB_CAPTAIN_MARVEL_BATTLE_TITLE'],
-                                                             battle=self.ui['LB_CAPTAIN_MARVEL_BATTLE'], mode=mode)
+            return self._select_legendary_battle_from_bottom(title=ui.LB_CAPTAIN_MARVEL_BATTLE_TITLE,
+                                                             battle=ui.LB_CAPTAIN_MARVEL_BATTLE, mode=mode)
 
     def _select_battle_mode(self, mode):
         """Select battle mode.
@@ -112,18 +111,17 @@ class LegendaryBattle(Missions):
         :param mode: difficulty of legendary battle.
         """
         if mode == self.MODE.NORMAL:
-            if self.emulator.is_ui_element_on_screen(ui_element=self.ui['LB_DIFFICULTY_NORMAL']):
+            if self.emulator.is_ui_element_on_screen(ui_element=ui.LB_DIFFICULTY_NORMAL):
                 logger.debug(f"Selecting {mode} mode.")
-                self.emulator.click_button(self.ui['LB_DIFFICULTY_NORMAL'].button)
+                self.emulator.click_button(ui.LB_DIFFICULTY_NORMAL)
                 return True
         if mode == self.MODE.EXTREME:
-            if self.emulator.is_ui_element_on_screen(ui_element=self.ui['LB_DIFFICULTY_EXTREME']):
+            if self.emulator.is_ui_element_on_screen(ui_element=ui.LB_DIFFICULTY_EXTREME):
                 logger.debug(f"Selecting {mode} mode.")
-                self.emulator.click_button(self.ui['LB_DIFFICULTY_EXTREME'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['LB_EXTREME_UPGRADE']):
+                self.emulator.click_button(ui.LB_DIFFICULTY_EXTREME)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_EXTREME_UPGRADE):
                     logger.error(f"{mode} mode is unavailable, you need to buy it first.")
-                    self.emulator.click_button(self.ui['LB_EXTREME_UPGRADE'].button)
+                    self.emulator.click_button(ui.LB_EXTREME_UPGRADE)
                     return False
                 return True
 
@@ -134,35 +132,36 @@ class LegendaryBattle(Missions):
         :param UIElement battle: legendary battle.
         :param mode: difficulty of legendary battle.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=title):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=title):
             logger.debug(f"Found selected {title.text}, entering with {mode} mode.")
             return self._select_battle_mode(mode=mode)
         else:
             logger.debug(f"{title.text} isn't selected, trying to found it.")
-            self.emulator.drag(self.ui['LB_DRAG_FROM'].button, self.ui['LB_DRAG_TO'].button)
+            self.emulator.drag(ui.LB_DRAG_FROM, ui.LB_DRAG_TO)
             r_sleep(1)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=battle):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=battle):
                 logger.debug(f"Found {title.text} battle. Selecting.")
-                self.emulator.click_button(battle.button)
+                self.emulator.click_button(battle)
                 return self._select_legendary_battle_from_bottom(title=title, battle=battle, mode=mode)
         return False
 
     def _select_stage(self, stage):
         """Select stage of the battle."""
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui[stage]):
-            self.emulator.click_button(self.ui[stage].button)
+        stage_ui = ui.get_by_name(stage)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=stage_ui):
+            self.emulator.click_button(stage_ui)
             return True
         return False
 
-    def press_start_button(self, start_button_ui='LB_START_BUTTON'):
+    def press_start_button(self, start_button_ui=ui.LB_START_BUTTON):
         """Press start button of the mission."""
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui[start_button_ui]):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=start_button_ui):
             r_sleep(1)  # Sometimes it's need time for enabling
-            self.emulator.click_button(self.ui[start_button_ui].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['LB_NO_REWARD_NOTICE']):
-                self.emulator.click_button(self.ui['LB_NO_REWARD_NOTICE'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['LB_IGNORE_NOTICE']):
-                self.emulator.click_button(self.ui['LB_IGNORE_NOTICE'].button)
+            self.emulator.click_button(start_button_ui)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_NO_REWARD_NOTICE):
+                self.emulator.click_button(ui.LB_NO_REWARD_NOTICE)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_IGNORE_NOTICE):
+                self.emulator.click_button(ui.LB_IGNORE_NOTICE)
             return True
         logger.error(f"Can't find {start_button_ui} button.")
         return False

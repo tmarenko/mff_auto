@@ -36,7 +36,6 @@ class Game(Notifications):
         """
         self.emulator = emulator
         self._apply_decorators()
-        self.ui = ui.load_ui_elements()
         self._mode_names = ui.load_game_modes()
         self._user_name = user_name
         self._current_energy, self._energy_max = 0, 0
@@ -98,7 +97,7 @@ class Game(Notifications):
 
     def _main_panel_visible(self):
         """Checks if you can see main panel with gold, energy, etc."""
-        return self.emulator.is_image_on_screen(self.ui['GOLD_ICON'])
+        return self.emulator.is_image_on_screen(ui.GOLD_ICON)
 
     @property
     def user_name(self):
@@ -106,14 +105,14 @@ class Game(Notifications):
         if not self._user_name:
             if not self.is_main_menu():
                 self.go_to_main_menu()
-            self._user_name = self.emulator.get_screen_text(self.ui['USER_NAME'])
+            self._user_name = self.emulator.get_screen_text(ui.USER_NAME)
         return self._user_name
 
     @property
     def energy(self):
         """Game energy bar's value."""
         if self._main_panel_visible():
-            energy = self.emulator.get_screen_text(self.ui['ENERGY']).replace(",", "")
+            energy = self.emulator.get_screen_text(ui.ENERGY).replace(",", "")
             self._current_energy, self._energy_max = self.get_current_and_max_values_from_text(energy)
         return self._current_energy
 
@@ -121,7 +120,7 @@ class Game(Notifications):
     def energy_max(self):
         """Max value of energy."""
         if self._main_panel_visible():
-            energy = self.emulator.get_screen_text(self.ui['ENERGY']).replace(",", "")
+            energy = self.emulator.get_screen_text(ui.ENERGY).replace(",", "")
             self._current_energy, self._energy_max = self.get_current_and_max_values_from_text(energy)
         return self._energy_max
 
@@ -129,14 +128,14 @@ class Game(Notifications):
     def gold(self):
         """Game's gold value."""
         if self._main_panel_visible():
-            self._gold = self.emulator.get_screen_text(self.ui['GOLD']).replace(",", "")
+            self._gold = self.emulator.get_screen_text(ui.GOLD).replace(",", "")
         return self._gold
 
     @property
     def boost(self):
         """Game boost points' value."""
         if self._main_panel_visible():
-            self._boost = self.emulator.get_screen_text(self.ui['BOOST']).replace(",", "")
+            self._boost = self.emulator.get_screen_text(ui.BOOST).replace(",", "")
         return self._boost
 
     def get_all_modes(self):
@@ -172,34 +171,30 @@ class Game(Notifications):
 
     def is_main_menu(self):
         """Check if is current screen is main menu."""
-        return self.emulator.is_ui_element_on_screen(self.ui['TEAM']) and self.emulator.is_ui_element_on_screen(
-            self.ui['STORE'])
+        return self.emulator.is_ui_element_on_screen(ui.TEAM) and self.emulator.is_ui_element_on_screen(ui.STORE)
 
     def is_loading_circle(self):
         """Check if loading circle is on screen."""
-        loading_circle_rects = [self.ui['LOADING_CIRCLE_1'].rect, self.ui['LOADING_CIRCLE_2'].rect,
-                                self.ui['LOADING_CIRCLE_3'].rect, self.ui['LOADING_CIRCLE_4'].rect,
-                                self.ui['LOADING_CIRCLE_5'].rect, self.ui['LOADING_CIRCLE_6'].rect,
-                                self.ui['LOADING_CIRCLE_7'].rect, self.ui['LOADING_CIRCLE_8'].rect]
-        loading_color = self.ui['LOADING_CIRCLE_1'].button
-        return self.emulator.is_color_similar(color=(loading_color[0], loading_color[1], loading_color[2]),
-                                              rects=loading_circle_rects)
+        loading_circle_rects = [ui.LOADING_CIRCLE_1.image_rect, ui.LOADING_CIRCLE_2.image_rect,
+                                ui.LOADING_CIRCLE_3.image_rect, ui.LOADING_CIRCLE_4.image_rect,
+                                ui.LOADING_CIRCLE_5.image_rect, ui.LOADING_CIRCLE_6.image_rect,
+                                ui.LOADING_CIRCLE_7.image_rect, ui.LOADING_CIRCLE_8.image_rect]
+        return self.emulator.is_color_similar(color=ui.LOADING_CIRCLE_1.image_color, rects=loading_circle_rects)
 
     def go_to_main_menu(self):
         """Go to main menu screen."""
         if not self.is_main_menu():
-            if self.emulator.is_image_on_screen(self.ui['HOME']):
-                self.emulator.click_button(self.ui['HOME'].button)
+            if self.emulator.is_image_on_screen(ui.HOME):
+                self.emulator.click_button(ui.HOME)
                 self.close_ads()
         return self.is_main_menu()
 
     def go_to_content_status_board(self):
         """Go to Content Status Board screen."""
         self.go_to_main_menu()
-        if wait_until(self.is_main_menu, timeout=3):
-            self.emulator.click_button(self.ui['CONTENT_STATUS_BOARD_BUTTON'].button)
-            return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['CONTENT_STATUS_BOARD_LABEL'])
+        if wait_until(self.is_main_menu):
+            self.emulator.click_button(ui.CONTENT_STATUS_BOARD_BUTTON)
+            return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CONTENT_STATUS_BOARD_LABEL)
 
     def find_mode_on_content_status_board(self, mode_name):
         """Find game mode on Content Status Board.
@@ -211,24 +206,19 @@ class Game(Notifications):
         if not self.go_to_content_status_board():
             logger.error("Failed to open Content Status board.")
             return
-        mode_from_board_1 = self.find_mode_on_board(mode_name=mode_name, board=self.ui['CONTENT_STATUS_BOARD_1'],
-                                                    element=self.ui['CONTENT_STATUS_ELEMENT_1'], rows=3, cols=4)
+        mode_from_board_1 = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_1, rows=3, cols=4)
         if mode_from_board_1:
             return mode_from_board_1
-        else:
-            self.emulator.drag(self.ui['CONTENT_STATUS_DRAG_FROM'].button, self.ui['CONTENT_STATUS_DRAG_TO'].button,
-                               duration=0.2)
-            r_sleep(1)
-            return self.find_mode_on_board(mode_name=mode_name, board=self.ui['CONTENT_STATUS_BOARD_2'],
-                                           element=self.ui['CONTENT_STATUS_ELEMENT_1'], rows=3, cols=4)
+        self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
+        r_sleep(1)
+        return self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_2, rows=3, cols=4)
 
-    def find_mode_on_board(self, mode_name, board, element, rows, cols):
+    def find_mode_on_board(self, mode_name, board, rows, cols):
         """Parse information from Content Status Board screen about game modes.
         Screen contains table of game modes with additional info.
 
         :param mode_name: mode's name.
         :param board: rectangle of Content Status Board.
-        :param element: template of rectangle of game mode element. Contains only width/height information.
         :param rows: rows count of board's table.
         :param cols: cols count of board's table.
 
@@ -241,11 +231,11 @@ class Game(Notifications):
                 yield chunk
 
         self.emulator.get_screen_image()  # Store frame to cache for multi-threading the search
-        offset = element.button
-        elements = [(board.rect, ui.Rect(i * element.rect.width + i * offset.width,
-                                         j * element.rect.height + j * offset.height,
-                                         (i + 1) * element.rect.width + i * offset.width,
-                                         (j + 1) * element.rect.height + j * offset.height))
+        element = ui.CONTENT_STATUS_ELEMENT_1  # Element contain button rectangle of local position and it's offset
+        elements = [(board.button_rect, ui.Rect(i * element.button_rect.width + i * element.offset.width,
+                                                j * element.button_rect.height + j * element.offset.height,
+                                                (i + 1) * element.button_rect.width + i * element.offset.width,
+                                                (j + 1) * element.button_rect.height + j * element.offset.height))
                     for j in range(cols) for i in range(rows)]
         with ThreadPool() as pool:
             for chunk_element in chunk_items(items=elements, chunk_size=cpu_count()):
@@ -264,19 +254,20 @@ class Game(Notifications):
         :return: dictionary with information about game mode inside element_rect.
         """
         # Getting global rects of elements
-        element_ui = ui.UIElement('UI_BOARD_ELEMENT', text_rect=element_rect)
-        element_ui.rect.parent = board_rect
-        self.ui['CONTENT_STATUS_ELEMENT_LABEL'].rect.parent = element_ui.rect
-        self.ui['CONTENT_STATUS_ELEMENT_STAGE'].rect.parent = element_ui.rect
+        element_ui = ui.UIElement(name='UI_BOARD_ELEMENT')
+        element_ui.button_rect = element_rect
+        element_ui.button_rect.parent = board_rect
+        ui.CONTENT_STATUS_ELEMENT_LABEL.text_rect.parent = element_ui.image_rect
+        ui.CONTENT_STATUS_ELEMENT_STAGE.text_rect.parent = element_ui.image_rect
         # Getting board image and element image. Use it for stage recognize
         board_image = self.emulator.get_screen_image(board_rect.value)
-        element_image = self.emulator.get_image_from_image(board_image, element_ui)
+        element_image = self.emulator.get_image_from_image(board_image, rect=element_ui.button_rect)
         stage_label_image = self.emulator.get_image_from_image(element_image,
-                                                               self.ui['CONTENT_STATUS_ELEMENT_LABEL'])
-        stage_label = self.emulator.get_screen_text(self.ui['CONTENT_STATUS_ELEMENT_LABEL'], screen=stage_label_image)
+                                                               rect=ui.CONTENT_STATUS_ELEMENT_LABEL.text_rect)
+        stage_label = self.emulator.get_screen_text(ui.CONTENT_STATUS_ELEMENT_LABEL, screen=stage_label_image)
         stage_counter_image = self.emulator.get_image_from_image(element_image,
-                                                                 self.ui['CONTENT_STATUS_ELEMENT_STAGE'])
-        stage_counter_text = self.emulator.get_screen_text(self.ui['CONTENT_STATUS_ELEMENT_STAGE'],
+                                                                 rect=ui.CONTENT_STATUS_ELEMENT_STAGE.text_rect)
+        stage_counter_text = self.emulator.get_screen_text(ui.CONTENT_STATUS_ELEMENT_STAGE,
                                                            screen=stage_counter_image)
         logger.debug(f"Stage: {stage_label}; stages: {stage_counter_text}")
         current_stages, max_stages = self.get_current_and_max_values_from_text(stage_counter_text)
@@ -284,7 +275,7 @@ class Game(Notifications):
         for mode_name in self._mode_names:
             if is_strings_similar(mode_name, stage_label):
                 game_mode = GameMode(name=mode_name, stages=current_stages, max_stages=max_stages,
-                                     ui_button=element_ui.rect.global_rect, ui_board=board_rect.value)
+                                     ui_button=element_ui, ui_board=board_rect.value)
                 return game_mode
 
     def select_mode(self, name):
@@ -296,10 +287,9 @@ class Game(Notifications):
             logger.error("Failed to open Content Status board.")
             return False
         mode = self._modes[name]
-        if mode.ui_board == self.ui['CONTENT_STATUS_BOARD_2'].rect.value:
+        if mode.ui_board == ui.CONTENT_STATUS_BOARD_2.button_rect.value:
             logger.debug(f"Mode {name} is on second board. Dragging")
-            self.emulator.drag(self.ui['CONTENT_STATUS_DRAG_FROM'].button, self.ui['CONTENT_STATUS_DRAG_TO'].button,
-                               duration=0.4)
+            self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.4)
             r_sleep(1)
         self.emulator.click_button(mode.ui_button)
         return True
@@ -307,9 +297,9 @@ class Game(Notifications):
     def go_to_mission_selection(self):
         """Go to Missions screen."""
         self.go_to_main_menu()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
-            self.emulator.click_button(self.ui['ENTER_MISSIONS'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['SELECT_MISSION']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
+            self.emulator.click_button(ui.ENTER_MISSIONS)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.SELECT_MISSION):
                 r_sleep(1)
                 return True
 
@@ -319,10 +309,10 @@ class Game(Notifications):
         Go to Challenges screen.
         """
         self.go_to_main_menu()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
-            self.emulator.click_button(self.ui['ENTER_MISSIONS'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
+            self.emulator.click_button(ui.ENTER_MISSIONS)
             r_sleep(1)
-            self.emulator.click_button(self.ui['CHALLENGE_MISSIONS'].button)
+            self.emulator.click_button(ui.CHALLENGE_MISSIONS)
             r_sleep(1)
 
     def go_to_arena(self):
@@ -331,118 +321,110 @@ class Game(Notifications):
         Go to Arena screen.
         """
         self.go_to_main_menu()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
-            self.emulator.click_button(self.ui['ENTER_MISSIONS'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
+            self.emulator.click_button(ui.ENTER_MISSIONS)
             r_sleep(1)
-            self.emulator.click_button(self.ui['ARENA_MISSIONS'].button)
+            self.emulator.click_button(ui.ARENA_MISSIONS)
             r_sleep(1)
 
     def go_to_coop(self):
         """Go to Co-op screen."""
         self.go_to_main_menu()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ENTER_MISSIONS']):
-            self.emulator.click_button(self.ui['ENTER_MISSIONS'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['COOP_MISSIONS']):
-                self.emulator.click_button(self.ui['COOP_MISSIONS'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
+            self.emulator.click_button(ui.ENTER_MISSIONS)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.COOP_MISSIONS):
+                self.emulator.click_button(ui.COOP_MISSIONS)
 
     def go_to_challenges(self):
         """Go to Challenges screen."""
         self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_CHALLENGES']):
-                self.emulator.click_button(self.ui['MAIN_MENU_CHALLENGES'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['CHALLENGES_STAGE_LABEL'])
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_CHALLENGES):
+                self.emulator.click_button(ui.MAIN_MENU_CHALLENGES)
+                return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CHALLENGES_STAGE_LABEL)
             logger.warning("Can't find Challenges button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
+            self.emulator.click_button(ui.MAIN_MENU)
         return False
 
     def go_to_comic_cards(self):
         """Go to Comic Cards screen."""
         self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_CARDS']):
-                self.emulator.click_button(self.ui['MAIN_MENU_CARDS'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['CARDS_STAGE_LABEL'])
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_CARDS):
+                self.emulator.click_button(ui.MAIN_MENU_CARDS)
+                return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CARDS_STAGE_LABEL)
             logger.warning("Can't find Comic Cards button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
+            self.emulator.click_button(ui.MAIN_MENU)
         return False
 
     def go_to_inventory(self):
         """Go to Inventory screen."""
         self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_INVENTORY']):
-                self.emulator.click_button(self.ui['MAIN_MENU_INVENTORY'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['INVENTORY_STAGE_LABEL'])
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_INVENTORY):
+                self.emulator.click_button(ui.MAIN_MENU_INVENTORY)
+                return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INVENTORY_STAGE_LABEL)
             logger.warning("Can't find Inventory button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
+            self.emulator.click_button(ui.MAIN_MENU)
         return False
 
     def go_to_friends(self):
         """Go to Friends screen."""
         self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_FRIENDS']):
-                self.emulator.click_button(self.ui['MAIN_MENU_FRIENDS'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['FRIENDS_LABEL'])
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_FRIENDS):
+                self.emulator.click_button(ui.MAIN_MENU_FRIENDS)
+                return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.FRIENDS_LABEL)
             logger.warning("Can't find Friends button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
+            self.emulator.click_button(ui.MAIN_MENU)
         return False
 
     def go_to_alliance(self):
         """Go to Alliance screen."""
         self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_ALLIANCE']):
-                self.emulator.click_button(self.ui['MAIN_MENU_ALLIANCE'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['ALLIANCE_LEVEL_UP_NOTIFICATION']):
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_ALLIANCE):
+                self.emulator.click_button(ui.MAIN_MENU_ALLIANCE)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_LEVEL_UP_NOTIFICATION):
                     logger.debug("Closing Alliance level up notification.")
-                    self.emulator.click_button(self.ui['ALLIANCE_LEVEL_UP_NOTIFICATION'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['ALLIANCE_LABEL'])
+                    self.emulator.click_button(ui.ALLIANCE_LEVEL_UP_NOTIFICATION)
+                return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_LABEL)
             logger.warning("Can't find Alliance button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
+            self.emulator.click_button(ui.MAIN_MENU)
         return False
 
     def go_to_inbox(self):
         """Go to Inbox screen."""
         self.go_to_main_menu()
-        self.emulator.click_button(self.ui['MAIN_MENU'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU']):
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['MAIN_MENU_INBOX']):
-                self.emulator.click_button(self.ui['MAIN_MENU_INBOX'].button)
-                return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['INBOX_LABEL'])
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_INBOX):
+                self.emulator.click_button(ui.MAIN_MENU_INBOX)
+                return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INBOX_LABEL)
             logger.warning("Can't find Inbox button in Main menu, exiting")
-            self.emulator.click_button(self.ui['MAIN_MENU'].button)
+            self.emulator.click_button(ui.MAIN_MENU)
         return False
 
     def go_to_epic_quests(self):
         """Go to Epic Quests screen."""
         if self.go_to_mission_selection():
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EPIC_QUEST_MISSIONS']):
-                self.emulator.click_button(self.ui['EPIC_QUEST_MISSIONS'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['EQ_LABEL']):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EPIC_QUEST_MISSIONS):
+                self.emulator.click_button(ui.EPIC_QUEST_MISSIONS)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EQ_LABEL):
                     r_sleep(1)
                     return True
 
     def go_to_dispatch_mission(self):
         """Go to Dispatch Mission screen."""
         if self.go_to_mission_selection():
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DISPATCH_MISSION']):
-                self.emulator.click_button(self.ui['DISPATCH_MISSION'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['DISPATCH_MISSION_LABEL']):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DISPATCH_MISSION):
+                self.emulator.click_button(ui.DISPATCH_MISSION)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DISPATCH_MISSION_LABEL):
                     r_sleep(1)
                     return True
 
@@ -491,7 +473,7 @@ class Game(Notifications):
             return is_main_menu
 
         logger.debug("Starting game.")
-        self.emulator.click_button(self.ui['GAME_APP'].button)
+        self.emulator.click_button(ui.GAME_APP)
         if wait_until(confirm_condition_by_time, confirm_condition=is_game_started, timeout=120):
             logger.debug("Game started successfully.")
             return True

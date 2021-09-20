@@ -18,7 +18,8 @@ from lib.gui.helper import TwoStateButton, set_default_icon, Timer, try_to_disco
 
 from lib.game.game import Game
 from lib.game.battle_bot import BattleBot
-from lib.game.ui import Rect
+from lib.game.ui.general import Rect
+from lib.game import ui
 from lib.emulators.nox_player import NoxPlayer
 from lib.emulators.bluestacks import BlueStacks
 from lib.video_capture import EmulatorCapture
@@ -242,7 +243,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             self.restart_game_button = None
         self.game = Game(self.emulator)
         if self.game_app_rect:
-            self.game.ui['GAME_APP'].button = Rect(*self.game_app_rect)
+            ui.GAME_APP.button_rect = Rect(*self.game_app_rect)
 
     def _create_menu_for_recorder(self):
         """Creates menu bar for emulator recording."""

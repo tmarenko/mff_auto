@@ -11,7 +11,7 @@ from ctypes import windll
 from numpy import array
 from distutils.version import LooseVersion
 from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
-    is_color_similar, r_sleep, get_file_properties
+    is_color_similar, r_sleep, get_file_properties, convert_colors_in_image
 
 PW_CLIENTONLY = 1  # Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
 PW_RENDERFULLCONTENT = 2  # Properly capture DirectComposition window contents. Available from Windows 8.1
@@ -194,17 +194,17 @@ class AndroidEmulator(object):
         return array(screen)
 
     @staticmethod
-    def get_image_from_image(image, ui_element):
+    def get_image_from_image(image, rect):
         """Get screen image from another image.
 
         :param image: numpy.array of image.
-        :param ui.UIElement ui_element: UI element.
+        :param rect: rectangle to crop.
 
         :return: numpy.array of image.
         """
         image = Image.fromarray(image)
-        box = (ui_element.rect[0] * image.width, ui_element.rect[1] * image.height,
-               ui_element.rect[2] * image.width, ui_element.rect[3] * image.height)
+        box = (rect[0] * image.width, rect[1] * image.height,
+               rect[2] * image.width, rect[3] * image.height)
         screen = image.crop(box)
         return array(screen)
 
@@ -237,26 +237,30 @@ class AndroidEmulator(object):
     def get_screen_text(self, ui_element, screen=None):
         """Get text from screen.
 
-        :param ui.UIElement ui_element: UI element.
+        :param ui_element: UI element.
         :param screen: screen image.
 
         :return: text from the image.
         """
-        image = screen if screen is not None else self.get_screen_image(ui_element.rect)
-        return get_text_from_image(image=image, threshold=ui_element.threshold, chars=ui_element.chars,
-                                   save_file=ui_element.save_file, max_height=ui_element.max_height)
+        image = self.get_screen_image(ui_element.text_rect) if screen is None else screen
+        if ui_element.color_to_convert:
+            image = convert_colors_in_image(image=image, colors=ui_element.color_to_convert)
+        return get_text_from_image(image=image, threshold=ui_element.text_threshold,
+                                   chars=ui_element.available_characters,
+                                   max_height=ui_element.tesseract_resize_height,
+                                   save_file=ui_element.name)
 
     def is_image_on_screen(self, ui_element, screen=None):
         """Check if image is on screen.
 
-        :param ui.UIElement ui_element: UI element.
+        :param ui_element: UI element.
         :param screen: screen image.
 
         :return: True or False.
         """
-        rect = ui_element.rect if ui_element.rect else ui_element.button
-        screen_image = screen if screen is not None else self.get_screen_image(rect)
-        return is_images_similar(screen_image, ui_element.image, ui_element.threshold, save_file=ui_element.save_file)
+        image = self.get_screen_image(ui_element.image_rect) if screen is None else screen
+        return is_images_similar(image1=image, image2=ui_element.image,
+                                 overlap=ui_element.image_threshold, save_file=ui_element.name)
 
     def is_ui_element_on_screen(self, ui_element, screen=None):
         """Check if UI element is on screen.
@@ -285,16 +289,16 @@ class AndroidEmulator(object):
             similar = similar or True if is_color_similar(color, screen_color) else similar or False
         return similar
 
-    def click_button(self, button_rect, min_duration=0.1, max_duration=0.25):
+    def click_button(self, ui_element, min_duration=0.1, max_duration=0.25):
         """Click inside button rectangle.
 
-        :param button_rect: rectangle of button.
+        :param ui_element: UI element.
         :param min_duration: minimum duration between clicking.
         :param max_duration: maximum duration between clicking.
         """
         duration = random.uniform(min_duration, max_duration)
         r_sleep(duration)
-        x, y = self.get_position_inside_screen_rectangle(button_rect)
+        x, y = self.get_position_inside_screen_rectangle(ui_element.button_rect.global_rect)
         self.autoit_control_click_by_handle(self.parent_hwnd, self.hwnd, x=x, y=y)
         r_sleep(duration * 2)
 
@@ -316,11 +320,11 @@ class AndroidEmulator(object):
         """Returns if app can be restarted."""
         raise NotImplementedError
 
-    def drag(self, from_rect, to_rect, duration=0.7, steps_count=100):
+    def drag(self, from_ui, to_ui, duration=0.7, steps_count=100):
         """Click, hold and drag.
 
-        :param from_rect: rectangle of dragging position "From".
-        :param to_rect: rectangle of dragging position "To".
+        :param from_ui: UI element of dragging position "From".
+        :param to_ui: UI element of dragging position "To".
         :param duration: duration of dragging.
         :param steps_count: steps of dragging.
         """
@@ -329,8 +333,8 @@ class AndroidEmulator(object):
             p_y = ((y2 - y1) * n) + y1
             return int(p_x), int(p_y)
 
-        from_position = self.get_position_inside_screen_rectangle(from_rect)
-        to_position = self.get_position_inside_screen_rectangle(to_rect)
+        from_position = self.get_position_inside_screen_rectangle(from_ui.button_rect.global_rect)
+        to_position = self.get_position_inside_screen_rectangle(to_ui.button_rect.global_rect)
         self.win32_api_post_message(self.hwnd, win32con.WM_MOUSEMOVE, 0, win32api.MAKELONG(*from_position))
         self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONDOWN, 0, win32api.MAKELONG(*from_position))
 

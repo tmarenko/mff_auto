@@ -1,6 +1,7 @@
 from lib.functions import wait_until, r_sleep
 from lib.game.missions.missions import Missions
 from lib.game.battle_bot import AutoBattleBot
+from lib.game import ui
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -16,7 +17,7 @@ class DimensionMission(Missions):
 
         :param game.Game game: instance of the game.
         """
-        super().__init__(game, 'DM_LABEL')
+        super().__init__(game, mode_name='DIMENSION MISSION')
 
     def open_dimension_mission(self):
         """Open Dimension Missions lobby.
@@ -25,7 +26,7 @@ class DimensionMission(Missions):
         """
         self.game.select_mode(self.mode_name)
         self.game.close_ads(timeout=5)
-        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL'])
+        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DM_LABEL)
 
     @property
     def stage_level(self):
@@ -33,8 +34,8 @@ class DimensionMission(Missions):
 
         :return: current stage level.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_LABEL']):
-            stage_str = self.emulator.get_screen_text(ui_element=self.ui['DM_LEVEL'])
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DM_LABEL):
+            stage_str = self.emulator.get_screen_text(ui_element=ui.DM_LEVEL)
             try:
                 stage_int = int(stage_str)
             except ValueError:
@@ -45,15 +46,15 @@ class DimensionMission(Missions):
 
     def _increase_stage_level(self):
         """Increase current stage level"""
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.DM_LEVEL_READY):
             logger.info("Increasing stage difficulty level.")
-            self.emulator.click_button(self.ui['DM_LEVEL_PLUS'].button, min_duration=0.01, max_duration=0.01)
+            self.emulator.click_button(ui.DM_LEVEL_PLUS, min_duration=0.01, max_duration=0.01)
 
     def _decrease_stage_level(self):
         """Decrease current stage level"""
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.DM_LEVEL_READY):
             logger.info("Decreasing stage difficulty level.")
-            self.emulator.click_button(self.ui['DM_LEVEL_MINUS'].button, min_duration=0.01, max_duration=0.01)
+            self.emulator.click_button(ui.DM_LEVEL_MINUS, min_duration=0.01, max_duration=0.01)
 
     def _select_stage_level(self, level_num=15):
         """Select stage level.
@@ -82,19 +83,19 @@ class DimensionMission(Missions):
 
     def select_team(self):
         """Select team for missions."""
-        team_element = self.ui[f'DM_SELECT_TEAM_{self.game.mission_team}']
+        team_element = ui.get_by_name(f'DM_SELECT_TEAM_{self.game.mission_team}')
         logger.debug(f"Selecting team: {team_element.name}")
-        self.emulator.click_button(team_element.button)
+        self.emulator.click_button(team_element)
 
     def _get_ready_for_mission(self):
         """Get ready for mission.
 
         :return: (bool) is mission menu is opened.
         """
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_LEVEL_READY']):
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.DM_LEVEL_READY):
             logger.info("Clicking READY button.")
-            self.emulator.click_button(self.ui['DM_LEVEL_READY'].button)
-            return wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DM_START_BUTTON'])
+            self.emulator.click_button(ui.DM_LEVEL_READY)
+            return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DM_START_BUTTON)
 
     def do_missions(self, times=0, difficulty=15, use_hidden_tickets=False, acquire_rewards=False):
         """Do missions."""
@@ -124,7 +125,7 @@ class DimensionMission(Missions):
                 logger.error("Cannot start Dimension Mission battle, not enough boost points.")
                 return
         while times > 0:
-            if not self.press_start_button(start_button_ui='DM_START_BUTTON',
+            if not self.press_start_button(start_button_ui=ui.DM_START_BUTTON,
                                            use_hidden_tickets=use_hidden_tickets):
                 logger.error("Cannot start Dimension Mission battle, exiting.")
                 return
@@ -138,39 +139,39 @@ class DimensionMission(Missions):
                 self.close_after_mission_notifications()
         logger.info("No more stages.")
 
-    def press_start_button(self, start_button_ui='DM_START_BUTTON', use_hidden_tickets=False):
+    def press_start_button(self, start_button_ui=ui.DM_START_BUTTON, use_hidden_tickets=False):
         """Press start button of the mission."""
-        if self.emulator.is_ui_element_on_screen(self.ui[start_button_ui]):
+        if self.emulator.is_ui_element_on_screen(start_button_ui):
             self.select_team()
-            self.emulator.click_button(self.ui[start_button_ui].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2, ui_element=self.ui['NOT_ENOUGH_ENERGY']):
-                self.emulator.click_button(self.ui['NOT_ENOUGH_ENERGY'].button)
+            self.emulator.click_button(start_button_ui)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2, ui_element=ui.NOT_ENOUGH_ENERGY):
+                self.emulator.click_button(ui.NOT_ENOUGH_ENERGY)
                 logger.warning(f"Not enough energy for starting mission, current energy: {self.game.energy}")
                 return False
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2, ui_element=self.ui['INVENTORY_FULL']):
-                self.emulator.click_button(self.ui['INVENTORY_FULL'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, timeout=2, ui_element=ui.INVENTORY_FULL):
+                self.emulator.click_button(ui.INVENTORY_FULL)
                 logger.warning("Your inventory is full, cannot start mission.")
                 return False
             if use_hidden_tickets and wait_until(self.emulator.is_ui_element_on_screen, timeout=2,
-                                                 ui_element=self.ui['DM_TICKET_NOTIFICATION_USE']):
+                                                 ui_element=ui.DM_TICKET_NOTIFICATION_USE):
                 logger.debug("Clicked USE hidden tickets.")
-                self.emulator.click_button(self.ui['DM_TICKET_NOTIFICATION_USE'].button)
+                self.emulator.click_button(ui.DM_TICKET_NOTIFICATION_USE)
             if not use_hidden_tickets and wait_until(self.emulator.is_ui_element_on_screen, timeout=2,
-                                                     ui_element=self.ui['DM_TICKET_NOTIFICATION_DONT_USE']):
+                                                     ui_element=ui.DM_TICKET_NOTIFICATION_DONT_USE):
                 logger.debug("Clicked DON'T USE hidden tickets.")
-                self.emulator.click_button(self.ui['DM_TICKET_NOTIFICATION_DONT_USE'].button)
+                self.emulator.click_button(ui.DM_TICKET_NOTIFICATION_DONT_USE)
             if wait_until(self.emulator.is_ui_element_on_screen, timeout=2,
-                          ui_element=self.ui['ITEM_MAX_LIMIT_NOTIFICATION']):
-                self.emulator.click_button(self.ui['ITEM_MAX_LIMIT_NOTIFICATION'].button)
+                          ui_element=ui.ITEM_MAX_LIMIT_NOTIFICATION):
+                self.emulator.click_button(ui.ITEM_MAX_LIMIT_NOTIFICATION)
             return True
         logger.warning(f"Unable to press START button with UI element: {start_button_ui}.")
         return False
 
-    def press_repeat_button(self, repeat_button_ui='REPEAT_BUTTON', start_button_ui='DM_START_BUTTON'):
+    def press_repeat_button(self, repeat_button_ui=ui.REPEAT_BUTTON, start_button_ui=ui.DM_START_BUTTON):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
-        self.emulator.click_button(self.ui[repeat_button_ui].button, min_duration=1, max_duration=2)
-        while not self.emulator.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
+        self.emulator.click_button(repeat_button_ui, min_duration=1, max_duration=2)
+        while not self.emulator.is_ui_element_on_screen(ui_element=start_button_ui):
             self.close_after_mission_notifications(timeout=1)
         return True
 
@@ -178,27 +179,27 @@ class DimensionMission(Missions):
         """Acquire all Dimension rewards."""
 
         def is_reward_to_acquire_exists():
-            if self.emulator.is_ui_element_on_screen(ui_element=self.ui['INVENTORY_FULL']):
+            if self.emulator.is_ui_element_on_screen(ui_element=ui.INVENTORY_FULL):
                 logger.warning("Stopping acquiring rewards because inventory is full.")
-                self.emulator.click_button(self.ui['INVENTORY_FULL'].button)
-            return self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_ACQUIRE_NEXT_REWARD']) or \
-                   self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_REWARD_ACQUIRED_OK'])
+                self.emulator.click_button(ui.INVENTORY_FULL)
+            return self.emulator.is_ui_element_on_screen(ui_element=ui.DM_ACQUIRE_NEXT_REWARD) or \
+                   self.emulator.is_ui_element_on_screen(ui_element=ui.DM_REWARD_ACQUIRED_OK)
 
         logger.info("Acquiring rewards.")
         if not self.open_dimension_mission():
             logger.warning("Can't get in mission lobby.")
             return
-        self.emulator.click_button(self.ui['DM_ACQUIRE_REWARD'].button)
-        while wait_until(is_reward_to_acquire_exists, timeout=3):
+        self.emulator.click_button(ui.DM_ACQUIRE_REWARD)
+        while wait_until(is_reward_to_acquire_exists):
             self._acquire_reward()
         logger.info("No more rewards to acquire.")
 
     def _acquire_reward(self):
         """Acquire one reward."""
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_ACQUIRE_NEXT_REWARD']):
-            self.emulator.click_button(self.ui['DM_ACQUIRE_NEXT_REWARD'].button)
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DM_REWARD_ACQUIRED_OK']):
-            self.emulator.click_button(self.ui['DM_REWARD_ACQUIRED_OK'].button)
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.DM_ACQUIRE_NEXT_REWARD):
+            self.emulator.click_button(ui.DM_ACQUIRE_NEXT_REWARD)
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.DM_REWARD_ACQUIRED_OK):
+            self.emulator.click_button(ui.DM_REWARD_ACQUIRED_OK)
 
     @property
     def energy_cost(self):
@@ -206,7 +207,7 @@ class DimensionMission(Missions):
 
         :return: energy cost.
         """
-        cost = self.emulator.get_screen_text(self.ui['DM_ENERGY_COST'])
+        cost = self.emulator.get_screen_text(ui.DM_ENERGY_COST)
         return int(cost) if cost.isdigit() else None
 
     @property
@@ -215,5 +216,5 @@ class DimensionMission(Missions):
 
         :return: boost points cost.
         """
-        cost = self.emulator.get_screen_text(self.ui['DM_BOOST_COST'])
+        cost = self.emulator.get_screen_text(ui.DM_BOOST_COST)
         return int(cost) if cost.isdigit() else None

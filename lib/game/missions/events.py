@@ -1,6 +1,7 @@
 ﻿from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
 from lib.game.missions.world_boss import WorldBoss
+from lib.game import ui
 from lib.functions import wait_until, r_sleep, is_strings_similar
 import lib.logger as logging
 
@@ -15,7 +16,7 @@ class EventMissions(Missions):
 
         :param game.Game game: instance of the game.
         """
-        super().__init__(game, "")
+        super().__init__(game)
 
     def _is_event_ui_has_same_name(self, name, event_ui, similar_to_full_line):
         """Check if event UI element has same name as given event name.
@@ -42,27 +43,25 @@ class EventMissions(Missions):
         """
         self._drag_event_list_to_the_bottom()
         for ui_index in range(1, 5):
-            event_ui = self.game.ui[f"EVENT_BUTTON_1_{ui_index}"]
+            event_ui = ui.get_by_name(f"EVENT_BUTTON_1_{ui_index}")
             if self._is_event_ui_has_same_name(name=name, event_ui=event_ui, similar_to_full_line=similar_to_full_line):
                 return event_ui
         self._drag_event_list_to_the_top()
         for ui_index in range(1, 5):
-            event_ui = self.game.ui[f"EVENT_BUTTON_2_{ui_index}"]
+            event_ui = ui.get_by_name(f"EVENT_BUTTON_2_{ui_index}")
             if self._is_event_ui_has_same_name(name=name, event_ui=event_ui, similar_to_full_line=similar_to_full_line):
                 return event_ui
 
     def _drag_event_list_to_the_top(self):
         """Drag Event List to the top."""
         logger.debug("Dragging Event list to the top.")
-        self.emulator.drag(self.ui['EVENT_LIST_DRAG_FROM'].button,
-                           self.ui['EVENT_LIST_DRAG_TO'].button)
+        self.emulator.drag(ui.EVENT_LIST_DRAG_FROM, ui.EVENT_LIST_DRAG_TO)
         r_sleep(1)
 
     def _drag_event_list_to_the_bottom(self):
         """Drag Event List to the bottom."""
         logger.debug("Dragging Event list to the bottom.")
-        self.emulator.drag(self.ui['EVENT_LIST_DRAG_TO'].button,
-                           self.ui['EVENT_LIST_DRAG_FROM'].button)
+        self.emulator.drag(ui.EVENT_LIST_DRAG_TO, ui.EVENT_LIST_DRAG_FROM)
         r_sleep(1)
 
 
@@ -82,13 +81,13 @@ class EventWorldBoss(EventMissions, WorldBoss):
     @property
     def battle_over_conditions(self):
         def allies():
-            return self.emulator.is_ui_element_on_screen(self.ui['EVENT_WORLD_BOSS_ALLIES'])
+            return self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BOSS_ALLIES)
 
         def cannot_enter():
-            if self.emulator.is_ui_element_on_screen(self.ui['EVENT_WORLD_BOSS_LIMIT_REACHED']):
+            if self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BOSS_LIMIT_REACHED):
                 logger.debug("Reached limit of missions.")
                 self._stages = 0
-                self.emulator.click_button(self.ui['EVENT_WORLD_BOSS_LIMIT_REACHED'])
+                self.emulator.click_button(ui.EVENT_WORLD_BOSS_LIMIT_REACHED)
                 return True
 
         return [allies, cannot_enter]
@@ -100,18 +99,17 @@ class EventWorldBoss(EventMissions, WorldBoss):
         if not event_ui:
             logger.info("Can't find Event World Boss, probably event isn't on right now.")
             return
-        self.emulator.click_button(event_ui.button)
-        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['EVENT_WORLD_BOSS_LABEL'])
+        self.emulator.click_button(event_ui)
+        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_BOSS_LABEL)
 
     def complete_event_world_boss(self, sync_character_and_ally_teams=False):
         """Complete all available stages in Event World Boss."""
         self.open_event_world_boss()
-        if not self.emulator.is_ui_element_on_screen(self.ui['EVENT_WORLD_BOSS_ENTER']):
+        if not self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BOSS_ENTER):
             logger.info("No available Event World Boss battles.")
             return self.game.go_to_main_menu()
         self._sync_character_and_ally_teams = sync_character_and_ally_teams
-        self.emulator.click_button(self.ui['EVENT_WORLD_BOSS_ENTER'].button)
+        self.emulator.click_button(ui.EVENT_WORLD_BOSS_ENTER)
         while self._stages > 0:
             if not self._start_world_boss_battle():
                 logger.error("Failed to start battle. Returning to main menu.")
@@ -120,54 +118,49 @@ class EventWorldBoss(EventMissions, WorldBoss):
             if self._stages > 0:
                 self.press_repeat_button()
             else:
-                self.press_home_button(home_button="EVENT_WORLD_BOSS_HOME_BUTTON")
+                self.press_home_button(home_button=ui.EVENT_WORLD_BOSS_HOME_BUTTON)
         logger.info("No more stages.")
 
-    def press_repeat_button(self, repeat_button_ui='EVENT_WORLD_BOSS_REPEAT_BUTTON', start_button_ui='WB_SET_TEAM'):
+    def press_repeat_button(self, repeat_button_ui=ui.EVENT_WORLD_BOSS_REPEAT_BUTTON, start_button_ui=ui.WB_SET_TEAM):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
-        self.emulator.click_button(self.ui[repeat_button_ui].button)
-        while not self.emulator.is_ui_element_on_screen(ui_element=self.ui[start_button_ui]):
-            if self.emulator.is_ui_element_on_screen(self.ui['EVENT_WORLD_BOSS_LIMIT_REACHED']):
+        self.emulator.click_button(repeat_button_ui)
+        while not self.emulator.is_ui_element_on_screen(ui_element=start_button_ui):
+            if self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BOSS_LIMIT_REACHED):
                 logger.debug("Reached limit of missions.")
                 self._stages = 0
-                self.emulator.click_button(self.ui['EVENT_WORLD_BOSS_LIMIT_REACHED'])
+                self.emulator.click_button(ui.EVENT_WORLD_BOSS_LIMIT_REACHED)
                 return True
             self.close_after_mission_notifications(timeout=1)
         return True
 
     def _start_world_boss_battle(self, check_inventory=True):
         """Start World Boss battle."""
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_SET_TEAM']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_SET_TEAM):
             self._deploy_characters()
-            self.emulator.click_button(self.ui['WB_SET_TEAM'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['WB_UNAVAILABLE_CHARACTER']):
+            self.emulator.click_button(ui.WB_SET_TEAM)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_UNAVAILABLE_CHARACTER):
                 logger.warning("Stopping battle because your team has unavailable characters.")
-                self.emulator.click_button(self.ui['WB_UNAVAILABLE_CHARACTER'].button)
+                self.emulator.click_button(ui.WB_UNAVAILABLE_CHARACTER)
                 return False
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['WB_LOW_VALOR_OR_ATTACK']):
-                self.emulator.click_button(self.ui['WB_LOW_VALOR_OR_ATTACK'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_LOW_VALOR_OR_ATTACK):
+                self.emulator.click_button(ui.WB_LOW_VALOR_OR_ATTACK)
                 # Second notification about ATK is similar
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['WB_LOW_VALOR_OR_ATTACK']):
-                    self.emulator.click_button(self.ui['WB_LOW_VALOR_OR_ATTACK'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['WB_START_BUTTON']):
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_LOW_VALOR_OR_ATTACK):
+                    self.emulator.click_button(ui.WB_LOW_VALOR_OR_ATTACK)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_START_BUTTON):
                 self._deploy_allies()
-                self.emulator.click_button(self.ui['WB_START_BUTTON'].button)
+                self.emulator.click_button(ui.WB_START_BUTTON)
                 if check_inventory and wait_until(self.emulator.is_ui_element_on_screen, timeout=2,
-                                                  ui_element=self.ui['INVENTORY_FULL']):
+                                                  ui_element=ui.INVENTORY_FULL):
                     logger.warning("Stopping battle because inventory is full.")
-                    self.emulator.click_button(self.ui['INVENTORY_FULL'].button)
+                    self.emulator.click_button(ui.INVENTORY_FULL)
                     self.stages *= 0
                     return False
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['WB_NOT_FULL_ALLY_TEAM']):
-                    self.emulator.click_button(self.ui['WB_NOT_FULL_ALLY_TEAM'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['WB_EXCLUDE_CHARACTERS_FROM_ALLIES']):
-                    self.emulator.click_button(self.ui['WB_EXCLUDE_CHARACTERS_FROM_ALLIES'].button)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_NOT_FULL_ALLY_TEAM):
+                    self.emulator.click_button(ui.WB_NOT_FULL_ALLY_TEAM)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_EXCLUDE_CHARACTERS_FROM_ALLIES):
+                    self.emulator.click_button(ui.WB_EXCLUDE_CHARACTERS_FROM_ALLIES)
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                 return True
             logger.warning("Failed to locate START button.")
@@ -183,8 +176,8 @@ class WorldEvent(EventMissions):
     @property
     def battle_over_conditions(self):
         def total_score():
-            if self.emulator.is_ui_element_on_screen(self.ui['EVENT_WORLD_BATTLE_TOTAL_SCORE']):
-                self.emulator.click_button(self.ui['EVENT_WORLD_BATTLE_TOTAL_SCORE'].button)
+            if self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BATTLE_TOTAL_SCORE):
+                self.emulator.click_button(ui.EVENT_WORLD_BATTLE_TOTAL_SCORE)
                 return True
 
         return [total_score]
@@ -196,38 +189,32 @@ class WorldEvent(EventMissions):
         if not event_ui:
             logger.info("Can't find World Event, probably event isn't on right now.")
             return
-        self.emulator.click_button(event_ui.button)
-        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['EVENT_WORLD_LABEL'])
+        self.emulator.click_button(event_ui)
+        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_LABEL)
 
     def _get_ready_to_battle(self):
         """Getting ready to participate in World Event."""
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['EVENT_WORLD_BATTLE_READY_BUTTON']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_BATTLE_READY_BUTTON):
             logger.debug("Getting ready to battle.")
-            self.emulator.click_button(self.ui['EVENT_WORLD_BATTLE_READY_BUTTON'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['EVENT_WORLD_SELECT_BATTLE_READY']):
+            self.emulator.click_button(ui.EVENT_WORLD_BATTLE_READY_BUTTON)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_SELECT_BATTLE_READY):
                 logger.debug("Selecting battle system.")
-                self.emulator.click_button(self.ui['EVENT_WORLD_SELECT_BATTLE_READY'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['EVENT_WORLD_SELECT_BATTLE_READY_OK']):
+                self.emulator.click_button(ui.EVENT_WORLD_SELECT_BATTLE_READY)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_SELECT_BATTLE_READY_OK):
                     logger.debug("System selected.")
-                    self.emulator.click_button(self.ui['EVENT_WORLD_SELECT_BATTLE_READY_OK'].button)
+                    self.emulator.click_button(ui.EVENT_WORLD_SELECT_BATTLE_READY_OK)
 
     def complete_world_event(self):
         """Complete available stage in World Event."""
         self.open_world_event()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['EVENT_WORLD_LOBBY_READY_BUTTON']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_LOBBY_READY_BUTTON):
             logger.debug("Entering into team selection lobby.")
-            self.emulator.click_button(self.ui['EVENT_WORLD_LOBBY_READY_BUTTON'].button)
+            self.emulator.click_button(ui.EVENT_WORLD_LOBBY_READY_BUTTON)
             self._get_ready_to_battle()
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['EVENT_WORLD_BATTLE_START_BUTTON']):
-                self.emulator.click_button(self.ui['EVENT_WORLD_BATTLE_START_BUTTON'].button)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_BATTLE_START_BUTTON):
+                self.emulator.click_button(ui.EVENT_WORLD_BATTLE_START_BUTTON)
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
-                self.emulator.click_button(self.ui['EVENT_WORLD_BATTLE_TOTAL_SCORE'].button)
+                self.emulator.click_button(ui.EVENT_WORLD_BATTLE_TOTAL_SCORE)
                 self.game.go_to_main_menu()
 
 
@@ -243,20 +230,18 @@ class FuturePass(EventMissions):
         if not event_ui:
             logger.info("Can't find Future Pass, probably event isn't on right now.")
             return
-        self.emulator.click_button(event_ui.button)
+        self.emulator.click_button(event_ui)
         self.close_ads()
-        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['EVENT_FUTURE_PASS_LABEL'])
+        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_LABEL)
 
     def _acquire_free_points(self):
         """Acquire free points.
 
         :return: were points acquired (True or False).
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['EVENT_FUTURE_PASS_ACQUIRE_POINTS']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_ACQUIRE_POINTS):
             logger.info("Acquiring free points.")
-            self.emulator.click_button(self.ui['EVENT_FUTURE_PASS_ACQUIRE_POINTS'].button)
+            self.emulator.click_button(ui.EVENT_FUTURE_PASS_ACQUIRE_POINTS)
             r_sleep(1)  # Wait for animation
             return True
         logger.info("No available free points.")
@@ -267,13 +252,11 @@ class FuturePass(EventMissions):
 
         :return: were points acquired (True or False).
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_CLAIM_REWARDS):
             logger.info("Claiming all rewards.")
-            self.emulator.click_button(self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE']):
-                self.emulator.click_button(self.ui['EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE'].button)
+            self.emulator.click_button(ui.EVENT_FUTURE_PASS_CLAIM_REWARDS)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE):
+                self.emulator.click_button(ui.EVENT_FUTURE_PASS_CLAIM_REWARDS_CLOSE)
                 return True
         logger.info("No available rewards to claim.")
         return False

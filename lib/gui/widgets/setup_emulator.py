@@ -10,7 +10,7 @@ import lib.gui.designes.setup_game as game_design
 from lib.game.game import Game
 from lib.emulators.nox_player import NoxPlayer, NOX_EXE
 from lib.emulators.bluestacks import BlueStacks, BLUESTACKS_4_EXE, BLUESTACKS_5_EXE
-from lib.game.ui import Rect
+from lib.game.ui.general import Rect
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)

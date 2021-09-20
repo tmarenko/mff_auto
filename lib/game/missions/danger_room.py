@@ -1,7 +1,8 @@
 ﻿import re
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import wait_until, r_sleep, convert_colors_in_image
+from lib.game import ui
+from lib.functions import wait_until, r_sleep
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -21,20 +22,20 @@ class DangerRoom(Missions):
 
         :param game.Game game: instance of the game.
         """
-        super().__init__(game, 'DANGER_ROOM_LABEL')
+        super().__init__(game, mode_name='DANGER ROOM')
 
     @property
     def battle_over_conditions(self):
         def maintain_team():
-            return self.emulator.is_ui_element_on_screen(self.ui['DANGER_ROOM_MAINTAIN_CURRENT_TEAM'])
+            return self.emulator.is_ui_element_on_screen(ui.DANGER_ROOM_MAINTAIN_CURRENT_TEAM)
 
         return [maintain_team]
 
     @property
     def disconnect_conditions(self):
         def game_canceled():
-            if self.emulator.is_ui_element_on_screen(self.ui['DANGER_ROOM_GAME_CANCELED']):
-                self.emulator.click_button(self.ui['DANGER_ROOM_GAME_CANCELED'].button)
+            if self.emulator.is_ui_element_on_screen(ui.DANGER_ROOM_GAME_CANCELED):
+                self.emulator.click_button(ui.DANGER_ROOM_GAME_CANCELED)
                 return True
 
         return super().disconnect_conditions + [game_canceled]
@@ -49,13 +50,13 @@ class DangerRoom(Missions):
 
         def close_notification(ui_element):
             if self.emulator.is_ui_element_on_screen(ui_element):
-                self.emulator.click_button(ui_element.button)
+                self.emulator.click_button(ui_element)
                 return True
             return False
 
         def close_notifications():
-            return close_notification(ui_element=self.ui['DANGER_ROOM_WEEKLY_RESULTS_CLOSE']) or \
-                   close_notification(ui_element=self.ui['DANGER_ROOM_WEEKLY_REWARDS_CLOSE'])
+            return close_notification(ui_element=ui.DANGER_ROOM_WEEKLY_RESULTS_CLOSE) or \
+                   close_notification(ui_element=ui.DANGER_ROOM_WEEKLY_REWARDS_CLOSE)
 
         for _ in range(timeout):
             notifications_closed = wait_until(close_notifications, timeout=1)
@@ -66,7 +67,7 @@ class DangerRoom(Missions):
         self.game.get_mode(name=self.mode_name)
         self.game.select_mode(self.mode_name)
         self._close_rewards_notifications()
-        return wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DANGER_ROOM_LABEL'])
+        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_LABEL)
 
     def _select_danger_room_mode(self, mode):
         """Select Danger Room's mode.
@@ -78,26 +79,26 @@ class DangerRoom(Missions):
         if mode != self.MODE.NORMAL and mode != self.MODE.EXTREME:
             logger.error(f"Got wrong mode for battles: {mode}.")
             return False
-        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['DANGER_ROOM_LABEL']):
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_LABEL):
             logger.warning("Can't get in mission lobby.")
             return False
         if mode == self.MODE.NORMAL:
             logger.info("Starting NORMAL battle.")
-            lobby_ui = self.ui['DANGER_ROOM_NORMAL_MODE_LOBBY']
-            self.emulator.click_button(self.ui['DANGER_ROOM_NORMAL_MODE'].button)
+            lobby_ui = ui.DANGER_ROOM_NORMAL_MODE_LOBBY
+            self.emulator.click_button(ui.DANGER_ROOM_NORMAL_MODE)
         if mode == self.MODE.EXTREME:
             logger.info("Starting EXTREME battle.")
-            lobby_ui = self.ui['DANGER_ROOM_EXTREME_MODE_LOBBY']
-            self.emulator.click_button(self.ui['DANGER_ROOM_EXTREME_MODE'].button)
+            lobby_ui = ui.DANGER_ROOM_EXTREME_MODE_LOBBY
+            self.emulator.click_button(ui.DANGER_ROOM_EXTREME_MODE)
 
-        self.emulator.click_button(self.ui['DANGER_ROOM_ENTER'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_NO_ENERGY'], timeout=3):
+        self.emulator.click_button(ui.DANGER_ROOM_ENTER)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_NO_ENERGY):
             logger.warning("Not enough energy. Can't get to room.")
-            self.emulator.click_button(self.ui['DANGER_ROOM_NO_ENERGY'].button)
+            self.emulator.click_button(ui.DANGER_ROOM_NO_ENERGY)
             return False
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_BLOCK_NOTICE'], timeout=5):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_BLOCK_NOTICE, timeout=5):
             logger.warning("You've been blocked after disconnect. Can't get to room.")
-            self.emulator.click_button(self.ui['DANGER_ROOM_BLOCK_NOTICE'].button)
+            self.emulator.click_button(ui.DANGER_ROOM_BLOCK_NOTICE)
             return False
         if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=lobby_ui, timeout=15):
             logger.warning("Can't get in room's lobby. Probably stuck on loading. Trying to restart game.")
@@ -128,7 +129,7 @@ class DangerRoom(Missions):
         if not self._select_danger_room_mode(mode=mode):
             return
         while times > 0:
-            if not self.press_start_button(start_button_ui='DANGER_ROOM_JOIN'):
+            if not self.press_start_button(start_button_ui=ui.DANGER_ROOM_JOIN):
                 logger.error("Cannot start Danger Room battle, exiting.")
                 return
             if not self._select_character_by_mode(mode=mode):
@@ -138,13 +139,13 @@ class DangerRoom(Missions):
                     return
                 continue
             self._start_manual_bot_for_danger_room()
-            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_LABEL'], timeout=10):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_LABEL, timeout=10):
                 logger.debug("Got disconnected. Returning to mission lobby.")
                 if not self._select_danger_room_mode(mode=mode):
                     return
                 continue
-            self.emulator.click_button(self.ui['DANGER_ROOM_MAINTAIN_CURRENT_TEAM'].button)
-            if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['DANGER_ROOM_BATTLE_INFO'],
+            self.emulator.click_button(ui.DANGER_ROOM_MAINTAIN_CURRENT_TEAM)
+            if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_BATTLE_INFO,
                               timeout=10):
                 logger.warning("Something went wrong after the battle.")
                 return
@@ -154,42 +155,42 @@ class DangerRoom(Missions):
                 self.game.clear_modes()  # Clear mode in case we won battle and button changed its position
                 self.press_repeat_button(mode=mode)
             else:
-                self.press_home_button(home_button='DANGER_ROOM_HOME')
+                self.press_home_button(home_button=ui.DANGER_ROOM_HOME)
                 self.close_after_mission_notifications()
         logger.info("No more stages.")
 
-    def press_start_button(self, start_button_ui='DANGER_ROOM_JOIN'):
+    def press_start_button(self, start_button_ui=ui.DANGER_ROOM_JOIN):
         """Press start button of the mission."""
-        if self.emulator.is_ui_element_on_screen(self.ui[start_button_ui]):
-            self.emulator.click_button(self.ui[start_button_ui].button)
-            if wait_until(self._check_cancel_button, timeout=3):
+        if self.emulator.is_ui_element_on_screen(start_button_ui):
+            self.emulator.click_button(start_button_ui)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_CANCEL_SEARCH):
                 if wait_until(self.emulator.is_ui_element_on_screen,
-                              ui_element=self.ui['DANGER_ROOM_CHARACTER_SELECT_MENU'], timeout=180):
+                              ui_element=ui.DANGER_ROOM_CHARACTER_SELECT_MENU, timeout=180):
                     logger.debug("Successfully get to character selector.")
                     return True
                 else:
                     logger.warning("Waiting too long to find team. Canceling and restarting search.")
-                    self.emulator.click_button(self.ui['DANGER_ROOM_CANCEL_SEARCH'].button)
+                    self.emulator.click_button(ui.DANGER_ROOM_CANCEL_SEARCH)
                     r_sleep(2)  # Waiting for Join button to enable
                     return self.press_start_button(start_button_ui=start_button_ui)
         logger.warning("Unable to join battle.")
         return False
 
-    def press_repeat_button(self, repeat_button_ui='DANGER_ROOM_CONTINUE', start_button_ui=None, mode=None):
+    def press_repeat_button(self, repeat_button_ui=ui.DANGER_ROOM_CONTINUE, start_button_ui=None, mode=None):
         """Press repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
-        self.emulator.click_button(self.ui[repeat_button_ui].button)
-        while not self.emulator.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_ENTER']):
+        self.emulator.click_button(repeat_button_ui)
+        while not self.emulator.is_ui_element_on_screen(ui_element=ui.DANGER_ROOM_ENTER):
             self.close_after_mission_notifications(timeout=1)
         return self._select_danger_room_mode(mode=mode)
 
-    def press_home_button(self, home_button='HOME_BUTTON'):
+    def press_home_button(self, home_button=ui.HOME_BUTTON):
         """Press home button of the mission."""
         logger.debug(f"Clicking HOME button with UI Element: {home_button}.")
-        self.emulator.click_button(self.ui[home_button].button)
+        self.emulator.click_button(home_button)
         while not self.game.is_main_menu():
-            if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DANGER_EXIT_LOBBY_OK']):
-                self.emulator.click_button(self.ui['DANGER_EXIT_LOBBY_OK'].button)
+            if self.emulator.is_ui_element_on_screen(ui_element=ui.DANGER_EXIT_LOBBY_OK):
+                self.emulator.click_button(ui.DANGER_EXIT_LOBBY_OK)
             self.close_after_mission_notifications(timeout=1)
         return True
 
@@ -200,8 +201,8 @@ class DangerRoom(Missions):
         """
         characters_popularity, characters_images = [], []
         for character_index in range(1, 7):
-            character_ui = self.ui[f'DANGER_ROOM_CHARACTER_{character_index}']
-            character_image = self.emulator.get_screen_image(rect=character_ui.button)
+            character_ui = ui.get_by_name(f'DANGER_ROOM_CHARACTER_{character_index}')
+            character_image = self.emulator.get_screen_image(rect=character_ui.button_rect)
             characters_images.append(character_image)
             character_popularity_text = self.emulator.get_screen_text(ui_element=character_ui)
             full_match = character_popularity_regexp.fullmatch(character_popularity_text)
@@ -221,12 +222,10 @@ class DangerRoom(Missions):
         """
         characters_popularity = []
         for character_index in range(1, 13):
-            character_ui = self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_{character_index}']
-            character_participation_rect = [self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_USED_{character_index}'].rect]
-            character_participation_color = self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_USED_{character_index}'].button
-            color = (character_participation_color[0], character_participation_color[1],
-                     character_participation_color[2])
-            character_participation = self.emulator.is_color_similar(color=color, rects=character_participation_rect)
+            character_ui = ui.get_by_name(f'DANGER_ROOM_EXTREME_CHARACTER_{character_index}')
+            used_character_ur = ui.get_by_name(f'DANGER_ROOM_EXTREME_CHARACTER_USED_{character_index}')
+            character_participation = self.emulator.is_color_similar(color=used_character_ur.image_color,
+                                                                     rects=[used_character_ur.image_rect])
             if not character_participation:
                 logger.debug(f"Character #{character_index} already participated, skipping.")
                 characters_popularity.append(0)
@@ -244,13 +243,13 @@ class DangerRoom(Missions):
 
     def _check_game_canceled(self):
         """Check if game was canceled."""
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_GAME_CANCELED']):
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.DANGER_ROOM_GAME_CANCELED):
             logger.debug("Game was canceled. Returning to mission lobby.")
-            self.emulator.click_button(self.ui['DANGER_ROOM_GAME_CANCELED'].button)
+            self.emulator.click_button(ui.DANGER_ROOM_GAME_CANCELED)
             return True
-        if self.emulator.is_ui_element_on_screen(ui_element=self.ui['KICKED_FROM_THE_SYSTEM']):
+        if self.emulator.is_ui_element_on_screen(ui_element=ui.KICKED_FROM_THE_SYSTEM):
             logger.debug("You've been kicked from the system. Returning to mission lobby.")
-            self.emulator.click_button(self.ui['KICKED_FROM_THE_SYSTEM'].button)
+            self.emulator.click_button(ui.KICKED_FROM_THE_SYSTEM)
             return True
         return False
 
@@ -263,10 +262,10 @@ class DangerRoom(Missions):
         :return: True or False: is character available.
         """
         character_ui = character_ui.copy()
-        character_ui.rect = None
-        character_ui.threshold = 0.8
+        character_ui.image_rect = character_ui.button_rect
+        character_ui.image_threshold = 0.8
         character_ui.image = character_image
-        character_ui.save_file += "_img"
+        character_ui.name += "_img"
         return self.emulator.is_image_on_screen(ui_element=character_ui)
 
     def _select_character_by_mode(self, mode):
@@ -279,22 +278,22 @@ class DangerRoom(Missions):
     def _select_character_for_normal_mode(self):
         """Select best available character for NORMAL battle."""
         popular_character_indexes, characters_images = self._get_all_characters_info_for_normal_mode()
-        while not self.emulator.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL']):
+        while not self.emulator.is_ui_element_on_screen(ui_element=ui.DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL):
             if self._check_game_canceled():
                 return False
             best_character = None
             for character_index in popular_character_indexes:
-                character_ui = self.ui[f'DANGER_ROOM_CHARACTER_{character_index + 1}']
+                character_ui = ui.get_by_name(f'DANGER_ROOM_CHARACTER_{character_index + 1}')
                 if self._is_character_available(character_ui=character_ui,
                                                 character_image=characters_images[character_index]):
                     best_character = character_ui
             if not best_character and not self.emulator.is_ui_element_on_screen(
-                    ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL']):
+                    ui_element=ui.DANGER_ROOM_BATTLE_BEGINS_SOON_NORMAL):
                 logger.error("Can't find best character for NORMAL mode.")
                 return False
             if best_character:
-                logger.debug(f"Selecting character {best_character.name}")
-                self.emulator.click_button(best_character.button)
+                logger.debug(f"Selecting character {best_character}")
+                self.emulator.click_button(best_character)
                 r_sleep(1)
         logger.debug("Battle is ready to begin.")
         return True
@@ -302,17 +301,17 @@ class DangerRoom(Missions):
     def _select_character_for_extreme_mode(self):
         """Select best available character for EXTREME battle."""
         popular_character_indexes = self._get_all_characters_info_for_extreme_mode()
-        while not self.emulator.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_BATTLE_BEGINS_SOON_EXTREME']):
+        while not self.emulator.is_ui_element_on_screen(ui_element=ui.DANGER_ROOM_BATTLE_BEGINS_SOON_EXTREME):
             if self._check_game_canceled():
                 return False
             best_character = None
             for character_index in popular_character_indexes:
-                best_character = self.ui[f'DANGER_ROOM_EXTREME_CHARACTER_{character_index + 1}']
+                best_character = ui.get_by_name(f'DANGER_ROOM_EXTREME_CHARACTER_{character_index + 1}')
             if not best_character:
                 logger.error("Can't find best character for mode.")
                 return False
-            logger.debug(f"Selecting character {best_character.name}")
-            self.emulator.click_button(best_character.button)
+            logger.debug(f"Selecting character {best_character}")
+            self.emulator.click_button(best_character)
             r_sleep(2)
         logger.debug("Battle is ready to begin.")
         return True
@@ -322,14 +321,5 @@ class DangerRoom(Missions):
         manual_bot = ManualBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions)
         old_is_battle = manual_bot.is_battle
         manual_bot.is_battle = lambda: old_is_battle() and not self.emulator.is_ui_element_on_screen(
-            self.ui['DANGER_ROOM_BATTLE_REVIVE'])
+            ui.DANGER_ROOM_BATTLE_REVIVE)
         manual_bot.fight(move_around=True)
-
-    def _check_cancel_button(self):
-        """Returns if CANCEL button is on screen."""
-        # Convert red colors to white because fancy UI is unreadable
-        extreme_red_color = ([200, 0, 0], [255, 30, 30])
-        image = self.emulator.get_screen_image(rect=self.ui['DANGER_ROOM_CANCEL_SEARCH'].rect)
-        converted_image = convert_colors_in_image(image=image, colors=[extreme_red_color])
-        return self.emulator.is_ui_element_on_screen(ui_element=self.ui['DANGER_ROOM_CANCEL_SEARCH'],
-                                                     screen=converted_image)

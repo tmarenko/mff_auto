@@ -1,7 +1,7 @@
 ﻿from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSizePolicy
 from lib.gui.helper import Timer, screen_to_gui_image
-from lib.game.ui import Rect
+from lib.game.ui.general import Rect, UIElement
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -9,6 +9,8 @@ logger = logging.get_logger(__name__)
 
 class ScreenImageLabel(Timer):
     """Class for updating GUI label with game screen image."""
+
+    click_ui = UIElement(name="GUI click")
 
     def __init__(self, widget, emulator):
         """Class initialization.
@@ -45,8 +47,9 @@ class ScreenImageLabel(Timer):
         if x and y:
             click_rect = Rect(x / self.scaled_width, y / self.scaled_height,
                               x / self.scaled_width, y / self.scaled_height)
+            self.click_ui.button_rect = click_rect
             logger.debug(f"Sending clicking event by coordinates {(x,y)}; rect: {click_rect.value}")
-            self.emulator.click_button(click_rect)
+            self.emulator.click_button(self.click_ui)
 
     def translate_coordinate_from_label_to_screen(self, x, y):
         """Calculate coordinates inside game's screen label and translate them to scaled screen coordinates.

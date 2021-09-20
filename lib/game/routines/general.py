@@ -1,5 +1,4 @@
 import urllib.request as request
-import urllib.error as urlib_error
 import json
 import lib.logger as logging
 from datetime import datetime, timedelta

@@ -87,7 +87,7 @@ def is_strings_similar(original, compare, overlap=0.25):
     return non_similarity <= overlap
 
 
-def wait_until(predicate, timeout, period=0.25, condition=True, *args, **kwargs):
+def wait_until(predicate, timeout=3, period=0.25, condition=True, *args, **kwargs):
     """Wait period of time until predicate is True.
 
     :param predicate: predicate function to check.
@@ -265,9 +265,9 @@ def convert_colors_in_image(image, colors, color_to_convert=(255, 255, 255), blu
     :return: image with converted colors.
     """
     for color_low, color_high in colors:
-        if isinstance(color_low, list):
+        if isinstance(color_low, (set, list)):
             color_low = array(color_low)
-        if isinstance(color_high, list):
+        if isinstance(color_high, (set, list)):
             color_high = array(color_high)
         mask = cv2.inRange(image, color_low, color_high)
         image[mask > 0] = color_to_convert

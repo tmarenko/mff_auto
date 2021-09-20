@@ -55,7 +55,6 @@ class EmulatorImageSource:
         self.emulator.screen_elements = self.emulator.manager.list()
         self.font = ImageFont.load_default()
         self._decorate()
-        self.ui = ui.load_ui_elements()
 
     def _decorate(self):
         logger.debug("Decorating function for video capture.")
@@ -128,29 +127,34 @@ class EmulatorImageSource:
         return screen
 
     def _hide_user_name(self, draw):
-        ui_element = self.ui['USER_NAME']
-        box = (ui_element.rect.global_rect[0] * self.emulator.width, ui_element.rect.global_rect[1] * self.emulator.height,
-               ui_element.rect.global_rect[2] * self.emulator.width, ui_element.rect.global_rect[3] * self.emulator.height)
+        ui_element = ui.USER_NAME
+        box = (ui_element.text_rect.global_rect[0] * self.emulator.width,
+               ui_element.text_rect.global_rect[1] * self.emulator.height,
+               ui_element.text_rect.global_rect[2] * self.emulator.width,
+               ui_element.text_rect.global_rect[3] * self.emulator.height)
         draw.rectangle(xy=box, outline="#000000", fill="#000000")
 
     @staticmethod
     def click_button_decorator(emulator, click_button):
         """emulator.click_button decorator for debug drawing of rectangle."""
-        def wrapped(button_rect, **kwargs):
-            box = (button_rect.global_rect[0] * emulator.width, button_rect.global_rect[1] * emulator.height,
-                   button_rect.global_rect[2] * emulator.width, button_rect.global_rect[3] * emulator.height)
+        def wrapped(ui_element, **kwargs):
+            global_rect = ui_element.button_rect.global_rect
+            box = (global_rect[0] * emulator.width, global_rect[1] * emulator.height,
+                   global_rect[2] * emulator.width, global_rect[3] * emulator.height)
             element = ElementOnScreen(name="", box=box, color=ElementOnScreen.RED_COLOR)
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
-            return click_button(button_rect=button_rect, **kwargs)
+            return click_button(ui_element=ui_element, **kwargs)
         return wrapped
 
     @staticmethod
     def get_screen_text_decorator(emulator, get_screen_text):
         """emulator.get_screen_text decorator for debug drawing of rectangle."""
         def wrapped(ui_element, screen=None):
-            box = (ui_element.rect.global_rect[0] * emulator.width, ui_element.rect.global_rect[1] * emulator.height,
-                   ui_element.rect.global_rect[2] * emulator.width, ui_element.rect.global_rect[3] * emulator.height)
+            box = (ui_element.text_rect.global_rect[0] * emulator.width,
+                   ui_element.text_rect.global_rect[1] * emulator.height,
+                   ui_element.text_rect.global_rect[2] * emulator.width,
+                   ui_element.text_rect.global_rect[3] * emulator.height)
             element = ElementOnScreen(name=ui_element.name, box=box, color=ElementOnScreen.GREEN_COLOR)
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
@@ -160,13 +164,13 @@ class EmulatorImageSource:
     @staticmethod
     def get_image_from_image_decorator(emulator, get_image_from_image):
         """emulator.get_image_from_image decorator for debug drawing of rectangle."""
-        def wrapped(image, ui_element):
-            box = (ui_element.rect.global_rect[0] * emulator.width, ui_element.rect.global_rect[1] * emulator.height,
-                   ui_element.rect.global_rect[2] * emulator.width, ui_element.rect.global_rect[3] * emulator.height)
-            element = ElementOnScreen(name=ui_element.name, box=box, color=ElementOnScreen.GREEN_COLOR)
+        def wrapped(image, rect):
+            box = (rect.global_rect[0] * emulator.width, rect.global_rect[1] * emulator.height,
+                   rect.global_rect[2] * emulator.width, rect.global_rect[3] * emulator.height)
+            element = ElementOnScreen(name="", box=box, color=ElementOnScreen.GREEN_COLOR)
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
-            return get_image_from_image(image=image, ui_element=ui_element)
+            return get_image_from_image(image=image, rect=rect)
         return wrapped
 
     @staticmethod
@@ -186,9 +190,10 @@ class EmulatorImageSource:
     def is_image_on_screen_decorator(emulator, is_image_on_screen):
         """emulator.is_image_on_screen decorator for debug drawing of image rectangle."""
         def wrapped(ui_element, screen=None):
-            rect = ui_element.rect if ui_element.rect else ui_element.button
-            box = (rect.global_rect[0] * emulator.width, rect.global_rect[1] * emulator.height,
-                   rect.global_rect[2] * emulator.width, rect.global_rect[3] * emulator.height)
+            box = (ui_element.image_rect.global_rect[0] * emulator.width,
+                   ui_element.image_rect.global_rect[1] * emulator.height,
+                   ui_element.image_rect.global_rect[2] * emulator.width,
+                   ui_element.image_rect.global_rect[3] * emulator.height)
             element = ElementOnScreen(name=ui_element.name, box=box, color=ElementOnScreen.CYAN_COLOR)
             on_screen = is_image_on_screen(ui_element=ui_element, screen=screen)
             element.color = ElementOnScreen.MAGENTA_COLOR if on_screen else element.color

@@ -1,5 +1,6 @@
 ﻿import lib.logger as logging
 from lib.game.notifications import Notifications
+from lib.game import ui
 from lib.functions import wait_until, r_sleep
 
 logger = logging.get_logger(__name__)
@@ -32,11 +33,10 @@ class Alliance(Notifications):
     def check_in(self):
         """Click Check-In button in Alliance."""
         self.game.go_to_alliance()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_CHECK_IN']):
-            self.emulator.click_button(self.ui['ALLIANCE_CHECK_IN'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_CHECK_IN_CLOSE']):
-                self.emulator.click_button(self.ui['ALLIANCE_CHECK_IN_CLOSE'].button)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHECK_IN):
+            self.emulator.click_button(ui.ALLIANCE_CHECK_IN)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHECK_IN_CLOSE):
+                self.emulator.click_button(ui.ALLIANCE_CHECK_IN_CLOSE)
         self.game.go_to_main_menu()
 
     def donate_resources(self, donate_gold=True, donate_memento=True):
@@ -49,27 +49,24 @@ class Alliance(Notifications):
             logger.info("Nothing to donate.")
             return self.game.go_to_main_menu()
         self.game.go_to_alliance()
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_DONATE']):
-            self.emulator.click_button(self.ui['ALLIANCE_DONATE'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_DONATION_MENU']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_DONATE):
+            self.emulator.click_button(ui.ALLIANCE_DONATE)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_DONATION_MENU):
                 if donate_gold:
                     logger.debug("Maxing GOLD for donation.")
-                    self.emulator.click_button(self.ui['ALLIANCE_DONATION_MAX_GOLD'].button)
+                    self.emulator.click_button(ui.ALLIANCE_DONATION_MAX_GOLD)
                 if donate_memento:
                     logger.debug("Maxing ALLIANCE MEMENTO for donation.")
-                    self.emulator.click_button(self.ui['ALLIANCE_DONATION_MAX_MEMENTO'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['ALLIANCE_DONATION_CONFIRM']):
+                    self.emulator.click_button(ui.ALLIANCE_DONATION_MAX_MEMENTO)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_DONATION_CONFIRM):
                     logger.info("Donating resources for Alliance.")
-                    self.emulator.click_button(self.ui['ALLIANCE_DONATION_CONFIRM'].button)
-                    if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                  ui_element=self.ui['ALLIANCE_DONATION_REWARD_CLOSE']):
+                    self.emulator.click_button(ui.ALLIANCE_DONATION_CONFIRM)
+                    if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_DONATION_REWARD_CLOSE):
                         logger.info("Resources were donated, exiting.")
-                        self.emulator.click_button(self.ui['ALLIANCE_DONATION_REWARD_CLOSE'].button)
+                        self.emulator.click_button(ui.ALLIANCE_DONATION_REWARD_CLOSE)
                 else:
                     logger.info("Can't donate resource for Alliance. Probably already donated, exiting.")
-                    self.emulator.click_button(self.ui['ALLIANCE_DONATION_CANCEL'].button)
+                    self.emulator.click_button(ui.ALLIANCE_DONATION_CANCEL)
         self.game.go_to_main_menu()
 
     def buy_items_from_store(self, items=None, buy_all_available=True):
@@ -79,10 +76,10 @@ class Alliance(Notifications):
         :param buy_all_available: (bool) buy all available copies of item for today or not.
         """
         self.game.go_to_alliance()
-        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_STORE_TAB']):
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_STORE_TAB):
             logger.error("Can't find STORE tab, exiting.")
             return self.game.go_to_main_menu()
-        self.emulator.click_button(self.ui['ALLIANCE_STORE_TAB'].button)
+        self.emulator.click_button(ui.ALLIANCE_STORE_TAB)
         self.game.close_ads()
         if isinstance(items, str):
             items = [items]
@@ -100,27 +97,22 @@ class Alliance(Notifications):
 
         :return: (bool) was item bought or not.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui[item]):
-            self.emulator.click_button(self.ui[item].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_STORE_PURCHASE']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.get_by_name(item)):
+            self.emulator.click_button(ui.get_by_name(item))
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_STORE_PURCHASE):
                 logger.debug("Purchasing via Alliance Tokens.")
-                self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE'].button)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['ALLIANCE_STORE_PURCHASE_CLOSE']):
+                self.emulator.click_button(ui.ALLIANCE_STORE_PURCHASE)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_STORE_PURCHASE_CLOSE):
                     logger.info("Item was bought.")
-                    self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_CLOSE'].button)
+                    self.emulator.click_button(ui.ALLIANCE_STORE_PURCHASE_CLOSE)
                     return True
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['ALLIANCE_STORE_PURCHASE_NO_TOKENS']):
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_STORE_PURCHASE_NO_TOKENS):
                     logger.info("Not enough Alliance Tokens for purchase.")
-                    self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_NO_TOKENS'].button)
+                    self.emulator.click_button(ui.ALLIANCE_STORE_PURCHASE_NO_TOKENS)
                     return False
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                              ui_element=self.ui['ALLIANCE_STORE_PURCHASE_LIMIT']):
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_STORE_PURCHASE_LIMIT):
                     logger.info("Reached daily limit for purchasing.")
-                    self.emulator.click_button(self.ui['ALLIANCE_STORE_PURCHASE_LIMIT'].button)
+                    self.emulator.click_button(ui.ALLIANCE_STORE_PURCHASE_LIMIT)
                     return False
         logger.warning(f"Item {item} was not found in the Alliance Store.")
         return False
@@ -131,25 +123,22 @@ class Alliance(Notifications):
         :param support_item: item to request.
         """
         self.game.go_to_alliance()
-        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_SUPPORT_TAB']):
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_TAB):
             logger.error("Can't find SUPPORT tab, exiting.")
             return self.game.go_to_main_menu()
-        self.emulator.click_button(self.ui['ALLIANCE_SUPPORT_TAB'].button)
+        self.emulator.click_button(ui.ALLIANCE_SUPPORT_TAB)
         self.claim_support_item()
-        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_SUPPORT_REQUEST']):
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_REQUEST):
             logger.info("Can not request support item for now, exiting.")
             return self.game.go_to_main_menu()
-        self.emulator.click_button(self.ui['ALLIANCE_SUPPORT_REQUEST'].button)
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                      ui_element=self.ui['ALLIANCE_SUPPORT_REQUEST_MENU']):
+        self.emulator.click_button(ui.ALLIANCE_SUPPORT_REQUEST)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_REQUEST_MENU):
             if support_item in self.SUPPORT_ITEM.ON_SECOND_LIST:
                 self._drag_support_item_list()
             logger.debug(f"Sending support request for item {support_item}.")
-            self.emulator.click_button(self.ui[support_item].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_SUPPORT_REQUEST_CONFIRM']):
-                self.emulator.click_button(self.ui['ALLIANCE_SUPPORT_REQUEST_CONFIRM'].button)
+            self.emulator.click_button(ui.get_by_name(support_item))
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_REQUEST_CONFIRM):
+                self.emulator.click_button(ui.ALLIANCE_SUPPORT_REQUEST_CONFIRM)
                 r_sleep(1)  # Wait for animations
         self.game.go_to_main_menu()
 
@@ -158,20 +147,18 @@ class Alliance(Notifications):
 
         :return: (bool) was item claimed or not.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_SUPPORT_CLAIM']):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_CLAIM):
             logger.info("Claiming previous support request.")
-            self.emulator.click_button(self.ui['ALLIANCE_SUPPORT_CLAIM'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_SUPPORT_CLAIM_CLOSE']):
-                self.emulator.click_button(self.ui['ALLIANCE_SUPPORT_CLAIM_CLOSE'].button)
+            self.emulator.click_button(ui.ALLIANCE_SUPPORT_CLAIM)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_CLAIM_CLOSE):
+                self.emulator.click_button(ui.ALLIANCE_SUPPORT_CLAIM_CLOSE)
                 return True
         return False
 
     def _drag_support_item_list(self):
         """Drags Support Items list from top to bottom."""
         logger.debug("Dragging list to the bottom.")
-        self.emulator.drag(self.ui['ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_BOTTOM'].button,
-                           self.ui['ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_TOP'].button)
+        self.emulator.drag(ui.ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_BOTTOM, ui.ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_TOP)
         r_sleep(1)
 
     def collect_energy_from_challenges(self, collect_daily=True, collect_weekly=True):
@@ -179,25 +166,23 @@ class Alliance(Notifications):
             logger.info("Nothing to collect.")
             return self.game.go_to_main_menu()
         self.game.go_to_alliance()
-        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=3, ui_element=self.ui['ALLIANCE_CHALLENGES_TAB']):
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHALLENGES_TAB):
             logger.error("Can't find CHALLENGES tab, exiting.")
             return self.game.go_to_main_menu()
-        self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_TAB'].button)
+        self.emulator.click_button(ui.ALLIANCE_CHALLENGES_TAB)
 
-        if collect_daily and wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                        ui_element=self.ui['ALLIANCE_CHALLENGES_DAILY_ENERGY']):
+        if collect_daily and wait_until(self.emulator.is_ui_element_on_screen,
+                                        ui_element=ui.ALLIANCE_CHALLENGES_DAILY_ENERGY):
             logger.info(f"Collecting daily energy from challenge.")
-            self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_DAILY_ENERGY'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE']):
-                self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE'].button)
+            self.emulator.click_button(ui.ALLIANCE_CHALLENGES_DAILY_ENERGY)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHALLENGES_REWARD_CLOSE):
+                self.emulator.click_button(ui.ALLIANCE_CHALLENGES_REWARD_CLOSE)
 
-        if collect_weekly and wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                                         ui_element=self.ui['ALLIANCE_CHALLENGES_WEEKLY_ENERGY']):
+        if collect_weekly and wait_until(self.emulator.is_ui_element_on_screen,
+                                         ui_element=ui.ALLIANCE_CHALLENGES_WEEKLY_ENERGY):
             logger.info(f"Collecting weekly energy from challenge.")
-            self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_WEEKLY_ENERGY'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, timeout=3,
-                          ui_element=self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE']):
-                self.emulator.click_button(self.ui['ALLIANCE_CHALLENGES_REWARD_CLOSE'].button)
+            self.emulator.click_button(ui.ALLIANCE_CHALLENGES_WEEKLY_ENERGY)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHALLENGES_REWARD_CLOSE):
+                self.emulator.click_button(ui.ALLIANCE_CHALLENGES_REWARD_CLOSE)
 
         self.game.go_to_main_menu()

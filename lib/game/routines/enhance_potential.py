@@ -1,6 +1,7 @@
 ﻿import lib.logger as logging
 from math import ceil
 from lib.game.notifications import Notifications
+from lib.game import ui
 from lib.functions import wait_until, r_sleep
 
 logger = logging.get_logger(__name__)
@@ -16,7 +17,7 @@ class EnhancePotential(Notifications):
     @property
     def success_rate(self):
         """Returns Success Rate number of enhancement."""
-        success_rate_text = self.emulator.get_screen_text(ui_element=self.ui['ENHANCE_POTENTIAL_RATE'])
+        success_rate_text = self.emulator.get_screen_text(ui_element=ui.ENHANCE_POTENTIAL_RATE)
         success_rate = success_rate_text.replace("%", "").replace(" ", "")
         return float(success_rate)
 
@@ -27,13 +28,13 @@ class EnhancePotential(Notifications):
         :param click_speed: clicking speed of applying.
         """
         if material == self.COSMIC_CUBE_FRAGMENT:
-            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_COSMIC_CUBES'].button, min_duration=click_speed,
+            self.emulator.click_button(ui.ENHANCE_POTENTIAL_COSMIC_CUBES, min_duration=click_speed,
                                        max_duration=click_speed)
         if material == self.BLACK_ANTI_MATTER:
-            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_ANTI_MATTER'].button, min_duration=click_speed,
+            self.emulator.click_button(ui.ENHANCE_POTENTIAL_ANTI_MATTER, min_duration=click_speed,
                                        max_duration=click_speed)
         if material == self.NORN_STONE_OF_CHAOS:
-            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_NORN_STONES'].button, min_duration=click_speed,
+            self.emulator.click_button(ui.ENHANCE_POTENTIAL_NORN_STONES, min_duration=click_speed,
                                        max_duration=click_speed)
 
     def press_upgrade(self):
@@ -41,13 +42,11 @@ class EnhancePotential(Notifications):
 
         :return: was button pressed successful or not.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_UPGRADE'],
-                      timeout=3):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_UPGRADE):
             logger.debug(f"Upgrading potential with rate: {self.success_rate}.")
-            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE'].button)
-            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'],
-                          timeout=3):
-                self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_UPGRADE_OK'].button)
+            self.emulator.click_button(ui.ENHANCE_POTENTIAL_UPGRADE)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_UPGRADE_OK):
+                self.emulator.click_button(ui.ENHANCE_POTENTIAL_UPGRADE_OK)
                 return True
         logger.error("Can't find Upgrade button to click.")
         return False
@@ -57,15 +56,13 @@ class EnhancePotential(Notifications):
 
         :return: was enhancement successful or not.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_FAILED'],
-                      timeout=3):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_FAILED):
             logger.debug("Enhance Potential failed.")
-            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_FAILED'].button, min_duration=1, max_duration=1.5)
+            self.emulator.click_button(ui.ENHANCE_POTENTIAL_FAILED, min_duration=1, max_duration=1.5)
             return False
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.ui['ENHANCE_POTENTIAL_SUCCESS'],
-                      timeout=3):
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_SUCCESS):
             logger.debug("Enhance Potential succeeded.")
-            self.emulator.click_button(self.ui['ENHANCE_POTENTIAL_SUCCESS'].button, min_duration=1, max_duration=1.5)
+            self.emulator.click_button(ui.ENHANCE_POTENTIAL_SUCCESS, min_duration=1, max_duration=1.5)
             return True
 
     def enhance_potential(self, target_success_rate=10.00, material_to_use=(NORN_STONE_OF_CHAOS, BLACK_ANTI_MATTER)):
@@ -74,7 +71,7 @@ class EnhancePotential(Notifications):
         :param target_success_rate: minimal success rate of enhancement to proceed upgrading.
         :param material_to_use: name of materials to use in enhancement.
         """
-        if not self.emulator.is_ui_element_on_screen(ui_element=self.ui['ENHANCE_POTENTIAL_LABEL']):
+        if not self.emulator.is_ui_element_on_screen(ui_element=ui.ENHANCE_POTENTIAL_LABEL):
             logger.error("Open character's Enhance Potential menu to enhance the potential.")
             return
         if not isinstance(material_to_use, (list, tuple)):
