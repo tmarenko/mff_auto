@@ -4,6 +4,7 @@ import lib.logger as logging
 from lib.functions import bgr_to_rgb
 from os.path import exists
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import QSettings
 import lib.gui.designes.main_window as design
 
 from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask, \
@@ -50,6 +51,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     """Class for working with main GUI window."""
 
     recorder = None
+    settings = QSettings("tmarenko", "mff_auto")
 
     @classmethod
     def pause_recorder(cls):
@@ -128,6 +130,14 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                     logger.warning("Can't get to the main menu. Restarting the game just in case.")
                     self.restart_game_button.click()
         self._create_menu_for_recorder()
+        self._init_window_settings()
+
+    def _init_window_settings(self):
+        """Restoring the State of a GUI."""
+        self.resize(self.settings.value("MainWindow/size", defaultValue=self.size()))
+        self.move(self.settings.value("MainWindow/pos", defaultValue=self.pos()))
+        if self.settings.value("MainWindow/isMaximized") == 'true':
+            self.showMaximized()
 
     def update_labels(self):
         """Update game's labels in thread to prevent GUI freezing."""
@@ -284,6 +294,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             task.abort()
         self.save_settings_to_file()
         self.queue_list.save_queue_to_file()
+        self.settings.setValue("MainWindow/size", self.size())
+        self.settings.setValue("MainWindow/isMaximized", self.isMaximized())
+        self.settings.setValue("MainWindow/pos", self.pos())
 
     def create_blockable_button(self, button):
         """Create button that blocks others."""
