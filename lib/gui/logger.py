@@ -4,24 +4,33 @@
 class QTextEditFileLogger(Timer):
     """Class for working with file logging in GUI."""
 
-    def __init__(self, logger_widget, log_file):
+    def __init__(self, all_logger_widget, info_logger_widget, error_logger_widget, log_file):
         """Class initialization.
 
         :param QPlainTextEdit logger_widget: widget to write log's text.
         """
         super().__init__()
-        self.widget = logger_widget
-        self.scrollbar = self.widget.verticalScrollBar()
+        self.all_widget = all_logger_widget
+        self.info_widget = info_logger_widget
+        self.error_widget = error_logger_widget
         self.set_timer(self.update_text)
         self.log_file = log_file
         self._old_txt_len = 0
 
     def update_text(self):
         """Update text on the widget."""
+
+        def update_by_filter(all_text, widget, text_filters):
+            new_text = "\n".join([line for line in all_text.split("\n") if any(s in line for s in text_filters)])
+            widget.setPlainText(new_text)
+            widget.verticalScrollBar().setValue(widget.verticalScrollBar().maximum())
+
         with open(self.log_file, "r", encoding='utf-8') as log_file:
             text = log_file.read()
             text_len = len(text)
             if text_len > self._old_txt_len:
                 self._old_txt_len = text_len
-                self.widget.setPlainText(text)
-                self.scrollbar.setValue(self.scrollbar.maximum())
+                self.all_widget.setPlainText(text)
+                self.all_widget.verticalScrollBar().setValue(self.all_widget.verticalScrollBar().maximum())
+                update_by_filter(all_text=text, widget=self.info_widget, text_filters=("- INFO - ",))
+                update_by_filter(all_text=text, widget=self.error_widget, text_filters=("- ERROR - ", "- WARNING -"))

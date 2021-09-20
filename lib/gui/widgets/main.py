@@ -71,7 +71,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.game.file_logger_name = None
         if file_logger:
             self.game.file_logger_name = file_logger.baseFilename
-            self.logger = QTextEditFileLogger(logger_widget=self.logger_text, log_file=file_logger.baseFilename)
+            self.logger = QTextEditFileLogger(all_logger_widget=self.logger_text,
+                                              info_logger_widget=self.logger_text_info,
+                                              error_logger_widget=self.logger_text_error,
+                                              log_file=file_logger.baseFilename)
         else:
             self.logger_text.setPlainText("Cannot create log file because `logs` folder doesn't exists.")
         run_and_stop_button = self.create_blockable_button(button=self.run_queue_button)
