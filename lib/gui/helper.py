@@ -206,7 +206,11 @@ def reset_emulator_and_logger(game):
             # Clear `screen_elements` from EmulatorImageSource if it exists
             if hasattr(game.emulator, 'screen_elements') and game.emulator.screen_elements is not None:
                 game.emulator.screen_elements[:] = []
-            return func(*args, **kwargs)
+            try:
+                return func(*args, **kwargs)
+            except BaseException as err:
+                import traceback
+                logging.root.error(f"{err}\n{traceback.format_exc()}")
 
         return wrapper
 

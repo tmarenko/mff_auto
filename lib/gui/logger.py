@@ -7,7 +7,10 @@ class QTextEditFileLogger(Timer):
     def __init__(self, all_logger_widget, info_logger_widget, error_logger_widget, log_file):
         """Class initialization.
 
-        :param QPlainTextEdit logger_widget: widget to write log's text.
+        :param PyQt5.QtWidgets.QPlainTextEdit.QPlainTextEdit all_logger_widget: widget to write all log's text.
+        :param PyQt5.QtWidgets.QPlainTextEdit.QPlainTextEdit info_logger_widget: widget to write INFO logs.
+        :param PyQt5.QtWidgets.QPlainTextEdit.QPlainTextEdit error_logger_widget: widget to write ERROR/WARNING logs.
+        :param str log_file: name of the log-file to read from.
         """
         super().__init__()
         self.all_widget = all_logger_widget
