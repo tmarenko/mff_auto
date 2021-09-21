@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QSizePolicy
 from lib.gui.helper import Timer, screen_to_gui_image
 from lib.game.ui.general import Rect, UIElement
 import lib.logger as logging
+import gc
 
 logger = logging.get_logger(__name__)
 
@@ -38,6 +39,7 @@ class ScreenImageLabel(Timer):
         scale_pix_map = pix_map.scaled(self.widget.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.scaled_width, self.scaled_height = scale_pix_map.width(), scale_pix_map.height()
         self.widget.setPixmap(scale_pix_map)
+        gc.collect()  # Temp images easily can take over 500 MB of RAM
 
     def screen_click_event(self, event):
         """Click event on screen image."""
