@@ -1,5 +1,6 @@
 import re
 from lib.functions import wait_until, is_strings_similar, r_sleep, confirm_condition_by_time
+from lib.game.data.game_modes import game_modes
 from lib.game import ui
 from lib.game.notifications import Notifications
 from multiprocessing.pool import ThreadPool
@@ -36,7 +37,7 @@ class Game(Notifications):
         """
         self.emulator = emulator
         self._apply_decorators()
-        self._mode_names = ui.load_game_modes()
+        self._mode_names = game_modes
         self._user_name = user_name
         self._current_energy, self._energy_max = 0, 0
         self._gold = 0

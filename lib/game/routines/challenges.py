@@ -1,6 +1,6 @@
-﻿import json
-import lib.logger as logging
+﻿import lib.logger as logging
 from random import randint
+from lib.game.data.daily_trivia import trivia_qa
 from lib.game.notifications import Notifications
 from lib.game import ui
 from lib.functions import wait_until, is_strings_similar
@@ -11,24 +11,13 @@ logger = logging.get_logger(__name__)
 class DailyTrivia(Notifications):
     """Class for working with Daily Trivia."""
 
-    @staticmethod
-    def load_daily_trivia(path="settings/daily_trivia.json"):
-        """Load daily trivia's questions and answers.
-
-        :param path: path to settings.
-
-        :return: dictionary of questions and answers.
-        """
-        with open(path, encoding='utf-8') as json_data:
-            return json.load(json_data)
-
     def __init__(self, game):
         """Class initialization.
 
         :param lib.game.Game game: instance of the game.
         """
         super().__init__(game)
-        self.trivia = self.load_daily_trivia()
+        self.trivia = trivia_qa
 
     def do_trivia(self):
         """Do trivia."""

@@ -1,4 +1,3 @@
-import json
 import os
 from copy import deepcopy
 from lib.functions import load_image, bgr_to_rgb as rgb_to_bgr
@@ -110,17 +109,6 @@ class UIElement:
         :rtype: UIElement
         """
         return deepcopy(self)
-
-
-def load_game_modes(path="settings/game_modes.json"):
-    """Load game modes info.
-
-    :param path: path to settings.
-
-    :return: dictionary of info.
-    """
-    with open(path, encoding='utf-8') as json_data:
-        return json.load(json_data)
 
 
 def load_ui_image(path, images_folder="images"):
