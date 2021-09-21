@@ -13,9 +13,9 @@ class WaitUntil(Notifications):
     GAME_RESET_HOUR_UTC = 15
 
     def wait_until_boost_points(self, value=100):
-        """Wait until boost points value is equal or greater then given amount.
+        """Waits until boost points value is equal or greater then given amount.
 
-        :param value: value for boost pints.
+        :param int value: value for boost pints.
         """
         logger.debug(f"Current Boost points: {self.game.boost}, waiting until: {value}")
         while int(self.game.boost) < value:
@@ -23,14 +23,17 @@ class WaitUntil(Notifications):
         logger.debug(f"Current Boost points: {self.game.boost}, done.")
 
     def wait_until_max_energy(self):
-        """wait until energy is max out."""
+        """Waits until energy is max out."""
         logger.debug(f"Current energy: {self.game.energy}, waiting until: {self.game.energy_max}")
         while int(self.game.energy) < int(self.game.energy_max):
             sleep(120)
         logger.debug(f"Current energy: {self.game.energy}, done.")
 
     def wait_until_daily_reset(self, hour_offset=0):
-        """Wait until game's daily reset."""
+        """Waits until game's daily reset.
+
+        :param hour_offset: offset in hours that will be subtract from the Daily Reset time.
+        """
         if not isinstance(hour_offset, int):
             hour_offset = 0
         try:

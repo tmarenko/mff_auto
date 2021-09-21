@@ -15,46 +15,46 @@ class BlueStacks(AndroidEmulator):
     def __init__(self, name="BlueStacks", child_name="BlueStacks Android PluginAndroid", key_handle_name="BlueStacks"):
         """Class initialization.
 
-        :param name: main window's name of the emulator.
-        :param child_name: child window's name of inner control window.
-        :param key_handle_name: name of windows's key handler.
+        :param str name: main window's name of the emulator.
+        :param str child_name: child window's name of inner control window.
+        :param str key_handle_name: name of windows's key handler.
         """
         super().__init__(name=name, child_name=child_name, key_handle_name=key_handle_name)
 
     def _set_params_by_version(self):
-        """Set params for BlueStacks by its version."""
+        """Sets params for BlueStacks by its version."""
         version = self.get_version()
         if version and version >= LooseVersion('5.0'):
             self.child_name = BLUESTACKS_5_CHILD_NAME
             self.drag = super().drag
-        self.update_windows()
+        self.update_handlers()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
-        """Get window's key handler.
+        """Gets information about general key handler.
 
-        :param hwnd: window handle.
-        :param wildcard: wildcard.
+        :param int hwnd: window handle.
+        :param str wildcard: wildcard.
         """
         if self.parent_hwnd:
             self.key_handle = self.parent_hwnd
 
     def close_current_app(self):
-        """Close current opened app in emulator."""
+        """Closes current opened app in emulator."""
         raise NotImplementedError("BlueStacks doesn't support closing apps through shortcuts.")
 
     @property
     def restartable(self):
-        """Returns if app can be restarted."""
+        """Checks if app can be restarted."""
         logging.warning(f"{self.name} {self.get_version()}: doesn't support closing apps through shortcuts.")
         return False
 
     def drag(self, from_ui, to_ui, duration=0.7, steps_count=100):
-        """Click, hold and drag.
+        """Drags from one UI element to another.
 
-        :param from_ui: UI element of dragging position "From".
-        :param to_ui: UI element of dragging position "To".
-        :param duration: duration of dragging.
-        :param steps_count: steps of dragging.
+        :param lib.game.ui.UIElement from_ui: UI element of dragging position "From".
+        :param lib.game.ui.UIElement to_ui: UI element of dragging position "To".
+        :param float duration: duration of dragging.
+        :param int steps_count: steps of dragging.
         """
         def linear_point(x1, y1, x2, y2, n):
             p_x = ((x2 - x1) * n) + x1

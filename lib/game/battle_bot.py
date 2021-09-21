@@ -14,7 +14,7 @@ class BattleBot:
     def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         self.game = game
         self.emulator = game.emulator
@@ -30,7 +30,7 @@ class BattleBot:
     def is_battle(self):
         """Check if battle is going.
 
-        :return: True or False.
+        :rtype: bool
         """
         is_battle = self.emulator.is_image_on_screen(ui.MELEE_BUTTON)
         self._is_battle_cached = is_battle
@@ -39,7 +39,7 @@ class BattleBot:
     def is_battle_over(self):
         """Check if battle is over.
 
-        :return: True or False.
+        :rtype: bool
         """
         for condition in self._disconnect_conditions:
             if condition():
@@ -54,7 +54,7 @@ class BattleBot:
         return False
 
     def skip_cutscene(self):
-        """Skip battle cutscene."""
+        """Skips battle cutscene."""
         if self.emulator.is_ui_element_on_screen(ui_element=ui.SKIP_CUTSCENE):
             logger.debug("Skipping cutscene.")
             self.emulator.click_button(ui.SKIP_CUTSCENE)
@@ -62,7 +62,7 @@ class BattleBot:
         self.skip_frost_beast()
 
     def skip_tap_the_screen(self):
-        """Skip TAP SCREEN battle cutscene."""
+        """Skips TAP SCREEN battle cutscene."""
         if self.emulator.is_ui_element_on_screen(ui_element=ui.SKIP_CUTSCENE) or \
                 self.emulator.is_ui_element_on_screen(ui_element=self._skip_tap_screen_high) or \
                 self.emulator.is_ui_element_on_screen(ui_element=self._skip_tap_screen_low):
@@ -70,7 +70,7 @@ class BattleBot:
             self.emulator.click_button(ui.SKIP_TAP_THE_SCREEN)
 
     def skip_frost_beast(self):
-        """SKip Frost Beast cutscene."""
+        """SKips Frost Beast cutscene."""
         if self.emulator.is_ui_element_on_screen(ui_element=ui.AB_FROST_BEAST_BATTLE_LABEL):
             logger.debug("Skipping Frost Beast.")
             self.emulator.click_button(ui.AB_FROST_BEAST_BATTLE_LABEL)
@@ -82,19 +82,17 @@ class AutoBattleBot(BattleBot):
     _30_FPS = 1.0 / 30  # Awaiting for frame in 30FPS
 
     def fight(self):
-        """Start battle and wait until the end."""
-        if confirm_condition_by_time(confirm_condition=self.is_battle_over):
-            logger.info("Battle is already over")
-            return
-
+        """Starts battle and waits until the end."""
         def wait_battle():
             self.skip_cutscene()
             return self.is_battle()
 
-        if wait_until(wait_battle, timeout=60, period=1):
-            logger.info("Battle is started")
-        else:
-            logger.warning("Can't find MELEE button on screen after starting a battle.")
+        if confirm_condition_by_time(confirm_condition=self.is_battle_over):
+            return logger.warning("Battle is already over")
+        if not wait_until(wait_battle, timeout=60, period=1):
+            return logger.error("Can't find MELEE button on screen after starting a battle.")
+
+        logger.info("Battle is started")
         if not wait_until(self.emulator.is_image_on_screen, timeout=2, ui_element=ui.AUTOPLAY_TOGGLE):
             logger.debug("Found AUTO PLAY toggle inactive. Clicking it.")
             self.emulator.click_button(ui.AUTOPLAY_TOGGLE)
@@ -104,15 +102,14 @@ class AutoBattleBot(BattleBot):
             r_sleep(self._30_FPS)
         r_sleep(1)  # Wait for end of the battle animations
         if self._disconnected:
-            logger.debug("Disconnect condition was triggered.")
-            return
+            return logger.debug("Disconnect condition was triggered.")
         # Check for possible notifications after end of the battle
         if not wait_until(confirm_condition_by_time, confirm_condition=self.is_battle_over, timeout=10):
             return self.fight()
         logger.info("Battle is over")
 
     def wait_until_shifter_appeared(self):
-        """Wait until Ally or Enemy shifter appears."""
+        """Waits until Ally or Enemy shifter appears."""
         logger.debug("Waiting for Shifter to appear.")
         while not self.is_battle():
             shifter_appeared = self.emulator.is_ui_element_on_screen(ui_element=ui.ALLY_APPEARED) or \
@@ -134,7 +131,7 @@ class LockedSkill:
     def __init__(self, game, skill_ui, skill_locked_ui=None, skill_label_ui=None):
         """Class initialization.
 
-        :param game.Game game: instance of game.
+        :param lib.game.game.Game game: instance of game.
         """
         self.emulator = game.emulator
         self._skill_locked = None
@@ -149,7 +146,10 @@ class LockedSkill:
 
     @property
     def locked(self):
-        """Is skill locked property. Checking if locked version of the skill is on screen and storing result."""
+        """Property that checks whether is skill locked or not.
+        Checks for skill label first.
+        If label is missing then checks for image that represents locked skill (for T3/Awakening skill only).
+        """
         if self._skill_locked is None:
             if self.skill_label_ui and not self.emulator.is_ui_element_on_screen(ui_element=self.skill_label_ui):
                 logger.debug(f"{self.name} skill label is not on a screen. Character does not have him.")
@@ -167,23 +167,28 @@ class LockedSkill:
 
     @property
     def skill_image(self):
-        """Skill ready image. Checking if it's not locked and ready to cast.
+        """Property that returns image of the skill only if it's not locked and ready to cast.
+        Otherwise tries to checks if skill is ready to cast (only if it's not locked).
 
-        :return: None or Image: image returned if skill is not locked and ready to cast.
+        :return: image if skill is not locked and ready to cast.
+        :rtype: numpy.ndarray
         """
         if not self.locked and self._skill_ready_image is None:
             self.check_skill_is_ready()
         return self._skill_ready_image
 
     def is_not_locked_and_has_skill_image(self):
-        """Check if skill is not locked and has skill image ready to cast."""
+        """Checks if skill is not locked and has `skill ready image` (means that it's ready to cast)."""
         return not self.locked and self._skill_ready_image is not None
 
     def check_skill_is_ready(self, max_repetitions=3, forced=False):
-        """Check if skill is available and set it's image if it is.
+        """Checks if skill is available to cast.
+        Gets text from the screen (skill cooldown) and stores it.
+        If same cooldown repeats then assumes that skill is available to cast.
+        Can be forced to set skill available to cast without that kind of checks.
 
-        :param max_repetitions: max repetitions if "same" cooldown if skill cooldown is hard to read.
-        :param forced: force to set skill available.
+        :param int max_repetitions: max repetitions if "same" cooldown if skill cooldown is hard to read.
+        :param bool forced: force to set skill available.
         """
         cool_down = self.emulator.get_screen_text(self.skill_ui) if not forced else False
         if not cool_down and not forced:
@@ -212,15 +217,16 @@ class LockedSkill:
                 self._skill_locked = True
 
     def is_skill_available(self):
-        """Check if skill is available to cast."""
+        """Checks if skill's image is on screen (if skill is available to cast)."""
         if self.skill_image is not None:
             return self.emulator.is_image_on_screen(self.skill_ui)
         return False
 
     def cast_skill(self):
-        """Cast character's skill.
+        """Casts character's skill. Clicks on skill's button several.
 
-        :return: was skill casted.
+        :return: was skill casted or not.
+        :rtype: bool
         """
         logger.debug(f"Casting {self.name} skill.")
         self.emulator.click_button(self.skill_ui, min_duration=0.01, max_duration=0.01)
@@ -242,7 +248,7 @@ class ManualBattleBot(BattleBot):
     def __init__(self, game, battle_over_conditions, disconnect_conditions=None):
         """Class initialization.
 
-        :param game.Game game: instance of game.
+        :param lib.game.game.Game game: instance of game.
         """
         super().__init__(game, battle_over_conditions, disconnect_conditions)
         self._init_skills()
@@ -270,9 +276,9 @@ class ManualBattleBot(BattleBot):
         self.danger_room_skill = LockedSkill(self.game, ui.SKILL_DANGER_ROOM)
 
     def fight(self, move_around=False):
-        """Start battle and use skills until the end of battle.
+        """Starts battle and uses skills until the end of battle.
 
-        :param move_around: move around if skills are unavailable to cast.
+        :param bool move_around: move around if skills are unavailable to cast.
         """
         logger.info("Battle is started")
         while not self.is_battle_over():
@@ -309,23 +315,24 @@ class ManualBattleBot(BattleBot):
         logger.info("Battle is over")
 
     def move_character(self):
-        """Move character around."""
+        """Moves character around."""
         logger.debug("Moving around.")
         next_position_from, next_position_to = self.moving_position_from, next(self.moving_positions)
         self.emulator.drag(next_position_from, next_position_to, duration=0.5)
         self.moving_position_from = next_position_to
 
     def load_character(self):
-        """Load character image."""
+        """Loads character image."""
         logger.debug("Loading character image for the fight.")
         character_image = self.emulator.get_screen_image(rect=ui.CURRENT_CHARACTER.image_rect)
         ui.CURRENT_CHARACTER.image = character_image
         self.current_character = character_image
 
     def reload_skills_if_character_dead(self):
-        """Reload skill info if current character is dead.
+        """Reloads skill info if current character is dead.
 
-        :return True or False: was skills reloaded.
+        :return was skills reloaded or not.
+        :rtype: bool
         """
         is_same_character = self.emulator.is_image_on_screen(ui_element=ui.CURRENT_CHARACTER)
         if not is_same_character:
@@ -338,7 +345,9 @@ class ManualBattleBot(BattleBot):
         return False
 
     def load_skills(self):
-        """Load images of skills without cooldown layout."""
+        """Loads images of skills. Tries to determine T3/Awakening skill by T3 percentage regular expression.
+        Then locks all unavailable skills (for 5-star characters and lower)
+        """
         logger.debug("Loading skill's images for the fight.")
         for skill in self.base_skills:
             if not skill.locked:
@@ -384,9 +393,10 @@ class ManualBattleBot(BattleBot):
             logger.debug(f"Locking base skill {last_skill.name} because previous skills locked as well.")
 
     def get_available_bonus_skill(self):
-        """Get available bonus skill and save it.
+        """Gets available bonus skill and saves it. Looks for for Danger Room and Co-op skills.
 
-        :return: LockedSkill available bonus skill to cast.
+        :return: available bonus skill to cast.
+        :rtype: LockedSkill
         """
         if self.current_bonus_skill is None:
             self.current_bonus_skill = False  # Pseudo lock skill of no COOP or Danger Room
@@ -405,10 +415,11 @@ class ManualBattleBot(BattleBot):
                 return self.current_bonus_skill
 
     def get_best_available_skill(self):
-        """Get best available skill to cast.
-        cached skill -> T3 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1
+        """Gets best available skill to cast.
+        Order:
+            cached skill -> T3/Awakening -> 5 -> 4 -> 3 -> 2 -> 1
 
-        :return: LockedSkill best available skill to cast.
+        :rtype: LockedSkill
         """
         if self.cached_available_skill and self.cached_available_skill.is_skill_available():
             skill = self.cached_available_skill

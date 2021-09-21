@@ -10,7 +10,7 @@ class Friends(Notifications):
     """Class for working with Friends."""
 
     def send_all(self):
-        """Send all tokens to friends."""
+        """Sends all tokens to friends."""
         self.game.go_to_friends()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.FRIENDS_TOKEN_SEND_ALL):
             self.emulator.click_button(ui.FRIENDS_TOKEN_SEND_ALL)
@@ -19,7 +19,7 @@ class Friends(Notifications):
         self.game.go_to_main_menu()
 
     def acquire_all(self):
-        """Acquire all tokens from friends."""
+        """Acquires all tokens from friends."""
         self.game.go_to_friends()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.FRIENDS_TOKEN_ACQUIRE_ALL):
             self.emulator.click_button(ui.FRIENDS_TOKEN_ACQUIRE_ALL)

@@ -18,7 +18,7 @@ class AllianceBattle(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name="ALLIANCE BATTLE")
 
@@ -29,7 +29,7 @@ class AllianceBattle(Missions):
 
         def restart():
             if self.emulator.is_ui_element_on_screen(ui.AB_RESTART_CANCEL_BUTTON):
-                logger.debug("Lost battle.")
+                logger.info("Lost battle.")
                 self.emulator.click_button(ui.AB_RESTART_CANCEL_BUTTON)
                 return True
             return False
@@ -37,22 +37,20 @@ class AllianceBattle(Missions):
         return [score, restart]
 
     def do_missions(self, mode=MODE.ALL_BATTLES):
-        """Do missions."""
+        """Does missions."""
         if self.stages > 0:
             self.start_missions(mode=mode)
             self.end_missions()
 
     def start_missions(self, mode=MODE.ALL_BATTLES):
-        """Start Alliance Battles missions.
+        """Starts Alliance Battles missions.
 
-        :param mode: mode of battles to start (all or normal).
+        :param str mode: mode of battles to start (all or normal).
         """
         if mode != self.MODE.ALL_BATTLES and mode != self.MODE.NORMAL:
-            logger.error(f"Got wrong mode for battles: {mode}.")
-            return
+            return logger.error(f"Got wrong mode for battles: {mode}.")
         if not self.open_alliance_battle():
-            logger.warning("Can't get in battles lobby.")
-            return
+            return logger.error("Can't get in battles lobby.")
         if mode == self.MODE.NORMAL:
             logger.info("Starting only NORMAL battle.")
             self._start_alliance_battle(start_button=ui.AB_NORMAL_START_BUTTON, home_or_next_button=ui.AB_HOME)
@@ -63,7 +61,7 @@ class AllianceBattle(Missions):
             self._start_alliance_battle(start_button=ui.AB_EXTREME_START_BUTTON, home_or_next_button=ui.AB_HOME)
 
     def open_alliance_battle(self):
-        """Open Alliance battle screen and select battle."""
+        """Opens Alliance battle screen and select battle."""
         self.game.select_mode(self.mode_name)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.AB_NORMAL_READY_BUTTON):
             logger.debug("Found Normal Ready button, selecting.")
@@ -76,27 +74,25 @@ class AllianceBattle(Missions):
         return False
 
     def _start_alliance_battle(self, start_button, home_or_next_button):
-        """Start alliance battle.
+        """Starts alliance battle.
 
-        :param start_button: start button UI.
-        :param home_or_next_button: next to extreme button or home button UI.
+        :param ui.UIElement start_button: start button UI.
+        :param ui.UIElement home_or_next_button: next to extreme button or home button UI.
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, timeout=10, ui_element=start_button):
-            r_sleep(2)
-            self._deploy_characters()
-            self.emulator.click_button(start_button)
-            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.AB_NO_CHARACTERS):
-                logger.warning("No available 3 characters were found. Exiting.")
-                self.emulator.click_button(ui.AB_NO_CHARACTERS)
-                return
-            ManualBattleBot(self.game, self.battle_over_conditions).fight()
-            self.close_mission_notifications()
-            self.emulator.click_button(home_or_next_button)
-        else:
-            logger.warning(f"Cannot find START battle button: {start_button}")
+        if not wait_until(self.emulator.is_ui_element_on_screen, timeout=10, ui_element=start_button):
+            return logger.error(f"Cannot find START battle button: {start_button}")
+        r_sleep(2)
+        self._deploy_characters()
+        self.emulator.click_button(start_button)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.AB_NO_CHARACTERS):
+            logger.warning("No available 3 characters were found. Exiting.")
+            return self.emulator.click_button(ui.AB_NO_CHARACTERS)
+        ManualBattleBot(self.game, self.battle_over_conditions).fight()
+        self.close_mission_notifications()
+        self.emulator.click_button(home_or_next_button)
 
     def _deploy_characters(self):
-        """Deploy 3 characters to battle."""
+        """Deploys 3 characters to battle."""
 
         def deploy_character(character_slot, character, additional_character):
             if self.emulator.is_image_on_screen(ui_element=character_slot):

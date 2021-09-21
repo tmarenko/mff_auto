@@ -5,7 +5,11 @@ from time import sleep
 
 
 def set_default_icon(window, path="icon.ico"):
-    """Set default icon for window."""
+    """Sets default icon for window.
+
+    :param PyQt5.QtWidgets.QWidget.QWidget window: window to set the icon.
+    :param path: path to icon's image.
+    """
     window.setWindowIcon(QIcon(path))
 
 
@@ -27,7 +31,7 @@ class TwoStateButton:
     def __init__(self, button):
         """Class initialization.
 
-        :param QPushButton button: instance of button.
+        :param PyQt5.QtWidgets.QPushButton.QPushButton button: instance of button.
         """
         self.button = button
         self.state = TwoStateButton.State.Zero
@@ -39,16 +43,26 @@ class TwoStateButton:
         self.set_first_state()
 
     def set_first_state_text(self, text):
-        """Set text for first state."""
+        """Sets text for first state.
+
+        :param str text: text of the button in first state.
+        """
         self.first_state_text = text
 
     def set_second_state_text(self, text):
-        """Set text for second state."""
+        """Sets text for second state.
+
+        :param str text: text of the button in second state.
+        """
         self.second_state_text = text
 
     def connect_first_state(self, func, *args, **kwargs):
-        """Connect function to first state."""
+        """Connects function to first state.
 
+        :param function func: function to connect.
+        """
+
+        @wraps(func)
         def proxy_func():
             return func(*args, **kwargs)
 
@@ -57,8 +71,12 @@ class TwoStateButton:
             self.button.clicked.connect(proxy_func)
 
     def connect_second_state(self, func, *args, **kwargs):
-        """Connect function to second state."""
+        """Connects function to second state.
 
+        :param function func: function to connect.j
+        """
+
+        @wraps(func)
         def proxy_func():
             return func(*args, **kwargs)
 
@@ -67,7 +85,7 @@ class TwoStateButton:
             self.button.clicked.connect(proxy_func)
 
     def set_first_state(self):
-        """Set button to first state and reconnect functions."""
+        """Sets button to first state and reconnect functions."""
         if self.state == TwoStateButton.State.First:
             return
         self.state = TwoStateButton.State.First
@@ -79,7 +97,7 @@ class TwoStateButton:
             self.button.clicked.connect(func)
 
     def set_second_state(self):
-        """Set button to second state and reconnect functions."""
+        """Sets button to second state and reconnect functions."""
         if self.state == TwoStateButton.State.Second:
             return
         self.state = TwoStateButton.State.Second
@@ -91,17 +109,17 @@ class TwoStateButton:
             self.button.clicked.connect(func)
 
     def change_state(self):
-        """Change button's state."""
+        """Changes button's state."""
         if self.state == TwoStateButton.State.First:
             self.set_second_state()
         elif self.state == TwoStateButton.State.Second:
             self.set_first_state()
 
     def add_action(self, action_name, action_func):
-        """Add action menu to button as first state.
+        """Adds action menu to button as first state.
 
-        :param action_name: name of action.
-        :param action_func: function to execute.
+        :param str action_name: name of action.
+        :param function action_func: function to execute.
         """
         menu = self.button.menu() if self.button.menu() else QMenu()
         action = menu.addAction(action_name)
@@ -121,10 +139,10 @@ class Timer:
         self._update_timer = QTimer()
 
     def set_timer(self, func, timer_ms=UPDATE_TIMER_MS):
-        """Set function to timer.
+        """Sets function to timer.
 
-        :param func: function caller.
-        :param timer_ms: time in ms.
+        :param function func: function caller.
+        :param int timer_ms: time in ms.
         """
         self._update_timer.timeout.connect(func)
         self._update_timer.start(timer_ms)
@@ -133,6 +151,7 @@ class Timer:
 def safe_process_stop(func):
     """Decorator for safe process stopping."""
 
+    @wraps(func)
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
@@ -144,7 +163,9 @@ def safe_process_stop(func):
 
 
 def try_to_disconnect(signal, func=None):
-    """Try to disconnect function from signal."""
+    """Tries to disconnect function from signal.
+    If there is nothing to disconnect then simply skips exception.
+    """
     try:
         if func is not None:
             signal.disconnect(func)
@@ -155,25 +176,26 @@ def try_to_disconnect(signal, func=None):
 
 
 def screen_to_gui_image(screen):
-    """Convert screen image to PyQt image.
+    """Converts screen image to PyQt image.
 
-    :param screen: numpy.array of image.
-    :return: QPixmap image.
+    :param numpy.ndarray screen: screen image.
+
+    :rtype: PyQt5.QtGui.QPixmap.QPixmap
     """
     height, width, channel = screen.shape
     return QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
 
 
 def reset_emulator_and_logger(game):
-    """Reset emulator screen and set file logger to existing file.
+    """Resets emulator screen and set file logger to existing file.
 
-    :param game.Game game: instance of game.
+    :param lib.game.game.Game game: instance of game.
     """
 
     def decorator(func):
         def wrapper(*args, **kwargs):
             import lib.logger as logging
-            if game.file_logger_name:
+            if hasattr(game, "file_logger_name") and game.file_logger_name:
                 logging.create_file_handler(file_name=game.file_logger_name)
             if not game.emulator.initialized:
                 name = func.__name__ if not func.__closure__ else func.__closure__[0].cell_contents.__module__

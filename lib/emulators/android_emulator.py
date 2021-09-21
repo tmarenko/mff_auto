@@ -27,14 +27,14 @@ ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000040)  # Preve
 
 
 class AndroidEmulator(object):
-    """Class for working with Android emulator's window."""
+    """Class for working with Android emulators."""
 
     def __init__(self, name, child_name, key_handle_name):
         """Class initialization.
 
-        :param name: main window's name of the emulator.
-        :param child_name: child window's name of inner control window.
-        :param key_handle_name: name of windows's key handler.
+        :param str name: main window's name of the emulator.
+        :param str child_name: child window's name of inner control window.
+        :param str key_handle_name: name of windows's key handler.
         """
         self._init_variables()
         self._version = None
@@ -43,7 +43,7 @@ class AndroidEmulator(object):
         self.key_handle_name = key_handle_name
         self.screen_locked = False
         self.last_frame = None
-        self.update_windows()
+        self.update_handlers()
         self._set_params_by_version()
         if self.initialized:
             logging.debug(f"Initialized {self.__class__.__name__} object with name {self.name} "
@@ -60,8 +60,11 @@ class AndroidEmulator(object):
         self.autoit_control_click_by_handle = autoit.control_click_by_handle
         self.win32_api_post_message = win32api.PostMessage
 
-    def get_process(self):
-        """Get path to process of emulator's executable."""
+    def get_process_exe(self):
+        """Gets path of emulator's executable file.
+
+        :rtype: str
+        """
         try:
             p_hwnd, process_id = win32process.GetWindowThreadProcessId(self.parent_hwnd)
             process = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ, 0, process_id)
@@ -71,31 +74,35 @@ class AndroidEmulator(object):
             return None
 
     def get_version(self):
-        """Get emulator's version from properties of .exe file."""
+        """Get emulator's version from properties of .exe file.
+
+        :rtype: LooseVersion
+        """
         if self._version:
             return self._version
-        process_exe = self.get_process()
+        process_exe = self.get_process_exe()
         if process_exe:
             self._version = LooseVersion(get_file_properties(process_exe).get("FileVersion"))
         return self._version
 
     def _set_params_by_version(self):
-        """Set params for different versions of emulator"""
+        """Sets params for different versions of emulator.
+        Can be overridden in child classes."""
         pass
 
-    def update_windows(self):
-        """Update window's handlers."""
+    def update_handlers(self):
+        """Updates window's handlers and stores info from them."""
         win32gui.EnumWindows(self._get_window_info, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_key_layout_handle, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_emulator_window_info, None)
 
-    def update_windows_rect(self):
-        """Update window's rectangles."""
+    def update_window_rectangles(self):
+        """Updates window's rectangles."""
         self._update_rect_from_parent_hwnd()
         self._update_rect_from_main_hwnd()
 
     def _update_rect_from_parent_hwnd(self):
-        """Update parent's window rectangle."""
+        """Finds parent's window rectangle and stores it's coordinates."""
         if not self.parent_hwnd:
             return
         try:
@@ -108,7 +115,7 @@ class AndroidEmulator(object):
             pass
 
     def _update_rect_from_main_hwnd(self):
-        """Update emulator's window rectangle."""
+        """Finds emulator's window rectangle and stores it's coordinates."""
         if not self.hwnd:
             return
         try:
@@ -125,10 +132,11 @@ class AndroidEmulator(object):
             pass
 
     def _get_window_info(self, hwnd, wildcard):
-        """Get main window info.
+        """Gets information about main emulator's window. Stores window handler and main key handler.
+        Main window usually renders graphics.
 
-        :param hwnd: window handle.
-        :param wildcard: wildcard.
+        :param int hwnd: window handle.
+        :param str wildcard: wildcard.
         """
         if self.name == win32gui.GetWindowText(hwnd):
             try:
@@ -140,53 +148,54 @@ class AndroidEmulator(object):
                 pass
 
     def _get_emulator_window_info(self, hwnd, wildcard):
-        """Get child window info.
+        """Gets information about child emulator's window.
+        Child window usually receives mouse events (clicks, drags).
 
-        :param hwnd: window handle.
-        :param wildcard: wildcard.
+        :param int hwnd: window handle.
+        :param str wildcard: wildcard.
         """
         if self.child_name in win32gui.GetWindowText(hwnd):
             self.hwnd = hwnd
             self._update_rect_from_main_hwnd()
 
     def _get_key_layout_handle(self, hwnd, wildcard):
-        """Get window's key handler.
+        """Gets information about general key handler.
+        Should be implemented in child classes.
 
-        :param hwnd: window handle.
-        :param wildcard: wildcard.
+        :param int hwnd: window handle.
+        :param str wildcard: wildcard.
         """
         raise NotImplementedError
 
     @property
     def initialized(self):
-        """Was emulator initialized properly.
+        """Property that checks whether emulator has active handlers.
 
-        :return: True or False.
+        :return: was emulator initialized properly or not.
+        :rtype: bool
         """
         hwnd_found = self.hwnd is not None and self.parent_hwnd is not None
         hwnd_active = win32gui.GetWindowText(self.parent_hwnd) == self.name and win32gui.GetWindowText(self.hwnd) == self.child_name
         keys_found = self.key_handle is not None and self.main_key_handle is not None
         rect_found = self.x is not None and self.y is not None
         parent_found = self.parent_x is not None and self.parent_y is not None
-        # TODO: keys are not necessary, maybe remove them?
-        keys_found = True
         return hwnd_found and hwnd_active and keys_found and rect_found and parent_found
 
     @property
     def is_minimized(self):
-        """Is emulator's window minimized."""
+        """Property that check whether emulator's main window minimized or not."""
         return win32gui.IsIconic(self.parent_hwnd)
 
     def maximize(self):
-        """Maximize emulator's window."""
+        """Maximizes emulator's main window."""
         win32api.PostMessage(self.parent_hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
 
     def get_screen_image(self, rect=(0, 0, 1, 1)):
-        """Get screen image.
+        """Gets image of emulator's screen.
 
-        :param rect: rectangle of screen.
+        :param tuple[float, float, float, float] rect: rectangle of screen to capture.
 
-        :return: numpy.array of image.
+        :rtype: numpy.ndarray
         """
         box = (rect[0] * self.width, rect[1] * self.height,
                rect[2] * self.width, rect[3] * self.height)
@@ -195,12 +204,12 @@ class AndroidEmulator(object):
 
     @staticmethod
     def get_image_from_image(image, rect):
-        """Get screen image from another image.
+        """Gets image from another image. Basically just crops it.
 
-        :param image: numpy.array of image.
-        :param rect: rectangle to crop.
+        :param numpy.ndarray image: image.
+        :param tuple[float, float, flaot, float] rect: rectangle to crop.
 
-        :return: numpy.array of image.
+        :rtype: numpy.ndarray
         """
         image = Image.fromarray(image)
         box = (rect[0] * image.width, rect[1] * image.height,
@@ -209,25 +218,27 @@ class AndroidEmulator(object):
         return array(screen)
 
     def get_screen_color(self, positions, screen=None):
-        """Get color from screen.
+        """Gets color from emulator's screen by it position.
 
-        :param positions: list of color positions.
-        :param screen: screen image.
+        :param list[tuple[int, int]] positions: list of (x,y) color positions.
+        :param numpy.ndarray screen: screen image.
 
-        :return: RGB color.
+        :return: list of (r,g,b) colors.
+        :rtype: list[tuple[int, int, int]]
         """
         screen = screen if screen is not None else self._get_screen()
         return [screen.getpixel(position) for position in positions]
 
     def get_position_inside_screen_rectangle(self, rect, mean_mod=2, sigma_mod=5):
-        """Get (x,y) position inside screen rectangle.
+        """Gets (x,y) position inside screen rectangle.
          Using normal distribution position usually will be near rectangle center.
 
-        :param rect: rectangle of screen.
-        :param mean_mod: mean for distribution.
-        :param sigma_mod: standard deviation for distribution.
+        :param tuple[float, float, float, float] rect: local rectangle inside (0, 0, 1, 1) range.
+        :param int mean_mod: mean for distribution.
+        :param int sigma_mod: standard deviation for distribution.
 
         :return: (x, y) position inside screen rectangle.
+        :rtype: tuple[int, int]
         """
         if rect[0] == rect[2] and rect[1] == rect[3]:
             return int(rect[0] * self.width), int(rect[1] * self.height)
@@ -235,12 +246,13 @@ class AndroidEmulator(object):
         return int(x * self.width), int(y * self.height)
 
     def get_screen_text(self, ui_element, screen=None):
-        """Get text from screen.
+        """Gets text from emulator's screen.
 
-        :param ui_element: UI element.
-        :param screen: screen image.
+        :param lib.game.ui.UIElement ui_element: UI element that has all info for text recognition.
+        :param numpy.ndarray screen: screen image.
 
         :return: text from the image.
+        :rtype: str
         """
         image = self.get_screen_image(ui_element.text_rect) if screen is None else screen
         if ui_element.color_to_convert:
@@ -251,36 +263,36 @@ class AndroidEmulator(object):
                                    save_file=ui_element.name)
 
     def is_image_on_screen(self, ui_element, screen=None):
-        """Check if image is on screen.
+        """Checks if image is on screen.
 
-        :param ui_element: UI element.
-        :param screen: screen image.
+        :param lib.game.ui.UIElement ui_element: UI element hat has all info for image recognition.
+        :param numpy.ndarray screen: screen image.
 
-        :return: True or False.
+        :rtype: bool
         """
         image = self.get_screen_image(ui_element.image_rect) if screen is None else screen
         return is_images_similar(image1=image, image2=ui_element.image,
                                  overlap=ui_element.image_threshold, save_file=ui_element.name)
 
     def is_ui_element_on_screen(self, ui_element, screen=None):
-        """Check if UI element is on screen.
+        """Checks if UI element is on screen.
 
-        :param ui.UIElement ui_element: UI element.
-        :param screen: screen image.
+        :param lib.game.ui.UIElement ui_element: UI element hat has all info for text recognition.
+        :param numpy.ndarray screen: screen image.
 
-        :return: True or False.
+        :rtype: bool
         """
         text_on_screen = self.get_screen_text(ui_element, screen)
         return is_strings_similar(ui_element.text, text_on_screen)
 
     def is_color_similar(self, color, rects, screen=None):
-        """Check if color in rects on screen is similar to given color.
+        """Checks if color on screen is similar to given color.
 
-        :param color: color to check.
-        :param rects: color position rects.
-        :param screen: screen image.
+        :param tuple[int, int, int] color: color to check.
+        :param list[tuple[float, float, float, float]] rects: color position rectangles.
+        :param numpy.ndarray screen: screen image.
 
-        :return: True or False.
+        :rtype: bool
         """
         positions = [self.get_position_inside_screen_rectangle(rect) for rect in rects]
         screen_colors = self.get_screen_color(positions=positions, screen=screen)
@@ -290,11 +302,11 @@ class AndroidEmulator(object):
         return similar
 
     def click_button(self, ui_element, min_duration=0.1, max_duration=0.25):
-        """Click inside button rectangle.
+        """Clicks inside button rectangle by it's UI element.
 
-        :param ui_element: UI element.
-        :param min_duration: minimum duration between clicking.
-        :param max_duration: maximum duration between clicking.
+        :param lib.game.ui.UIElement ui_element: UI element.
+        :param float min_duration: minimum duration between clicking.
+        :param float max_duration: maximum duration between clicking.
         """
         duration = random.uniform(min_duration, max_duration)
         r_sleep(duration)
@@ -303,30 +315,30 @@ class AndroidEmulator(object):
         r_sleep(duration * 2)
 
     def press_key(self, key, system_key=False):
-        """Press key (keys should be configured inside emulator).
+        """Presses key (keys should be configured inside emulator).
 
-        :param key: key name.
-        :param system_key: is emulator's system key or not.
+        :param str key: key name.
+        :param bool system_key: is emulator's system (main) key or not.
         """
         handle = self.key_handle if not system_key else self.main_key_handle
         autoit.control_send_by_handle(self.main_key_handle, handle, key)
 
     def close_current_app(self):
-        """Close current opened app in emulator."""
+        """Closes current opened app in emulator. Should be implemented in child classes."""
         raise NotImplementedError
 
     @property
     def restartable(self):
-        """Returns if app can be restarted."""
+        """Checks if app can be restarted. Should be implemented in child classes."""
         raise NotImplementedError
 
     def drag(self, from_ui, to_ui, duration=0.7, steps_count=100):
-        """Click, hold and drag.
+        """Drags from one UI element to another.
 
-        :param from_ui: UI element of dragging position "From".
-        :param to_ui: UI element of dragging position "To".
-        :param duration: duration of dragging.
-        :param steps_count: steps of dragging.
+        :param lib.game.ui.UIElement from_ui: UI element of dragging position "From".
+        :param lib.game.ui.UIElement to_ui: UI element of dragging position "To".
+        :param float duration: duration of dragging.
+        :param int steps_count: steps of dragging.
         """
         def linear_point(x1, y1, x2, y2, n):
             p_x = ((x2 - x1) * n) + x1
@@ -347,15 +359,16 @@ class AndroidEmulator(object):
         self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONUP, 0, win32api.MAKELONG(*to_position))
 
     def _get_screen(self):
-        """Get screen image from main window.
+        """Get screen image from emulator's main window.
 
-        :return: PIL.Image image from window in BGR format.
+        :return: image from emulator in BGR format.
+        :rtype: PIL.Image.Image
         """
         if not self.initialized:
             return None
         if self.is_minimized:
             self.maximize()
-        self.update_windows_rect()
+        self.update_window_rectangles()
         while self.screen_locked:
             if self.last_frame:
                 return self.last_frame

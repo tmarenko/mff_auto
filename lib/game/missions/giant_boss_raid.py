@@ -13,7 +13,7 @@ class GiantBossRaid(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name='GIANT BOSS RAID')
 
@@ -34,12 +34,12 @@ class GiantBossRaid(Missions):
         return [damage_list, rewards_list, damage_list_failure]
 
     def do_missions(self, times=None, max_rewards=None):
-        """Do missions."""
+        """Does missions."""
         self.start_missions(times=times, max_rewards=max_rewards)
         self.end_missions()
 
     def start_missions(self, times=0, max_rewards=None):
-        """Start Giant Boss Raid."""
+        """Starts Giant Boss Raid."""
         if self.open_giant_boss_raid():
             logger.info(f"Starting {times} raid(s).")
             while times > 0:
@@ -55,16 +55,17 @@ class GiantBossRaid(Missions):
         logger.info("No more stages.")
 
     def end_missions(self):
-        """End missions."""
+        """Ends missions."""
         if not self.game.is_main_menu():
             self.game.emulator.click_button(ui.HOME)
             self.close_after_mission_notifications()
             self.game.close_ads()
 
     def open_giant_boss_raid(self):
-        """Open Giant Boss Raid mission lobby.
+        """Opens Giant Boss Raid mission lobby.
 
-        :return: True or False: is GBR missions open.
+        :return: is Giant Boss Raid missions open or not.
+        :rtype: bool
         """
         self.game.go_to_coop()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.GBR_LABEL):
@@ -75,10 +76,7 @@ class GiantBossRaid(Missions):
         return False
 
     def press_start_button(self, start_button_ui=ui.GBR_CREATE_LOBBY, max_rewards=None):
-        """Press start button of the mission.
-
-        :return: was button clicked successfully.
-        """
+        """Presses start button of the mission."""
         logger.debug(f"Pressing START button with UI element: {start_button_ui}.")
         self.emulator.click_button(start_button_ui)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.GBR_NOT_ENOUGH_ENERGY):
@@ -119,11 +117,11 @@ class GiantBossRaid(Missions):
                 logger.debug("All players are ready. Starting the raid.")
                 self.emulator.click_button(ui.GBR_START_BUTTON)
                 return True
-        logger.warning("Unable to press START button.")
+        logger.error(f"Unable to press {start_button_ui} button.")
         return False
 
     def _deploy_characters(self):
-        """Deploy 3 characters to battle."""
+        """Deploys 3 characters to battle."""
         no_main = self.emulator.is_image_on_screen(ui_element=ui.GBR_NO_CHARACTER_MAIN)
         no_left = self.emulator.is_image_on_screen(ui_element=ui.GBR_NO_CHARACTER_LEFT)
         no_right = self.emulator.is_image_on_screen(ui_element=ui.GBR_NO_CHARACTER_RIGHT)

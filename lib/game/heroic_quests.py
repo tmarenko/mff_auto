@@ -11,13 +11,13 @@ class HeroicQuests:
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         self.emulator = game.emulator
         self.game = game
 
     def close_chest_notification(self):
-        """Close 'Buy Crystal Chest' notification."""
+        """Closes 'Buy Crystal Chest' notification."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL):
             self.emulator.click_button(ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.HQ_CRYSTAL_CHEST_NOTIFICATION_CANCEL_OK):
@@ -26,7 +26,7 @@ class HeroicQuests:
         return False
 
     def acquire_reward(self):
-        """Acquire quest reward."""
+        """Acquires quest reward."""
         if self.emulator.is_ui_element_on_screen(ui_element=ui.HQ_ACQUIRE_REWARD):
             logger.debug("Acquiring Heroic Quest reward.")
             self.emulator.click_button(ui.HQ_ACQUIRE_REWARD, min_duration=0.5, max_duration=0.7)
@@ -35,7 +35,7 @@ class HeroicQuests:
         return False
 
     def acquire_reward_and_return_back(self):
-        """Acquire quest reward and return back."""
+        """Acquires quest reward and return back."""
         if self.close_chest_notification():
             logger.info("Crystal chest is available in Heroic Quest. Skipping reward.")
             return True
@@ -43,6 +43,6 @@ class HeroicQuests:
             logger.info("Heroic Quest reward acquired. Going back.")
             self.emulator.click_button(ui.MENU_BACK)
             return True
-        logger.warning("Something went wrong while acquiring Heroic Quest reward. Going to main menu.")
+        logger.error("Something went wrong while acquiring Heroic Quest reward. Going to main menu.")
         self.game.go_to_main_menu()
         return False

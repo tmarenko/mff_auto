@@ -47,7 +47,7 @@ class EmulatorImageSource:
     def __init__(self, emulator):
         """Class initialization.
 
-        :param emulator: instance of Android emulator.
+        :param lib.emulators.android_emulator.AndroidEmulator emulator: instance of Android emulator.
         """
         self.emulator = emulator
         self.emulator.manager = SyncManager()
@@ -89,17 +89,19 @@ class EmulatorImageSource:
         self.emulator.autoit_control_click_by_handle = self._control_click_by_handle
 
     def frame(self):
-        """Get frame from emulator.
+        """Gets frame from emulator and converts it to RGB.
 
-        :return: RGB numpy array of frame.
+        :return: RGB frame.
+        :rtype: numpy.ndarray
         """
         image = numpy.array(self.get_emulator_screen())
         return bgr_to_rgb(image)
 
     def get_emulator_screen(self):
-        """Get emulator's screen and add debug drawings on it.
+        """Get emulator's frame and add debug drawings on it from `screen_elements` list.
 
-        :return: PIL.Image image.
+        :return: image with debug drawings.
+        :rtype: PIL.Image.Image
         """
         screen = self.emulator._get_screen().copy()
         try:
@@ -233,8 +235,9 @@ class EmulatorVideoWriter:
     def __init__(self, emulator, output, fps=24.0):
         """Class initialization.
 
-        :param emulator: instance of Android emulator.
-        :param output: name of video output file.
+        :param lib.emulators.android_emulator.AndroidEmulator emulator: instance of Android emulator.
+        :param str output: name of video output file.
+        :param float fps: frame to capture per second.
         """
         self.source = EmulatorImageSource(emulator)
         self.fps = fps
@@ -247,22 +250,22 @@ class EmulatorVideoWriter:
                     f"{self.source.emulator.width}x{self.source.emulator.height}@{self.fps}")
 
     def release(self):
-        """Release video writer."""
+        """Releases video writer."""
         self.video_writer.release()
         self.source.undecorate()
         cv2.destroyAllWindows()
 
     def frame(self):
-        """Get frame from source.
+        """Gets frame from source.
 
-        :return: frame.
+        :rtype: numpy.ndarray
         """
         return self.source.frame()
 
     def write(self, frame):
-        """Write frame to video.
+        """Writes frame into the video.
 
-        :param frame: frame.
+        :param  numpy.ndarray frame: frame to write into the video.
         """
         self.video_writer.write(frame)
 
@@ -273,7 +276,7 @@ class EmulatorCapture:
     def __init__(self, emulator):
         """Class initialization.
 
-        :param emulator: instance of Android emulator.
+        :param lib.emulators.android_emulator.AndroidEmulator emulator: instance of Android emulator.
         """
         output = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
         self.video_capture = EmulatorVideoWriter(emulator, f"logs/{output}")
@@ -291,7 +294,7 @@ class EmulatorCapture:
         self.stop()
 
     def capture(self):
-        """Capture video."""
+        """Captures video."""
         logger.debug("Started capturing video.")
         fps_wait = 1 / self.video_capture.fps
         while not self._stopped:
@@ -302,21 +305,21 @@ class EmulatorCapture:
                 time.sleep(fps_wait)
 
     def start(self):
-        """Start capturing."""
+        """Starts capturing."""
         self.thread.start()
 
     def stop(self):
-        """Stop capturing."""
+        """Stops capturing."""
         logger.debug("Stopping video capture.")
         self.video_capture.release()
         self._stopped = True
 
     def pause(self):
-        """Pause capturing."""
+        """Pauses capturing."""
         logger.debug("Pausing video capture.")
         self._pause = True
 
     def resume(self):
-        """Resume capturing."""
+        """Resumes capturing."""
         logger.debug("Resuming video capture.")
         self._pause = False

@@ -19,7 +19,7 @@ class Version:
 
     @staticmethod
     def version_to_str(self):
-        """Override __str__ function of StrictVersion to always return full version string."""
+        """Overrides __str__ function of StrictVersion to always return full version string."""
         vstring = '.'.join(map(str, self.version))
         if self.prerelease:
             vstring = vstring + self.prerelease[0] + str(self.prerelease[1])
@@ -28,7 +28,7 @@ class Version:
     def __init__(self, version_module):
         """Class initialization.
 
-        :param version_module: module of version.py
+        :param current_version_module version_module: module of version.py
         """
         StrictVersion.__str__ = self.version_to_str
         self.mff_auto = StrictVersion(version_module.mff_auto)
@@ -59,11 +59,12 @@ class Updater:
 
     @staticmethod
     def import_version_file(version_file_path):
-        """Import version file as module.
+        """Imports version file as module.
 
-        :param version_file_path: path to version file.
+        :param str version_file_path: path to version file.
 
         :return: imported module.
+        :rtype: current_version_module
         """
         spec = importlib.util.spec_from_file_location("version", version_file_path)
         version_module = importlib.util.module_from_spec(spec)
@@ -71,7 +72,11 @@ class Updater:
         return version_module
 
     def download_version_file(self):
-        """Download version file from GitHub sources."""
+        """Downloads version file from GitHub sources.
+
+        :return: name of the downloaded file.
+        :rtype: str
+        """
         with open(self.NEW_VERSION_FILE, "wb") as file:
             req = request.Request(self.GITHUB_VERSION_LINK)
             req.add_header('Cache-Control', 'max-age=0')
@@ -81,13 +86,13 @@ class Updater:
                     file.write(content)
                     return file.name
             except InvalidURL as err:
-                logger.error(f"Got error while trying to access URL: {req.full_url}\n{err}")
-                return None
+                return logger.error(f"Got error while trying to access URL: {req.full_url}\n{err}")
 
     def check_updates(self):
-        """Check updates in GitHub.
+        """Checks for updates in GitHub repo.
 
-        :return: True or False: was new version found or not.
+        :return: was new version found or not.
+        :rtype: bool
         """
         self.new_version_file = self.download_version_file()
         if not self.new_version_file:
@@ -100,14 +105,16 @@ class Updater:
             self.is_new_updater = True
             return False
         if self.new_version.mff_auto > self.current_version.mff_auto:
-            logger.info(f"Found new version {self.new_version.mff_auto} for MFF {self.new_version.mff}.")
+            logger.info(f"Found new version {self.new_version.mff_auto} "
+                        f"for Marvel Future Fight {self.new_version.mff}.")
             return True
         else:
-            logger.info(f"Current version {self.new_version.mff_auto} is up to date for MFF {self.new_version.mff}.")
+            logger.info(f"Current version {self.new_version.mff_auto} "
+                        f"is up to date for Marvel Future Fight {self.new_version.mff}.")
             return False
 
     def update_from_new_version(self):
-        """Update project files from new version."""
+        """Updates project files from new version."""
         self.update_download_counter(version=self.new_version.mff_auto)
         self.source_code_archive = self.download_source_code(version=self.new_version.mff_auto)
         logger.info(f"Extracting zip-archive with {self.new_version.mff_auto} version.")
@@ -124,7 +131,7 @@ class Updater:
         self.clean()
 
     def update_download_counter(self, version):
-        """Update download's counter."""
+        """Updates download's counter."""
         try:
             download_counter_url = self.DOWNLOAD_COUNTER_LINK.format(version=version)
             req = request.Request(download_counter_url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -133,7 +140,11 @@ class Updater:
             logger.error(f"Got error while updating download's counter: {err}")
 
     def download_source_code(self, version):
-        """Download source code from GitHub by version tag."""
+        """Downloads source code from GitHub repo by version tag.
+
+        :return: name of the downloaded file.
+        :rtype: str
+        """
         download_url = self.GITHUB_SOURCE_CODE_URL.format(version=version)
         logger.info(f"Downloading new version from URL: {download_url}")
         with open(f"{version}.zip", "wb") as file:
@@ -143,7 +154,7 @@ class Updater:
                 return file.name
 
     def copy_project_files(self):
-        """Copy project files from source codes."""
+        """Copies project files from source codes."""
         copy_tree(src=os.path.join(self.source_folder, "lib"), dst="lib")
         copy_tree(src=os.path.join(self.source_folder, "images"), dst="images")
         copy_tree(src=os.path.join(self.source_folder, "settings"), dst="settings")
@@ -155,7 +166,7 @@ class Updater:
         shutil.copy2(src=os.path.join(self.source_folder, "README.md"), dst="README.md")
 
     def clean(self):
-        """Clean all files after updating."""
+        """Cleans all files after updating."""
         if self.new_version_file:
             os.remove(self.new_version_file)
         if self.source_code_archive:

@@ -14,8 +14,8 @@ class QueueItem(QListWidgetItem):
     def __init__(self, func, parameters, mode_name, mode_name_formatted=None):
         """Class initialization.
 
-        :param func: function to execute in queue.
-        :param parameters: function's parameters.
+        :param function func: function to execute in queue.
+        :param dict parameters: function's parameters.
         :param str mode_name: name of game mode.
         """
         super().__init__()
@@ -137,8 +137,8 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
     def populate_menu(self, menu, dictionary):
         """Populate Selector's menu with dictionary of game modes.
 
-        :param menu: menu to populate.
-        :param dictionary: dictionary of game modes.
+        :param PyQt5.QtWidgets.QMenu.QMenu menu: menu to populate.
+        :param dict dictionary: dictionary of game modes.
         """
 
         def add_mode_to_menu(menu_obj, mode):

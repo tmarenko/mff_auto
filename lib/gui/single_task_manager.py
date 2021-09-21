@@ -17,8 +17,8 @@ class SingleTask:
     def __init__(self, button, task_func, parameters):
         """Class initialization.
 
-        :param TwoStateButton button: button that activates task.
-        :param task_func: function to execute.
+        :param lib.gui.helper.TwoStateButton button: button that activates task.
+        :param function task_func: function to execute.
         :param dict parameters: function's parameters.
         """
         self.run_and_stop_button = button
@@ -30,7 +30,7 @@ class SingleTask:
         self.run_and_stop_button.connect_second_state(self.abort)
 
     def execute(self):
-        """Execute function in safe thread."""
+        """Executes function in safe thread."""
         logger.debug(f"Executing single task: {self.__class__.__name__} {self.task_func.__name__}")
         from lib.gui.widgets.main import MainWindow
         MainWindow.resume_recorder()
@@ -41,7 +41,7 @@ class SingleTask:
 
     @safe_process_stop
     def abort(self):
-        """Abort function's execution."""
+        """Aborts function's execution."""
         if self.process:
             logger.debug("Task was forcibly stopped.")
             self.process.terminate()
@@ -51,7 +51,7 @@ class SingleTask:
         MainWindow.pause_recorder()
 
     def _execute(self):
-        """Execute function."""
+        """Executes function."""
         self.process = Process(target=self.task_func, kwargs=self.parameters)
         self.process.start()
         self.process.join()
@@ -63,8 +63,8 @@ class SingleTaskWithOptions:
     def __init__(self, button, task_func, task_options):
         """Class initialization.
 
-        :param TwoStateButton button: button that activates task.
-        :param task_func: function to execute.
+        :param lib.gui.helper.TwoStateButton button: button that activates task.
+        :param function task_func: function to execute.
         :param dict task_options: function's parameters by option's key.
         """
         self.run_and_stop_button = button
@@ -80,7 +80,7 @@ class SingleTaskWithOptions:
         self.run_and_stop_button.connect_second_state(self.abort)
 
     def execute(self, parameters):
-        """Execute function in safe thread."""
+        """Executes function in safe thread."""
         logger.debug(f"Executing single task: {self.__class__.__name__} {self.task_func.__name__} "
                      f"with parameters {parameters}")
         from lib.gui.widgets.main import MainWindow
@@ -93,16 +93,16 @@ class SingleTaskWithOptions:
         self.run_and_stop_button.set_second_state()
 
     def _clear_menu(self):
-        """Clear button menu."""
+        """Clears button menu."""
         self.run_and_stop_button.button.setMenu(None)
 
     def _set_menu(self):
-        """Set button menu from cache."""
+        """Sets button menu from cache."""
         self.run_and_stop_button.button.setMenu(self.menu)
 
     @safe_process_stop
     def abort(self):
-        """Abort function's execution."""
+        """Aborts function's execution."""
         if self.process:
             logger.debug("Task was forcibly stopped.")
             self.process.terminate()
@@ -113,7 +113,7 @@ class SingleTaskWithOptions:
         MainWindow.pause_recorder()
 
     def _execute(self, parameters):
-        """Execute function."""
+        """Executes function."""
         self.process = Process(target=self.task_func, kwargs=parameters)
         self.process.start()
         self.process.join()

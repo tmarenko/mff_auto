@@ -30,7 +30,11 @@ class Worker(QRunnable):
     """Class for working with GUI thread's workers."""
 
     def __init__(self, func, with_progress, *args, **kwargs):
-        """Class initialization."""
+        """Class initialization.
+
+        :param function func: function to run.
+        :param with_progress: should worker emit progress into `progress_callback` signal.
+        """
         super(Worker, self).__init__()
         self.func = func
         self.args = args
@@ -41,7 +45,7 @@ class Worker(QRunnable):
 
     @pyqtSlot()
     def run(self):
-        """Run worker."""
+        """Runs worker."""
         try:
             result = self.func(*self.args, **self.kwargs)
         except Exception as err:
@@ -61,11 +65,13 @@ class ThreadPool:
         self.thread_pool = QThreadPool()
 
     def run_thread(self, target, with_progress=False):
-        """Run thread.
+        """Runs thread.
 
-        :param target: target to run.
+        :param function target: target to run.
         :param bool with_progress: connect `progress` callback to worker or not.
-        :return Worker worker: thread's worker.
+
+        :return thread's worker.
+        :rtype: lib.gui.threading.Worker
         """
         worker = Worker(func=target, with_progress=with_progress)
         self.thread_pool.start(worker)

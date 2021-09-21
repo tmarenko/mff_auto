@@ -27,8 +27,8 @@ class Missions(Notifications):
     def __init__(self, game, mode_name=""):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
-        :param string mode_name: mission's game mode label.
+        :param lib.game.game.Game game: instance of the game.
+        :param str mode_name: mission's game mode label.
         """
         super().__init__(game)
         self.mode_name = mode_name
@@ -37,7 +37,7 @@ class Missions(Notifications):
     def energy_cost(self):
         """Energy cost of the mission.
 
-        :return: energy cost.
+        :rtype: int
         """
         cost = self.emulator.get_screen_text(ui.ENERGY_COST)
         return int(cost) if cost.isdigit() else None
@@ -46,14 +46,17 @@ class Missions(Notifications):
     def boost_cost(self):
         """Boost points cost of the mission.
 
-        :return: boost points cost.
+        :rtype: int
         """
         cost = self.emulator.get_screen_text(ui.BOOST_COST)
         return int(cost) if cost.isdigit() else None
 
     @property
     def stages_max(self):
-        """Maximum stages of the mission."""
+        """Maximum stages of the mission.
+
+        :rtype: int
+        """
         mode = self.game.get_mode(self.mode_name)
         if mode:
             return mode.max_stages
@@ -61,7 +64,10 @@ class Missions(Notifications):
 
     @property
     def stages(self):
-        """Available stages of the mission."""
+        """Available stages of the mission.
+
+        :rtype: int
+        """
         mode = self.game.get_mode(self.mode_name)
         if mode:
             return mode.stages
@@ -69,7 +75,10 @@ class Missions(Notifications):
 
     @stages.setter
     def stages(self, value):
-        """Update available stages value."""
+        """Update available stages value.
+
+        :param int value: value to set.
+        """
         mode = self.game.get_mode(self.mode_name)
         if mode:
             mode.stages = value
@@ -109,11 +118,11 @@ class Missions(Notifications):
         return [disconnect, new_opponent, kicked]
 
     def start_missions(self):
-        """Start missions."""
+        """Starts missions."""
         pass
 
     def end_missions(self):
-        """End missions."""
+        """Ends missions."""
         self.game.clear_modes()
         if not self.game.is_main_menu():
             self.game.emulator.click_button(ui.HOME)
@@ -121,7 +130,7 @@ class Missions(Notifications):
             self.game.close_ads()
 
     def do_missions(self, times=None):
-        """Do missions."""
+        """Does missions."""
         if times:
             self.stages = times
         if self.stages > 0:
@@ -129,20 +138,19 @@ class Missions(Notifications):
             self.end_missions()
 
     def select_team(self):
-        """Select team for missions."""
+        """Selects team for missions."""
         team_element = ui.get_by_name(f'SELECT_TEAM_{self.game.mission_team}')
         logger.debug(f"Selecting team: {team_element.name}")
         self.emulator.click_button(team_element)
 
     def repeat_mission(self, times):
-        """Repeat missions.
+        """Repeats missions.
 
-        :param times: how many times to repeat.
+        :param int times: how many times to repeat.
         """
         for _ in range(times):
             if not self.press_start_button():
-                logger.error("Cannot start missions while repeating them, exiting.")
-                return
+                return logger.error("Can't start missions while repeating them, exiting.")
             AutoBattleBot(self.game, self.battle_over_conditions).fight()
             self.close_mission_notifications()
             repeat_button_ui = None
@@ -157,10 +165,7 @@ class Missions(Notifications):
                 self.press_repeat_button(repeat_button_ui)
 
     def press_start_button(self, start_button_ui=ui.START_BUTTON):
-        """Press start button of the mission.
-
-        :return: was button clicked.
-        """
+        """Presses start button of the mission."""
         if self.emulator.is_ui_element_on_screen(start_button_ui):
             self.select_team()
             self.emulator.click_button(start_button_ui)
@@ -176,11 +181,11 @@ class Missions(Notifications):
                           ui_element=ui.ITEM_MAX_LIMIT_NOTIFICATION):
                 self.emulator.click_button(ui.ITEM_MAX_LIMIT_NOTIFICATION)
             return True
-        logger.warning("Unable to press START button.")
+        logger.error(f"Unable to press {start_button_ui} button.")
         return False
 
     def press_repeat_button(self, repeat_button_ui=ui.REPEAT_BUTTON, start_button_ui=ui.START_BUTTON):
-        """Press repeat button of the mission."""
+        """Presses repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.emulator.click_button(repeat_button_ui)
         while not self.emulator.is_ui_element_on_screen(ui_element=start_button_ui):
@@ -188,7 +193,7 @@ class Missions(Notifications):
         return True
 
     def press_home_button(self, home_button=ui.HOME_BUTTON):
-        """Press home button of the mission."""
+        """Presses home button of the mission."""
         logger.debug(f"Clicking HOME button with UI Element: {home_button}.")
         self.emulator.click_button(home_button)
         while not self.game.is_main_menu():
@@ -196,8 +201,8 @@ class Missions(Notifications):
         return True
 
     def is_stage_startable(self):
-        """Check if you can start stage safely.
+        """Checks if you can start stage safely.
 
-        :return: True or False.
+        :rtype: bool
         """
         return bool(self.boost_cost)

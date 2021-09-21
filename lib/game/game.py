@@ -31,8 +31,8 @@ class Game(Notifications):
     def __init__(self, emulator, user_name=None):
         """Class initialization.
 
-        :param lib.emulator.NoxWindow emulator: instance of game emulator.
-        :param user_name: game user name.
+        :param lib.emulators.android_emulator.AndroidEmulator emulator: instance of game emulator.
+        :param str user_name: game user name.
         """
         self.emulator = emulator
         self._apply_decorators()
@@ -204,8 +204,7 @@ class Game(Notifications):
         :return: GameMode: class representation of found game mode.
         """
         if not self.go_to_content_status_board():
-            logger.error("Failed to open Content Status board.")
-            return
+            return logger.error("Failed to open Content Status board.")
         mode_from_board_1 = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_1, rows=3, cols=4)
         if mode_from_board_1:
             return mode_from_board_1
@@ -343,7 +342,7 @@ class Game(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_CHALLENGES):
                 self.emulator.click_button(ui.MAIN_MENU_CHALLENGES)
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CHALLENGES_STAGE_LABEL)
-            logger.warning("Can't find Challenges button in Main menu, exiting")
+            logger.error("Can't find Challenges button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
         return False
 
@@ -355,7 +354,7 @@ class Game(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_CARDS):
                 self.emulator.click_button(ui.MAIN_MENU_CARDS)
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CARDS_STAGE_LABEL)
-            logger.warning("Can't find Comic Cards button in Main menu, exiting")
+            logger.error("Can't find Comic Cards button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
         return False
 
@@ -367,7 +366,7 @@ class Game(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_INVENTORY):
                 self.emulator.click_button(ui.MAIN_MENU_INVENTORY)
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INVENTORY_STAGE_LABEL)
-            logger.warning("Can't find Inventory button in Main menu, exiting")
+            logger.error("Can't find Inventory button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
         return False
 
@@ -379,7 +378,7 @@ class Game(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_FRIENDS):
                 self.emulator.click_button(ui.MAIN_MENU_FRIENDS)
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.FRIENDS_LABEL)
-            logger.warning("Can't find Friends button in Main menu, exiting")
+            logger.error("Can't find Friends button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
         return False
 
@@ -394,7 +393,7 @@ class Game(Notifications):
                     logger.debug("Closing Alliance level up notification.")
                     self.emulator.click_button(ui.ALLIANCE_LEVEL_UP_NOTIFICATION)
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_LABEL)
-            logger.warning("Can't find Alliance button in Main menu, exiting")
+            logger.error("Can't find Alliance button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
         return False
 
@@ -406,7 +405,7 @@ class Game(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_INBOX):
                 self.emulator.click_button(ui.MAIN_MENU_INBOX)
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INBOX_LABEL)
-            logger.warning("Can't find Inbox button in Main menu, exiting")
+            logger.error("Can't find Inbox button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
         return False
 
@@ -477,5 +476,5 @@ class Game(Notifications):
         if wait_until(confirm_condition_by_time, confirm_condition=is_game_started, timeout=120):
             logger.debug("Game started successfully.")
             return True
-        logger.warning("Failed to start game")
+        logger.error("Failed to start game")
         return False

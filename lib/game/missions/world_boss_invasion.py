@@ -104,7 +104,7 @@ class WorldBossInvasion(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name='WORLD BOSS INVASION')
         self._chests = None
@@ -216,7 +216,7 @@ class WorldBossInvasion(Missions):
     def _acquire_chest(self, chest_index):
         """Acquire chest by chest index.
 
-        :param chest_index: chest index (from 1 to max chests + 1)
+        :param int chest_index: chest index (from 1 to max chests + 1)
         :return: True or False: was chest acquired.
         """
         logger.debug(f"Trying to acquire chest #{chest_index}")
@@ -256,7 +256,7 @@ class WorldBossInvasion(Missions):
                         logger.debug(f"Current boss mission: {self._boss_mission}")
                         self.emulator.click_button(ui.INVASION_BOSS_FIGHT_ENTER)
                         return True
-                    logger.warning(f"Something went wrong with found boss {boss_ui}")
+                    logger.error(f"Something went wrong with found boss {boss_ui}")
                     if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INVASION_BOSS_FIGHT_CLOSE):
                         logger.warning(f"Closing {boss_ui}")
                         self.emulator.click_button(ui.INVASION_BOSS_FIGHT_CLOSE)
@@ -301,7 +301,7 @@ class WorldBossInvasion(Missions):
             logger.debug("Found disconnect notification. Trying to start again.")
             self.emulator.click_button(ui.DISCONNECT_NEW_OPPONENT)
             return True
-        logger.warning("Unable to press START button.")
+        logger.error(f"Unable to press {start_button_ui} button.")
         return False
 
     def _deploy_characters(self, ignore_coop_mission=False):
@@ -342,7 +342,7 @@ class WorldBossInvasion(Missions):
                 logger.debug("Battle is loading. Starting manual bot.")
                 self._manual_bot_start()
                 return
-            logger.error("Waiting other emulator very long, trying to reset.")
+            logger.warning("Waiting other players very long, trying to reset.")
             self.emulator.click_button(ui.WAITING_FOR_OTHER_PLAYERS)
 
     def _manual_bot_start(self):

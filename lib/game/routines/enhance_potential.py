@@ -16,16 +16,19 @@ class EnhancePotential(Notifications):
 
     @property
     def success_rate(self):
-        """Returns Success Rate number of enhancement."""
+        """Returns Success Rate number of enhancement.
+
+        :rtype: float
+        """
         success_rate_text = self.emulator.get_screen_text(ui_element=ui.ENHANCE_POTENTIAL_RATE)
         success_rate = success_rate_text.replace("%", "").replace(" ", "")
         return float(success_rate)
 
     def apply_material(self, material, click_speed=0.02):
-        """Apply material to enhancement.
+        """Applies material for enhancement.
 
-        :param material: name of the material.
-        :param click_speed: clicking speed of applying.
+        :param str material: name of the material.
+        :param float click_speed: clicking speed of applying.
         """
         if material == self.COSMIC_CUBE_FRAGMENT:
             self.emulator.click_button(ui.ENHANCE_POTENTIAL_COSMIC_CUBES, min_duration=click_speed,
@@ -38,9 +41,10 @@ class EnhancePotential(Notifications):
                                        max_duration=click_speed)
 
     def press_upgrade(self):
-        """Press Upgrade button to enhance potential.
+        """Presses Upgrade button to enhance potential.
 
         :return: was button pressed successful or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_UPGRADE):
             logger.debug(f"Upgrading potential with rate: {self.success_rate}.")
@@ -48,13 +52,14 @@ class EnhancePotential(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_UPGRADE_OK):
                 self.emulator.click_button(ui.ENHANCE_POTENTIAL_UPGRADE_OK)
                 return True
-        logger.error("Can't find Upgrade button to click.")
+        logger.error(f"Can't find {ui.ENHANCE_POTENTIAL_UPGRADE} button to click.")
         return False
 
     def check_enhance_was_successful(self):
-        """Check enhancement result.
+        """Checks enhancement result.
 
         :return: was enhancement successful or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENHANCE_POTENTIAL_FAILED):
             logger.debug("Enhance Potential failed.")
@@ -66,22 +71,20 @@ class EnhancePotential(Notifications):
             return True
 
     def enhance_potential(self, target_success_rate=10.00, material_to_use=(NORN_STONE_OF_CHAOS, BLACK_ANTI_MATTER)):
-        """Try to enhance potential with materials.
+        """Tries to enhance potential with materials.
 
-        :param target_success_rate: minimal success rate of enhancement to proceed upgrading.
-        :param material_to_use: name of materials to use in enhancement.
+        :param float target_success_rate: minimal success rate of enhancement to proceed upgrading.
+        :param str | tuple[str] | list[str] material_to_use: name of materials to use in enhancement.
         """
         if not self.emulator.is_ui_element_on_screen(ui_element=ui.ENHANCE_POTENTIAL_LABEL):
-            logger.error("Open character's Enhance Potential menu to enhance the potential.")
-            return
+            return logger.error("Open character's Enhance Potential menu to enhance the potential.")
         if not isinstance(material_to_use, (list, tuple)):
             material_to_use = [material_to_use]
         wrong_materials = [material for material in material_to_use if material not in (self.COSMIC_CUBE_FRAGMENT,
                                                                                         self.BLACK_ANTI_MATTER,
                                                                                         self.NORN_STONE_OF_CHAOS)]
         if wrong_materials:
-            logger.error(f"Material to use contains wrong materials: {wrong_materials}")
-            return
+            return logger.error(f"Material to use contains wrong materials: {wrong_materials}")
         for material in material_to_use:
             current_rate = self.success_rate
             self.apply_material(material)
@@ -97,11 +100,9 @@ class EnhancePotential(Notifications):
             r_sleep(1)  # Wait for success rate animation
             if self.success_rate >= target_success_rate:
                 break
-        if self.success_rate >= target_success_rate:
-            if self.press_upgrade():
-                if not self.check_enhance_was_successful():
-                    r_sleep(1)
-                    self.enhance_potential(target_success_rate=target_success_rate, material_to_use=material_to_use)
-        else:
-            logger.error(f"Current Success Rate: {self.success_rate}, cannot get to target {target_success_rate}.")
-            return
+        if self.success_rate < target_success_rate:
+            return logger.error(f"Current Success Rate: {self.success_rate}, can't get to {target_success_rate}.")
+        if self.press_upgrade():
+            if not self.check_enhance_was_successful():
+                r_sleep(1)
+                self.enhance_potential(target_success_rate=target_success_rate, material_to_use=material_to_use)

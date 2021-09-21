@@ -13,7 +13,7 @@ class CoopPlay(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name='CO-OP PLAY')
 
@@ -33,7 +33,7 @@ class CoopPlay(Missions):
         return [coop_completion, coop_total_damage, coop_home_button]
 
     def start_missions(self):
-        """Start available missions."""
+        """Starts available missions."""
         logger.info(f"{self.stages} stages available.")
         if self.stages > 0:
             self.open_coop_play()
@@ -60,19 +60,19 @@ class CoopPlay(Missions):
             return self.emulator.get_screen_text(ui.COOP_STAGE_PERCENTAGE)
 
     def open_coop_play(self):
-        """Go to Co-op missions stage."""
+        """Goes to Co-op missions stage."""
         self.game.select_mode(self.mode_name)
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.COOP_PLAY_MENU_LABEL)
 
     def _deploy_character(self):
-        """Deploy available character for Co-op mission."""
+        """Deploys available character for Co-op mission."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.COOP_START_BUTTON_INACTIVE):
             logger.debug("Found inactive START button. Deploying character.")
             self.emulator.click_button(ui.COOP_FIRST_CHAR)
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.COOP_START_BUTTON)
 
     def press_start_button(self, check_inventory=True):
-        """Start Co-op mission stage."""
+        """Starts Co-op mission stage."""
         self.emulator.click_button(ui.COOP_START_BUTTON)
         if wait_until(self.emulator.is_ui_element_on_screen, timeout=10,
                       ui_element=ui.WAITING_FOR_OTHER_PLAYERS):
@@ -94,13 +94,12 @@ class CoopPlay(Missions):
                                           ui_element=ui.INVENTORY_FULL):
             self.emulator.click_button(ui.INVENTORY_FULL)
             self.stages *= 0
-            logger.warning("Your inventory is full, cannot start mission.")
-            return
-        logger.warning("Something went wrong while waiting for other players.")
+            return logger.warning("Your inventory is full, cannot start mission.")
+        logger.error("Something went wrong while waiting for other players.")
         self.emulator.click_button(ui.WAITING_FOR_OTHER_PLAYERS)
 
     def press_repeat_button(self, repeat_button_ui=ui.REPEAT_BUTTON, start_button_ui=None):
-        """Press repeat button of the mission."""
+        """Presses repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.emulator.click_button(repeat_button_ui)
         while not (self.emulator.is_ui_element_on_screen(ui_element=ui.COOP_START_BUTTON_INACTIVE) or
@@ -111,7 +110,7 @@ class CoopPlay(Missions):
         return True
 
     def check_rewards(self):
-        """Check and get Co-op mission rewards."""
+        """Checks and get Co-op mission rewards."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.COOP_REWARD):
             logger.debug("Found available rewards button. Trying to acquire reward.")
             self.emulator.click_button(ui.COOP_REWARD)
@@ -123,9 +122,9 @@ class CoopPlay(Missions):
                     self.emulator.click_button(ui.COOP_REWARD_ACQUIRE)
 
     def _try_to_acquire_reward(self):
-        """Check if Reward Acquire button is available or press acquire button.
+        """Checks if Reward Acquire button is available or press acquire button.
 
-        :return: True or False.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.COOP_REWARD_ACQUIRE_CONFIRM):
             logger.debug("Acquiring first reward.")

@@ -28,7 +28,7 @@ class LegendaryBattle(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name='LEGENDARY BATTLE')
 
@@ -40,7 +40,7 @@ class LegendaryBattle(Missions):
         return [score]
 
     def do_missions(self, times=None, battle=THOR_RAGNAROK, stage=STAGE.BATTLE_1, mode=MODE.NORMAL):
-        """Do missions."""
+        """Does missions."""
         if times:
             self.stages = times
         if self.stages > 0:
@@ -48,18 +48,15 @@ class LegendaryBattle(Missions):
             self.end_missions()
 
     def start_missions(self, battle=THOR_RAGNAROK, stage=STAGE.BATTLE_1, mode=MODE.NORMAL):
-        """Start Legendary Battle missions."""
-        logger.info(f"{self.stages} stages available")
+        """Starts Legendary Battle missions."""
+        logger.info(f"{self.stages} stages available.")
         if self.stages > 0:
             if not self.open_legendary_battle():
-                logger.warning("Can't get in battles lobby.")
-                return
+                return logger.error("Can't get in battles lobby.")
             if not self._select_legendary_battle(battle=battle, mode=mode):
-                logger.error(f"Can't select battle {battle}, exiting.")
-                return
+                return logger.error(f"Can't select battle {battle}, exiting.")
             if not self._select_stage(stage=stage):
-                logger.error(f"Can't select stage {stage} of the battle, exiting.")
-                return
+                return logger.error(f"Can't select stage {stage} of the battle, exiting.")
             while self.stages > 0:
                 if not self.press_start_button():
                     return
@@ -71,17 +68,17 @@ class LegendaryBattle(Missions):
         logger.info("No more stages.")
 
     def open_legendary_battle(self):
-        """Go to Legendary Battle stages list screen."""
+        """Goes to Legendary Battle stages list screen."""
         self.game.select_mode(self.mode_name)
         legendary_home = wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_MENU_LABEL)
         difficulty_on_screen = wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_DIFFICULTY_NORMAL)
         return legendary_home and difficulty_on_screen
 
     def _select_legendary_battle(self, battle, mode):
-        """Select legendary battle.
+        """Selects legendary battle.
 
-        :param battle: name of the battle.
-        :param mode: difficulty of legendary battle.
+        :param str battle: name of the battle.
+        :param str mode: difficulty of legendary battle.
         """
         if mode != self.MODE.NORMAL and mode != self.MODE.EXTREME:
             logger.error(f"Got wrong mode for battles: {mode}.")
@@ -106,9 +103,9 @@ class LegendaryBattle(Missions):
                                                              battle=ui.LB_CAPTAIN_MARVEL_BATTLE, mode=mode)
 
     def _select_battle_mode(self, mode):
-        """Select battle mode.
+        """Selects battle mode.
 
-        :param mode: difficulty of legendary battle.
+        :param str mode: difficulty of legendary battle.
         """
         if mode == self.MODE.NORMAL:
             if self.emulator.is_ui_element_on_screen(ui_element=ui.LB_DIFFICULTY_NORMAL):
@@ -120,17 +117,17 @@ class LegendaryBattle(Missions):
                 logger.debug(f"Selecting {mode} mode.")
                 self.emulator.click_button(ui.LB_DIFFICULTY_EXTREME)
                 if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.LB_EXTREME_UPGRADE):
-                    logger.error(f"{mode} mode is unavailable, you need to buy it first.")
+                    logger.warning(f"{mode} mode is unavailable, you need to buy it first.")
                     self.emulator.click_button(ui.LB_EXTREME_UPGRADE)
                     return False
                 return True
 
     def _select_legendary_battle_from_bottom(self, title, battle, mode):
-        """Select Legendary Battle from bottom of the list.
+        """Selects Legendary Battle from bottom of the list.
 
-        :param UIElement title: title of legendary battle.
-        :param UIElement battle: legendary battle.
-        :param mode: difficulty of legendary battle.
+        :param ui.UIElement title: title of legendary battle.
+        :param ui.UIElement battle: legendary battle.
+        :param str mode: difficulty of legendary battle.
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=title):
             logger.debug(f"Found selected {title.text}, entering with {mode} mode.")
@@ -146,7 +143,7 @@ class LegendaryBattle(Missions):
         return False
 
     def _select_stage(self, stage):
-        """Select stage of the battle."""
+        """Selects stage of the battle."""
         stage_ui = ui.get_by_name(stage)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=stage_ui):
             self.emulator.click_button(stage_ui)
@@ -154,7 +151,7 @@ class LegendaryBattle(Missions):
         return False
 
     def press_start_button(self, start_button_ui=ui.LB_START_BUTTON):
-        """Press start button of the mission."""
+        """Presses start button of the mission."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=start_button_ui):
             r_sleep(1)  # Sometimes it's need time for enabling
             self.emulator.click_button(start_button_ui)

@@ -142,7 +142,7 @@ class GameMode:
 
         :param lib.game.game.Game game: instance of game.
         :param str mode_name: name of mode.
-        :param mode_module: class or module of game mode.
+        :param class mode_module: class or module of game mode.
         """
         self.game = game
         self.mode_name = mode_name
@@ -151,7 +151,10 @@ class GameMode:
         self.mode_settings = []
 
     def render_executable(self):
-        """Render function and settings for game mode."""
+        """Renders function and settings for game mode.
+
+        :rtype: tuple[function, dict]
+        """
         game_mode = self.mode_module(self.game)
 
         @reset_emulator_and_logger(game=self.game)
@@ -161,9 +164,9 @@ class GameMode:
         return do_missions, self.render_execution_params()
 
     def render_gui_elements(self, parent_layout):
-        """Render all GUI elements of all mode settings.
+        """Renders all GUI elements of all mode settings.
 
-        :param parent_layout: parent layout for new created elements.
+        :param PyQt5.QtWidgets.QLayout.QLayout parent_layout: parent layout for new created elements.
         """
         for setting in self.mode_settings:
             gui_element = setting.render_gui()
@@ -180,7 +183,7 @@ class GameMode:
             all_stages_check_box, stages_label, stages_spin_box = all_stages[0], stages[0][0], stages[0][1]
 
             def all_stages_changed():
-                """'All stages' checkbox event when value is changed"""
+                """'All stages' checkbox event when value is changed. Enables/disables stage spinbox."""
                 checked = all_stages_check_box.isChecked()
                 stages_label.setEnabled(not checked)
                 stages_spin_box.setEnabled(not checked)
@@ -189,16 +192,19 @@ class GameMode:
             all_stages_check_box.stateChanged.connect(all_stages_changed)
 
     def render_execution_params(self):
-        """Returns execution parameters for game mode."""
+        """Returns execution parameters for game mode.
+
+        :rtype: dict
+        """
         params = {}
         for setting in self.mode_settings:
             params.update(setting.value)
         return params
 
     def apply_params(self, params):
-        """Apply parameters to mode's settings.
+        """Applies parameters to mode's settings.
 
-        :param params: dictionary of parameters.
+        :param dict params: dictionary of parameters.
         """
         for setting in self.mode_settings:
             if setting.setting_key in params.keys():
@@ -213,13 +219,16 @@ class Action(GameMode):
 
         :param lib.game.game.Game game: instance of game.
         :param str action_name: name of action.
-        :param action_executable: function to execute.
+        :param function action_executable: function to execute.
         """
         super().__init__(game, action_name, None)
         self.action_executable = action_executable
 
     def render_executable(self):
-        """Render function and settings for action."""
+        """Renders function and settings for action.
+
+        :rtype: tuple[function, dict]
+        """
         action_executable = self.action_executable  # Only function without class reference (GUI cannot be pickled)
 
         @reset_emulator_and_logger(game=self.game)
@@ -233,7 +242,10 @@ class Event(Action):
     """Class for working with in-game mission events."""
 
     def render_executable(self):
-        """Render function and settings for event."""
+        """Renders function and settings for event.
+
+        :rtype: tuple[function, dict]
+        """
         event_executable = self.action_executable  # Only function without class reference (GUI cannot be pickled)
 
         @reset_emulator_and_logger(game=self.game)

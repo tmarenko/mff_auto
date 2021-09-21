@@ -31,7 +31,7 @@ class Alliance(Notifications):
         ON_SECOND_LIST = [MKRAAN_SHARD, PHOENIX_FEATHER, MKRAAN_CRYSTAL, GEAR_UP_KIT, DIMENSION_DEBRIS]
 
     def check_in(self):
-        """Click Check-In button in Alliance."""
+        """Clicks Check-In button in Alliance."""
         self.game.go_to_alliance()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHECK_IN):
             self.emulator.click_button(ui.ALLIANCE_CHECK_IN)
@@ -40,10 +40,10 @@ class Alliance(Notifications):
         self.game.go_to_main_menu()
 
     def donate_resources(self, donate_gold=True, donate_memento=True):
-        """Donate resources to Alliance
+        """Donates resources to Alliance
 
-        :param donate_gold: True or False.
-        :param donate_memento: True or False.
+        :param bool donate_gold: True or False.
+        :param bool donate_memento: True or False.
         """
         if not donate_gold and not donate_memento:
             logger.info("Nothing to donate.")
@@ -65,19 +65,19 @@ class Alliance(Notifications):
                         logger.info("Resources were donated, exiting.")
                         self.emulator.click_button(ui.ALLIANCE_DONATION_REWARD_CLOSE)
                 else:
-                    logger.info("Can't donate resource for Alliance. Probably already donated, exiting.")
+                    logger.warning("Can't donate resource for Alliance. Probably already donated, exiting.")
                     self.emulator.click_button(ui.ALLIANCE_DONATION_CANCEL)
         self.game.go_to_main_menu()
 
     def buy_items_from_store(self, items=None, buy_all_available=True):
-        """Buy items from Alliance Store.
+        """Buys items from Alliance Store.
 
-        :param items: list of UI Elements of items to buy.
-        :param buy_all_available: (bool) buy all available copies of item for today or not.
+        :param str | list[str] items: list of names of UI Elements of items to buy.
+        :param bool buy_all_available: buy all available copies of item for today or not.
         """
         self.game.go_to_alliance()
         if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_STORE_TAB):
-            logger.error("Can't find STORE tab, exiting.")
+            logger.error(f"Can't find {ui.ALLIANCE_STORE_TAB} tab, exiting.")
             return self.game.go_to_main_menu()
         self.emulator.click_button(ui.ALLIANCE_STORE_TAB)
         self.game.close_ads()
@@ -93,9 +93,12 @@ class Alliance(Notifications):
         self.game.go_to_main_menu()
 
     def _buy_item_once(self, item):
-        """Buy item from Alliance Store once.
+        """Buys item from Alliance Store once.
 
-        :return: (bool) was item bought or not.
+        :param str item: name of the UI element of the item to buy.
+
+        :return: was item bought or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.get_by_name(item)):
             self.emulator.click_button(ui.get_by_name(item))
@@ -118,18 +121,18 @@ class Alliance(Notifications):
         return False
 
     def request_support_item(self, support_item):
-        """Request Support item and collect previous request.
+        """Requests Support item and collect previous request.
 
         :param support_item: item to request.
         """
         self.game.go_to_alliance()
         if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_TAB):
-            logger.error("Can't find SUPPORT tab, exiting.")
+            logger.error(f"Can't find {ui.ALLIANCE_SUPPORT_TAB} tab, exiting.")
             return self.game.go_to_main_menu()
         self.emulator.click_button(ui.ALLIANCE_SUPPORT_TAB)
         self.claim_support_item()
         if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_REQUEST):
-            logger.info("Can not request support item for now, exiting.")
+            logger.warning("Can't request support item for now, exiting.")
             return self.game.go_to_main_menu()
         self.emulator.click_button(ui.ALLIANCE_SUPPORT_REQUEST)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_REQUEST_MENU):
@@ -143,9 +146,10 @@ class Alliance(Notifications):
         self.game.go_to_main_menu()
 
     def claim_support_item(self):
-        """Try to claim available item from support request.
+        """Tries to claim available item from support request.
 
-        :return: (bool) was item claimed or not.
+        :return: was item claimed or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_SUPPORT_CLAIM):
             logger.info("Claiming previous support request.")
@@ -162,25 +166,30 @@ class Alliance(Notifications):
         r_sleep(1)
 
     def collect_energy_from_challenges(self, collect_daily=True, collect_weekly=True):
+        """Collects energy from Alliance Challenges.
+
+        :param bool collect_daily: collect daily rewards or not.
+        :param bool collect_weekly: collect weekly rewards or not.
+        """
         if not collect_daily and not collect_weekly:
             logger.info("Nothing to collect.")
             return self.game.go_to_main_menu()
         self.game.go_to_alliance()
         if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHALLENGES_TAB):
-            logger.error("Can't find CHALLENGES tab, exiting.")
+            logger.error(f"Can't find {ui.ALLIANCE_CHALLENGES_TAB} tab, exiting.")
             return self.game.go_to_main_menu()
         self.emulator.click_button(ui.ALLIANCE_CHALLENGES_TAB)
 
         if collect_daily and wait_until(self.emulator.is_ui_element_on_screen,
                                         ui_element=ui.ALLIANCE_CHALLENGES_DAILY_ENERGY):
-            logger.info(f"Collecting daily energy from challenge.")
+            logger.info("Collecting daily energy from challenge.")
             self.emulator.click_button(ui.ALLIANCE_CHALLENGES_DAILY_ENERGY)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHALLENGES_REWARD_CLOSE):
                 self.emulator.click_button(ui.ALLIANCE_CHALLENGES_REWARD_CLOSE)
 
         if collect_weekly and wait_until(self.emulator.is_ui_element_on_screen,
                                          ui_element=ui.ALLIANCE_CHALLENGES_WEEKLY_ENERGY):
-            logger.info(f"Collecting weekly energy from challenge.")
+            logger.info("Collecting weekly energy from challenge.")
             self.emulator.click_button(ui.ALLIANCE_CHALLENGES_WEEKLY_ENERGY)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_CHALLENGES_REWARD_CLOSE):
                 self.emulator.click_button(ui.ALLIANCE_CHALLENGES_REWARD_CLOSE)

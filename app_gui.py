@@ -36,7 +36,7 @@ def create_updater_notification():
     from lib.gui.helper import set_default_icon
     notification = QDialog()
     Ui_Dialog().setupUi(Dialog=notification)
-    set_default_icon(notification)
+    set_default_icon(window=notification)
     return notification
 
 

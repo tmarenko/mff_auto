@@ -10,11 +10,11 @@ class Rect:
     def __init__(self, x1, y1, x2, y2, parent=None, name=""):
         """Class initialization.
 
-        :param x1: left top corner width.
-        :param y1: left top corner height.
-        :param x2: right bottom corner width.
-        :param y2: right bottom corner height.
-        :param ui.Rect parent: parent rectangle.
+        :param float x1: left top corner width.
+        :param float y1: left top corner height.
+        :param float x2: right bottom corner width.
+        :param float y2: right bottom corner height.
+        :param Rect parent: parent rectangle.
         """
         self.name = name
         self.x1 = x1
@@ -24,14 +24,14 @@ class Rect:
         self.parent = parent
 
     def __getitem__(self, index):
-        """Get rect values by index same as rect object was a tuple."""
+        """Gets rect values by index same as rect object was a tuple."""
         return (self.x1, self.y1, self.x2, self.y2)[index]
 
     @property
     def value(self):
         """Coordinate values of rectangle.
 
-        :return: tuple of rectangle's coordinates.
+        :rtype: tuple[float, float, float, float]
         """
         return self.x1, self.y1, self.x2, self.y2
 
@@ -39,7 +39,7 @@ class Rect:
     def width(self):
         """Width of rectangle.
 
-        :return: width.
+        :rtype: float
         """
         return self.x2 - self.x1
 
@@ -47,26 +47,27 @@ class Rect:
     def height(self):
         """Height of rectangle.
 
-        :return: height
+        :rtype: float
         """
         return self.y2 - self.y1
 
     @property
     def global_rect(self):
-        """Get global rect of current rect.
+        """Gets rect with global coordinates relative to parent's coordinates.
 
-        :return: ui.Rect: global coordinates of the root rect.
+        :rtype: Rect
         """
         if self.parent:
             return self.to_global(self.parent).global_rect
         return self
 
     def to_global(self, parent):
-        """Transform rectangle coordinates to global coordinates of parent rectangle.
+        """Transforms rectangle coordinates to global coordinates of parent rectangle.
 
-        :param ui.Rect parent: parent rectangle.
+        :param Rect parent: parent rectangle.
 
-        :return: new ui.Rect with global coordinates.
+        :return: new Rect with global coordinates.
+        :rtype: Rect
         """
         return Rect(parent.x1 + parent.width * self.x1,
                     parent.y1 + parent.height * self.y1,
@@ -96,7 +97,7 @@ class UIElement:
     def __init__(self, name="Test"):
         """Class initialization.
 
-        :param name: name of element.
+        :param str name: name of element.
         """
         self.name = name
 
@@ -104,7 +105,10 @@ class UIElement:
         return self.name
 
     def copy(self):
-        """Returns copy of an UI element."""
+        """Returns copy of an UI element.
+
+        :rtype: UIElement
+        """
         return deepcopy(self)
 
 
@@ -120,6 +124,13 @@ def load_game_modes(path="settings/game_modes.json"):
 
 
 def load_ui_image(path, images_folder="images"):
+    """Loads image into UI element and converts it to RGB.
+
+    :param str path: path to image.
+    :param str images_folder: path to `images` folder.
+
+    :rtype: numpy.ndarray
+    """
     # Emulator's screen operates in BGR mode. All loaded images must be converted
     image = rgb_to_bgr(load_image(os.path.join(images_folder, path)))
     return image

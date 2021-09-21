@@ -50,7 +50,7 @@ class WorldBoss(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name='WORLD BOSS')
         self._stage_ui = None
@@ -70,10 +70,9 @@ class WorldBoss(Missions):
 
     def do_missions(self, times=None, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS,
                     sync_character_and_ally_teams=False):
-        """Do missions."""
+        """Does missions."""
         if mode == self.MODE.ULTIMATE and difficulty == 0:
-            logger.error(f"With mode {mode} difficulty should be greater than {difficulty}.")
-            return
+            return logger.error(f"With mode {mode} difficulty should be greater than {difficulty}.")
         self._sync_character_and_ally_teams = sync_character_and_ally_teams
         if times:
             self.stages = times
@@ -82,53 +81,28 @@ class WorldBoss(Missions):
             self.end_missions()
 
     def open_world_boss(self):
-        """Open World Boss mission lobby."""
+        """Opens World Boss mission lobby."""
         self.game.select_mode(self.mode_name)
-        self._close_special_offer_ad()
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_MISSION_BUTTON)
 
-    def _close_special_offer_ad(self, timeout=3):
-        """Close 'Special Offer' ad.
-        # TODO: seems after 7.0.0 update this ad never shows up yet
-
-        :param timeout: timeout of waiting for ads.
-        """
-
-        def close_ad():
-            if self.emulator.is_ui_element_on_screen(ui.WB_CLOSE_OFFER_AD):
-                self.emulator.click_button(ui.WB_CLOSE_OFFER_AD)
-                if wait_until(self.emulator.is_ui_element_on_screen, timeout=1.5,
-                              ui_element=ui.WB_CLOSE_OFFER_AD_OK):
-                    self.emulator.click_button(ui.WB_CLOSE_OFFER_AD_OK)
-                    return True
-            return False
-
-        for _ in range(timeout):
-            ad_closed = wait_until(close_ad, timeout=1)
-            logger.debug(f"World Boss Special Offer was closed: {ad_closed}")
-
     def start_missions(self, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS):
-        """Start World Boss battles.
+        """Starts World Boss battles.
 
-        :param mode: mode of battles to start (beginner or normal or ultimate).
-        :param difficulty: difficulty of Ultimate mode.
-        :param boss: boss to play.
+        :param str mode: mode of battles to start (beginner or normal or ultimate).
+        :param int difficulty: difficulty of Ultimate mode.
+        :param str boss: boss to play.
         """
         logger.info(f"{self.stages} stages available, running {mode} mode with difficulty = {difficulty}.")
         if mode != self.MODE.BEGINNER and mode != self.MODE.NORMAL and mode != self.MODE.ULTIMATE:
-            logger.error(f"Got wrong mode for battles: {mode}.")
-            return
+            return logger.error(f"Got wrong mode for battles: {mode}.")
         if not self.open_world_boss():
-            logger.warning("Can't get in battles lobby.")
-            return
-        else:
-            if boss != self.BOSS.TODAYS_BOSS and ui.get_by_name(boss):
-                logger.debug(f"Selecting boss {boss}")
-                self.emulator.click_button(ui.get_by_name(boss))
-            self.emulator.click_button(ui.WB_MISSION_BUTTON)
-            if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_READY_BUTTON):
-                logger.error("Can't find READY button after selecting the boss.")
-                return
+            return logger.error("Can't get in battles lobby.")
+        if boss != self.BOSS.TODAYS_BOSS and ui.get_by_name(boss):
+            logger.debug(f"Selecting boss {boss}")
+            self.emulator.click_button(ui.get_by_name(boss))
+        self.emulator.click_button(ui.WB_MISSION_BUTTON)
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_READY_BUTTON):
+            return logger.error(f"Can't find {ui.WB_READY_BUTTON} button after selecting the boss.")
         if mode == self.MODE.BEGINNER:
             logger.info("Starting BEGINNER battle.")
             self.emulator.click_button(ui.WB_BEGINNER_MODE)
@@ -148,7 +122,7 @@ class WorldBoss(Missions):
                 logger.info("Lost battle. Respawning.")
                 self.emulator.click_button(ui.WB_RESPAWN)
                 if not wait_until(self.emulator.is_ui_element_on_screen, timeout=10, ui_element=ui.WB_SCORE):
-                    logger.warning("Something went wrong while respawning after lost battle.")
+                    logger.error("Something went wrong while respawning after lost battle.")
             else:
                 self.stages -= 1
             if self.stages > 0:
@@ -158,9 +132,9 @@ class WorldBoss(Missions):
         logger.info("No more stages.")
 
     def _start_world_boss_battle(self, check_inventory=True):
-        """Start World Boss battle.
+        """Starts World Boss battle.
 
-        :param: check_inventory check for full inventory or not.
+        :param bool check_inventory: check for full inventory or not.
         """
         self.emulator.click_button(ui.WB_READY_BUTTON)
         self.close_mission_notifications()
@@ -193,12 +167,12 @@ class WorldBoss(Missions):
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                 self.close_mission_notifications()
                 return True
-            logger.warning("Failed to locate START button.")
+            logger.error(f"Failed to locate {ui.WB_START_BUTTON} button.")
             return False
-        logger.warning("Failed to set team.")
+        logger.error("Failed to set team.")
 
     def _deploy_characters(self):
-        """Deploy 3 characters to battle."""
+        """Deploys 3 characters to battle."""
         if self._sync_character_and_ally_teams:
             logger.debug(f"Selecting Character Team #{self.stages}")
             self.emulator.click_button(ui.get_by_name(f'WB_SELECT_CHARACTER_TEAM_{self.stages}'))
@@ -217,7 +191,7 @@ class WorldBoss(Missions):
             self.emulator.click_button(ui.WB_NON_FEATURED_CHARACTER_3)
 
     def _deploy_allies(self):
-        """Deploy 4 characters as allies to battle."""
+        """Deploys 4 characters as allies to battle."""
         if self._sync_character_and_ally_teams:
             logger.debug(f"Selecting Ally Team #{self.stages}")
             self.emulator.click_button(ui.get_by_name(f'WB_SELECT_ALLY_TEAM_{self.stages}'))
@@ -232,9 +206,9 @@ class WorldBoss(Missions):
 
     @property
     def stage_ui(self):
-        """Get UI of current stage counter.
+        """Gets UI element of current stage counter.
 
-        :return: UI element for stage counter.
+        :rtype: ui.UIElement
         """
         if self._stage_ui is None:
             if self.emulator.is_ui_element_on_screen(ui_element=ui.WB_ULTIMATE_STAGE_LABEL):
@@ -247,7 +221,10 @@ class WorldBoss(Missions):
 
     @property
     def plus_ui(self):
-        """Get UI element for PLUS sign in stage counter."""
+        """Gets UI element for PLUS sign in stage counter.
+
+        :rtype: ui.UIElement
+        """
         if self._plus_ui is None:
             if self.stage_ui == ui.WB_ULTIMATE_STAGE:
                 self._plus_ui = ui.WB_ULTIMATE_PLUS
@@ -257,7 +234,10 @@ class WorldBoss(Missions):
 
     @property
     def minus_ui(self):
-        """Get UI element for MINUS sign in stage counter."""
+        """Gets UI element for MINUS sign in stage counter.
+
+        :rtype: ui.UIElement
+        """
         if self._minus_ui is None:
             if self.stage_ui == ui.WB_ULTIMATE_STAGE:
                 self._minus_ui = ui.WB_ULTIMATE_MINUS
@@ -267,9 +247,9 @@ class WorldBoss(Missions):
 
     @property
     def stage_level(self):
-        """Get current stage level.
+        """Gets current stage level.
 
-        :return: current stage level.
+        :rtype: int
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_READY_BUTTON):
             stage_str = self.emulator.get_screen_text(ui_element=self.stage_ui)
@@ -282,25 +262,24 @@ class WorldBoss(Missions):
         return 0
 
     def _increase_stage_level(self):
-        """Increase current stage level"""
+        """Increases current stage level"""
         logger.info("Increasing stage difficulty level.")
         self.emulator.click_button(self.plus_ui, min_duration=0.01, max_duration=0.01)
 
     def _decrease_stage_level(self):
-        """Decrease current stage level"""
+        """Decreases current stage level"""
         logger.info("Decreasing stage difficulty level.")
         self.emulator.click_button(self.minus_ui, min_duration=0.01, max_duration=0.01)
 
     def _select_stage_level(self, level_num=20):
-        """Select stage level.
+        """Selects stage level.
 
-        :param level_num: level to select.
+        :param int level_num: level to select.
         """
         if level_num == 0:
             logger.debug(f"Stage level is {level_num}. Stage won't change.")
         if level_num > 99 or level_num < 0:
-            logger.error(f"Stage level should be between 1 and 99, got {level_num} instead.")
-            return
+            return logger.error(f"Stage level should be between 1 and 99, got {level_num} instead.")
         safe_counter = 0
         diff = abs(level_num - self.stage_level)
         while self.stage_level != level_num:
@@ -315,19 +294,17 @@ class WorldBoss(Missions):
                 self._increase_stage_level()
 
     def change_world_boss_of_the_day(self, world_boss, max_resets=0):
-        """Change Today's World Boss.
+        """Changes Today's World Boss.
 
-        :param world_boss: name or list of the Bosses' names.
-        :param max_resets: number of maximum resets.
+        :param str | list[str] world_boss: name or list of the Bosses' names.
+        :param int max_resets: number of maximum resets.
         """
         if max_resets == 0 or not world_boss:
-            logger.error(f"No boss was selected ({world_boss}) or max resets is invalid ({max_resets}).")
-            return
+            return logger.error(f"No boss was selected ({world_boss}) or max resets is invalid ({max_resets}).")
         target_world_boss = world_boss if isinstance(world_boss, list) else [world_boss]
         self.stages = max_resets
         if not self.open_world_boss():
-            logger.warning("Can't get in battles lobby.")
-            return
+            return logger.error("Can't get in battles lobby.")
         self.emulator.click_button(ui.WB_RESET_TODAYS_BOSS)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_RESET_TODAYS_BOSS_MENU):
             logger.debug("Reset Menu is opened.")
@@ -339,12 +316,12 @@ class WorldBoss(Missions):
     def _reset_world_boss(self, target_world_boss, current_reset, max_resets):
         """Resets World Boss in reset menu.
 
-        :param target_world_boss: name or list of the Bosses' names for reset.
-        :param current_reset: number of current reset to compare with maximum.
-        :param max_resets: number of maximum resets.
+        :param list[str] target_world_boss: name or list of the Bosses' names for reset.
+        :param int current_reset: number of current reset to compare with maximum.
+        :param int max_resets: number of maximum resets.
         """
         if current_reset > max_resets:
-            logger.warning(f"Achieved max resets of {current_reset} for Today's World Boss.")
+            return logger.warning(f"Achieved max resets of {current_reset} for Today's World Boss.")
         current_world_boss = self.emulator.get_screen_text(ui.WB_RESET_TODAYS_BOSS_NAME)
         logger.debug(f"Current boss of the day is {current_world_boss}; resetting for {target_world_boss}")
         target_world_boss_found = [is_strings_similar(boss, current_world_boss) for boss in target_world_boss]

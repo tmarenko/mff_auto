@@ -18,7 +18,7 @@ class QTextEditFileLogger(Timer):
         self._old_txt_len = 0
 
     def update_text(self):
-        """Update text on the widget."""
+        """Updates text on the widget."""
 
         def update_by_filter(all_text, widget, text_filters):
             new_text = "\n".join([line for line in all_text.split("\n") if any(s in line for s in text_filters)])

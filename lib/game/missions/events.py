@@ -14,16 +14,16 @@ class EventMissions(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game)
 
     def _is_event_ui_has_same_name(self, name, event_ui, similar_to_full_line):
-        """Check if event UI element has same name as given event name.
+        """Checks if event UI element has same name as given event name.
 
-        :param name: event name.
-        :param event_ui: event UI Element
-        :param similar_to_full_line: take name of event as full line of text or part of any line.
+        :param str name: event name.
+        :param ui.UIElement event_ui: event UI Element
+        :param bool similar_to_full_line: take name of event as full line of text or part of any line.
         """
         event_text = self.emulator.get_screen_text(event_ui)
         logger.debug(f"Found text inside event list: {event_text}")
@@ -35,11 +35,12 @@ class EventMissions(Missions):
                     return True
 
     def find_event_ui_by_name(self, name, similar_to_full_line=True):
-        """Find UI element of Event by it's name.
+        """Finds UI element of Event by it's name.
 
-        :param name: name of event.
-        :param similar_to_full_line: take name of event as full line of text or part of any line.
-        :return: UI element of event in Event List.
+        :param str name: name of event.
+        :param bool similar_to_full_line: take name of event as full line of text or part of any line.
+
+        :rtype ui.UIElement
         """
         self._drag_event_list_to_the_bottom()
         for ui_index in range(1, 5):
@@ -53,13 +54,13 @@ class EventMissions(Missions):
                 return event_ui
 
     def _drag_event_list_to_the_top(self):
-        """Drag Event List to the top."""
+        """Drags Event List to the top."""
         logger.debug("Dragging Event list to the top.")
         self.emulator.drag(ui.EVENT_LIST_DRAG_FROM, ui.EVENT_LIST_DRAG_TO)
         r_sleep(1)
 
     def _drag_event_list_to_the_bottom(self):
-        """Drag Event List to the bottom."""
+        """Drags Event List to the bottom."""
         logger.debug("Dragging Event list to the bottom.")
         self.emulator.drag(ui.EVENT_LIST_DRAG_TO, ui.EVENT_LIST_DRAG_FROM)
         r_sleep(1)
@@ -73,7 +74,7 @@ class EventWorldBoss(EventMissions, WorldBoss):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super(EventMissions, self).__init__(game)
         self._stages = 5
@@ -85,7 +86,7 @@ class EventWorldBoss(EventMissions, WorldBoss):
 
         def cannot_enter():
             if self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BOSS_LIMIT_REACHED):
-                logger.debug("Reached limit of missions.")
+                logger.info("Reached limit of missions.")
                 self._stages = 0
                 self.emulator.click_button(ui.EVENT_WORLD_BOSS_LIMIT_REACHED)
                 return True
@@ -93,17 +94,16 @@ class EventWorldBoss(EventMissions, WorldBoss):
         return [allies, cannot_enter]
 
     def open_event_world_boss(self):
-        """Open Event World Boss from Event List."""
+        """Opens Event World Boss from Event List."""
         self.game.go_to_main_menu()
         event_ui = self.find_event_ui_by_name(self.EVENT_NAME)
         if not event_ui:
-            logger.info("Can't find Event World Boss, probably event isn't on right now.")
-            return
+            return logger.warning("Can't find Event World Boss, probably event isn't on right now.")
         self.emulator.click_button(event_ui)
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_BOSS_LABEL)
 
     def complete_event_world_boss(self, sync_character_and_ally_teams=False):
-        """Complete all available stages in Event World Boss."""
+        """Completes all available stages in Event World Boss."""
         self.open_event_world_boss()
         if not self.emulator.is_ui_element_on_screen(ui.EVENT_WORLD_BOSS_ENTER):
             logger.info("No available Event World Boss battles.")
@@ -122,7 +122,7 @@ class EventWorldBoss(EventMissions, WorldBoss):
         logger.info("No more stages.")
 
     def press_repeat_button(self, repeat_button_ui=ui.EVENT_WORLD_BOSS_REPEAT_BUTTON, start_button_ui=ui.WB_SET_TEAM):
-        """Press repeat button of the mission."""
+        """Presses repeat button of the mission."""
         logger.debug(f"Clicking REPEAT button with UI Element: {repeat_button_ui}.")
         self.emulator.click_button(repeat_button_ui)
         while not self.emulator.is_ui_element_on_screen(ui_element=start_button_ui):
@@ -135,7 +135,7 @@ class EventWorldBoss(EventMissions, WorldBoss):
         return True
 
     def _start_world_boss_battle(self, check_inventory=True):
-        """Start World Boss battle."""
+        """Starts World Boss battle."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_SET_TEAM):
             self._deploy_characters()
             self.emulator.click_button(ui.WB_SET_TEAM)
@@ -163,9 +163,9 @@ class EventWorldBoss(EventMissions, WorldBoss):
                     self.emulator.click_button(ui.WB_EXCLUDE_CHARACTERS_FROM_ALLIES)
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
                 return True
-            logger.warning("Failed to locate START button.")
+            logger.error(f"Failed to locate {ui.WB_START_BUTTON} button.")
             return False
-        logger.warning("Failed to set team.")
+        logger.error("Failed to set team.")
 
 
 class WorldEvent(EventMissions):
@@ -183,17 +183,16 @@ class WorldEvent(EventMissions):
         return [total_score]
 
     def open_world_event(self):
-        """Open World Event in Event List."""
+        """Opens World Event in Event List."""
         self.game.go_to_main_menu()
         event_ui = self.find_event_ui_by_name(self.EVENT_NAME)
         if not event_ui:
-            logger.info("Can't find World Event, probably event isn't on right now.")
-            return
+            return logger.warning("Can't find World Event, probably event isn't on right now.")
         self.emulator.click_button(event_ui)
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_LABEL)
 
     def _get_ready_to_battle(self):
-        """Getting ready to participate in World Event."""
+        """Gets ready to participate in World Event."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_BATTLE_READY_BUTTON):
             logger.debug("Getting ready to battle.")
             self.emulator.click_button(ui.EVENT_WORLD_BATTLE_READY_BUTTON)
@@ -205,7 +204,7 @@ class WorldEvent(EventMissions):
                     self.emulator.click_button(ui.EVENT_WORLD_SELECT_BATTLE_READY_OK)
 
     def complete_world_event(self):
-        """Complete available stage in World Event."""
+        """Completes available stage in World Event."""
         self.open_world_event()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_WORLD_LOBBY_READY_BUTTON):
             logger.debug("Entering into team selection lobby.")
@@ -224,20 +223,20 @@ class FuturePass(EventMissions):
     EVENT_NAME = "FUTURE PASS"
 
     def open_future_pass(self):
-        """Open Future Pass in Event List."""
+        """Opens Future Pass in Event List."""
         self.game.go_to_main_menu()
         event_ui = self.find_event_ui_by_name(self.EVENT_NAME, similar_to_full_line=False)
         if not event_ui:
-            logger.info("Can't find Future Pass, probably event isn't on right now.")
-            return
+            return logger.warning("Can't find Future Pass, probably event isn't on right now.")
         self.emulator.click_button(event_ui)
         self.close_ads()
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_LABEL)
 
     def _acquire_free_points(self):
-        """Acquire free points.
+        """Acquires free points.
 
-        :return: were points acquired (True or False).
+        :return: were points acquired or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_ACQUIRE_POINTS):
             logger.info("Acquiring free points.")
@@ -248,9 +247,10 @@ class FuturePass(EventMissions):
         return False
 
     def _claim_rewards(self):
-        """Claim all rewards.
+        """Claims all rewards.
 
-        :return: were points acquired (True or False).
+        :return: were points acquired or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EVENT_FUTURE_PASS_CLAIM_REWARDS):
             logger.info("Claiming all rewards.")
@@ -262,7 +262,7 @@ class FuturePass(EventMissions):
         return False
 
     def acquire_points_and_claim_rewards(self):
-        """Acquire free points and claim all available rewards."""
+        """Acquires free points and claim all available rewards."""
         self.open_future_pass()
         self._acquire_free_points()
         self._claim_rewards()

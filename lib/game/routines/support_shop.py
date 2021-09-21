@@ -21,7 +21,7 @@ class SupportShop(Notifications):
         UNIFORM_UPGRADE_KIT = "SUPPORT_SHOP_MATERIAL_UNIFORM_UPGRADE_KIT"
 
     def open_support_shop(self):
-        """Open Support Shop from Main Menu tab."""
+        """Opens Support Shop from Main Menu tab."""
         self.game.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -32,24 +32,23 @@ class SupportShop(Notifications):
                     return True
 
     def _open_material_tab(self):
-        """Open Material tab in Support Shop."""
+        """Opens Material tab in Support Shop."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.SUPPORT_SHOP_MATERIAL_TAB):
             self.emulator.click_button(ui.SUPPORT_SHOP_MATERIAL_TAB)
             return True
         return False
 
     def _buy_material(self, material_ui, max_items=True):
-        """Buy material from Support Shop.
+        """Buys material from Support Shop.
 
-        :param material_ui: UI Element of material to buy.
-        :param max_items: buy all items or not.
+        :param ui.UIElement material_ui: UI Element of material to buy.
+        :param bool max_items: buy all items or not.
         """
         logger.debug(f"Buying material with UI: {material_ui}")
         self.emulator.click_button(material_ui)
         if not wait_until(self.emulator.is_ui_element_on_screen,
                           ui_element=ui.SUPPORT_SHOP_BUY_MATERIAL_EXCHANGE_BUTTON):
-            logger.warning("Cannot get into Exchange menu, probably material has been already bought.")
-            return
+            return logger.warning("Cannot get into Exchange menu, probably material has been already bought.")
 
         if max_items and self.emulator.is_ui_element_on_screen(ui.SUPPORT_SHOP_BUY_MATERIAL_MAX_BUTTON):
             logger.debug("Clicking MAX button.")
@@ -64,7 +63,7 @@ class SupportShop(Notifications):
     def buy_materials(self, materials_list):
         """Buy materials from Support Shop.
 
-        :param materials_list: list of UI Element of materials to buy.
+        :param str | list[str] materials_list: list of names of UI Element of materials to buy.
         """
         if isinstance(materials_list, str):
             materials_list = [materials_list]

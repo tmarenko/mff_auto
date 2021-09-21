@@ -10,17 +10,17 @@ class EnergyStore(Notifications):
     """Class for working with energy in store."""
 
     def open_energy_store(self):
-        """Open energy store using plus button near energy counter."""
+        """Opens energy store using plus button near energy counter."""
         self.game.go_to_main_menu()
         self.emulator.click_button(ui.STORE_COLLECT_ENERGY_PLUS_SIGN)
         self.game.close_ads()
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_LABEL)
 
     def collect_free_energy(self):
-        """Collect free daily energy."""
+        """Collects free daily energy."""
         if not self.open_energy_store():
             logger.error("Failed get to Store - Energy menu.")
-            self.game.go_to_main_menu()
+            return self.game.go_to_main_menu()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_COLLECT_ENERGY_FREE):
             logger.debug("Found available free energy button.")
             self.emulator.click_button(ui.STORE_COLLECT_ENERGY_FREE)
@@ -31,20 +31,20 @@ class EnergyStore(Notifications):
                     logger.info("Free energy collected.")
                     self.emulator.click_button(ui.STORE_COLLECT_ENERGY_FREE_PURCHASE_CLOSE)
                 if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_COLLECT_ENERGY_FREE_FULL):
-                    logger.info("Energy is already full, cannot collect.")
+                    logger.info("Energy is already full, can't collect.")
                     self.emulator.click_button(ui.STORE_COLLECT_ENERGY_FREE_FULL)
         else:
             logger.info("Free energy isn't available right now.")
         self.game.go_to_main_menu()
 
     def collect_energy_via_assemble_points(self, use_all_points=True):
-        """Collect energy using available Assemble Points.
+        """Collects energy using available Assemble Points.
 
-        :param use_all_points: use all available points or not.
+        :param bool use_all_points: use all available points or not.
         """
         if not self.open_energy_store():
             logger.error("Failed get to Store - Energy menu.")
-            self.game.go_to_main_menu()
+            return self.game.go_to_main_menu()
         recharged = self._recharge_energy_with_points()
         if use_all_points and recharged:
             while recharged:
@@ -53,9 +53,10 @@ class EnergyStore(Notifications):
         self.game.go_to_main_menu()
 
     def _recharge_energy_with_points(self):
-        """Recharge energy with Assemble Points once.
+        """Recharges energy with Assemble Points once.
 
-        :return: (bool) was energy recharged or not.
+        :return: was energy recharged or not.
+        :rtype: bool
         """
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_RECHARGE_ENERGY_VIA_POINTS):
             self.emulator.click_button(ui.STORE_RECHARGE_ENERGY_VIA_POINTS)
@@ -84,7 +85,7 @@ class CharacterStore(Notifications):
     """Class for working with Character Store."""
 
     def open_character_store(self):
-        """Open energy store using plus button near energy counter."""
+        """Opens energy store using plus button near energy counter."""
         self.game.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -98,6 +99,7 @@ class CharacterStore(Notifications):
         return False
 
     def _open_hero_chest_tab(self):
+        """Open `Hero` chest tab in the Store."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_CHARACTER_HERO_CHEST_TAB):
             logger.debug("Opening Hero Chest tab.")
             self.emulator.click_button(ui.STORE_CHARACTER_HERO_CHEST_TAB)
@@ -105,7 +107,7 @@ class CharacterStore(Notifications):
         return False
 
     def acquire_free_hero_chest(self):
-        """Acquire available Free Hero Chest."""
+        """Acquires available Free Hero Chest."""
         self.open_character_store()
         if self._open_hero_chest_tab():
             if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_CHARACTER_FREE_HERO_CHEST_BUTTON):

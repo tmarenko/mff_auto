@@ -15,8 +15,8 @@ class ScreenImageLabel(Timer):
     def __init__(self, widget, emulator):
         """Class initialization.
 
-        :param QtWidgets.QLabel widget: label widget for image.
-        :param lib.emulator emulator: instance of game emulator.
+        :param PyQt5.QtWidgets.QLabel.QLabel widget: label widget for image.
+        :param lib.emulators.android_emulator.AndroidEmulator emulator: instance of game emulator.
         """
         super().__init__()
         self.widget = widget
@@ -28,11 +28,11 @@ class ScreenImageLabel(Timer):
         self.get_image_func = self.emulator.get_screen_image
 
     def update_image(self):
-        """Update image from emulator and handle emulator resize."""
+        """Updates image from emulator and handle emulator resize."""
         if not self.emulator.initialized:
-            self.emulator.update_windows()
+            self.emulator.update_handlers()
             return
-        self.emulator.update_windows_rect()
+        self.emulator.update_window_rectangles()
         screen = self.get_image_func()
         pix_map = screen_to_gui_image(screen)
         scale_pix_map = pix_map.scaled(self.widget.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
@@ -52,11 +52,12 @@ class ScreenImageLabel(Timer):
             self.emulator.click_button(self.click_ui)
 
     def translate_coordinate_from_label_to_screen(self, x, y):
-        """Calculate coordinates inside game's screen label and translate them to scaled screen coordinates.
+        """Calculates coordinates inside game's screen label and translate them to scaled screen coordinates.
 
-        :param x: X coordinate.
-        :param y: Y coordinate.
+        :param float x: X coordinate.
+        :param float y: Y coordinate.
         :return: X and Y coordinate according to actual game's screen.
+        :rtype: tuple[float, float]
         """
         def get_coordinate_inside_screen(point, screen_length, scaled_length):
             if screen_length > scaled_length:

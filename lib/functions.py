@@ -23,13 +23,14 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, max_height
     """Get text from image using Tesseract OCR.
     https://github.com/tesseract-ocr/
 
-    :param image: numpy.array of image.
-    :param threshold: threshold of gray-scale for grabbing image's text.
-    :param chars: available character in image's text.
-    :param save_file: name of file for saving result of gray-scaling.
-    :param max_height: max height of image (in pixels).
+    :param numpy.ndarray image: image.
+    :param int threshold: threshold of gray-scale for grabbing image's text.
+    :param str chars: available character in image's text.
+    :param str save_file: name of file for saving result of gray-scaling.
+    :param int max_height: max height of image (in pixels).
 
     :return: text from image.
+    :rtype: str
     """
     image = resize_and_keep_aspect_ratio(image, height=max_height)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -44,14 +45,14 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, max_height
 def is_strings_similar(original, compare, overlap=0.25):
     """Check if strings are similar.
 
-    :param original: original string.
-    :param compare: string to compare.
-    :param overlap: overlap parameter. If string's similarity >= overlap then strings are similar.
+    :param str original: original string.
+    :param str compare: string to compare.
+    :param float overlap: overlap parameter. If string's similarity >= overlap then strings are similar.
 
-    :return: True or False.
+    :rtype: bool
     """
     def levenshtein_distance(a, b):
-        """Return the Levenshtein edit distance between two strings."""
+        """Returns the Levenshtein edit distance between two strings."""
         if a == b:
             return 0
         if len(a) < len(b):
@@ -73,16 +74,17 @@ def is_strings_similar(original, compare, overlap=0.25):
 
 
 def wait_until(predicate, timeout=3, period=0.25, condition=True, *args, **kwargs):
-    """Wait period of time until predicate is True.
+    """Wait period of time until predicate equals to condition.
 
-    :param predicate: predicate function to check.
-    :param timeout: how much time wait overall.
-    :param period: how much time wait to check predicate.
-    :param condition: predicate expected condition.
+    :param function predicate: predicate function to check.
+    :param float timeout: how much time wait overall.
+    :param float period: how much time wait to check predicate.
+    :param bool condition: predicate expected condition.
     :param args: predicate function args.
     :param kwargs: predicate function kwargs.
 
-    :return: True or False of predicate function.
+    :return: was predicate's output equal to condition in given timeout or not.
+    :rtype: bool
     """
     time_limit = time.time() + timeout
     while time.time() < time_limit:
@@ -93,16 +95,17 @@ def wait_until(predicate, timeout=3, period=0.25, condition=True, *args, **kwarg
 
 
 def get_position_inside_rectangle(rect, mean_mod=2, sigma_mod=5):
-    """Get (x,y) position inside rectangle.
+    """Gets (x,y) position inside rectangle.
     Using normal distribution position usually will be near rectangle center.
 
-    :param rect: rectangle of screen.
-    :param mean_mod: mean for distribution.
-    :param sigma_mod: standard deviation for distribution.
+    :param tuple[float, float, float, float] rect: rectangle of screen.
+    :param int mean_mod: mean for distribution.
+    :param int sigma_mod: standard deviation for distribution.
 
     :return: (x, y) position inside rectangle.
+    :rtype: tuple[float, float]
     """
-    def get_truncated_normal(mean=0, sd=0.2, low=0, up=1):
+    def get_truncated_normal(mean=0.0, sd=0.2, low=0.0, up=1.0):
         """Get truncated normal distribution between low and up."""
         return truncnorm((low - mean) / sd, (up - mean) / sd, loc=mean, scale=sd).rvs()
 
@@ -116,44 +119,46 @@ def get_position_inside_rectangle(rect, mean_mod=2, sigma_mod=5):
 
 
 def r_sleep(seconds, radius_modifier=15.0):
-    """Random sleep with radius.
+    """Does random sleep with given radius.
 
-    :param seconds: how much seconds to sleep.
-    :param radius_modifier: random radius offset.
+    :param float seconds: how much seconds to sleep.
+    :param float radius_modifier: radius offset in percentages for randomness.
     """
     offset = float(seconds) / radius_modifier
     time.sleep(random.uniform(seconds - offset, seconds + offset))
 
 
 def load_image(path):
-    """Load image by path.
+    """Loads image by given path.
 
-    :param path: path to image.
-    :return: numpy.array of image.
+    :param str path: path to image.
+
+    :rtype: numpy.ndarray
     """
     return cv2.imread(path)
 
 
 def bgr_to_rgb(image_array):
-    """Convert RGB to BGR. Or backwards, depends on original image's mode.
+    """Converts RGB image to BGR image. Or backwards, depends on original image's mode.
 
-    :param image_array: numpy.array of image.
+    :param numpy.ndarray image_array: image.
 
-    :return: converted numpy.array of image.
+    :return: converted image.
+    :rtype: numpy.ndarray
     """
     return image_array[..., ::-1]
 
 
 def is_images_similar(image1, image2, overlap=0.6, save_file=None):
-    """Check if images are similar.
-    Using structural similarity.
+    """Checks if images are similar.
+    Uses structural similarity.
 
-    :param image1: original image.
-    :param image2: image to check.
-    :param overlap: overlap parameter. If images similarity > overlap then images are similar.
-    :param save_file: name of file for saving result of checking.
+    :param numpy.ndarray image1: original image.
+    :param numpy.ndarray image2: image to check.
+    :param float overlap: overlap parameter. If images similarity > overlap then images are similar.
+    :param str save_file: name of file for saving result of checking.
 
-    :return: True or False.
+    :rtype: bool
     """
     max_x = image1.shape[0] if image1.shape[0] > image2.shape[0] else image2.shape[0]
     max_y = image1.shape[1] if image1.shape[1] > image2.shape[1] else image2.shape[1]
@@ -170,13 +175,13 @@ def is_images_similar(image1, image2, overlap=0.6, save_file=None):
 
 
 def is_color_similar(color1, color2, overlap=0.05):
-    """Check if colors are similar.
+    """Checks if colors are similar.
 
-    :param color1: original color.
-    :param color2: color to check.
-    :param overlap: overlap parameter. If colors similarity > overlap then colors are similar.
+    :param tuple[int, int, int] color1: original color.
+    :param tuple[int, int, int] color2: color to check.
+    :param float overlap: overlap parameter. If colors similarity > overlap then colors are similar.
 
-    :return: True or False.
+    :rtype: bool
     """
     r1, g1, b1 = color1
     r2, g2, b2 = color2
@@ -185,13 +190,14 @@ def is_color_similar(color1, color2, overlap=0.05):
 
 
 def resize_and_keep_aspect_ratio(image, width=None, height=None):
-    """Resize image by width or height and keep original ratio between them.
+    """Resizes image by width or height and keep original ratio between them.
 
-    :param image: numpy.array of image.
-    :param width: width to resize.
-    :param height: height to resize.
+    :param numpy.ndarray image: numpy.array of image.
+    :param int width: width to resize.
+    :param int height: height to resize.
 
-    :return: numpy.array of resized image.
+    :return: resized image.
+    :rtype: numpy.ndarray
     """
     if width and height:
         raise ValueError("Only width or height should be given.")
@@ -209,11 +215,12 @@ def resize_and_keep_aspect_ratio(image, width=None, height=None):
 
 
 def get_file_properties(path_to_file):
-    """Read all properties of the given file.
+    """Reads all properties of the given file by it's path.
 
-    :param path_to_file: path to file.
+    :param str path_to_file: path to file.
 
     :return: dictionary of properties.
+    :rtype: dict
     """
     properties = ('Comments', 'InternalName', 'ProductName', 'CompanyName', 'LegalCopyright', 'ProductVersion',
                   'FileDescription', 'LegalTrademarks', 'PrivateBuild', 'FileVersion', 'OriginalFilename',
@@ -242,12 +249,14 @@ def get_file_properties(path_to_file):
 def convert_colors_in_image(image, colors, color_to_convert=(255, 255, 255), blur_result=(2, 2)):
     """Converts given colors in image to one color.
 
-    :param image: numpy.array of image.
-    :param colors: list of colors to convert; each color represents tuple of low and high values for color.
-    :param color_to_convert: color to convert.
-    :param blur_result: tuple of blur size if you want to blur the result image.
+    :param numpy.ndarray image: image.
+    :param list[tuple[tuple[int, int, int], tuple[int, int, int]] colors: list of colors to convert;
+        each color represents tuple of low and high values for color.
+    :param tuple[int, int, int] color_to_convert: color to convert.
+    :param tuple[int, int] blur_result: tuple of blur size if you want to blur the result image.
 
     :return: image with converted colors.
+    :rtype: numpy.ndarray
     """
     for color_low, color_high in colors:
         if isinstance(color_low, (set, list)):
@@ -264,11 +273,12 @@ def convert_colors_in_image(image, colors, color_to_convert=(255, 255, 255), blu
 def confirm_condition_by_time(confirm_condition, confirm_timeout=3, confirm_period=0.5):
     """Confirms that given condition is always True for given amount of time.
 
-    :param confirm_condition: function to confirm.
-    :param confirm_timeout: timeout for confirm.
-    :param confirm_period: how much time wait to check condition.
+    :param function confirm_condition: function to confirm.
+    :param float confirm_timeout: timeout for confirm.
+    :param float confirm_period: how much time wait to check condition.
 
-    :return: True or False: was condition always True for given timeout or not.
+    :return: was condition always True for given timeout or not.
+    :rtype: bool
     """
     results = []
     for _ in range(int(confirm_timeout / confirm_period)):

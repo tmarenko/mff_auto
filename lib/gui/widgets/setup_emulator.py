@@ -22,9 +22,9 @@ class EmulatorProcess(QListWidgetItem):
     def __init__(self, emulator, process_name, process_id):
         """Class initialization.
 
-        :param emulator: instance of game emulator.
-        :param process_name: emulator's process name.
-        :param process_id: emulator's process ID.
+        :param lib.emulators.android_emulator.AndroidEmulator emulator: instance of game emulator.
+        :param str process_name: emulator's process name.
+        :param int process_id: emulator's process ID.
         """
         super().__init__()
         self.process_name = process_name
@@ -37,7 +37,7 @@ class EmulatorProcess(QListWidgetItem):
         """Update icon with thumbnail of emulator's screen."""
         try:
             if self.emulator.initialized:
-                self.emulator.update_windows_rect()
+                self.emulator.update_window_rectangles()
                 thumbnail = screen_to_gui_image(self.emulator.get_screen_image())
                 self.setIcon(QIcon(thumbnail))
         except pywintypes.error:
@@ -52,7 +52,7 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
         """Class initialization."""
         super().__init__()
         self.setupUi(self)
-        set_default_icon(self)
+        set_default_icon(window=self)
         win32gui.EnumWindows(self.get_processes_info, None)
         self.timer = Timer()
         self.timer.set_timer(self.update_processes_thumbnails)
@@ -86,8 +86,8 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
     def get_processes_info(self, hwnd, wildcard):
         """Get all processes info and add to list those that has same process name as Nox.
 
-        :param hwnd: window handle.
-        :param wildcard: wildcard.
+        :param int hwnd: window handle.
+        :param str wildcard: wildcard.
         """
         name = win32gui.GetWindowText(hwnd)
         p_hwnd, process_id = win32process.GetWindowThreadProcessId(hwnd)
@@ -102,9 +102,9 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
     def add_process_to_list(self, process_name, process_id, process_exe):
         """Add process to list widget.
 
-        :param process_name: emulator's process name.
-        :param process_id: emulator's process ID.
-        :param process_exe: emulator's executable.
+        :param str process_name: emulator's process name.
+        :param int process_id: emulator's process ID.
+        :param str process_exe: emulator's executable.
         """
         if [p for p in self.emulator_processes() if p.process_name == process_name or p.process_id == process_id]:
             return
@@ -144,11 +144,11 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
     def __init__(self, emulator):
         """Class initialization.
 
-        :param emulator: instance of game emulator.
+        :param lib.emulators.android_emulator.AndroidEmulator: instance of game emulator.
         """
         super().__init__()
         self.setupUi(self)
-        set_default_icon(self)
+        set_default_icon(window=self)
         self.emulator = emulator
         self.game = Game(self.emulator)
         self.screen_image = ScreenImageLabel(widget=self.screen_image_label, emulator=self.emulator)

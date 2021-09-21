@@ -13,7 +13,7 @@ class TimelineBattle(Missions):
     def __init__(self, game):
         """Class initialization.
 
-        :param game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game, mode_name='TIMELINE BATTLE')
 
@@ -25,13 +25,13 @@ class TimelineBattle(Missions):
         return [points]
 
     def select_team(self):
-        """Select team for missions."""
+        """Selects team for missions."""
         team_element = ui.get_by_name(f'TL_SELECT_TEAM_{self.game.timeline_team}')
         logger.debug(f"Selecting team: {team_element.name}")
         self.emulator.click_button(team_element)
 
     def do_missions(self, times=None, skip_opponent_count=0):
-        """Do missions."""
+        """Does missions."""
         if times:
             self.stages = times
         if self.stages > 0:
@@ -39,11 +39,11 @@ class TimelineBattle(Missions):
             self.end_missions()
 
     def start_missions(self, skip_opponent_count=0):
-        """Start TimeLine Battles.
+        """Starts TimeLine Battles.
 
-        :param skip_opponent_count: how many opponents to skip before each battle.
+        :param int skip_opponent_count: how many opponents to skip before each battle.
         """
-        logger.info(f"{self.stages} stages available")
+        logger.info(f"{self.stages} stages available.")
         if self.stages > 0:
             if not self.open_timeline_battle():
                 return
@@ -53,7 +53,7 @@ class TimelineBattle(Missions):
         logger.info("No more stages.")
 
     def open_timeline_battle(self):
-        """Open TimeLine battle mission lobby and select battle."""
+        """Opens TimeLine battle mission lobby and select battle."""
         self.game.select_mode(self.mode_name)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.TL_NEW_SEASON_NOTIFICATION):
             logger.debug("Timeline Battle: found new season notification, closing.")
@@ -88,9 +88,9 @@ class TimelineBattle(Missions):
         return True
 
     def _search_for_new_opponent(self, skip_opponent_count):
-        """Search new opponents to minimize lose points.
+        """Searches for new opponents to minimize lose points.
 
-        :param skip_opponent_count: how many opponents to skip before each battle.
+        :param int skip_opponent_count: how many opponents to skip before each battle.
         """
         if skip_opponent_count <= 0:
             return
@@ -101,9 +101,9 @@ class TimelineBattle(Missions):
                 r_sleep(1)
 
     def _start_fight(self):
-        """Go to fight screen and fight."""
+        """Goes to fight screen and fight."""
         if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.TL_FIGHT_BUTTON):
-            logger.error("Can't find FIGHT button.")
+            return logger.error(f"Can't find {ui.TL_FIGHT_BUTTON} button.")
         logger.debug("Starting the fight.")
         self.emulator.click_button(ui.TL_FIGHT_BUTTON)
         AutoBattleBot(self.game, self.battle_over_conditions).fight()

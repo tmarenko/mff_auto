@@ -30,7 +30,7 @@ class TesseractLib(object):
         """Setup library's functions and signatures.
         API Source: https://github.com/tesseract-ocr/tesseract/blob/3.05/api/capi.h
 
-        :param lib_path: path to Tesseract 3 library.
+        :param str lib_path: path to Tesseract 3 library.
         """
         if self.lib is not None:
             return
@@ -65,9 +65,9 @@ class TesseractLib(object):
     def __init__(self, lib_path, data_path, language="eng"):
         """Class initialization.
 
-        :param lib_path: path to Tesseract 3 library.
-        :param data_path: path to Tesseract data folder.
-        :param language: OCR language.
+        :param str lib_path: path to Tesseract 3 library.
+        :param str data_path: path to Tesseract data folder.
+        :param str language: OCR language.
         """
         self.setup_lib(lib_path)
         self.api = self.lib.TessBaseAPICreate()
@@ -84,35 +84,38 @@ class TesseractLib(object):
         self.lib.TessBaseAPIDelete(self.api)
 
     def _check_setup(self):
-        """Check if library was set up correctly."""
+        """Checks if library was set up correctly."""
         if not self.lib:
             raise TesseractError('Tesseract library is not configured')
         if not self.api:
             raise TesseractError('Tesseract API is not created')
 
     def set_image(self, imagedata, width, height, bytes_per_pixel):
-        """Set image for recognition.
+        """Sets image for recognition.
 
-        :param imagedata: image's data ctypes.
-        :param width: image's width.
-        :param height: image's height.
-        :param bytes_per_pixel: image's depth.
+        :param numpy.ndarray imagedata: image's binary data.
+        :param int width: image's width.
+        :param int height: image's height.
+        :param int bytes_per_pixel: image's depth.
         """
         self._check_setup()
         bytes_per_line = width * bytes_per_pixel
         self.lib.TessBaseAPISetImage(self.api, imagedata, width, height, bytes_per_pixel, bytes_per_line)
 
     def set_variable(self, key, val):
-        """Set variable for library's parameter.
+        """Sets variable for library's parameter.
 
-        :param key: parameter's key.
-        :param val: parameter's value.
+        :param str key: parameter's key.
+        :param str val: parameter's value.
         """
         self._check_setup()
         self.lib.TessBaseAPISetVariable(self.api, key.encode(), val.encode())
 
     def get_utf8_text(self):
-        """Returns UTF-8 text from image."""
+        """Returns UTF-8 text from image.
+
+        :rtype: bytearray
+        """
         self._check_setup()
         result = self.lib.TessBaseAPIGetUTF8Text(self.api)
         self.lib.TessBaseAPIClear(self.api)
@@ -120,7 +123,10 @@ class TesseractLib(object):
         return result
 
     def get_text(self):
-        """Returns decoded stripped text from image."""
+        """Returns decoded stripped text from image.
+
+        :rtype: str
+        """
         self._check_setup()
         result = self.get_utf8_text()
         if result:
@@ -134,9 +140,9 @@ class Tesseract(TesseractLib):
     def __init__(self, lib_path, data_path, language):
         """Class initialization.
 
-        :param lib_path: path to Tesseract 3 library.
-        :param data_path: path to Tesseract data folder.
-        :param language: OCR language.
+        :param str lib_path: path to Tesseract 3 library.
+        :param str data_path: path to Tesseract data folder.
+        :param str language: OCR language.
         """
         super().__init__(lib_path=lib_path, data_path=data_path, language=language)
         self.set_variable("load_system_dawg", "0")
@@ -146,18 +152,18 @@ class Tesseract(TesseractLib):
         self.locked = False
 
     def _set_default_params(self):
-        """Set default parameters for recognition."""
+        """Sets default parameters for recognition."""
         self.set_whitelist(whitelist="")
         self.set_psm(page_segmentation=AUTOMATIC_PAGE_SEGMENTATION)
 
     def set_whitelist(self, whitelist=None):
-        """Set whitelist characters for recognition."""
+        """Sets whitelist characters for recognition."""
         if whitelist is not None:
             assert isinstance(whitelist, str)
             self.set_variable("tessedit_char_whitelist", whitelist)
 
     def set_psm(self, page_segmentation=None):
-        """Set page segmentation mode for recognition."""
+        """Sets page segmentation mode for recognition."""
         if isinstance(page_segmentation, int):
             page_segmentation = str(page_segmentation)
         if page_segmentation is not None:
@@ -165,11 +171,11 @@ class Tesseract(TesseractLib):
             self.set_variable("tessedit_pageseg_mode", page_segmentation)
 
     def image_to_string(self, image, whitelist="", page_segmentation=AUTOMATIC_PAGE_SEGMENTATION):
-        """Retrieve text from image.
+        """Retrieves text from image.
 
-        :param image: image.
-        :param whitelist: whitelist characters.
-        :param page_segmentation: page segmentation mode.
+        :param numpy.ndarray image: image.
+        :param str whitelist: whitelist characters.
+        :param int page_segmentation: page segmentation mode.
         """
         self.locked = True
         height, width, depth = 0, 0, 1
@@ -191,7 +197,10 @@ class TesseractPool:
 
     @staticmethod
     def find_tesseract_lib():
-        """Find Tesseract library in PATH, WORKDIR, etc."""
+        """Finds path of Tesseract library in PATH, WORKDIR, etc.
+
+        :rtype: str
+        """
         lib_path = ctypes.util.find_library(TESSERACT3_LIBNAME)
         if lib_path is None:
             raise TesseractError('Tesseract library is not found')
@@ -200,9 +209,9 @@ class TesseractPool:
     def __init__(self, processes=None, language='eng', data_folder='tessdata'):
         """Class initialization.
 
-        :param processes: number of Tesseract processes to create.
-        :param language: OCR language.
-        :param data_folder: name of Tesseract data folder.
+        :param int processes: number of Tesseract processes to create.
+        :param str language: OCR language.
+        :param str data_folder: name of Tesseract data folder.
         """
         if processes is None:
             processes = os.cpu_count()
@@ -219,11 +228,11 @@ class TesseractPool:
             self._pool = pool.starmap(init_tesseract_instance, init_params)
 
     def image_to_string(self, image, whitelist=None, page_segmentation=3):
-        """Retrieve text from image from available Tesseract instance.
+        """Retrieves text from image from available Tesseract instance.
 
-        :param image: image.
-        :param whitelist: whitelist characters.
-        :param page_segmentation: page segmentation mode.
+        :param numpy.ndarray image: image.
+        :param str whitelist: whitelist characters.
+        :param int page_segmentation: page segmentation mode.
         """
         non_locked = [tess for tess in self._pool if not tess.locked]
         if not non_locked:

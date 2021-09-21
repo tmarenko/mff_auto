@@ -10,7 +10,7 @@ class Inbox(Notifications):
     """Class for working with Inbox."""
 
     def acquire_all_chests(self):
-        """Acquire all chests from Inbox."""
+        """Acquires all chests from Inbox."""
         self.game.go_to_inbox()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INBOX_CHEST_TAB):
             r_sleep(2)  # Wait for animation
@@ -19,9 +19,9 @@ class Inbox(Notifications):
         self.game.go_to_main_menu()
 
     def acquire_all_gifts(self, acquire_energy=False):
-        """Acquire all gifts from Inbox.
+        """Acquires all gifts from Inbox.
 
-        :param acquire_energy: (bool) acquire energy or not.
+        :param bool acquire_energy: acquire energy or not.
         """
         self.game.go_to_inbox()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INBOX_GIFT_TAB):
@@ -31,7 +31,7 @@ class Inbox(Notifications):
         self.game.go_to_main_menu()
 
     def _acquire_chests(self):
-        """Acquire chests."""
+        """Acquires chests."""
         if self.emulator.is_ui_element_on_screen(ui_element=ui.INBOX_ACQUIRE_ALL_BUTTON):
             logger.debug("Found Acquire All button.")
             self.emulator.click_button(ui.INBOX_ACQUIRE_ALL_BUTTON)
@@ -53,9 +53,9 @@ class Inbox(Notifications):
                 return True
 
     def _acquire_gifts(self, acquire_energy):
-        """Acquire gifts.
+        """Acquires gifts.
 
-        :param acquire_energy: (bool) acquire energy or not.
+        :param bool acquire_energy: acquire energy or not.
         """
         if self.emulator.is_ui_element_on_screen(ui_element=ui.INBOX_ACQUIRE_ALL_BUTTON):
             logger.debug("Found Acquire All button.")
@@ -85,9 +85,9 @@ class Inbox(Notifications):
             #     return True
 
     def _check_and_set_acquire_energy_toggle(self, acquire_energy):
-        """Check and set energy toggle before acquiring items.
+        """Checks and sets energy toggle before acquiring items.
 
-        :param acquire_energy: (bool) acquire energy or not.
+        :param bool acquire_energy: acquire energy or not.
         """
         energy_included = self.emulator.is_image_on_screen(ui.INBOX_GIFT_ACQUIRE_ALL_TOGGLE)
         if acquire_energy and not energy_included:
