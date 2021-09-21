@@ -1,10 +1,10 @@
 import json
+import os
 from distutils.version import LooseVersion
 import lib.logger as logging
 from lib.functions import bgr_to_rgb
 from os.path import exists
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtCore import QSettings
 import lib.gui.designes.main_window as design
 
 from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask, \
@@ -51,7 +51,6 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     """Class for working with main GUI window."""
 
     recorder = None
-    settings = QSettings("tmarenko", "mff_auto")
 
     @classmethod
     def pause_recorder(cls):
@@ -63,11 +62,13 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         if isinstance(cls.recorder, EmulatorCapture):
             cls.recorder.resume()
 
-    def __init__(self, file_logger):
+    def __init__(self, file_logger, settings):
         """Class initialization."""
         super().__init__()
         self.setupUi(self)
         set_default_icon(window=self)
+        self.settings = settings
+        self._init_window_settings()
         self.emulator_name, self.emulator_type, self.game_app_rect, self.emulator, self.game = None, None, None, None, None
         self.load_settings_from_file()
         self.game.file_logger_name = None
@@ -130,7 +131,6 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                     logger.warning("Can't get to the main menu. Restarting the game just in case.")
                     self.restart_game_button.click()
         self._create_menu_for_recorder()
-        self._init_window_settings()
 
     def _init_window_settings(self):
         """Restoring the State of a GUI."""
@@ -138,6 +138,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.move(self.settings.value("MainWindow/pos", defaultValue=self.pos()))
         if self.settings.value("MainWindow/isMaximized") == 'true':
             self.showMaximized()
+        self.low_memory_mode_checkbox.setChecked(
+            self.settings.value("mff_low_memory_mode", defaultValue="false").lower() == "true")
 
     def update_labels(self):
         """Update game's labels in thread to prevent GUI freezing."""
@@ -179,12 +181,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
 
     def low_memory_mode_state_changed(self):
         """'Low memory mode' checkbox even when value is changed."""
-        if self.low_memory_mode_checkbox.isChecked():
-            self.game.LOW_MEMORY_MODE = True
-        else:
-            self.game.LOW_MEMORY_MODE = False
-        logger.info(f"Low memory mode: {self.game.LOW_MEMORY_MODE}")
-        self.save_settings_to_file()
+        self.settings.setValue("mff_low_memory_mode", self.low_memory_mode_checkbox.isChecked())
+        os.environ['MFF_LOW_MEMORY_MODE'] = str(self.low_memory_mode_checkbox.isChecked())
+        logger.info(f"Low memory mode: {self.low_memory_mode_checkbox.isChecked()}")
 
     def load_settings_from_file(self):
         """Load settings and apply them to game."""
@@ -198,12 +197,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards", True))
-        self.low_memory_mode_checkbox.setChecked(game_settings.get("low_memory_mode", False))
         self.init_emulator_and_game()
         self.game.set_mission_team(self.mission_team_spin_box.value())
         self.game.set_timeline_team(self.timeline_team_spin_box.value())
         self.game.ACQUIRE_HEROIC_QUEST_REWARDS = self.acquire_heroic_quest_rewards_checkbox.isChecked()
-        self.game.LOW_MEMORY_MODE = self.low_memory_mode_checkbox.isChecked()
 
     def save_settings_to_file(self):
         """Store GUI settings to file."""
@@ -211,7 +208,6 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "timeline_team": self.game.timeline_team,
             "mission_team": self.game.mission_team,
             "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS,
-            "low_memory_mode": self.game.LOW_MEMORY_MODE,
             "emulator_name": self.emulator_name,
             "emulator_type": self.emulator_type,
             "game_app_rect": self.game_app_rect
@@ -297,6 +293,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.settings.setValue("MainWindow/size", self.size())
         self.settings.setValue("MainWindow/isMaximized", self.isMaximized())
         self.settings.setValue("MainWindow/pos", self.pos())
+        self.settings.setValue("mff_low_memory_mode", self.low_memory_mode_checkbox.isChecked())
 
     def create_blockable_button(self, button):
         """Create button that blocks others."""

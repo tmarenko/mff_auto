@@ -6,10 +6,12 @@ from PyQt5 import QtWidgets, QtCore
 
 
 def main():
+    app_settings = QtCore.QSettings("tmarenko", "mff_auto")
+    os.environ['MFF_LOW_MEMORY_MODE'] = str(app_settings.value("mff_low_memory_mode", defaultValue='false'))
     from lib.gui.widgets.main import MainWindow
     app = QtWidgets.QApplication(sys.argv)
     app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-    window = MainWindow(file_logger=file_logger)
+    window = MainWindow(file_logger=file_logger, settings=app_settings)
     window.setWindowTitle(f"{window.windowTitle()} {current_version}")
     window.show()
     if is_new_updater:

@@ -1,11 +1,10 @@
 import cv2
-import json
 import logging
+import os
 from scipy.stats import truncnorm
 import random
 import time
 import win32api
-from os.path import exists
 from numpy import concatenate, array
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool, AUTOMATIC_PAGE_SEGMENTATION, RAW_LINE_PAGE_SEGMENTATION
@@ -13,21 +12,7 @@ from lib.tesseract3 import TesseractPool, AUTOMATIC_PAGE_SEGMENTATION, RAW_LINE_
 logger = logging.getLogger()
 
 
-def load_game_settings(path="settings/gui/game.json"):
-    """Load game settings for GUI."""
-    if exists(path):
-        try:
-            with open(path, encoding='utf-8') as json_data:
-                return json.load(json_data)
-        except json.decoder.JSONDecodeError as err:
-            logger.error(err)
-            with open(path, encoding='utf-8') as json_data:
-                logger.error(f"Corrupted data in {path} file. File content:\n{json_data.readlines()}")
-    return {}
-
-
-LOW_MEMORY_MODE = load_game_settings().get("low_memory_mode", False)
-
+LOW_MEMORY_MODE = os.environ.get('MFF_LOW_MEMORY_MODE', "false").lower() == "true"
 # Use default eng data for any letters
 tesseract_eng = TesseractPool(language="eng", processes=1 if LOW_MEMORY_MODE else 4)
 # Use 'mff.traineddata' language for numbers
