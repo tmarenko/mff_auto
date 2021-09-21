@@ -283,6 +283,7 @@ class QueueList:
         """Stops queue execution."""
         from lib.gui.widgets.main import MainWindow
         MainWindow.pause_recorder()
+        self.game.clear_modes()
         self.widget.setDragDropMode(QAbstractItemView.InternalMove)
         self.stop_queue_flag = True
         if self.process:
@@ -310,6 +311,7 @@ class QueueList:
             self.process.join()
         self.stop_queue_flag = False
         self.widget.setDragDropMode(QAbstractItemView.InternalMove)
+        self.game.clear_modes()
         logger.debug("Queue completed.")
 
     def select_all(self):

@@ -82,8 +82,9 @@ class WorldBoss(Missions):
 
     def open_world_boss(self):
         """Opens World Boss mission lobby."""
-        self.game.select_mode(self.mode_name)
-        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_MISSION_BUTTON)
+        if self.game.get_mode(self.mode_name):
+            self.game.select_mode(self.mode_name)
+            return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_MISSION_BUTTON)
 
     def start_missions(self, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS):
         """Starts World Boss battles.
@@ -302,16 +303,15 @@ class WorldBoss(Missions):
         if max_resets == 0 or not world_boss:
             return logger.error(f"No boss was selected ({world_boss}) or max resets is invalid ({max_resets}).")
         target_world_boss = world_boss if isinstance(world_boss, list) else [world_boss]
-        self.stages = max_resets
         if not self.open_world_boss():
             return logger.error("Can't get in battles lobby.")
         self.emulator.click_button(ui.WB_RESET_TODAYS_BOSS)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_RESET_TODAYS_BOSS_MENU):
             logger.debug("Reset Menu is opened.")
-            return self._reset_world_boss(target_world_boss=target_world_boss, current_reset=0, max_resets=max_resets)
-        else:
-            logger.warning("Can't open Reset Menu. Probably your VIP status is low.")
-        self.stages = 0
+            self._reset_world_boss(target_world_boss=target_world_boss, current_reset=0, max_resets=max_resets)
+            return self.end_missions()
+        logger.warning("Can't open Reset Menu. Probably your VIP status is low.")
+        self.end_missions()
 
     def _reset_world_boss(self, target_world_boss, current_reset, max_resets):
         """Resets World Boss in reset menu.

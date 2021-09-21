@@ -382,6 +382,7 @@ class ManualBattleBot(BattleBot):
                              f"Reloading skills again.")
                 self._init_base_skills()
                 r_sleep(1)
+                self.skip_cutscene()
                 return self.load_skills()
 
         locked_base_skills = [skill for skill in self.base_skills if skill.locked]

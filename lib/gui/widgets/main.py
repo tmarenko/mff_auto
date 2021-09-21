@@ -2,6 +2,7 @@ import json
 import os
 from distutils.version import LooseVersion
 import lib.logger as logging
+from multiprocess.managers import SyncManager
 from lib.functions import bgr_to_rgb
 from os.path import exists
 from PyQt5.QtWidgets import QMainWindow
@@ -251,6 +252,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                                              "[Unavailable (check logs)]")
             self.restart_game_button = None
         self.game = Game(self.emulator)
+        self.manager = SyncManager()
+        self.manager.start()
+        self.game._modes = self.manager.dict()
         if self.game_app_rect:
             ui.GAME_APP.button_rect = Rect(*self.game_app_rect)
 

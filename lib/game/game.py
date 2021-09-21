@@ -151,9 +151,17 @@ class Game(Notifications):
                 self._modes[empty_mode_name] = GameMode(name=empty_mode_name)
         return self._modes[name]
 
+    def update_mode(self, mode):
+        """Updates GameMode object.
+        This way object will be shared between processes if `self._modes` was created by multiprocessing manager.
+
+        :param GameMode mode: game mode object to update.
+        """
+        self._modes[mode.name] = mode
+
     def clear_modes(self):
         """Clear all game modes information."""
-        self._modes = {}
+        self._modes.clear()
 
     def set_timeline_team(self, team_number):
         """Set team for Timeline Battles."""
@@ -434,6 +442,7 @@ class Game(Notifications):
         :return: True or False: was restart successful.
         """
         if self.emulator.restartable:
+            self.clear_modes()
             self.close_game()
             if repeat_while:
                 while repeat_while():

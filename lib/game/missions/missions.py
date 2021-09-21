@@ -82,6 +82,7 @@ class Missions(Notifications):
         mode = self.game.get_mode(self.mode_name)
         if mode:
             mode.stages = value
+            self.game.update_mode(mode)
 
     @property
     def battle_over_conditions(self):
