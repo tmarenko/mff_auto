@@ -259,3 +259,120 @@ class _SupportShopBuyMaterials(Action):
         self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
                                                      setting_key="materials_list",
                                                      values_dict=self.material_list))
+
+
+class _Iso8Upgrade(Action):
+    iso_to_upgrade = {
+        "Upgrade Powerful (White)": routines.Iso8.ISO8_TYPE.POWERFUL,
+        "Upgrade Amplifying (Red)": routines.Iso8.ISO8_TYPE.AMPLIFYING,
+        "Upgrade Impregnable (Blue)": routines.Iso8.ISO8_TYPE.IMPREGNABLE,
+        "Upgrade Absorbing (Green)": routines.Iso8.ISO8_TYPE.ABSORBING,
+        "Upgrade Vital (Orange)": routines.Iso8.ISO8_TYPE.VITAL,
+        "Upgrade Fierce (Yellow)": routines.Iso8.ISO8_TYPE.FIERCE,
+        "Upgrade Nimble (Purple)": routines.Iso8.ISO8_TYPE.NIMBLE,
+        "Upgrade Chaotic (Rainbow)": routines.Iso8.ISO8_TYPE.CHAOTIC
+    }
+
+    iso_to_use = {
+        "Waste Powerful (White)": routines.Iso8.ISO8_TYPE_TO_USE.POWERFUL,
+        "Waste Amplifying (Red)": routines.Iso8.ISO8_TYPE_TO_USE.AMPLIFYING,
+        "Waste Impregnable (Blue)": routines.Iso8.ISO8_TYPE_TO_USE.IMPREGNABLE,
+        "Waste Absorbing (Green)": routines.Iso8.ISO8_TYPE_TO_USE.ABSORBING,
+        "Waste Vital (Orange)": routines.Iso8.ISO8_TYPE_TO_USE.VITAL,
+        "Waste Fierce (Yellow)": routines.Iso8.ISO8_TYPE_TO_USE.FIERCE,
+        "Waste Nimble (Purple)": routines.Iso8.ISO8_TYPE_TO_USE.NIMBLE,
+        "Waste Chaotic (Rainbow)": routines.Iso8.ISO8_TYPE_TO_USE.CHAOTIC,
+        "Waste Boost": routines.Iso8.ISO8_TYPE_TO_USE.BOOST
+    }
+
+    stars_to_use = {
+        "Waste 1 star": routines.Iso8.ISO8_STARS_TO_USE.STAR_1,
+        "Waste 2 star": routines.Iso8.ISO8_STARS_TO_USE.STAR_2,
+        "Waste 3 star": routines.Iso8.ISO8_STARS_TO_USE.STAR_3,
+        "Waste 4 star": routines.Iso8.ISO8_STARS_TO_USE.STAR_4,
+        "Waste 5 star": routines.Iso8.ISO8_STARS_TO_USE.STAR_5,
+        "Waste 6 star": routines.Iso8.ISO8_STARS_TO_USE.STAR_6,
+    }
+
+    def __init__(self, game):
+        self.iso8 = routines.Iso8(game)
+        super().__init__(game, "ISO-8: UPGRADE", self.iso8.upgrade_iso8)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Spinbox,
+                                                     setting_key="times_for_each_upgrade",
+                                                     text="Select how many time to upgrade each of ISO-8 type",
+                                                     min=0, max=99, initial_value=0))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="iso_to_upgrade",
+                                                     values_dict=self.iso_to_upgrade))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="iso_to_use",
+                                                     values_dict=self.iso_to_use,
+                                                     add_to_next_column=True))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="stars_to_use",
+                                                     values_dict=self.stars_to_use,
+                                                     add_to_next_column=True))
+
+
+class _Iso8Combine(Action):
+    iso_to_combine = {
+        "Combine Powerful (White)": routines.Iso8.ISO8_TYPE.POWERFUL,
+        "Combine Amplifying (Red)": routines.Iso8.ISO8_TYPE.AMPLIFYING,
+        "Combine Impregnable (Blue)": routines.Iso8.ISO8_TYPE.IMPREGNABLE,
+        "Combine Absorbing (Green)": routines.Iso8.ISO8_TYPE.ABSORBING,
+        "Combine Vital (Orange)": routines.Iso8.ISO8_TYPE.VITAL,
+        "Combine Fierce (Yellow)": routines.Iso8.ISO8_TYPE.FIERCE,
+        "Combine Nimble (Purple)": routines.Iso8.ISO8_TYPE.NIMBLE,
+        "Combine Chaotic (Rainbow)": routines.Iso8.ISO8_TYPE.CHAOTIC
+    }
+
+    def __init__(self, game):
+        self.iso8 = routines.Iso8(game)
+        super().__init__(game, "ISO-8: COMBINE", self.iso8.combine_iso8)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Spinbox,
+                                                     setting_key="times_for_each_combine",
+                                                     text="Select how many time to combine each of ISO-8 type",
+                                                     min=0, max=99, initial_value=0))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="iso_to_combine",
+                                                     values_dict=self.iso_to_combine))
+
+
+class _Iso8Lock(Action):
+    iso_to_lock = {
+        "Powerful (White)": routines.Iso8.ISO8_TYPE.POWERFUL,
+        "Amplifying (Red)": routines.Iso8.ISO8_TYPE.AMPLIFYING,
+        "Impregnable (Blue)": routines.Iso8.ISO8_TYPE.IMPREGNABLE,
+        "Absorbing (Green)": routines.Iso8.ISO8_TYPE.ABSORBING,
+        "Vital (Orange)": routines.Iso8.ISO8_TYPE.VITAL,
+        "Fierce (Yellow)": routines.Iso8.ISO8_TYPE.FIERCE,
+        "Nimble (Purple)": routines.Iso8.ISO8_TYPE.NIMBLE,
+        "Chaotic (Rainbow)": routines.Iso8.ISO8_TYPE.CHAOTIC
+    }
+
+    options_to_lock = {
+        "Lock ALL ATTACK && ALL DEFENCE": routines.Iso8.ISO8_LOCK.ALL_ATTACK_AND_ALL_DEFENCE,
+        "Lock ALL ATTACK && HP": routines.Iso8.ISO8_LOCK.ALL_ATTACK_AND_HP,
+        "Lock PHYSICAL ATTACK && HP": routines.Iso8.ISO8_LOCK.PHYSICAL_ATTACK_AND_HP,
+        "Lock ENERGY ATTACK && HP": routines.Iso8.ISO8_LOCK.ENERGY_ATTACK_AND_HP,
+        "Lock any with ALL ATTACK": routines.Iso8.ISO8_LOCK.ALL_ATTACK,
+        "Lock any with PHYSICAL ATTACK": routines.Iso8.ISO8_LOCK.PHYSICAL_ATTACK,
+        "Lock any with ENERGY ATTACK": routines.Iso8.ISO8_LOCK.ENERGY_ATTACK,
+        "Lock any with ALL DEFENCE": routines.Iso8.ISO8_LOCK.ALL_DEFENCE,
+        "Lock any with PHYSICAL DEFENCE": routines.Iso8.ISO8_LOCK.PHYSICAL_DEFENCE,
+        "Lock any with ENERGY DEFENCE": routines.Iso8.ISO8_LOCK.ENERGY_DEFENCE,
+        "Lock any with HP": routines.Iso8.ISO8_LOCK.HP,
+        "Lock any with CRITICAL RATE": routines.Iso8.ISO8_LOCK.CRITICAL_RATE,
+        "Lock any with DODGE": routines.Iso8.ISO8_LOCK.DODGE,
+    }
+
+    def __init__(self, game):
+        self.iso8 = routines.Iso8(game)
+        super().__init__(game, "ISO-8: LOCK", self.iso8.lock_iso8)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="iso_to_lock",
+                                                     values_dict=self.iso_to_lock))
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="options_to_lock",
+                                                     values_dict=self.options_to_lock,
+                                                     add_to_next_column=True))
