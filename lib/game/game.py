@@ -401,6 +401,7 @@ class Game(Notifications):
                 if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_LEVEL_UP_NOTIFICATION):
                     logger.debug("Closing Alliance level up notification.")
                     self.emulator.click_button(ui.ALLIANCE_LEVEL_UP_NOTIFICATION)
+                self.close_after_mission_notifications()
                 return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ALLIANCE_LABEL)
             logger.error("Can't find Alliance button in Main menu, exiting")
             self.emulator.click_button(ui.MAIN_MENU)
