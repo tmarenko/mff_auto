@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>600</width>
     <height>400</height>
    </rect>
   </property>
@@ -54,7 +54,7 @@
     </spacer>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout"/>
+    <layout class="QGridLayout" name="gridLayout"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="editor_button_box">

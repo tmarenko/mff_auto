@@ -16,9 +16,8 @@ class GameMode:
                 self.widget.setCheckState(Qt.Checked if initial_state else Qt.Unchecked)
 
             def add_to_layout(self, layout):
-                from PyQt5.QtWidgets import QFormLayout
-                row_index = layout.rowCount()
-                layout.setWidget(row_index, QFormLayout.LabelRole, self.widget)
+                row_index, col_index = layout.rowCount(), layout.columnCount() - 1
+                layout.addWidget(self.widget, row_index, col_index, Qt.AlignLeft)
 
             @property
             def value(self):
@@ -39,10 +38,9 @@ class GameMode:
                 self.widget_spinbox.setValue(initial_value)
 
             def add_to_layout(self, layout):
-                from PyQt5.QtWidgets import QFormLayout
-                row_index = layout.rowCount()
-                layout.setWidget(row_index, QFormLayout.LabelRole, self.widget_label)
-                layout.setWidget(row_index, QFormLayout.SpanningRole, self.widget_spinbox)
+                row_index, col_index = layout.rowCount(), layout.columnCount() - 1
+                layout.addWidget(self.widget_label, row_index, col_index, Qt.AlignLeft)
+                layout.addWidget(self.widget_spinbox, row_index, col_index, Qt.AlignRight)
 
             @property
             def value(self):
@@ -62,10 +60,9 @@ class GameMode:
                 self.values_dict = values_dict
 
             def add_to_layout(self, layout):
-                from PyQt5.QtWidgets import QFormLayout
-                row_index = layout.rowCount()
-                layout.setWidget(row_index, QFormLayout.LabelRole, self.widget_label)
-                layout.setWidget(row_index, QFormLayout.SpanningRole, self.widget_combobox)
+                row_index, col_index = layout.rowCount(), layout.columnCount() - 1
+                layout.addWidget(self.widget_label, row_index, col_index, Qt.AlignLeft)
+                layout.addWidget(self.widget_combobox, row_index, col_index, Qt.AlignRight)
 
             @property
             def value(self):
@@ -78,18 +75,22 @@ class GameMode:
 
         class MultiCheckbox:
 
-            def __init__(self, values_dict, initial_state=True):
+            def __init__(self, values_dict, initial_state=True, add_to_next_column=False):
                 from PyQt5.QtWidgets import QCheckBox
+                self.add_to_next_column = add_to_next_column
                 self.values_dict = values_dict
                 self.widgets = [QCheckBox(text=text) for text in self.values_dict.keys()]
                 for widget in self.widgets:
                     widget.setCheckState(Qt.Checked if initial_state else Qt.Unchecked)
 
             def add_to_layout(self, layout):
-                from PyQt5.QtWidgets import QFormLayout
+                row_index, col_index = layout.rowCount(), layout.columnCount() - 1
+                if self.add_to_next_column:
+                    row_index = 1
+                    col_index += 1
                 for widget in self.widgets:
-                    row_index = layout.rowCount()
-                    layout.setWidget(row_index, QFormLayout.LabelRole, widget)
+                    layout.addWidget(widget, row_index, col_index, Qt.AlignLeft)
+                    row_index += 1
 
             @property
             def value(self):

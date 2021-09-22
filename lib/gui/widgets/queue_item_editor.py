@@ -42,24 +42,33 @@ class QueueItem(QListWidgetItem):
         return parameters
 
     def get_executor(self):
-        """Get function with parameters to execute."""
+        """Gets function with parameters to execute.
+
+        :rtype: tuple[function, dict]
+        """
         if self.is_checked:
             return self.func, self.execution_parameters
         return None, None
 
     @property
     def is_checked(self):
-        """Is item checked to execute."""
+        """Check if item is checked to execute."""
         return self.checkState() == Qt.Checked
 
     def set_checked(self, checked=True):
-        """Set checked state to item."""
+        """Sets checked state to item.
+
+        :param bool checked: set checked state for item or not.
+        """
         state = Qt.Checked if checked else Qt.Unchecked
         self.setCheckState(state)
 
     @property
     def name(self):
-        """Get queue item's name for GUI."""
+        """Generates queue item's name for GUI.
+
+        :rtype: str
+        """
         additional_text = ''
         if self.parameters.get("action"):
             hour_offset = self.parameters.get("hour_offset")
@@ -118,24 +127,33 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.select_mode_tool_button.setMenu(menu)
 
     def clear_form_layout(self):
-        """Clear Form Layout from mode's GUI elements."""
-        for _ in range(self.formLayout.count()):
+        """Clears Form Layout from mode's GUI elements."""
+        from PyQt5.QtWidgets import QGridLayout
+        for _ in range(self.gridLayout.count()):
             from PyQt5.QtWidgets import QWidgetItem
-            item = self.formLayout.itemAt(0)
+            item = self.gridLayout.itemAt(0)
             if isinstance(item, QWidgetItem):
                 widget = item.widget()
-                self.formLayout.removeWidget(widget)
+                self.gridLayout.removeWidget(widget)
                 widget.setParent(None)
+                widget.deleteLater()
+        # Recreate GridLayout in order to clear rowCount and columnCount
+        self.gridLayout.setParent(None)
+        self.gridLayout.deleteLater()
+        self.gridLayout = QGridLayout()
+        self.gridLayout.setObjectName("gridLayout")
+        self.verticalLayout.addLayout(self.gridLayout)
+        self.verticalLayout.addWidget(self.editor_button_box)
 
     def select_mode(self, mode):
-        """Select GameMode from Tool Button Selector."""
+        """Selects GameMode from Tool Button Selector."""
         self.select_mode_tool_button.setText(mode.mode_name)
         self.current_mode = mode
         self.clear_form_layout()
-        self.current_mode.render_gui_elements(parent_layout=self.formLayout)
+        self.current_mode.render_gui_elements(parent_layout=self.gridLayout)
 
     def populate_menu(self, menu, dictionary):
-        """Populate Selector's menu with dictionary of game modes.
+        """Populates Selector's menu with dictionary of game modes.
 
         :param PyQt5.QtWidgets.QMenu.QMenu menu: menu to populate.
         :param dict dictionary: dictionary of game modes.
@@ -159,10 +177,12 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
 
     @staticmethod
     def from_result_item(game, queue_item):
-        """Create editor from queue item.
+        """Creates editor from queue item.
 
         :param lib.game.game.Game game: instance of game.
         :param QueueItem queue_item: queue item.
+
+        :rtype: QueueItemEditor
         """
         editor = QueueItemEditor(game)
         editor.queue_item = queue_item
@@ -176,10 +196,12 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
 
     @staticmethod
     def from_settings(game, settings):
-        """Create editor from JSON-settings similar to 'GameMode.QueueItemSettings'.
+        """Creates editor from JSON-settings similar to 'GameMode.QueueItemSettings'.
 
         :param lib.game.game.Game game: instance of game.
         :param dict settings: dictionary of settings.
+
+        :rtype: QueueItemEditor
         """
         editor = QueueItemEditor(game)
         mode = [mode for mode in editor.modes if mode.mode_name == settings.get("mode_name")]
@@ -190,7 +212,10 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         logger.error(f"Error during creating Item Editor from item instance with settings: {settings}.")
 
     def render_queue_item(self):
-        """Render queue item."""
+        """Renders queue item.
+
+        :rtype: QueueItem
+        """
         if self.current_mode:
             function, parameters = self.current_mode.render_executable()
             self.queue_item = QueueItem(func=function, parameters=parameters, mode_name=self.current_mode.mode_name,
