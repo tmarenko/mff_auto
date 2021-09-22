@@ -2,7 +2,8 @@
 from PyQt5.QtCore import Qt
 import lib.gui.designes.queue_editor_window as design
 from lib.gui.helper import set_default_icon
-from lib.gui.widgets.queue_items import GameMode, get_actions, get_events, get_missions, get_missions_dict
+from lib.gui.widgets.queue_items import GameMode, get_actions, get_events, get_missions, get_missions_dict, \
+    get_actions_dict
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -117,7 +118,7 @@ class QueueItemEditor(QDialog, design.Ui_Dialog):
         self.editor_button_box.accepted.connect(self.render_queue_item)
 
         menu_dict = {
-            "[ACTIONS]": self.actions,
+            **get_actions_dict(self.actions),
             "[EVENTS]": self.events,
             **get_missions_dict(self.missions)
         }

@@ -86,3 +86,30 @@ def get_missions_dict(mission_instances):
         "GIANT BOSS RAID": find_instance(missions._GiantBossRaid),
     }
     return menu_dict
+
+
+def get_actions_dict(action_instances):
+    """Construct menu dictionary for actions by it's instances.
+
+    :param action_instances: list of action's instances.
+    """
+    def find_instance(class_):
+        return next((inst for inst in action_instances if inst.__class__.__name__ == class_.__name__), None)
+
+    alliance = [find_instance(actions._AllianceCheckIn), find_instance(actions._AllianceDonate),
+                find_instance(actions._AllianceBuyEnergy), find_instance(actions._AllianceRequestSupport),
+                find_instance(actions._AllianceChallengesEnergy)]
+    inventory = [find_instance(actions._ComicCards), find_instance(actions._CustomGear),
+                 find_instance(actions._Iso8Upgrade), find_instance(actions._Iso8Combine),
+                 find_instance(actions._Iso8Lock)]
+    store = [find_instance(actions._CollectFreeEnergy), find_instance(actions._CollectEnergyViaAssemblePoints),
+             find_instance(actions._AcquireFreeHeroChest)]
+    menu_dict = {
+        "[ACTIONS]": {
+            "ALLIANCE": alliance,
+            "INVENTORY": inventory,
+            "STORE": store,
+            **{action.mode_name: action for action in action_instances if action not in [*alliance, *inventory, *store]}
+        }
+    }
+    return menu_dict
