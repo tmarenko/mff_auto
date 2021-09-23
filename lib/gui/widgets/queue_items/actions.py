@@ -24,6 +24,13 @@ class _DailyRewards(Action):
         super().__init__(game, "DAILY REWARDS: ACQUIRE ALL", self.daily_rewards.acquire_all_daily_rewards)
 
 
+class _WeeklyRewards(Action):
+
+    def __init__(self, game):
+        self.daily_rewards = routines.DailyRewards(game)
+        super().__init__(game, "WEEKLY REWARDS: ACQUIRE ALL", self.daily_rewards.acquire_all_weekly_rewards)
+
+
 class _ComicCards(Action):
 
     def __init__(self, game):

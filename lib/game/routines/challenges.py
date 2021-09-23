@@ -79,3 +79,15 @@ class DailyRewards(Notifications):
             else:
                 logger.debug("No rewards to acquire.")
         self.game.go_to_main_menu()
+
+    def acquire_all_weekly_rewards(self):
+        self.game.go_to_challenges()
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DAILY_REWARDS_TAB):
+            self.emulator.click_button(ui.DAILY_REWARDS_TAB)
+            for reward_num in range(1, 6):
+                reward_ui = ui.get_by_name(f"DAILY_REWARDS_ACQUIRE_WEEKLY_{reward_num}")
+                self.emulator.click_button(reward_ui)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DAILY_REWARDS_ACQUIRE_WEEKLY_CLOSE):
+                    logger.info(f"Weekly reward #{reward_num} acquired.")
+                    self.emulator.click_button(ui.DAILY_REWARDS_ACQUIRE_WEEKLY_CLOSE)
+        self.game.go_to_main_menu()
