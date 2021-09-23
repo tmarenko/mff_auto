@@ -470,7 +470,13 @@ class Game(Notifications):
         :return: True or False: was game started.
         """
 
+        def download_update():
+            if self.emulator.is_ui_element_on_screen(ui_element=ui.DOWNLOAD_UPDATE):
+                logger.info("Downloading the update.")
+                self.emulator.click_button(ui.DOWNLOAD_UPDATE)
+
         def is_game_started():
+            download_update()
             is_main_menu = self.is_main_menu()
             is_main_menu or \
                 self.close_news() or \
