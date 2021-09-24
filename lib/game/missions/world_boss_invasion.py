@@ -117,13 +117,8 @@ class WorldBossInvasion(Missions):
     @property
     def battle_over_conditions(self):
         def damage():
-            return self.emulator.is_ui_element_on_screen(ui.INVASION_END_BATTLE_DAMAGE)
-
-        def chest():
-            # TODO: was removed?
-            if self.emulator.is_ui_element_on_screen(ui_element=ui.INVASION_SLOT_CHEST):
-                logger.debug("Acquiring chest after boss fight.")
-                self.emulator.click_button(ui.INVASION_SLOT_CHEST)
+            if self.emulator.is_ui_element_on_screen(ui.INVASION_END_BATTLE_DAMAGE):
+                logger.debug("Won battle, chest was acquired.")
                 self._chests += 1
                 return True
             return False
@@ -131,7 +126,7 @@ class WorldBossInvasion(Missions):
         def failed():
             return self.emulator.is_ui_element_on_screen(ui.INVASION_FAILED)
 
-        return [damage, chest, failed]
+        return [damage, failed]
 
     def do_missions(self, times=None, ignore_coop_mission=False):
         """Do missions."""
