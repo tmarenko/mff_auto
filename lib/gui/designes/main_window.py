@@ -236,6 +236,10 @@ class Ui_MainWindow(object):
         self.enhance_potential_button.setMinimumSize(QtCore.QSize(120, 50))
         self.enhance_potential_button.setObjectName("enhance_potential_button")
         self.verticalLayout.addWidget(self.enhance_potential_button)
+        self.shadowland_button = QtWidgets.QPushButton(self.quick_start_group)
+        self.shadowland_button.setMinimumSize(QtCore.QSize(120, 50))
+        self.shadowland_button.setObjectName("shadowland_button")
+        self.verticalLayout.addWidget(self.shadowland_button)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
         self.horizontalLayout_5.addWidget(self.quick_start_group)
@@ -369,6 +373,8 @@ class Ui_MainWindow(object):
 " 1 Battle"))
         self.enhance_potential_button.setText(_translate("MainWindow", "Enhance Potential\n"
 "with 10% success rate"))
+        self.shadowland_button.setText(_translate("MainWindow", "Shadowland:\n"
+"Clear All Floors"))
         self.game_screen_group.setTitle(_translate("MainWindow", "Game Screen"))
         self.logs_group.setTitle(_translate("MainWindow", "Logs"))
         self.log_tab_widget.setTabText(self.log_tab_widget.indexOf(self.tab_3), _translate("MainWindow", "All"))

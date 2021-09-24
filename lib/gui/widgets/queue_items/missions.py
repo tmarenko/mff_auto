@@ -677,3 +677,13 @@ class _GoldenGods(GameMode):
                                                        initial_state=False,
                                                        text="Farm shifter's biometrics (requires restartable emulator)")
                                   )
+
+
+class _Shadowland(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "SHADOWLAND", missions.Shadowland, "Shadowland [BETA]")
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many floors to complete",
+                                                       min=1, max=99))

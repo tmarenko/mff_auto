@@ -11,6 +11,7 @@ from .epic_quest import StupidXMen, MutualEnemy, BeginningOfTheChaos, DoomsDay, 
 from .events import EventWorldBoss, WorldEvent, FuturePass
 from .giant_boss_raid import GiantBossRaid
 from .legendary_battle import LegendaryBattle
+from .shadowland import Shadowland
 from .squad_battle import SquadBattle
 from .timeline import TimelineBattle
 from .world_boss import WorldBoss

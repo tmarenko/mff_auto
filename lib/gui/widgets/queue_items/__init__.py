@@ -84,6 +84,7 @@ def get_missions_dict(mission_instances):
         "CO-OP PLAY": find_instance(missions._CoopPlay),
         "WORLD BOSS INVASION": find_instance(missions._WorldBossInvasion),
         "GIANT BOSS RAID": find_instance(missions._GiantBossRaid),
+        "SHADOWLAND": find_instance(missions._Shadowland)
     }
     return menu_dict
 

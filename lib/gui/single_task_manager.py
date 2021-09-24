@@ -252,3 +252,15 @@ class EnhancePotentialTask(SingleTaskWithOptions):
                                                            "material_to_use": (ep.NORN_STONE_OF_CHAOS,
                                                                                ep.BLACK_ANTI_MATTER)}
         })
+
+
+class ShadowlandAllFloorsTask(SingleTask):
+
+    def __init__(self, button, game: Game):
+        sl = missions.Shadowland(game)
+
+        @reset_emulator_and_logger(game=game)
+        def do_missions(*args, **kwargs):
+            return sl.do_missions(*args, **kwargs)
+
+        super().__init__(button, do_missions, {})

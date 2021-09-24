@@ -12,6 +12,7 @@ from .giant_boss_raid import *
 from .heroic_quests import *
 from .legendary_battle import *
 from .main_menu import *
+from .shadowland import *
 from .squad_battles import *
 from .timeline import *
 from .world_boss_invasion import *
