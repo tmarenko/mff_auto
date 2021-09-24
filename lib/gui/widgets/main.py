@@ -82,33 +82,11 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         else:
             self.logger_text.setPlainText("Cannot create log file because `logs` folder doesn't exists.")
         run_and_stop_button = self.create_blockable_button(button=self.run_queue_button)
-        autoplay_button = self.create_blockable_button(button=self.autoplay_button)
-        daily_trivia_button = self.create_blockable_button(button=self.daily_trivia_button)
-        world_boss_invasion_button = self.create_blockable_button(button=self.world_boss_invasion_button)
-        squad_battle_button = self.create_blockable_button(button=self.squad_battle_button)
-        danger_room_button = self.create_blockable_button(button=self.danger_room_button)
-        restart_game_button = self.create_blockable_button(button=self.restart_game_button)
-        comic_cards_button = self.create_blockable_button(button=self.comic_cards_button)
-        custom_gear_button = self.create_blockable_button(button=self.custom_gear_button)
-        dispatch_mission_button = self.create_blockable_button(button=self.dispatch_mission_rewards)
-        enhance_potential_button = self.create_blockable_button(button=self.enhance_potential_button)
-        shadowland_button = self.create_blockable_button(button=self.shadowland_button)
         self.queue_list = QueueList(list_widget=self.queue_list_widget, run_and_stop_button=run_and_stop_button,
                                     add_button=self.add_queue_button, edit_button=self.edit_queue_button,
                                     remove_button=self.remove_queue_button, game=self.game,
                                     queue_selector_buttons=[self.queue_button_1, self.queue_button_2,
                                                             self.queue_button_3, self.queue_button_4])
-        self.autoplay = AutoPlayTask(game=self.game, button=autoplay_button)
-        self.daily_trivia = DailyTriviaTask(game=self.game, button=daily_trivia_button)
-        self.world_boss_invasion = WorldBossInvasionTask(game=self.game, button=world_boss_invasion_button)
-        self.squad_battle = SquadBattleAllTask(game=self.game, button=squad_battle_button)
-        self.danger_room = DangerRoomOneBattleTask(game=self.game, button=danger_room_button)
-        self.restart_game = RestartGameTask(game=self.game, button=restart_game_button)
-        self.comic_cards = ComicCardsTask(game=self.game, button=comic_cards_button)
-        self.custom_gear = CustomGearTask(game=self.game, button=custom_gear_button)
-        self.dispatch_mission = DispatchMissionAcquireTask(game=self.game, button=dispatch_mission_button)
-        self.enhance_potential = EnhancePotentialTask(game=self.game, button=enhance_potential_button)
-        self.shadowland = ShadowlandAllFloorsTask(game=self.game, button=shadowland_button)
         self.screen_image = ScreenImageLabel(emulator=self.emulator, widget=self.screen_label)
         self.acquire_heroic_quest_rewards_checkbox.stateChanged.connect(self.acquire_heroic_quest_rewards_state_changed)
         self.low_memory_mode_checkbox.stateChanged.connect(self.low_memory_mode_state_changed)
@@ -120,13 +98,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.label_timer = Timer()
         self.label_timer.set_timer(self.update_labels, timer_ms=5000)
         self.blockable_buttons = [self.run_queue_button, self.add_queue_button, self.edit_queue_button,
-                                  self.remove_queue_button, self.squad_battle_button, self.world_boss_invasion_button,
-                                  self.daily_trivia_button, self.autoplay_button, self.danger_room_button,
-                                  self.restart_game_button, self.comic_cards_button, self.custom_gear_button,
-                                  self.dispatch_mission_rewards, self.enhance_potential_button, self.shadowland_button]
-        self.tasks = [self.autoplay, self.daily_trivia, self.world_boss_invasion, self.squad_battle, self.danger_room,
-                      self.restart_game, self.comic_cards, self.custom_gear, self.dispatch_mission,
-                      self.enhance_potential]
+                                  self.remove_queue_button]
+        self.tasks = []
+        self.create_tasks()
 
         if self.emulator.initialized and self.emulator.restartable:
             if not self.game.is_main_menu() and not BattleBot(self.game, None).is_battle():
@@ -323,3 +297,28 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         for button in self.blockable_buttons:
             if button:
                 button.setEnabled(True)
+
+    def _create_task(self, button, task_class):
+        """Creates blockable button for task and initialized it.
+
+        :param TwoStateButton button:
+        :param type[lib.gui.single_task_manager.SingleTask] task_class:
+        """
+        blockable_button = self.create_blockable_button(button=button)
+        task = task_class(game=self.game, button=blockable_button)
+        self.blockable_buttons.append(button)
+        self.tasks.append(task)
+
+    def create_tasks(self):
+        """Creates all available tasks."""
+        self._create_task(button=self.autoplay_button, task_class=AutoPlayTask)
+        self._create_task(button=self.daily_trivia_button, task_class=DailyTriviaTask)
+        self._create_task(button=self.world_boss_invasion_button, task_class=WorldBossInvasionTask)
+        self._create_task(button=self.squad_battle_button, task_class=SquadBattleAllTask)
+        self._create_task(button=self.danger_room_button, task_class=DangerRoomOneBattleTask)
+        self._create_task(button=self.restart_game_button, task_class=RestartGameTask)
+        self._create_task(button=self.comic_cards_button, task_class=ComicCardsTask)
+        self._create_task(button=self.custom_gear_button, task_class=CustomGearTask)
+        self._create_task(button=self.dispatch_mission_rewards, task_class=DispatchMissionAcquireTask)
+        self._create_task(button=self.enhance_potential_button, task_class=EnhancePotentialTask)
+        self._create_task(button=self.shadowland_button, task_class=ShadowlandAllFloorsTask)

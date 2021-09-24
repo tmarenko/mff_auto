@@ -1,4 +1,5 @@
-﻿from PyQt5.QtCore import QTimer, pyqtSignal, QObject
+﻿from functools import wraps
+from PyQt5.QtCore import QTimer, pyqtSignal, QObject
 from PyQt5.QtGui import QIcon, QImage, QPixmap
 from PyQt5.QtWidgets import QMenu
 from time import sleep
@@ -193,6 +194,7 @@ def reset_emulator_and_logger(game):
     """
 
     def decorator(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             import lib.logger as logging
             if hasattr(game, "file_logger_name") and game.file_logger_name:
