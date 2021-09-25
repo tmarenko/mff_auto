@@ -1,6 +1,4 @@
 import re
-from multiprocessing import cpu_count
-from multiprocessing.pool import ThreadPool
 
 import lib.logger as logging
 from lib.functions import wait_until, is_strings_similar, r_sleep, confirm_condition_by_time
@@ -270,7 +268,7 @@ class Game(Notifications):
 
     def find_mode_on_board(self, mode_name, board, rows, cols):
         """Parses information from Content Status Board screen about game modes.
-        Chunks board's elements into pieces and tries to parse them with `ThreadPool`.
+        Creates pieces of board's elements for each element at (row, col) in Content Status Board and tries to parse it.
 
         :param str mode_name: name of game mode.
         :param ui.UIElement board: UI element that represents current Content Status Board.
@@ -279,23 +277,16 @@ class Game(Notifications):
 
         :rtype: GameMode
         """
-
-        def chunk_items(items, chunk_size):
-            for i in range(0, len(items), chunk_size):
-                chunk = items[i:i + chunk_size]
-                yield chunk
-
         self.emulator.get_screen_image()  # Store frame to cache for multi-threading the search
         element = ui.CONTENT_STATUS_ELEMENT_1  # Element contain button rectangle of local position and it's offset
-        elements = [(board.button_rect, ui.Rect(i * element.button_rect.width + i * element.offset.width,
-                                                j * element.button_rect.height + j * element.offset.height,
-                                                (i + 1) * element.button_rect.width + i * element.offset.width,
-                                                (j + 1) * element.button_rect.height + j * element.offset.height))
-                    for j in range(cols) for i in range(rows)]
-        with ThreadPool() as pool:
-            for chunk_element in chunk_items(items=elements, chunk_size=cpu_count()):
-                modes = pool.starmap(self.get_mode_from_element, chunk_element)
-                for mode in [non_empty_mode for non_empty_mode in modes if non_empty_mode]:
+        for col in range(cols):
+            for row in range(rows):
+                element_rect = ui.Rect(row * element.button_rect.width + row * element.offset.width,
+                                       col * element.button_rect.height + col * element.offset.height,
+                                       (row + 1) * element.button_rect.width + row * element.offset.width,
+                                       (col + 1) * element.button_rect.height + col * element.offset.height)
+                mode = self.get_mode_from_element(board_rect=board.button_rect, element_rect=element_rect)
+                if mode:
                     self._modes[mode.name] = mode
                     if mode.name == mode_name:
                         return mode
@@ -313,22 +304,22 @@ class Game(Notifications):
 
         :rtype: GameMode
         """
+
+        def create_global_copy(ui_element: ui.UIElement, parent_rect: ui.Rect):
+            copy_ui = ui_element.copy()
+            copy_ui.text_rect.parent = parent_rect
+            copy_ui.text_rect = copy_ui.text_rect.global_rect
+            return copy_ui
+
         # Getting global rects of elements
         element_ui = ui.UIElement(name='UI_BOARD_ELEMENT')
         element_ui.button_rect = element_rect
         element_ui.button_rect.parent = board_rect
-        ui.CONTENT_STATUS_ELEMENT_LABEL.text_rect.parent = element_ui.image_rect
-        ui.CONTENT_STATUS_ELEMENT_STAGE.text_rect.parent = element_ui.image_rect
-        # Getting board image and element image. Use it for stage recognize
-        board_image = self.emulator.get_screen_image(board_rect.value)
-        element_image = self.emulator.get_image_from_image(board_image, rect=element_ui.button_rect)
-        stage_label_image = self.emulator.get_image_from_image(element_image,
-                                                               rect=ui.CONTENT_STATUS_ELEMENT_LABEL.text_rect)
-        stage_label = self.emulator.get_screen_text(ui.CONTENT_STATUS_ELEMENT_LABEL, screen=stage_label_image)
-        stage_counter_image = self.emulator.get_image_from_image(element_image,
-                                                                 rect=ui.CONTENT_STATUS_ELEMENT_STAGE.text_rect)
-        stage_counter_text = self.emulator.get_screen_text(ui.CONTENT_STATUS_ELEMENT_STAGE,
-                                                           screen=stage_counter_image)
+        label_ui = create_global_copy(ui_element=ui.CONTENT_STATUS_ELEMENT_LABEL, parent_rect=element_ui.button_rect)
+        stage_ui = create_global_copy(ui_element=ui.CONTENT_STATUS_ELEMENT_STAGE, parent_rect=element_ui.button_rect)
+
+        stage_label = self.emulator.get_screen_text(label_ui)
+        stage_counter_text = self.emulator.get_screen_text(stage_ui)
         logger.debug(f"Stage: {stage_label}; stages: {stage_counter_text}")
         current_stages, max_stages = self.get_current_and_max_values_from_text(stage_counter_text)
         # Find mode and return info about stages and board

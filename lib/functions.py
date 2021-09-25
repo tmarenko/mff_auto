@@ -1,5 +1,4 @@
 import logging
-import os
 import random
 import time
 
@@ -13,11 +12,10 @@ from lib.tesseract3 import TesseractPool, AUTOMATIC_PAGE_SEGMENTATION, RAW_LINE_
 
 logger = logging.getLogger()
 
-LOW_MEMORY_MODE = os.environ.get('MFF_LOW_MEMORY_MODE', "false").lower() == "true"
 # Use default eng data for any letters
-tesseract_eng = TesseractPool(language="eng", processes=1 if LOW_MEMORY_MODE else 4)
+tesseract_eng = TesseractPool(language="eng", processes=1)
 # Use 'mff.traineddata' language for numbers
-tesseract_mff = TesseractPool(language="mff+eng", processes=1 if LOW_MEMORY_MODE else 2)
+tesseract_mff = TesseractPool(language="mff+eng", processes=1)
 
 
 def get_text_from_image(image, threshold, chars=None, save_file=None, max_height=None):

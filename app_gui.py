@@ -7,7 +7,6 @@ from PyQt5 import QtWidgets, QtCore
 
 def main():
     app_settings = QtCore.QSettings("tmarenko", "mff_auto")
-    os.environ['MFF_LOW_MEMORY_MODE'] = str(app_settings.value("mff_low_memory_mode", defaultValue='false'))
     from lib.gui.widgets.main import MainWindow
     app = QtWidgets.QApplication(sys.argv)
     app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
