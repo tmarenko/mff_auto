@@ -1,12 +1,13 @@
 ﻿from multiprocess.context import Process
-from lib.game.game import Game
-from lib.game.battle_bot import ManualBattleBot
+
 import lib.game.missions as missions
 import lib.game.routines as routines
-from lib.game.dispatch_mission import DispatchMission
-from lib.gui.threading import ThreadPool
-from lib.gui.helper import safe_process_stop, reset_emulator_and_logger
 import lib.logger as logging
+from lib.game.battle_bot import ManualBattleBot
+from lib.game.dispatch_mission import DispatchMission
+from lib.game.game import Game
+from lib.gui.helper import safe_process_stop, reset_emulator_and_logger
+from lib.gui.threading import ThreadPool
 
 logger = logging.get_logger(__name__)
 
@@ -75,6 +76,7 @@ class SingleTaskWithOptions:
         for task_name, task_parameters in task_options.items():
             def add_action(parameters):
                 self.run_and_stop_button.add_action(task_name, lambda: self.execute(parameters))
+
             add_action(task_parameters)
         self.menu = self.run_and_stop_button.button.menu()
         self.run_and_stop_button.connect_second_state(self.abort)
@@ -248,9 +250,9 @@ class EnhancePotentialTask(SingleTaskWithOptions):
             "Use Black Anti-Matter / Phoenix Feather": {"target_success_rate": 10.0,
                                                         "material_to_use": (ep.BLACK_ANTI_MATTER,
                                                                             ep.NORN_STONE_OF_CHAOS)},
-            "Use Norn Stone of Chaos / M'kraan Crystal":  {"target_success_rate": 10.0,
-                                                           "material_to_use": (ep.NORN_STONE_OF_CHAOS,
-                                                                               ep.BLACK_ANTI_MATTER)}
+            "Use Norn Stone of Chaos / M'kraan Crystal": {"target_success_rate": 10.0,
+                                                          "material_to_use": (ep.NORN_STONE_OF_CHAOS,
+                                                                              ep.BLACK_ANTI_MATTER)}
         })
 
 

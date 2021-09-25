@@ -1,10 +1,12 @@
 ﻿import random
+
 import regex
+
 import lib.logger as logging
+from lib.functions import r_sleep, wait_until
 from lib.game import ui
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.functions import r_sleep, wait_until
 
 logger = logging.get_logger(__name__)
 

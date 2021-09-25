@@ -1,10 +1,11 @@
-﻿from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
-from PyQt5.QtCore import Qt
+﻿from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QListWidgetItem, QDialog, QToolButton, QMenu
+
 import lib.gui.designes.queue_editor_window as design
+import lib.logger as logging
 from lib.gui.helper import set_default_icon
 from lib.gui.widgets.queue_items import GameMode, get_actions, get_events, get_missions, get_missions_dict, \
     get_actions_dict
-import lib.logger as logging
 
 logger = logging.get_logger(__name__)
 

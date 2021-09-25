@@ -1,13 +1,14 @@
 import json
 from os.path import exists
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem
 from multiprocess.context import Process
 
-from lib.gui.widgets.queue_item_editor import QueueItemEditor, QueueItem
-from lib.gui.threading import ThreadPool
-from lib.gui.helper import safe_process_stop
 import lib.logger as logging
+from lib.gui.helper import safe_process_stop
+from lib.gui.threading import ThreadPool
+from lib.gui.widgets.queue_item_editor import QueueItemEditor, QueueItem
 
 logger = logging.get_logger(__name__)
 
@@ -186,6 +187,7 @@ class QueueList:
         # Setup Queue #1 and etc. buttons to change queue
         def change_queue_on_click(button, queue_index):
             button.clicked.connect(lambda: self.change_queue(queue_index))
+
         for index in range(len(self.queue_selector_buttons)):
             change_queue_on_click(button=self.queue_selector_buttons[index], queue_index=index)
 

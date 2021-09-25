@@ -1,8 +1,6 @@
 ﻿from .alliance_battles import *
 from .battle import *
-from .missions import *
 from .coop_play import *
-from .routines import *
 from .danger_room import *
 from .dimension_missions import *
 from .dispatch_mission import *
@@ -12,6 +10,8 @@ from .giant_boss_raid import *
 from .heroic_quests import *
 from .legendary_battle import *
 from .main_menu import *
+from .missions import *
+from .routines import *
 from .shadowland import *
 from .squad_battles import *
 from .timeline import *

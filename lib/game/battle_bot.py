@@ -1,6 +1,7 @@
 import re
-import lib.logger as logging
 from itertools import cycle
+
+import lib.logger as logging
 from lib.functions import wait_until, r_sleep, confirm_condition_by_time
 from lib.game import ui
 
@@ -83,6 +84,7 @@ class AutoBattleBot(BattleBot):
 
     def fight(self):
         """Starts battle and waits until the end."""
+
         def wait_battle():
             self.skip_cutscene()
             return self.is_battle()
@@ -270,8 +272,11 @@ class ManualBattleBot(BattleBot):
     def _init_skills(self):
         self._init_base_skills()
         self.current_bonus_skill = None
-        self.t3_skill = LockedSkill(self.game, ui.SKILL_T3, skill_locked_ui=[ui.SKILL_T3_LOCKED, ui.SKILL_6_LOCKED], skill_label_ui=ui.SKILL_T3_LABEL)
-        self.awakening_skill = LockedSkill(self.game, ui.SKILL_6, skill_locked_ui=[ui.SKILL_6_LOCKED, ui.SKILL_T3_LOCKED], skill_label_ui=ui.SKILL_6_LABEL)
+        self.t3_skill = LockedSkill(self.game, ui.SKILL_T3, skill_locked_ui=[ui.SKILL_T3_LOCKED, ui.SKILL_6_LOCKED],
+                                    skill_label_ui=ui.SKILL_T3_LABEL)
+        self.awakening_skill = LockedSkill(self.game, ui.SKILL_6,
+                                           skill_locked_ui=[ui.SKILL_6_LOCKED, ui.SKILL_T3_LOCKED],
+                                           skill_label_ui=ui.SKILL_6_LABEL)
         self.coop_skill = LockedSkill(self.game, ui.SKILL_COOP)
         self.danger_room_skill = LockedSkill(self.game, ui.SKILL_DANGER_ROOM)
 

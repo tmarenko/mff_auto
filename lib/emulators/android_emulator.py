@@ -1,16 +1,22 @@
-﻿import autoit
-import ctypes
+﻿import ctypes
 import logging
-import win32gui, win32ui, win32process, win32api, win32con
 import random
 import time
-import pywintypes
-from platform import release
-from PIL import Image
 from ctypes import windll
-from numpy import array
 from distutils.version import LooseVersion
-from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar,\
+from platform import release
+
+import autoit
+import pywintypes
+import win32api
+import win32con
+import win32gui
+import win32process
+import win32ui
+from PIL import Image
+from numpy import array
+
+from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar, \
     is_color_similar, r_sleep, get_file_properties, convert_colors_in_image
 
 PW_CLIENTONLY = 1  # Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
@@ -54,7 +60,7 @@ class AndroidEmulator(object):
     def _init_variables(self):
         """Variables initialization."""
         self.parent_x, self.parent_y, self.parent_width, self.parent_height, \
-            self.parent_hwnd, self.parent_thread, self.main_key_handle = (None,) * 7
+        self.parent_hwnd, self.parent_thread, self.main_key_handle = (None,) * 7
         self.x, self.y, self.width, self.height, self.hwnd, self.key_handle = (None,) * 6
         # Storing external functions for process manager context (video_capture decorators)
         self.autoit_control_click_by_handle = autoit.control_click_by_handle
@@ -175,7 +181,8 @@ class AndroidEmulator(object):
         :rtype: bool
         """
         hwnd_found = self.hwnd is not None and self.parent_hwnd is not None
-        hwnd_active = win32gui.GetWindowText(self.parent_hwnd) == self.name and win32gui.GetWindowText(self.hwnd) == self.child_name
+        hwnd_active = win32gui.GetWindowText(self.parent_hwnd) == self.name and win32gui.GetWindowText(
+            self.hwnd) == self.child_name
         keys_found = self.key_handle is not None and self.main_key_handle is not None
         rect_found = self.x is not None and self.y is not None
         parent_found = self.parent_x is not None and self.parent_y is not None
@@ -193,7 +200,7 @@ class AndroidEmulator(object):
     def get_screen_image(self, rect=(0, 0, 1, 1)):
         """Gets image of emulator's screen.
 
-        :param tuple[float, float, float, float] rect: rectangle of screen to capture.
+        :param tuple[float, float, float, float] | lib.game.ui.Rect rect: rectangle of screen to capture.
 
         :rtype: numpy.ndarray
         """
@@ -207,7 +214,7 @@ class AndroidEmulator(object):
         """Gets image from another image. Basically just crops it.
 
         :param numpy.ndarray image: image.
-        :param tuple[float, float, flaot, float] rect: rectangle to crop.
+        :param tuple[float, float, flaot, float] | lib.game.ui.Rect rect: rectangle to crop.
 
         :rtype: numpy.ndarray
         """
@@ -233,7 +240,7 @@ class AndroidEmulator(object):
         """Gets (x,y) position inside screen rectangle.
          Using normal distribution position usually will be near rectangle center.
 
-        :param tuple[float, float, float, float] rect: local rectangle inside (0, 0, 1, 1) range.
+        :param tuple[float, float, float, float] | lib.game.ui.Rect rect: local rectangle inside (0, 0, 1, 1) range.
         :param int mean_mod: mean for distribution.
         :param int sigma_mod: standard deviation for distribution.
 
@@ -289,7 +296,7 @@ class AndroidEmulator(object):
         """Checks if color on screen is similar to given color.
 
         :param tuple[int, int, int] color: color to check.
-        :param list[tuple[float, float, float, float]] rects: color position rectangles.
+        :param list[tuple[float, float, float, float]] | list[lib.game.ui.Rect] rects: color position rectangles.
         :param numpy.ndarray screen: screen image.
 
         :rtype: bool
@@ -340,6 +347,7 @@ class AndroidEmulator(object):
         :param float duration: duration of dragging.
         :param int steps_count: steps of dragging.
         """
+
         def linear_point(x1, y1, x2, y2, n):
             p_x = ((x2 - x1) * n) + x1
             p_y = ((y2 - y1) * n) + y1

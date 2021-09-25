@@ -1,8 +1,9 @@
-import urllib.request as request
 import json
-import lib.logger as logging
+import urllib.request as request
 from datetime import datetime, timedelta
 from time import sleep
+
+import lib.logger as logging
 from lib.game.notifications import Notifications
 
 logger = logging.get_logger(__name__)

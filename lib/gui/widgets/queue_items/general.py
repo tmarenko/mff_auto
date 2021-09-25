@@ -1,4 +1,5 @@
 ﻿from PyQt5.QtCore import Qt
+
 from lib.gui.helper import reset_emulator_and_logger
 
 

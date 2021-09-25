@@ -1,9 +1,10 @@
 import regex
+
+import lib.logger as logging
+from lib.functions import wait_until
+from lib.game import ui
 from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
-from lib.game import ui
-from lib.functions import wait_until
-import lib.logger as logging
 
 logger = logging.get_logger(__name__)
 

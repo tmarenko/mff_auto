@@ -1,5 +1,5 @@
-﻿from .general import *
-from .elements import *
+﻿from .elements import *
+from .general import *
 
 # Custom overrides for UI elements
 from settings.ui_override import *

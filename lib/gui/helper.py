@@ -1,8 +1,9 @@
 ﻿from functools import wraps
+from time import sleep
+
 from PyQt5.QtCore import QTimer, pyqtSignal, QObject
 from PyQt5.QtGui import QIcon, QImage, QPixmap
 from PyQt5.QtWidgets import QMenu
-from time import sleep
 
 
 def set_default_icon(window, path="icon.ico"):

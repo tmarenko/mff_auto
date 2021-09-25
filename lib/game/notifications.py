@@ -1,7 +1,7 @@
-﻿from lib.functions import wait_until, is_strings_similar
-from lib.game.heroic_quests import HeroicQuests
-import lib.logger as logging
+﻿import lib.logger as logging
+from lib.functions import wait_until, is_strings_similar
 from lib.game import ui
+from lib.game.heroic_quests import HeroicQuests
 
 logger = logging.get_logger(__name__)
 
@@ -319,6 +319,7 @@ class Notifications:
 
         :param int timeout: timeout of waiting for notifications.
         """
+
         def close_notifications():
             return self.game.close_complete_challenge_notification() or self.close_shield_lvl_up_notification()
 

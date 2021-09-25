@@ -1,7 +1,7 @@
 ﻿import lib.logger as logging
-from lib.game.notifications import Notifications
-from lib.game import ui
 from lib.functions import wait_until, r_sleep
+from lib.game import ui
+from lib.game.notifications import Notifications
 
 logger = logging.get_logger(__name__)
 

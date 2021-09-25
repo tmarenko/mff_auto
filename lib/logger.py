@@ -1,6 +1,6 @@
 import logging
-import time
 import sys
+import time
 from os.path import exists
 
 LOGS_FOLDER = "logs"

@@ -1,9 +1,9 @@
-﻿from lib.game.battle_bot import ManualBattleBot
+﻿import lib.logger as logging
+from lib.functions import wait_until, r_sleep, is_strings_similar
+from lib.game import ui
+from lib.game.battle_bot import ManualBattleBot
 from lib.game.missions.missions import Missions
 from lib.game.missions.world_boss import WorldBoss
-from lib.game import ui
-from lib.functions import wait_until, r_sleep, is_strings_similar
-import lib.logger as logging
 
 logger = logging.get_logger(__name__)
 

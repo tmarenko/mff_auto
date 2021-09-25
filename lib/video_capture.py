@@ -1,18 +1,20 @@
+import os
+import time
 from datetime import datetime
-from PIL import ImageDraw, ImageFont
 from threading import Thread
-from multiprocess.managers import SyncManager, RemoteError
-from lib.functions import bgr_to_rgb
-from lib.game import ui
+
 import autoit
 import cv2
 import numpy
-import os
-import time
 import win32api
 import win32con
+from PIL import ImageDraw, ImageFont
+from multiprocess.managers import SyncManager, RemoteError
 
 import lib.logger as logging
+from lib.functions import bgr_to_rgb
+from lib.game import ui
+
 logger = logging.get_logger(__name__)
 
 ELEMENT_TIME_ON_SCREEN_SEC = 1.5
@@ -139,6 +141,7 @@ class EmulatorImageSource:
     @staticmethod
     def click_button_decorator(emulator, click_button):
         """emulator.click_button decorator for debug drawing of rectangle."""
+
         def wrapped(ui_element, **kwargs):
             global_rect = ui_element.button_rect.global_rect
             box = (global_rect[0] * emulator.width, global_rect[1] * emulator.height,
@@ -147,11 +150,13 @@ class EmulatorImageSource:
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
             return click_button(ui_element=ui_element, **kwargs)
+
         return wrapped
 
     @staticmethod
     def get_screen_text_decorator(emulator, get_screen_text):
         """emulator.get_screen_text decorator for debug drawing of rectangle."""
+
         def wrapped(ui_element, screen=None):
             box = (ui_element.text_rect.global_rect[0] * emulator.width,
                    ui_element.text_rect.global_rect[1] * emulator.height,
@@ -161,11 +166,13 @@ class EmulatorImageSource:
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
             return get_screen_text(ui_element=ui_element, screen=screen)
+
         return wrapped
 
     @staticmethod
     def get_image_from_image_decorator(emulator, get_image_from_image):
         """emulator.get_image_from_image decorator for debug drawing of rectangle."""
+
         def wrapped(image, rect):
             box = (rect.global_rect[0] * emulator.width, rect.global_rect[1] * emulator.height,
                    rect.global_rect[2] * emulator.width, rect.global_rect[3] * emulator.height)
@@ -173,11 +180,13 @@ class EmulatorImageSource:
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
             return get_image_from_image(image=image, rect=rect)
+
         return wrapped
 
     @staticmethod
     def is_ui_element_on_screen_decorator(emulator, is_ui_element_on_screen):
         """emulator.is_ui_element_on_screen decorator for debug drawing of rectangle."""
+
         def wrapped(ui_element, screen=None):
             on_screen = is_ui_element_on_screen(ui_element=ui_element, screen=screen)
             elements = [element for element in emulator.screen_elements if element.name == ui_element.name]
@@ -186,11 +195,13 @@ class EmulatorImageSource:
                     element.color = ElementOnScreen.MAGENTA_COLOR
                     emulator.screen_elements.append(element)
             return on_screen
+
         return wrapped
 
     @staticmethod
     def is_image_on_screen_decorator(emulator, is_image_on_screen):
         """emulator.is_image_on_screen decorator for debug drawing of image rectangle."""
+
         def wrapped(ui_element, screen=None):
             box = (ui_element.image_rect.global_rect[0] * emulator.width,
                    ui_element.image_rect.global_rect[1] * emulator.height,
@@ -202,11 +213,13 @@ class EmulatorImageSource:
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
             return on_screen
+
         return wrapped
 
     @staticmethod
     def win32api_post_message_decorator(emulator, post_message):
         """win32api.PostMessage decorator for debug drawing of click or drag."""
+
         def wrapped(*args, **kwargs):
             if args[1] == win32con.WM_MOUSEMOVE:
                 dword = args[3]
@@ -215,17 +228,20 @@ class EmulatorImageSource:
                 if emulator.screen_elements is not None:
                     emulator.screen_elements.append(element)
             return post_message(*args, **kwargs)
+
         return wrapped
 
     @staticmethod
     def control_click_by_handle_decorator(emulator, control_click_by_handle):
         """autoit.control_click_by_handle decorator for debug drawing of click."""
+
         def wrapped(hwnd, h_ctrl, **kwargs):
             x, y = kwargs.get("x", 0), kwargs.get("y", 0)
             element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
             return control_click_by_handle(hwnd, h_ctrl, **kwargs)
+
         return wrapped
 
 

@@ -1,29 +1,29 @@
 import json
 import os
 from distutils.version import LooseVersion
-import lib.logger as logging
-from multiprocess.managers import SyncManager
-from lib.functions import bgr_to_rgb
 from os.path import exists
-from PyQt5.QtWidgets import QMainWindow
-import lib.gui.designes.main_window as design
 
+from PyQt5.QtWidgets import QMainWindow
+from multiprocess.managers import SyncManager
+
+import lib.gui.designes.main_window as design
+import lib.logger as logging
+from lib.emulators.bluestacks import BlueStacks
+from lib.emulators.nox_player import NoxPlayer
+from lib.functions import bgr_to_rgb
+from lib.game import ui
+from lib.game.battle_bot import BattleBot
+from lib.game.game import Game
+from lib.game.ui.general import Rect
+from lib.gui.helper import TwoStateButton, set_default_icon, Timer, try_to_disconnect
+from lib.gui.logger import QTextEditFileLogger
+from lib.gui.queue_manager import QueueList
 from lib.gui.single_task_manager import AutoPlayTask, DailyTriviaTask, WorldBossInvasionTask, SquadBattleAllTask, \
     DangerRoomOneBattleTask, RestartGameTask, ComicCardsTask, CustomGearTask, DispatchMissionAcquireTask, \
     EnhancePotentialTask, ShadowlandAllFloorsTask
-from lib.gui.queue_manager import QueueList
-from lib.gui.logger import QTextEditFileLogger
+from lib.gui.threading import ThreadPool
 from lib.gui.widgets.game_image import ScreenImageLabel
 from lib.gui.widgets.setup_emulator import SetupEmulator
-from lib.gui.threading import ThreadPool
-from lib.gui.helper import TwoStateButton, set_default_icon, Timer, try_to_disconnect
-
-from lib.game.game import Game
-from lib.game.battle_bot import BattleBot
-from lib.game.ui.general import Rect
-from lib.game import ui
-from lib.emulators.nox_player import NoxPlayer
-from lib.emulators.bluestacks import BlueStacks
 from lib.video_capture import EmulatorCapture
 
 logger = logging.get_logger(__name__)

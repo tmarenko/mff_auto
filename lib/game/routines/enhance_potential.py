@@ -1,8 +1,9 @@
-﻿import lib.logger as logging
-from math import ceil
-from lib.game.notifications import Notifications
-from lib.game import ui
+﻿from math import ceil
+
+import lib.logger as logging
 from lib.functions import wait_until, r_sleep
+from lib.game import ui
+from lib.game.notifications import Notifications
 
 logger = logging.get_logger(__name__)
 

@@ -1,7 +1,7 @@
 ﻿import lib.logger as logging
-from lib.game.notifications import Notifications
-from lib.game import ui
 from lib.functions import wait_until, r_sleep
+from lib.game import ui
+from lib.game.notifications import Notifications
 
 logger = logging.get_logger(__name__)
 
@@ -92,7 +92,8 @@ class CharacterStore(Notifications):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_DIMENSION_CHEST):
                 self.emulator.click_button(ui.MAIN_MENU_DIMENSION_CHEST)
                 self.close_ads()
-                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST):
+                if wait_until(self.emulator.is_ui_element_on_screen,
+                              ui_element=ui.STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST):
                     logger.debug("Opening Character tab.")
                     self.emulator.click_button(ui.STORE_OPEN_CHARACTER_FROM_DIMENSION_CHEST)
                     return True
@@ -110,7 +111,8 @@ class CharacterStore(Notifications):
         """Acquires available Free Hero Chest."""
         self.open_character_store()
         if self._open_hero_chest_tab():
-            if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_CHARACTER_FREE_HERO_CHEST_BUTTON):
+            if not wait_until(self.emulator.is_ui_element_on_screen,
+                              ui_element=ui.STORE_CHARACTER_FREE_HERO_CHEST_BUTTON):
                 logger.info("No available Free Hero Chest, exiting.")
                 return self.game.go_to_main_menu()
 

@@ -1,5 +1,5 @@
-﻿from lib.gui.widgets.queue_items.general import GameMode
-import lib.game.missions as missions
+﻿import lib.game.missions as missions
+from lib.gui.widgets.queue_items.general import GameMode
 
 
 class _LegendaryBattle(GameMode):

@@ -1,10 +1,12 @@
-import autoit
 import logging
 import os
-import win32gui
-from xml.etree import ElementTree
 from configparser import ConfigParser
 from distutils.version import LooseVersion
+from xml.etree import ElementTree
+
+import autoit
+import win32gui
+
 from lib.emulators.android_emulator import AndroidEmulator
 
 NOX_EXE = "Nox.exe"

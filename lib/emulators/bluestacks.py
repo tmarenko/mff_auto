@@ -1,8 +1,11 @@
-﻿import win32api, win32con
+﻿import logging
 import time
-import logging
-from lib.emulators.android_emulator import AndroidEmulator
 from distutils.version import LooseVersion
+
+import win32api
+import win32con
+
+from lib.emulators.android_emulator import AndroidEmulator
 
 BLUESTACKS_4_EXE = "Bluestacks.exe"
 BLUESTACKS_5_CHILD_NAME = "plrNativeInputWindow"
@@ -56,6 +59,7 @@ class BlueStacks(AndroidEmulator):
         :param float duration: duration of dragging.
         :param int steps_count: steps of dragging.
         """
+
         def linear_point(x1, y1, x2, y2, n):
             p_x = ((x2 - x1) * n) + x1
             p_y = ((y2 - y1) * n) + y1

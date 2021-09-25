@@ -1,5 +1,7 @@
 import os
 from copy import deepcopy
+from typing import List, Tuple
+
 from lib.functions import load_image, bgr_to_rgb as rgb_to_bgr
 
 
@@ -88,8 +90,8 @@ class UIElement:
     text = None  # type: str
     image_threshold = None  # type: int
     text_threshold = None  # type: int
-    image_color = None  # type: (int, int, int)
-    color_to_convert = None  # type: ((int, int, int), )
+    image_color = None  # type: Tuple[int, int, int]
+    color_to_convert = None  # type: List[Tuple[int, int, int]]
     available_characters = None  # type: str
     tesseract_resize_height = STABLE_MAX_HEIGHT_FOR_TESSERACT  # type: int
     offset = None  # type: Rect

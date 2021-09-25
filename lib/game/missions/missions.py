@@ -1,8 +1,8 @@
 import lib.logger as logging
 from lib.functions import wait_until
+from lib.game import ui
 from lib.game.battle_bot import AutoBattleBot
 from lib.game.notifications import Notifications
-from lib.game import ui
 
 logger = logging.get_logger(__name__)
 

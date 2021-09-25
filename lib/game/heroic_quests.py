@@ -1,6 +1,7 @@
 ﻿import logging
-from lib.game import ui
+
 from lib.functions import wait_until
+from lib.game import ui
 
 logger = logging.getLogger(__name__)
 

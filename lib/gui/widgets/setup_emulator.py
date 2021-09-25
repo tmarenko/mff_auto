@@ -1,17 +1,20 @@
-﻿import win32gui, win32process, win32api, win32con
-import pywintypes
-from PyQt5.QtWidgets import QDialog, QListWidgetItem
+﻿import pywintypes
+import win32api
+import win32con
+import win32gui
+import win32process
 from PyQt5.QtGui import QIcon
-from lib.gui.helper import Timer, screen_to_gui_image, try_to_disconnect, set_default_icon
-from lib.gui.widgets.game_image import ScreenImageLabel
+from PyQt5.QtWidgets import QDialog, QListWidgetItem
+
 import lib.gui.designes.setup_emulator as emulator_design
 import lib.gui.designes.setup_game as game_design
-
-from lib.game.game import Game
-from lib.emulators.nox_player import NoxPlayer, NOX_EXE
-from lib.emulators.bluestacks import BlueStacks, BLUESTACKS_4_EXE, BLUESTACKS_5_EXE
-from lib.game.ui.general import Rect
 import lib.logger as logging
+from lib.emulators.bluestacks import BlueStacks, BLUESTACKS_4_EXE, BLUESTACKS_5_EXE
+from lib.emulators.nox_player import NoxPlayer, NOX_EXE
+from lib.game.game import Game
+from lib.game.ui.general import Rect
+from lib.gui.helper import Timer, screen_to_gui_image, try_to_disconnect, set_default_icon
+from lib.gui.widgets.game_image import ScreenImageLabel
 
 logger = logging.get_logger(__name__)
 
@@ -169,8 +172,9 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
                              x / self.screen_image.widget.size().width(),
                              y / self.screen_image.widget.size().height())
         game_app_global_rect = game_app_rect.to_global(emulator_rect)
-        self.game_app_rect = (game_app_global_rect[0] / self.emulator.width, game_app_global_rect[1] / self.emulator.height,
-                              game_app_global_rect[2] / self.emulator.width, game_app_global_rect[3] / self.emulator.height)
+        self.game_app_rect = (
+        game_app_global_rect[0] / self.emulator.width, game_app_global_rect[1] / self.emulator.height,
+        game_app_global_rect[2] / self.emulator.width, game_app_global_rect[3] / self.emulator.height)
         self.emulator.click_button(self.game_app_rect)
 
     def set_visibility_to_all(self, visible=True):
@@ -219,7 +223,8 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
     def is_game_app_on_screen_yes(self):
         """Answer: yes, app on screen.
         Question: is game started?"""
-        self.top_text_label.setText("Look at the emulator's screen image below. Click on this image where MFF game icon.")
+        self.top_text_label.setText(
+            "Look at the emulator's screen image below. Click on this image where MFF game icon.")
         self.question_label.setText("Is game started to open?")
         self.disconnect_a()
         self.yes_button.clicked.connect(self.is_game_started_yes)

@@ -1,5 +1,5 @@
-﻿from lib.gui.widgets.queue_items.general import Event
-import lib.game.missions as missions
+﻿import lib.game.missions as missions
+from lib.gui.widgets.queue_items.general import Event
 
 
 class _EventWorldBoss(Event):

@@ -1,11 +1,12 @@
 import re
-from lib.functions import wait_until, is_strings_similar, r_sleep, confirm_condition_by_time
-from lib.game.data.game_modes import game_modes
-from lib.game import ui
-from lib.game.notifications import Notifications
-from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count
+from multiprocessing.pool import ThreadPool
+
 import lib.logger as logging
+from lib.functions import wait_until, is_strings_similar, r_sleep, confirm_condition_by_time
+from lib.game import ui
+from lib.game.data.game_modes import game_modes
+from lib.game.notifications import Notifications
 
 logger = logging.get_logger(__name__)
 
@@ -506,13 +507,13 @@ class Game(Notifications):
             download_update()
             is_main_menu = self.is_main_menu()
             is_main_menu or \
-                self.close_news() or \
-                self.close_daily_rewards() or \
-                self.close_alliance_conquest() or \
-                self.close_alliance_conquest_results() or \
-                self.close_battleworld_rewards() or \
-                self.close_maintenance_notice() or \
-                self.close_ads(timeout=1)
+            self.close_news() or \
+            self.close_daily_rewards() or \
+            self.close_alliance_conquest() or \
+            self.close_alliance_conquest_results() or \
+            self.close_battleworld_rewards() or \
+            self.close_maintenance_notice() or \
+            self.close_ads(timeout=1)
             return is_main_menu
 
         logger.debug("Starting game.")

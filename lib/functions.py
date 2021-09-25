@@ -1,16 +1,17 @@
-import cv2
 import logging
 import os
-from scipy.stats import truncnorm
 import random
 import time
+
+import cv2
 import win32api
 from numpy import concatenate, array
+from scipy.stats import truncnorm
+
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool, AUTOMATIC_PAGE_SEGMENTATION, RAW_LINE_PAGE_SEGMENTATION
 
 logger = logging.getLogger()
-
 
 LOW_MEMORY_MODE = os.environ.get('MFF_LOW_MEMORY_MODE', "false").lower() == "true"
 # Use default eng data for any letters
@@ -51,6 +52,7 @@ def is_strings_similar(original, compare, overlap=0.25):
 
     :rtype: bool
     """
+
     def levenshtein_distance(a, b):
         """Returns the Levenshtein edit distance between two strings."""
         if a == b:
@@ -105,6 +107,7 @@ def get_position_inside_rectangle(rect, mean_mod=2, sigma_mod=5):
     :return: (x, y) position inside rectangle.
     :rtype: tuple[float, float]
     """
+
     def get_truncated_normal(mean=0.0, sd=0.2, low=0.0, up=1.0):
         """Get truncated normal distribution between low and up."""
         return truncnorm((low - mean) / sd, (up - mean) / sd, loc=mean, scale=sd).rvs()

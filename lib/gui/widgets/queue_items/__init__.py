@@ -1,10 +1,11 @@
-﻿import sys
-import inspect
+﻿import inspect
+import sys
+
+import lib.logger as logging
 from lib.gui.widgets.queue_items import actions
 from lib.gui.widgets.queue_items import events
 from lib.gui.widgets.queue_items import missions
 from .general import GameMode, Action, Event
-import lib.logger as logging
 
 logger = logging.get_logger(__name__)
 
@@ -65,6 +66,7 @@ def get_missions_dict(mission_instances):
 
     :rtype: dict
     """
+
     def find_instance(class_):
         return next((inst for inst in mission_instances if inst.__class__.__name__ == class_.__name__), None)
 
@@ -111,6 +113,7 @@ def get_actions_dict(action_instances):
 
     :rtype: dict
     """
+
     def find_instance(class_):
         return next((inst for inst in action_instances if inst.__class__.__name__ == class_.__name__), None)
 

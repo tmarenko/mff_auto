@@ -1,7 +1,7 @@
-﻿from lib.gui.widgets.queue_items.general import Action
-import lib.game.missions as missions
+﻿import lib.game.missions as missions
 import lib.game.routines as routines
 from lib.game.dispatch_mission import DispatchMission
+from lib.gui.widgets.queue_items.general import Action
 
 
 class _RestartGame(Action):
@@ -95,7 +95,6 @@ class _AllianceDonate(Action):
 
 
 class _AllianceBuyEnergy(Action):
-
     items = {
         "Energy": routines.Alliance.STORE_ITEM.ENERGY,
         "Boost Point": routines.Alliance.STORE_ITEM.BOOST_POINT,
@@ -115,7 +114,6 @@ class _AllianceBuyEnergy(Action):
 
 
 class _AllianceRequestSupport(Action):
-
     support_items = {
         "Norn Stone of Strength": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_STRENGTH,
         "Norn Stone of Energy": routines.Alliance.SUPPORT_ITEM.NORN_STONE_OF_ENERGY,

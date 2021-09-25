@@ -1,9 +1,10 @@
-﻿import lib.logger as logging
-from random import randint
+﻿from random import randint
+
+import lib.logger as logging
+from lib.functions import wait_until, is_strings_similar
+from lib.game import ui
 from lib.game.data.daily_trivia import trivia_qa
 from lib.game.notifications import Notifications
-from lib.game import ui
-from lib.functions import wait_until, is_strings_similar
 
 logger = logging.get_logger(__name__)
 

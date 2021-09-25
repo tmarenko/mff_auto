@@ -1,6 +1,8 @@
 ﻿import sys
 import traceback
+
 from PyQt5.QtCore import QObject, QRunnable, pyqtSignal, pyqtSlot, QThreadPool
+
 import lib.logger as logging
 
 logger = logging.get_logger(__name__)
@@ -19,7 +21,6 @@ sys.excepthook = trap_exc_during_debug
 
 
 class WorkerSignals(QObject):
-
     finished = pyqtSignal()
     error = pyqtSignal(tuple)
     result = pyqtSignal(object)

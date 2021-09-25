@@ -1,15 +1,16 @@
-﻿import os
-import shutil
-import lib.logger as logging
-import zipfile
-import importlib
+﻿import importlib
 import importlib.util
-import urllib.request as request
+import os
+import shutil
 import urllib.error as urlib_error
-import version as current_version_module
-from http.client import InvalidURL
-from distutils.version import StrictVersion
+import urllib.request as request
+import zipfile
 from distutils.dir_util import copy_tree
+from distutils.version import StrictVersion
+from http.client import InvalidURL
+
+import lib.logger as logging
+import version as current_version_module
 
 logger = logging.get_logger(__name__)
 

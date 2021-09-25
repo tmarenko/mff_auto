@@ -1,7 +1,7 @@
 ﻿import ctypes
 import ctypes.util
-import os
 import logging
+import os
 from multiprocessing.pool import ThreadPool
 from time import sleep
 
@@ -225,6 +225,7 @@ class TesseractPool:
 
             def init_tesseract_instance(*args, **kwargs):
                 return Tesseract(*args, **kwargs)
+
             self._pool = pool.starmap(init_tesseract_instance, init_params)
 
     def image_to_string(self, image, whitelist=None, page_segmentation=3):

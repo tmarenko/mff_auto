@@ -1,6 +1,6 @@
 import lib.logger as logging
-from lib.game import ui
 from lib.functions import r_sleep
+from lib.game import ui
 
 logger = logging.get_logger(__name__)
 
