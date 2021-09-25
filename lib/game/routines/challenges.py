@@ -14,13 +14,13 @@ class DailyTrivia(Notifications):
     def __init__(self, game):
         """Class initialization.
 
-        :param lib.game.Game game: instance of the game.
+        :param lib.game.game.Game game: instance of the game.
         """
         super().__init__(game)
         self.trivia = trivia_qa
 
     def do_trivia(self):
-        """Do trivia."""
+        """Does trivia."""
         self.game.go_to_challenges()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DAILY_TRIVIA_STAGE):
             self.emulator.click_button(ui.DAILY_TRIVIA_STAGE)
@@ -37,7 +37,7 @@ class DailyTrivia(Notifications):
         self.game.go_to_main_menu()
 
     def solve_trivia(self):
-        """Solve trivia question."""
+        """Solves trivia question."""
         question = self.emulator.get_screen_text(ui_element=ui.DAILY_TRIVIA_QUESTION)
         logger.debug(f"Found question: {question}")
         answers = [value for key, value in self.trivia.items() if is_strings_similar(question, key)]
@@ -66,6 +66,7 @@ class DailyRewards(Notifications):
     """Class for working Daily rewards."""
 
     def acquire_all_daily_rewards(self):
+        """Acquired all available daily rewards from Daily Challenges."""
         self.game.go_to_challenges()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DAILY_REWARDS_TAB):
             self.emulator.click_button(ui.DAILY_REWARDS_TAB)
@@ -81,6 +82,7 @@ class DailyRewards(Notifications):
         self.game.go_to_main_menu()
 
     def acquire_all_weekly_rewards(self):
+        """Acquired all available weekly rewards from Daily Challenges."""
         self.game.go_to_challenges()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DAILY_REWARDS_TAB):
             self.emulator.click_button(ui.DAILY_REWARDS_TAB)

@@ -118,7 +118,7 @@ class WorldBossInvasion(Missions):
     def battle_over_conditions(self):
         def damage():
             if self.emulator.is_ui_element_on_screen(ui.INVASION_END_BATTLE_DAMAGE):
-                logger.debug("Won battle, chest was acquired.")
+                logger.info("Won battle, chest was acquired.")
                 self._chests += 1
                 return True
             return False
@@ -129,12 +129,12 @@ class WorldBossInvasion(Missions):
         return [damage, failed]
 
     def do_missions(self, times=None, ignore_coop_mission=False):
-        """Do missions."""
+        """Does missions."""
         self.start_missions(times=times, ignore_coop_mission=ignore_coop_mission)
         self.end_missions()
 
     def start_missions(self, times=None, ignore_coop_mission=False):
-        """Start World Boss Invasion."""
+        """Starts World Boss Invasion."""
         if self.open_world_boss_invasion():
             if self.chests > 0:
                 if not self.acquire_chests():
@@ -143,22 +143,24 @@ class WorldBossInvasion(Missions):
                 self._max_chests = times
             if self.chests < self.max_chests and self._find_boss_for_fight():
                 while self.chests < self.max_chests:
+                    logger.debug(f"{times} stages left to complete ({self.chests} out of {self.max_chests}.")
                     if not self.press_start_button(ignore_coop_mission=ignore_coop_mission):
                         return
                     self._wait_for_players_and_start_fight()
         logger.info("No more stages.")
 
     def end_missions(self):
-        """End missions."""
+        """Ends missions."""
         if not self.game.is_main_menu():
             self.game.emulator.click_button(ui.HOME)
             self.close_after_mission_notifications()
             self.game.close_ads()
 
     def open_world_boss_invasion(self):
-        """Open World Boss Invasion missions.
+        """Opens World Boss Invasion missions.
 
-        :return: True or False: is WBI missions open.
+        :return: is WBI missions open or not.
+        :rtype: bool
         """
         self.game.go_to_coop()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INVASION_LABEL):
@@ -168,7 +170,7 @@ class WorldBossInvasion(Missions):
         return False
 
     def _get_chests_count(self):
-        """Receive current chests and max chests amount."""
+        """Stores current chests and max chests amount."""
         chests_text = self.emulator.get_screen_text(ui_element=ui.INVASION_STAGES)
         current_chest, max_chest = self.game.get_current_and_max_values_from_text(chests_text)
         self._chests = 5 if current_chest > 5 else current_chest
@@ -177,25 +179,34 @@ class WorldBossInvasion(Missions):
 
     @property
     def chests(self):
-        """Get current amount of chests."""
+        """Get current amount of chests.
+
+        :rtype: int
+        """
         if self._chests is None:
             self._get_chests_count()
         return self._chests
 
     @chests.setter
     def chests(self, value):
-        """Update available chests value."""
+        """Update available chests value.
+
+        :param int value: value to set.
+        """
         self._chests = value
 
     @property
     def max_chests(self):
-        """Get max amount of chests."""
+        """Get max amount of chests.
+
+        :rtype: int
+        """
         if self._max_chests is None:
             self._get_chests_count()
         return self._max_chests
 
     def acquire_chests(self):
-        """Acquire all available chests."""
+        """Acquires all available chests."""
         logger.debug("Starting to acquire all available chests.")
         self.emulator.click_button(ui.INVASION_MANAGE_CHESTS)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INVASION_CHESTS_MENU_LABEL):
@@ -209,10 +220,12 @@ class WorldBossInvasion(Missions):
         logger.error("Can't get back to mission's lobby.")
 
     def _acquire_chest(self, chest_index):
-        """Acquire chest by chest index.
+        """Acquires chest by chest index.
 
         :param int chest_index: chest index (from 1 to max chests + 1)
-        :return: True or False: was chest acquired.
+
+        :return: was chest acquired or not.
+        :rtype: bool
         """
         logger.debug(f"Trying to acquire chest #{chest_index}")
         chest_ui = ui.get_by_name(f'INVASION_CHEST_AVAILABLE_{chest_index}')
@@ -233,9 +246,10 @@ class WorldBossInvasion(Missions):
         return False
 
     def _find_boss_for_fight(self):
-        """Find available boss fight and enter it.
+        """Finds available boss fight and enter it.
 
-        :return: True or False: was fight found and entered.
+        :return: was fight found and entered or not.
+        :rtype: bool
         """
         weekly_boss_name = self.emulator.get_screen_text(ui_element=ui.INVASION_NAME)
         logger.debug(f"Weekly boss name: {weekly_boss_name}")
@@ -259,9 +273,10 @@ class WorldBossInvasion(Missions):
         return False
 
     def _check_notifications_before_fight(self):
-        """Check fight notifications about any obstacles to start a fight.
+        """Checks fight notifications about any obstacles to start a fight.
 
-        :return: True or False: can we start a fight or not.
+        :return: can we start a fight or not.
+        :rtype: bool
         """
         waiting_for_other_players = self.emulator.is_ui_element_on_screen(
             ui_element=ui.WAITING_FOR_OTHER_PLAYERS)
@@ -277,9 +292,10 @@ class WorldBossInvasion(Missions):
         return True
 
     def press_start_button(self, start_button_ui=ui.INVASION_BOSS_FIGHT_START, ignore_coop_mission=False):
-        """Press start button of the mission.
+        """Presses start button of the mission.
 
-        :return: was button clicked successfully.
+        :return: was button clicked successfully or not.
+        :rtype: bool
         """
         logger.debug(f"Pressing START button with UI Element: {start_button_ui}.")
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=start_button_ui):
@@ -300,7 +316,7 @@ class WorldBossInvasion(Missions):
         return False
 
     def _deploy_characters(self, ignore_coop_mission=False):
-        """Deploy 3 characters to battle."""
+        """Deploys 3 characters to battle."""
         no_main = self.emulator.is_image_on_screen(ui_element=ui.INVASION_NO_CHARACTER_MAIN)
         no_left = self.emulator.is_image_on_screen(ui_element=ui.INVASION_NO_CHARACTER_LEFT)
         no_right = self.emulator.is_image_on_screen(ui_element=ui.INVASION_NO_CHARACTER_RIGHT)
@@ -314,7 +330,7 @@ class WorldBossInvasion(Missions):
             self.emulator.click_button(ui.INVASION_CHARACTER_3)
 
     def _select_character_filter_by_mission(self):
-        """Select character filter by current mission."""
+        """Selects character filter by current mission."""
         for mission_filter in self.mission_filters:
             characters_filter = mission_filter.get_filter(text=self._boss_mission)
             if characters_filter:
@@ -323,7 +339,7 @@ class WorldBossInvasion(Missions):
                 self.emulator.click_button(characters_filter, min_duration=1, max_duration=1)
 
     def _wait_for_players_and_start_fight(self):
-        """Wait for players before start of the fight."""
+        """Waits for players before start of the fight."""
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WAITING_FOR_OTHER_PLAYERS):
             logger.debug("Waiting for other players before battle.")
             if wait_until(self.emulator.is_ui_element_on_screen, timeout=60, condition=False, period=0.5,
@@ -332,16 +348,14 @@ class WorldBossInvasion(Missions):
                               ui_element=ui.DISCONNECT_NEW_OPPONENT):
                     logger.debug("Found disconnect notification. Trying to start again.")
                     self.emulator.click_button(ui.DISCONNECT_NEW_OPPONENT)
-                    self._wait_for_players_and_start_fight()
-                    return
+                    return self._wait_for_players_and_start_fight()
                 logger.debug("Battle is loading. Starting manual bot.")
-                self._manual_bot_start()
-                return
+                return self._manual_bot_start()
             logger.warning("Waiting other players very long, trying to reset.")
             self.emulator.click_button(ui.WAITING_FOR_OTHER_PLAYERS)
 
     def _manual_bot_start(self):
-        """Start manual bot for the fight."""
+        """Starts manual bot for the fight."""
         ManualBattleBot(self.game, self.battle_over_conditions, self.disconnect_conditions).fight()
         if wait_until(self.emulator.is_image_on_screen, timeout=2, ui_element=ui.INVASION_HOME_BUTTON):
             if self._chests < self._max_chests:

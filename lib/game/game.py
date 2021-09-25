@@ -17,6 +17,15 @@ class GameMode:
     """Class for working with game modes."""
 
     def __init__(self, name, stages=0, max_stages=0, ui_button=None, ui_board=None):
+        """Class initialization.
+
+        :param str name: name of game mode. See `lib.game.data.game_modes.game_modes` variable for reference.
+        :param int stages: current number of completed stages (missions) in this game mode.
+        :param int max_stages: max number of available stages (missions) to complete in this game mode.
+        :param ui.UIElement ui_button: button from Content Status Board to enter in this game mode.
+        :param tuple[float, float, float, float] ui_board: rectangle that represents Content Status Board #1 or #2.
+            Needed to determine whether the Content Status Board should be dragged in order to access this game mode.
+        """
         self.name = name
         self.stages = stages
         self.max_stages = max_stages
@@ -48,7 +57,10 @@ class Game(Notifications):
         super().__init__(self)
 
     def _do_after_loading_circle_decorator(self, func):
-        """Emulator's decorator to detect game's loading state."""
+        """Decorator that waits when there is loading circle on screen.
+
+        :param function func: function that should not be executed when loading circle is on screen.
+        """
 
         def wrapped(*args, **kwargs):
             if self.is_loading_circle():
@@ -58,7 +70,10 @@ class Game(Notifications):
         return wrapped
 
     def _handle_network_error_decorator(self, func):
-        """Emulator's decorator to detect network error notifications."""
+        """Decorator that detects network error notifications.
+
+        :param function func: function that should not be executed when network error notifications is on screen.
+        """
 
         def wrapped(*args, **kwargs):
             if self.close_network_error_notification():
@@ -68,7 +83,7 @@ class Game(Notifications):
         return wrapped
 
     def _apply_decorators(self):
-        """Apply game's decorator for Emulator."""
+        """Applies decorators for current Android Emulator."""
         # Store normal function to prevent recursive usage
         self._old_click_button = self.emulator.click_button
         self._old_is_ui_element_on_screen = self.emulator.is_ui_element_on_screen
@@ -86,7 +101,15 @@ class Game(Notifications):
 
     @staticmethod
     def get_current_and_max_values_from_text(text, regexp=cur_slash_max_regexp):
-        """Get current and max value from text by regular expression."""
+        """Gets current and max value from text by regular expression.
+        For example, for `15/30` will return (15, 30)
+
+        :param str text: text from which the values will be extracted.
+        :param typing.Pattern regexp: compiled regular expression used for extraction.
+
+        :return: current and max values in the text.
+        :rtype: tuple[int, int]
+        """
         result = regexp.findall(text)
         try:
             current_value = 0 if not result else int(result[0][0])
@@ -97,12 +120,15 @@ class Game(Notifications):
         return current_value, max_value
 
     def _main_panel_visible(self):
-        """Checks if you can see main panel with gold, energy, etc."""
+        """Checks if gold icon is seen on the screen. Usually it means that in-game main panel is visible."""
         return self.emulator.is_image_on_screen(ui.GOLD_ICON)
 
     @property
     def user_name(self):
-        """Player's username."""
+        """Property for player's username.
+
+        :rtype: str
+        """
         if not self._user_name:
             if not self.is_main_menu():
                 self.go_to_main_menu()
@@ -111,7 +137,10 @@ class Game(Notifications):
 
     @property
     def energy(self):
-        """Game energy bar's value."""
+        """Property for in-game energy bar's value.
+
+        :rtype: int
+        """
         if self._main_panel_visible():
             energy = self.emulator.get_screen_text(ui.ENERGY).replace(",", "")
             self._current_energy, self._energy_max = self.get_current_and_max_values_from_text(energy)
@@ -119,7 +148,10 @@ class Game(Notifications):
 
     @property
     def energy_max(self):
-        """Max value of energy."""
+        """Property for max value of energy counter.
+
+        :rtype: int
+        """
         if self._main_panel_visible():
             energy = self.emulator.get_screen_text(ui.ENERGY).replace(",", "")
             self._current_energy, self._energy_max = self.get_current_and_max_values_from_text(energy)
@@ -127,25 +159,37 @@ class Game(Notifications):
 
     @property
     def gold(self):
-        """Game's gold value."""
+        """Property for in-game gold value.
+
+        :rtype: int
+        """
         if self._main_panel_visible():
             self._gold = self.emulator.get_screen_text(ui.GOLD).replace(",", "")
         return self._gold
 
     @property
     def boost(self):
-        """Game boost points' value."""
+        """Property for in-game boost points' value.
+
+        :rtype: int
+        """
         if self._main_panel_visible():
             self._boost = self.emulator.get_screen_text(ui.BOOST).replace(",", "")
         return self._boost
 
     def get_all_modes(self):
-        """Get information about all game modes."""
+        """Gets all game modes from Content Status Board."""
         if not self._modes:
             self.find_mode_on_content_status_board("ALL")
 
     def get_mode(self, name):
-        """Get game mode by name."""
+        """Gets game mode by name from `self._modes`.
+        If game mode isn't in `self._modes` then tries to find it from Content Status Board.
+
+        :param str name: name of the game mode.
+
+        :rtype: GameMode
+        """
         if not self._modes or name not in self._modes:
             self.find_mode_on_content_status_board(mode_name=name)
             for empty_mode_name in [m_name for m_name in self._mode_names if m_name not in self._modes]:
@@ -161,29 +205,33 @@ class Game(Notifications):
         self._modes[mode.name] = mode
 
     def clear_modes(self):
-        """Clear all game modes information."""
+        """Clears all game modes information."""
         self._modes.clear()
 
     def set_timeline_team(self, team_number):
-        """Set team for Timeline Battles."""
+        """Sets team for Timeline Battles.
+
+        :param int team_number: team number to set.
+        """
         if team_number < 1 or team_number > 5:
-            logger.error("Timeline team: Team number should be between 1 and 5.")
-        else:
-            self.timeline_team = team_number
+            return logger.error("Timeline team: Team number should be between 1 and 5.")
+        self.timeline_team = team_number
 
     def set_mission_team(self, team_number):
-        """Set team for usual missions."""
+        """Sets team for usual missions.
+
+        :param int team_number: team number to set.
+        """
         if team_number < 1 or team_number > 5:
-            logger.error("Mission team: Team number should be between 1 and 5.")
-        else:
-            self.mission_team = team_number
+            return logger.error("Mission team: Team number should be between 1 and 5.")
+        self.mission_team = team_number
 
     def is_main_menu(self):
-        """Check if is current screen is main menu."""
+        """Checks if main menu screen is opened by looking for `TEAM` and `STORE` labels."""
         return self.emulator.is_ui_element_on_screen(ui.TEAM) and self.emulator.is_ui_element_on_screen(ui.STORE)
 
     def is_loading_circle(self):
-        """Check if loading circle is on screen."""
+        """Checks if loading circle is on screen. Looks for colors in special places."""
         loading_circle_rects = [ui.LOADING_CIRCLE_1.image_rect, ui.LOADING_CIRCLE_2.image_rect,
                                 ui.LOADING_CIRCLE_3.image_rect, ui.LOADING_CIRCLE_4.image_rect,
                                 ui.LOADING_CIRCLE_5.image_rect, ui.LOADING_CIRCLE_6.image_rect,
@@ -191,7 +239,7 @@ class Game(Notifications):
         return self.emulator.is_color_similar(color=ui.LOADING_CIRCLE_1.image_color, rects=loading_circle_rects)
 
     def go_to_main_menu(self):
-        """Go to main menu screen."""
+        """Goes to main menu screen."""
         if not self.is_main_menu():
             if self.emulator.is_image_on_screen(ui.HOME):
                 self.emulator.click_button(ui.HOME)
@@ -199,38 +247,36 @@ class Game(Notifications):
         return self.is_main_menu()
 
     def go_to_content_status_board(self):
-        """Go to Content Status Board screen."""
+        """Goes to Content Status Board screen."""
         self.go_to_main_menu()
         if wait_until(self.is_main_menu):
             self.emulator.click_button(ui.CONTENT_STATUS_BOARD_BUTTON)
             return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CONTENT_STATUS_BOARD_LABEL)
 
     def find_mode_on_content_status_board(self, mode_name):
-        """Find game mode on Content Status Board.
+        """Finds game mode on Content Status Board.
 
-        :param mode_name: mode's name.
-
-        :return: GameMode: class representation of found game mode.
+        :param str mode_name: name of game mode.
         """
         if not self.go_to_content_status_board():
             return logger.error("Failed to open Content Status board.")
-        mode_from_board_1 = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_1, rows=3, cols=4)
-        if mode_from_board_1:
-            return mode_from_board_1
+        mode = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_1, rows=3, cols=4)
+        if mode:
+            return mode
         self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
         r_sleep(1)
         return self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_2, rows=3, cols=4)
 
     def find_mode_on_board(self, mode_name, board, rows, cols):
-        """Parse information from Content Status Board screen about game modes.
-        Screen contains table of game modes with additional info.
+        """Parses information from Content Status Board screen about game modes.
+        Chunks board's elements into pieces and tries to parse them with `ThreadPool`.
 
-        :param mode_name: mode's name.
-        :param board: rectangle of Content Status Board.
-        :param rows: rows count of board's table.
-        :param cols: cols count of board's table.
+        :param str mode_name: name of game mode.
+        :param ui.UIElement board: UI element that represents current Content Status Board.
+        :param int rows: rows count of board's table.
+        :param int cols: cols count of board's table.
 
-        :return: dictionary with information about game modes on board.
+        :rtype: GameMode
         """
 
         def chunk_items(items, chunk_size):
@@ -254,12 +300,17 @@ class Game(Notifications):
                         return mode
 
     def get_mode_from_element(self, board_rect, element_rect):
-        """Get information about game mode from single game mode element.
+        """Gets information about game mode from single game mode element.
+        `element_rect` rectangle is made from coordinates that are local inside any Content Status Board rectangle.
+        In order to obtain info about element, method creates temporary UI element
+        and calculates `element_rect` local coordinates into global coordinates inside `board_rect`.
 
-        :param board_rect: rectangle of Content Status Board.
-        :param element_rect: rectangle of single game mode element inside board.
+        :param ui.Rect board_rect: rectangle that represents current Content Status Board.
+            See `ui.CONTENT_STATUS_BOARD_1` or `ui.CONTENT_STATUS_BOARD_2` for reference.
+        :param ui.Rect element_rect: rectangle of single game mode element inside board.
+            See `ui.CONTENT_STATUS_ELEMENT_1` for reference.
 
-        :return: dictionary with information about game mode inside element_rect.
+        :rtype: GameMode
         """
         # Getting global rects of elements
         element_ui = ui.UIElement(name='UI_BOARD_ELEMENT')
@@ -287,9 +338,9 @@ class Game(Notifications):
                 return game_mode
 
     def select_mode(self, name):
-        """Select and open game mode from Content Status Board.
+        """Selects and opens game mode from Content Status Board by it's name.
 
-        :param name: game mode's name.
+        :param str name: game mode's name.
         """
         if not self.go_to_content_status_board():
             logger.error("Failed to open Content Status board.")
@@ -303,7 +354,7 @@ class Game(Notifications):
         return True
 
     def go_to_mission_selection(self):
-        """Go to Missions screen."""
+        """Goes to Missions screen."""
         self.go_to_main_menu()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
             self.emulator.click_button(ui.ENTER_MISSIONS)
@@ -311,32 +362,8 @@ class Game(Notifications):
                 r_sleep(1)
                 return True
 
-    def go_to_challenge_selection(self):
-        """DEPRECATED.
-
-        Go to Challenges screen.
-        """
-        self.go_to_main_menu()
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
-            self.emulator.click_button(ui.ENTER_MISSIONS)
-            r_sleep(1)
-            self.emulator.click_button(ui.CHALLENGE_MISSIONS)
-            r_sleep(1)
-
-    def go_to_arena(self):
-        """DEPRECATED.
-
-        Go to Arena screen.
-        """
-        self.go_to_main_menu()
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
-            self.emulator.click_button(ui.ENTER_MISSIONS)
-            r_sleep(1)
-            self.emulator.click_button(ui.ARENA_MISSIONS)
-            r_sleep(1)
-
     def go_to_coop(self):
-        """Go to Co-op screen."""
+        """Goes to Co-op screen."""
         self.go_to_main_menu()
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ENTER_MISSIONS):
             self.emulator.click_button(ui.ENTER_MISSIONS)
@@ -344,7 +371,7 @@ class Game(Notifications):
                 self.emulator.click_button(ui.COOP_MISSIONS)
 
     def go_to_challenges(self):
-        """Go to Challenges screen."""
+        """Goes to Challenges screen."""
         self.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -356,7 +383,7 @@ class Game(Notifications):
         return False
 
     def go_to_comic_cards(self):
-        """Go to Comic Cards screen."""
+        """Goes to Comic Cards screen."""
         self.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -368,7 +395,7 @@ class Game(Notifications):
         return False
 
     def go_to_inventory(self):
-        """Go to Inventory screen."""
+        """Goes to Inventory screen."""
         self.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -380,7 +407,7 @@ class Game(Notifications):
         return False
 
     def go_to_friends(self):
-        """Go to Friends screen."""
+        """Goes to Friends screen."""
         self.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -392,7 +419,7 @@ class Game(Notifications):
         return False
 
     def go_to_alliance(self):
-        """Go to Alliance screen."""
+        """Goes to Alliance screen."""
         self.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -408,7 +435,7 @@ class Game(Notifications):
         return False
 
     def go_to_inbox(self):
-        """Go to Inbox screen."""
+        """Goes to Inbox screen."""
         self.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -420,7 +447,7 @@ class Game(Notifications):
         return False
 
     def go_to_epic_quests(self):
-        """Go to Epic Quests screen."""
+        """Goes to Epic Quests screen."""
         if self.go_to_mission_selection():
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.EPIC_QUEST_MISSIONS):
                 self.emulator.click_button(ui.EPIC_QUEST_MISSIONS)
@@ -429,7 +456,7 @@ class Game(Notifications):
                     return True
 
     def go_to_dispatch_mission(self):
-        """Go to Dispatch Mission screen."""
+        """Goes to Dispatch Mission screen."""
         if self.go_to_mission_selection():
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DISPATCH_MISSION):
                 self.emulator.click_button(ui.DISPATCH_MISSION)
@@ -438,10 +465,12 @@ class Game(Notifications):
                     return True
 
     def restart_game(self, repeat_while=None):
-        """Restart game.
+        """Restarts the game.
 
-        :param repeat_while: repeat closing game if condition is True.
-        :return: True or False: was restart successful.
+        :param function repeat_while: function that returns bool. Tries to close game if condition is True.
+
+        :return: was restart successful or not.
+        :rtype: bool
         """
         if self.emulator.restartable:
             self.clear_modes()
@@ -456,18 +485,16 @@ class Game(Notifications):
         return False
 
     def close_game(self):
-        """Close game.
-
-        :return: True or False: was game closed.
-        """
+        """Closes the game."""
         logger.debug("Closing game.")
         self.emulator.close_current_app()
         r_sleep(2)
 
     def start_game(self):
-        """Start game.
+        """Starts the game.
 
-        :return: True or False: was game started.
+        :return: was game started or not.
+        :rtype: bool
         """
 
         def download_update():

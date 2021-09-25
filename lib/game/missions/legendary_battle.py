@@ -62,6 +62,7 @@ class LegendaryBattle(Missions):
                     return
                 ManualBattleBot(self.game, self.battle_over_conditions).fight()
                 self.stages -= 1
+                logger.debug(f"{self.stages} stages left to complete.")
                 if self.stages > 0:
                     self.press_repeat_button(repeat_button_ui=ui.LB_REPEAT_BUTTON, start_button_ui=ui.LB_START_BUTTON)
             self.press_home_button(home_button=ui.LB_HOME_BUTTON)

@@ -12,7 +12,9 @@ logger = logging.get_logger(__name__)
 def _classes_from_module(module_name):
     """Generator for all non-imported classes inside module.
 
-    :param module_name: module's name.
+    :param str module_name: module's name.
+
+    :rtype: typing.Generator[type[GameMode]]
     """
     if module_name not in sys.modules:
         logger.error(f"Cannot load {module_name} module.")
@@ -22,33 +24,46 @@ def _classes_from_module(module_name):
 
 
 def _init_classes(module_name, game):
-    """Initialize all non-imported classes inside module into the game.
+    """Initializes all non-imported classes inside module into the game.
 
-    :param module_name: module's name.
-    :param game: instance of the game.
+    :param str module_name: module's name.
+    :param lib.game.game.Game game: instance of the game.
+
+    :rtype: list[GameMode]
     """
     return [class_init(game) for class_init in _classes_from_module(module_name)]
 
 
 def get_actions(game):
-    """Get all initialized actions."""
+    """Gets all initialized actions.
+
+    :rtype: list[Action]
+    """
     return _init_classes(module_name=actions.__name__, game=game)
 
 
 def get_events(game):
-    """Get all initialized events."""
+    """Gets all initialized events.
+
+    :rtype: list[Event]
+    """
     return _init_classes(module_name=events.__name__, game=game)
 
 
 def get_missions(game):
-    """Get all initialized missions."""
+    """Gets all initialized missions.
+
+    :rtype: list[GameMode]
+    """
     return _init_classes(module_name=missions.__name__, game=game)
 
 
 def get_missions_dict(mission_instances):
-    """Construct menu dictionary for missions by it's instances.
+    """Constructs menu dictionary for missions by it's instances.
 
-    :param mission_instances: list of mission's instances.
+    :param list[GameMode] mission_instances: list of mission's instances.
+
+    :rtype: dict
     """
     def find_instance(class_):
         return next((inst for inst in mission_instances if inst.__class__.__name__ == class_.__name__), None)
@@ -90,9 +105,11 @@ def get_missions_dict(mission_instances):
 
 
 def get_actions_dict(action_instances):
-    """Construct menu dictionary for actions by it's instances.
+    """Constructs menu dictionary for actions by it's instances.
 
-    :param action_instances: list of action's instances.
+    :param list[Action] action_instances: list of action's instances.
+
+    :rtype: dict
     """
     def find_instance(class_):
         return next((inst for inst in action_instances if inst.__class__.__name__ == class_.__name__), None)

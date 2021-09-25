@@ -24,9 +24,9 @@ class NoxPlayer(AndroidEmulator):
     def __init__(self, name="NoxPlayer", child_name="ScreenBoardClassWindow", key_handle_name=None):
         """Class initialization.
 
-        :param name: main window's name of the emulator.
-        :param child_name: child window's name of inner control window.
-        :param key_handle_name: name of windows's key handler.
+        :param str name: main window's name of the emulator.
+        :param str child_name: child window's name of inner control window.
+        :param str key_handle_name: name of windows's key handler.
         """
         super().__init__(name=name, child_name=child_name, key_handle_name=key_handle_name)
         self.close_app_shortcut = self._get_keyboard_shortcut_for_closing_app() if self.initialized else None

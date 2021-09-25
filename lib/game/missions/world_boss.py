@@ -126,6 +126,7 @@ class WorldBoss(Missions):
                     logger.error("Something went wrong while respawning after lost battle.")
             else:
                 self.stages -= 1
+            logger.debug(f"{self.stages} stages left to complete.")
             if self.stages > 0:
                 self.press_repeat_button(repeat_button_ui=ui.WB_REPEAT_BUTTON, start_button_ui=ui.WB_READY_BUTTON)
             else:

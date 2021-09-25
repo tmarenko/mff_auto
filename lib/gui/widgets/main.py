@@ -30,7 +30,7 @@ logger = logging.get_logger(__name__)
 
 
 def load_game_settings(path="settings/gui/game.json"):
-    """Load game settings for GUI."""
+    """Loads game settings for GUI."""
     if exists(path):
         try:
             with open(path, encoding='utf-8') as json_data:
@@ -43,7 +43,7 @@ def load_game_settings(path="settings/gui/game.json"):
 
 
 def save_game_settings(json_data, path="settings/gui/game.json"):
-    """Store game settings."""
+    """Stores game settings."""
     with open(path, mode='w', encoding='utf-8') as file:
         json.dump(json_data, file)
 
@@ -64,7 +64,11 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             cls.recorder.resume()
 
     def __init__(self, file_logger, settings):
-        """Class initialization."""
+        """Class initialization.
+
+        :param logging.FileHandler file_logger: file handler of log-file.
+        :param PyQt5.QtCore.QSettings.QSettings settings: GUI settings.
+        """
         super().__init__()
         self.setupUi(self)
         set_default_icon(window=self)
@@ -110,7 +114,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self._create_menu_for_recorder()
 
     def _init_window_settings(self):
-        """Restoring the State of a GUI."""
+        """Restores the State of a GUI from settings."""
         self.resize(self.settings.value("MainWindow/size", defaultValue=self.size()))
         self.move(self.settings.value("MainWindow/pos", defaultValue=self.pos()))
         if self.settings.value("MainWindow/isMaximized") == 'true':
@@ -119,11 +123,11 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             self.settings.value("mff_low_memory_mode", defaultValue="false").lower() == "true")
 
     def update_labels(self):
-        """Update game's labels in thread to prevent GUI freezing."""
+        """Updates game's labels in thread to prevent GUI freezing."""
         self.threads.run_thread(target=self._update_labels)
 
     def _update_labels(self):
-        """Update game's labels such as: username, energy, gold and boost points."""
+        """Updates game's labels such as: username, energy, gold and boost points."""
         if not self.emulator.initialized:
             return
         if not self._user_name_acquired and self.game.is_main_menu():
@@ -163,7 +167,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         logger.info(f"Low memory mode: {self.low_memory_mode_checkbox.isChecked()}")
 
     def load_settings_from_file(self):
-        """Load settings and apply them to game."""
+        """Loads settings and applies them to game."""
         game_settings = load_game_settings()
         if not game_settings:
             self.setup_gui_first_time()
@@ -180,7 +184,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.game.ACQUIRE_HEROIC_QUEST_REWARDS = self.acquire_heroic_quest_rewards_checkbox.isChecked()
 
     def save_settings_to_file(self):
-        """Store GUI settings to file."""
+        """Stores GUI settings to file."""
         game_settings = {
             "timeline_team": self.game.timeline_team,
             "mission_team": self.game.mission_team,
@@ -193,8 +197,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         logger.debug("Game settings saved.")
 
     def setup_gui_first_time(self):
-        """Setup GUI settings for first time.
-        Run `SetupEmulator` and retrieve information about emulator and game app."""
+        """Setups GUI settings for first time.
+        Runs `SetupEmulator` and retrieves information about emulator and game app."""
         setup = SetupEmulator()
         setup.run_emulator_setup()
         self.emulator_name, self.emulator_type, self.game_app_rect = setup.get_emulator_and_game_app()
@@ -211,7 +215,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         logger.debug("Saving setting from first setup.")
 
     def init_emulator_and_game(self):
-        """Init emulator and game."""
+        """Initializes emulator and game objects."""
         if not self.emulator_name:
             self.setup_gui_first_time()
         if self.emulator_type == NoxPlayer.__name__:
@@ -241,7 +245,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.recorder_action.triggered.connect(self._start_recording)
 
     def _start_recording(self):
-        """Start recording video from emulator."""
+        """Starts recording video from emulator."""
         MainWindow.recorder = EmulatorCapture(self.emulator)
         MainWindow.recorder.start()
         MainWindow.recorder.pause()
@@ -253,7 +257,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.screen_image.get_image_func = lambda: bgr_to_rgb(MainWindow.recorder.video_capture.source.frame())
 
     def _stop_recording(self):
-        """Stop recording video from emulator."""
+        """Stops recording video from emulator."""
         MainWindow.recorder.stop()
         MainWindow.recorder = None
 
@@ -276,7 +280,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.settings.setValue("mff_low_memory_mode", self.low_memory_mode_checkbox.isChecked())
 
     def create_blockable_button(self, button):
-        """Create button that blocks others."""
+        """Creates button that blocks others."""
         if not button:
             return
         two_state_button = TwoStateButton(button=button)
@@ -286,14 +290,17 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         return two_state_button
 
     def block_buttons(self, caller_button):
-        """Block buttons except caller one."""
+        """Blocks buttons except caller one.
+
+        :param PyQt5.QtWidgets.QPushButton.QPushButton caller_button: button that called the event.
+        """
         buttons_to_block = [button for button in self.blockable_buttons if
                             button and button.isEnabled() and button != caller_button]
         for button in buttons_to_block:
             button.setEnabled(False)
 
     def unblock_buttons(self):
-        """Unblock all buttons."""
+        """Unblocks all buttons."""
         for button in self.blockable_buttons:
             if button:
                 button.setEnabled(True)
@@ -301,8 +308,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     def _create_task(self, button, task_class):
         """Creates blockable button for task and initialized it.
 
-        :param TwoStateButton button:
-        :param type[lib.gui.single_task_manager.SingleTask] task_class:
+        :param PyQt5.QtWidgets.QPushButton.QPushButton button: button to run the task.
+        :param type[lib.gui.single_task_manager.SingleTask] task_class: class object of the task.
         """
         blockable_button = self.create_blockable_button(button=button)
         task = task_class(game=self.game, button=blockable_button)

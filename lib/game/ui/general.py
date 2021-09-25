@@ -80,18 +80,19 @@ class UIElement:
 
     STABLE_MAX_HEIGHT_FOR_TESSERACT = 72  # 72 is stable on 720p/1080p/1440p
 
-    description = None
-    button_rect = None
-    text_rect = None
-    image_rect = None
-    image = None
-    text = None
-    image_threshold = None
-    text_threshold = None
-    image_color = None
-    color_to_convert = None
-    available_characters = None
-    tesseract_resize_height = STABLE_MAX_HEIGHT_FOR_TESSERACT
+    description = None  # type: str
+    button_rect = None  # type: Rect
+    text_rect = None  # type: Rect
+    image_rect = None  # type: Rect
+    image = None  # type: numpy.ndarray
+    text = None  # type: str
+    image_threshold = None  # type: int
+    text_threshold = None  # type: int
+    image_color = None  # type: (int, int, int)
+    color_to_convert = None  # type: ((int, int, int), )
+    available_characters = None  # type: str
+    tesseract_resize_height = STABLE_MAX_HEIGHT_FOR_TESSERACT  # type: int
+    offset = None  # type: Rect
 
     def __init__(self, name="Test"):
         """Class initialization.

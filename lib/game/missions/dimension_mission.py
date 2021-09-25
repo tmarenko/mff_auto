@@ -129,6 +129,7 @@ class DimensionMission(Missions):
             AutoBattleBot(self.game, self.battle_over_conditions).fight()
             times -= 1
             self.close_mission_notifications()
+            logger.debug(f"{times} stages left to complete.")
             if times > 0:
                 self.press_repeat_button()
             else:
