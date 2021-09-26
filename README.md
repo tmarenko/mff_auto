@@ -5,7 +5,9 @@ Compatible with **7.3.0** version.
 ## FAQ
 **Q**: What this bot can do?
 
-**A**: **mff_auto** can play almost all game modes: World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, World Boss Invasions, Epic Quests, Danger Room, Giant Boss Raid.
+**A**: **mff_auto** can play almost all game modes: 
+  World Bosses, Alliance Battle, Co-op missions, Dimension missions, Timeline battles, Legendary battles, 
+  World Boss Invasions, Epic Quests, Danger Room, Giant Boss Raid, Shadowland.
 
 Also it can enable *Autoplay++* feature anywhere and do your daily routines.
 
@@ -27,13 +29,15 @@ Video footage of all game modes running by **mff_auto**: https://youtu.be/QcgZcA
 - Install [NoxPlayer](https://bignox.com) (or [BlueStacks](https://www.bluestacks.com))
  and then install and run [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb).
 
-- Set [NoxPlayer](http://res06.bignox.com/full/20190723/7806c680dd1e4a66990aea06b6dcbcc9.exe?filename=nox_setup_v6.3.0.5_full_intl.exe)
+- Set [NoxPlayer](https://bignox.com)
  (or [BlueStacks](https://www.bluestacks.com))
  screen resolution at least **1280x720**. If you encounter problems then try **1920x1080**.
  
-- Set in [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb) setting **GRAPHICS** to at least **Medium**. Lesser settings will lead to blurried text.
+- Set in [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb) 
+  setting **GRAPHICS** to at least **Medium**. Lesser settings will lead to blurried text.
 
-  In the same setting's menu turn off this notifications: `Mission Navigation Auto Popup` and `Future Pass Point Acquired`.
+  In the same setting's menu turn off this notifications: 
+  `Mission Navigation Auto Popup` and `Future Pass Point Acquired`.
 
 - Download last release: [Link to releases](https://github.com/tmarenko/mff_auto/releases)
 
@@ -50,7 +54,8 @@ On first start you will see `Setup` window. Follow the instructions in the windo
 
 - **(Only for NoxPlayer)** Then you will be asked questions. Read instructions and select `Yes` or `No`.
 
-  At the end you will be asked to click at **MFF** app in the window. Position of app icon will be stored in `settings/gui/game.json`.
+  At the end you will be asked to click at **MFF** app in the window. 
+  Position of app icon will be stored in `settings/gui/game.json`.
  
   You need to **restart NoxPlayer** and **mff_auto** to apply changes.
 
@@ -81,7 +86,10 @@ On first start you will see `Setup` window. Follow the instructions in the windo
 At current state Marvel Future Fight bot is at beta stage.
 
 - Timeline battle do not check if your team is available for battle. Please setup team manually.
-- Alliance and World Boss battles do not check if your characters can do these modes. Make sure that you have strong characters.
+- Alliance and World Boss battles do not check if your characters can do these modes. 
+  Make sure that you have strong characters.
+- Shadowland requires a big roaster of powerful heroes. 
+  Make sure that you have at least 60 to 90 T2 characters and uniforms for them.
 
 ## Contribution
 
@@ -90,7 +98,8 @@ Feel free to contribute. Don't forget about [license](LICENSE).
 ### Running from source code
 
 - Install [Python 3.6.5](https://www.python.org/downloads/release/python-365)
-- Install [Tesseract OCR 3.05.02](https://digi.bib.uni-mannheim.de/tesseract) and add path to Tesseract to your `PATH` environment.
+- Install [Tesseract OCR 3.05.02](https://digi.bib.uni-mannheim.de/tesseract) 
+  and add path to Tesseract to your `PATH` environment.
 - Download source code and install all requirements: ```pip install -r requirements.txt```
 - Copy `tessdata` folder to your Tesseract folder.
 - Add `lib` folder to your `PYTHONPATH` or mark it as lib source.
@@ -100,18 +109,18 @@ Check `example.py` for examples of running any modes.
 ### Capture video for debugging
 
 ```python
-    from lib.emulators.nox_player import NoxPlayer
-    from lib.game.game import Game
-    from lib.video_capture import EmulatorCapture
-    
-    nox = NoxPlayer("NoxPlayer")
-    game = Game(nox)
-    with EmulatorCapture(nox) as recorder:
-        # video file is in `logs` folder
-        # ... do your stuff here ...
-        recorder.pause()
-        # pause recording
-        recorder.resume()
+from lib.emulators.nox_player import NoxPlayer
+from lib.game.game import Game
+from lib.video_capture import EmulatorCapture
+
+nox = NoxPlayer("NoxPlayer")
+game = Game(nox)
+with EmulatorCapture(nox) as recorder:
+    # video file is in `logs` folder
+    # ... do your stuff here ...
+    recorder.pause()
+       # pause recording
+    recorder.resume()
 ```
 
 ### Building release package from source code
