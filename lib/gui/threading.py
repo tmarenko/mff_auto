@@ -65,15 +65,32 @@ class ThreadPool:
         """Class initialization."""
         self.thread_pool = QThreadPool()
 
-    def run_thread(self, target, with_progress=False):
-        """Runs thread.
+    def run_thread(self, func, on_finish=None, on_progress=None, on_error=None, on_result=None, with_progress=False):
+        """Runs worker in thread.
 
-        :param function target: target to run.
+        :param function func: function to run.
+        :param function | list[function] on_finish: callbacks for 'finished' signal.
+        :param function | list[function] on_progress: callbacks for 'progress' signal.
+        :param function | list[function] on_error: callbacks for 'error' signal.
+        :param function | list[function] on_result: callbacks for 'result' signal.
         :param bool with_progress: connect `progress` callback to worker or not.
 
         :return thread's worker.
         :rtype: lib.gui.threading.Worker
         """
-        worker = Worker(func=target, with_progress=with_progress)
+
+        def connect_to_signal(signal: pyqtSignal, callbacks):
+            if not callbacks:
+                return
+            if callable(callbacks):
+                callbacks = [callbacks]
+            for callback in callbacks:
+                signal.connect(callback)
+
+        worker = Worker(func=func, with_progress=with_progress)
+        connect_to_signal(signal=worker.signals.finished, callbacks=on_finish)
+        connect_to_signal(signal=worker.signals.progress, callbacks=on_progress)
+        connect_to_signal(signal=worker.signals.error, callbacks=on_error)
+        connect_to_signal(signal=worker.signals.result, callbacks=on_result)
         self.thread_pool.start(worker)
         return worker

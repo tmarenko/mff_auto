@@ -257,11 +257,12 @@ class QueueList:
         MainWindow.resume_recorder()
         self.run_and_stop_button.set_second_state()
         self.widget.setDragDropMode(QAbstractItemView.NoDragDrop)
-        worker = self.threads.run_thread(target=self._run_queue, with_progress=True)
-        worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
-        worker.signals.finished.connect(self.reset_background)
-        worker.signals.finished.connect(MainWindow.pause_recorder)
-        worker.signals.progress.connect(self.mark_execution_background)
+        self.threads.run_thread(func=self._run_queue,
+                                on_finish=[self.run_and_stop_button.set_first_state,
+                                           self.reset_background,
+                                           MainWindow.pause_recorder],
+                                on_progress=self.mark_execution_background,
+                                with_progress=True)
 
     def mark_execution_background(self, cur_index):
         """Marks execution queue items with color.

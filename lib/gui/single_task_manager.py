@@ -35,7 +35,7 @@ class SingleTask:
         logger.debug(f"Executing single task: {self.__class__.__name__} {self.task_func.__name__}")
         from lib.gui.widgets.main import MainWindow
         MainWindow.resume_recorder()
-        worker = self.threads.run_thread(target=self._execute)
+        worker = self.threads.run_thread(func=self._execute)
         worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
         worker.signals.finished.connect(MainWindow.pause_recorder)
         self.run_and_stop_button.set_second_state()
@@ -87,7 +87,7 @@ class SingleTaskWithOptions:
                      f"with parameters {parameters}")
         from lib.gui.widgets.main import MainWindow
         MainWindow.resume_recorder()
-        worker = self.threads.run_thread(target=lambda: self._execute(parameters=parameters))
+        worker = self.threads.run_thread(func=lambda: self._execute(parameters=parameters))
         worker.signals.finished.connect(self.run_and_stop_button.set_first_state)
         worker.signals.finished.connect(self._set_menu)
         worker.signals.finished.connect(MainWindow.pause_recorder)
