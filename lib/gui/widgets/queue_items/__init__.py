@@ -127,6 +127,7 @@ def get_actions_dict(action_instances):
              find_instance(actions._AcquireFreeHeroChest)]
     menu_dict = {
         "[ACTIONS]": {
+            "[QUEUE CONTROL]": [find_instance(actions._RunQueue)],
             "ALLIANCE": alliance,
             "INVENTORY": inventory,
             "STORE": store,

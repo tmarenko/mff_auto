@@ -4,6 +4,16 @@ from lib.game.dispatch_mission import DispatchMission
 from lib.gui.widgets.queue_items.general import Action
 
 
+class _RunQueue(Action):
+
+    def __init__(self, game):
+        super().__init__(game, "RUN QUEUE", lambda queue_index: None)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Spinbox,
+                                                     setting_key="queue_index",
+                                                     text="Index of queue to run",
+                                                     initial_value=1, min=1, max=4))
+
+
 class _RestartGame(Action):
 
     def __init__(self, game):

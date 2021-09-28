@@ -1,5 +1,7 @@
-import json
+﻿import json
+from collections import deque
 from os.path import exists
+from typing import List
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem
@@ -49,7 +51,7 @@ class QueueList:
         self.edit_button = edit_button
         self.remove_button = remove_button
         self.queue_selector_buttons = queue_selector_buttons
-        self.stored_queues = [[], ] * len(self.queue_selector_buttons)
+        self.stored_queues = [[], ] * len(self.queue_selector_buttons)  # type: List[List[QueueItem]]
         self.current_queue_index = 0
         self.setup_buttons()
         self.threads = ThreadPool()
@@ -69,6 +71,14 @@ class QueueList:
             item = self.widget.item(i)
             if isinstance(item, QueueItem):
                 yield item
+
+    @property
+    def queue_fifo(self):
+        """Creates FIFO representation of current queue.
+
+        :rtype: deque[QueueItem]
+        """
+        return deque(list(self.queue()))
 
     def clear_queue(self):
         """Clears queue."""
@@ -250,9 +260,21 @@ class QueueList:
         if self.widget.count() == 2:
             self.run_and_stop_button.button.setEnabled(False)
 
+    def add_queue_by_index(self, queue, queue_index):
+        """Adds items from queue to current queue by queue index.
+
+        :param deque[QueueItem] queue: current FIFO queue.
+        :param queue_index: index of queue to add.
+        """
+        logger.debug(f"Running queue by index = {queue_index}")
+        for item in reversed(self.stored_queues[queue_index - 1]):
+            clone = item.clone(mark=True)
+            queue.appendleft(clone)
+
     def run_queue(self):
         """Runs and executes all items in queue."""
         logger.debug("Running queue.")
+        self.store_current_queue()
         from lib.gui.widgets.main import MainWindow
         MainWindow.resume_recorder()
         self.run_and_stop_button.set_second_state()
@@ -300,11 +322,19 @@ class QueueList:
 
         :param PyQt5.QtCore.pyqtSignal.pyqtSignal progress_callback: signal to emit queue progress.
         """
-        for index, item in enumerate(self.queue()):
+        queue = self.queue_fifo
+        index = -1
+        while queue:
+            item = queue.popleft()
+            if not item.was_cloned:
+                index += 1
             if self.stop_queue_flag:
                 break
             progress_callback.emit(index)
             executor, settings = item.get_executor()
+            if item.mode_name == "RUN QUEUE":
+                self.add_queue_by_index(queue=queue, **settings)
+                continue
             if not executor:
                 logger.debug(f"Skipping queue item: {item.mode_name}")
                 continue

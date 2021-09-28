@@ -30,6 +30,7 @@ class QueueItem(QListWidgetItem):
         self.setFlags(self.flags() | Qt.ItemIsUserCheckable)
         self.setCheckState(Qt.Checked)
         self.setToolTip(self.name)
+        self.was_cloned = False
 
     def clear_parameters(self):
         parameters = self.parameters.copy()
@@ -76,6 +77,9 @@ class QueueItem(QListWidgetItem):
             hour_offset = self.parameters.get("hour_offset")
             if hour_offset:
                 additional_text += f"[-{hour_offset} hour(s)]"
+            queue_index = self.parameters.get("queue_index")
+            if queue_index:
+                additional_text += f"#{queue_index}"
             return f"[Action] {self.mode_name.title()} {additional_text}"
         if self.parameters.get("event"):
             return f"[Event] {self.mode_name.title()} {additional_text}"
@@ -94,6 +98,19 @@ class QueueItem(QListWidgetItem):
         else:
             additional_text += " [All stages]"
         return f"{self.mode_name.title()} -{additional_text}"
+
+    def clone(self, mark=False):
+        """Clones item.
+
+        :param bool mark: should clone be marked that it was cloned.
+
+        :rtype: QueueItem
+        """
+        clone = QueueItem(func=self.func, parameters=self.parameters, mode_name=self.mode_name,
+                          mode_name_formatted=self.mode_name_formatted)
+        clone.set_checked(checked=self.is_checked)
+        clone.was_cloned = mark
+        return clone
 
 
 class QueueItemEditor(QDialog, design.Ui_Dialog):
