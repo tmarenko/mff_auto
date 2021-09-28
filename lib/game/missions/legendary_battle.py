@@ -15,6 +15,7 @@ class LegendaryBattle(Missions):
     INFINITY_WAR = "INFINITY_WAR"
     ANT_MAN = "ANT_MAN"
     CAPTAIN_MARVEL = "CAPTAIN_MARVEL"
+    SHANG_CHI = "SHANG_CHI"
 
     class MODE:
         NORMAL = "NORMAL"
@@ -84,9 +85,13 @@ class LegendaryBattle(Missions):
         if mode != self.MODE.NORMAL and mode != self.MODE.EXTREME:
             logger.error(f"Got wrong mode for battles: {mode}.")
             return False
-        if battle not in [self.THOR_RAGNAROK, self.BLACK_PANTHER, self.ANT_MAN, self.INFINITY_WAR, self.CAPTAIN_MARVEL]:
+        if battle not in [self.THOR_RAGNAROK, self.BLACK_PANTHER, self.ANT_MAN, self.INFINITY_WAR, self.CAPTAIN_MARVEL,
+                          self.SHANG_CHI]:
             logger.error(f"Got wrong battle: {battle}.")
             return False
+        if battle == self.SHANG_CHI:
+            return self._select_legendary_battle_from_top(title=ui.LB_SHANG_CHI_BATTLE_TITLE,
+                                                          battle=ui.LB_SHANG_CHI_BATTLE, mode=mode)
         if battle == self.THOR_RAGNAROK:
             return self._select_legendary_battle_from_bottom(title=ui.LB_RAGNAROK_BATTLE_TITLE,
                                                              battle=ui.LB_RAGNAROK_BATTLE, mode=mode)
@@ -141,6 +146,26 @@ class LegendaryBattle(Missions):
                 logger.debug(f"Found {title.text} battle. Selecting.")
                 self.emulator.click_button(battle)
                 return self._select_legendary_battle_from_bottom(title=title, battle=battle, mode=mode)
+        return False
+
+    def _select_legendary_battle_from_top(self, title, battle, mode):
+        """Selects Legendary Battle from top of the list.
+
+        :param ui.UIElement title: title of legendary battle.
+        :param ui.UIElement battle: legendary battle.
+        :param str mode: difficulty of legendary battle.
+        """
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=title):
+            logger.debug(f"Found selected {title.text}, entering with {mode} mode.")
+            return self._select_battle_mode(mode=mode)
+        else:
+            logger.debug(f"{title.text} isn't selected, trying to found it.")
+            self.emulator.drag(ui.LB_DRAG_TO, ui.LB_DRAG_FROM)
+            r_sleep(1)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=battle):
+                logger.debug(f"Found {title.text} battle. Selecting.")
+                self.emulator.click_button(battle)
+                return self._select_legendary_battle_from_top(title=title, battle=battle, mode=mode)
         return False
 
     def _select_stage(self, stage):

@@ -8,7 +8,8 @@ class _LegendaryBattle(GameMode):
         "Black Panther": missions.LegendaryBattle.BLACK_PANTHER,
         "Infinity War": missions.LegendaryBattle.INFINITY_WAR,
         "Ant-Man & The Wasp": missions.LegendaryBattle.ANT_MAN,
-        "Captain Marvel": missions.LegendaryBattle.CAPTAIN_MARVEL
+        "Captain Marvel": missions.LegendaryBattle.CAPTAIN_MARVEL,
+        "Shang-Chi": missions.LegendaryBattle.SHANG_CHI
     }
 
     def __init__(self, game):
