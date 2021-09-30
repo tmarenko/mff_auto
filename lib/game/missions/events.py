@@ -162,6 +162,7 @@ class EventWorldBoss(EventMissions, WorldBoss):
                 if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_EXCLUDE_CHARACTERS_FROM_ALLIES):
                     self.emulator.click_button(ui.WB_EXCLUDE_CHARACTERS_FROM_ALLIES)
                 ManualBattleBot(self.game, self.battle_over_conditions).fight(move_around=True)
+                self.close_mission_notifications()
                 return True
             logger.error(f"Failed to locate {ui.WB_START_BUTTON} button.")
             return False
