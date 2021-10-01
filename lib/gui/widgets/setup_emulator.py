@@ -12,7 +12,7 @@ import lib.logger as logging
 from lib.emulators.bluestacks import BlueStacks, BLUESTACKS_4_EXE, BLUESTACKS_5_EXE
 from lib.emulators.nox_player import NoxPlayer, NOX_EXE
 from lib.game.game import Game
-from lib.game.ui.general import Rect
+from lib.game.ui.general import Rect, UIElement
 from lib.gui.helper import Timer, screen_to_gui_image, try_to_disconnect, set_default_icon
 from lib.gui.widgets.game_image import ScreenImageLabel
 
@@ -137,8 +137,8 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
         if not self.selected_emulator or not self.setup_game:
             logger.error("Something went wrong while setting up emulator's name and app position.")
         emulator_name = self.selected_emulator_process
-        game_app = self.setup_game.game_app_rect if self.setup_game else None
-        return emulator_name, self.selected_emulator.__class__.__name__, game_app
+        game_app = self.setup_game.game_app_rect if self.setup_game else None  # type: Rect
+        return emulator_name, self.selected_emulator.__class__.__name__, game_app.value
 
 
 class SetupGame(QDialog, game_design.Ui_Dialog):
@@ -157,7 +157,7 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
         self.screen_image = ScreenImageLabel(widget=self.screen_image_label, emulator=self.emulator)
         self.set_visibility_to_all(True)
         self.is_game_opened_q()
-        self.game_app_rect = None
+        self.game_app_rect = None  # type: Rect
         self.screen_image_label.mousePressEvent = self.screen_click_event
         self.ready_to_press = False
 
@@ -172,10 +172,12 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
                              x / self.screen_image.widget.size().width(),
                              y / self.screen_image.widget.size().height())
         game_app_global_rect = game_app_rect.to_global(emulator_rect)
-        self.game_app_rect = (
-        game_app_global_rect[0] / self.emulator.width, game_app_global_rect[1] / self.emulator.height,
-        game_app_global_rect[2] / self.emulator.width, game_app_global_rect[3] / self.emulator.height)
-        self.emulator.click_button(self.game_app_rect)
+        self.game_app_rect = Rect(
+            game_app_global_rect[0] / self.emulator.width, game_app_global_rect[1] / self.emulator.height,
+            game_app_global_rect[2] / self.emulator.width, game_app_global_rect[3] / self.emulator.height)
+        game_app_ui = UIElement(name="TEMP_GAME_APP")
+        game_app_ui.button_rect = self.game_app_rect
+        self.emulator.click_button(game_app_ui)
 
     def set_visibility_to_all(self, visible=True):
         """Set visibility to all elements in window."""
@@ -245,7 +247,7 @@ class SetupGame(QDialog, game_design.Ui_Dialog):
         Setup is done."""
         if not self.game_app_rect:
             return self.is_game_started_no()
-        self.top_text_label.setText(f"Found game app at ({self.game_app_rect}). Setup complete!")
+        self.top_text_label.setText(f"Found game app at ({self.game_app_rect.value}). Setup complete!")
         self.question_label.setText("Setup is done")
         self.disconnect_a()
         self.no_button.setVisible(False)
