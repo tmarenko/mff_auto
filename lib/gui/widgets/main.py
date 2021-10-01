@@ -1,5 +1,5 @@
 import json
-import os
+from time import sleep
 from distutils.version import LooseVersion
 from os.path import exists
 
@@ -97,9 +97,9 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.timeline_team_spin_box.valueChanged.connect(self.timeline_team_changed)
         self.threads = ThreadPool()
         self._user_name_acquired = False
-        self.update_labels()
-        self.label_timer = Timer()
-        self.label_timer.set_timer(self.update_labels, timer_ms=5000)
+        self.background_functions_to_run()
+        self.background_timer = Timer()
+        self.background_timer.set_timer(self.background_functions_to_run, timer_ms=5000)
         self.blockable_buttons = [self.run_queue_button, self.add_queue_button, self.edit_queue_button,
                                   self.remove_queue_button]
         self.tasks = []
@@ -119,9 +119,10 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         if self.settings.value("MainWindow/isMaximized") == 'true':
             self.showMaximized()
 
-    def update_labels(self):
-        """Updates game's labels in thread to prevent GUI freezing."""
-        self.threads.run_thread(target=self._update_labels)
+    def background_functions_to_run(self):
+        """Runs functions in thread to prevent GUI freezing."""
+        self.threads.run_thread(func=self._update_labels)
+        self.threads.run_thread(func=self._handle_errors)
 
     def _update_labels(self):
         """Updates game's labels such as: username, energy, gold and boost points."""
@@ -133,6 +134,16 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.label_energy.setText(f"Energy: {self.game.energy} / {self.game.energy_max}")
         self.label_gold.setText(f"Gold: {self.game.gold}")
         self.label_boosts.setText(f"Boosts: {self.game.boost} / {100}")
+
+    def _handle_errors(self):
+        """Handles network errors by restarting the queue."""
+        if not (self.emulator.initialized and self.handle_network_errors_checkbox.isChecked()):
+            return
+        if self.game.close_network_error_notification() and self.queue_list.process:
+            logger.info("Rerunning the queue due network error.")
+            self.queue_list.run_and_stop_button.button.click()
+            sleep(1)
+            self.queue_list.run_and_stop_button.button.click()
 
     def mission_team_changed(self):
         """'Mission team' spinbox event when value is changed."""
@@ -169,6 +180,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards", True))
+        self.handle_network_errors_checkbox.setChecked(game_settings.get("handle_network_errors", False))
         self.init_emulator_and_game()
         self.game.set_mission_team(self.mission_team_spin_box.value())
         self.game.set_timeline_team(self.timeline_team_spin_box.value())
@@ -180,6 +192,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "timeline_team": self.game.timeline_team,
             "mission_team": self.game.mission_team,
             "acquire_heroic_quest_rewards": self.game.ACQUIRE_HEROIC_QUEST_REWARDS,
+            "handle_network_errors": self.handle_network_errors_checkbox.isChecked(),
             "emulator_name": self.emulator_name,
             "emulator_type": self.emulator_type,
             "game_app_rect": self.game_app_rect
@@ -197,6 +210,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "timeline_team": self.timeline_team_spin_box.value(),
             "mission_team": self.mission_team_spin_box.value(),
             "acquire_heroic_quest_rewards": self.acquire_heroic_quest_rewards_checkbox.isChecked(),
+            "handle_network_errors": self.handle_network_errors_checkbox.isChecked(),
             "emulator_name": self.emulator_name,
             "emulator_type": self.emulator_type,
             "game_app_rect": self.game_app_rect

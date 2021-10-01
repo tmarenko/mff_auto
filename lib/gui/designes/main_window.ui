@@ -435,6 +435,38 @@
                </property>
               </widget>
              </item>
+             <item row="9" column="0">
+              <widget class="QLabel" name="handle_network_errors_label">
+               <property name="toolTip">
+                <string>Should bot restart current queue when network errors occurred</string>
+               </property>
+               <property name="text">
+                <string>Restart queue on network errors</string>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="1">
+              <widget class="QCheckBox" name="handle_network_errors_checkbox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Should bot restart current queue when network errors occurred</string>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>

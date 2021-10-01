@@ -147,7 +147,20 @@ class Timer:
         :param int timer_ms: time in ms.
         """
         self._update_timer.timeout.connect(func)
-        self._update_timer.start(timer_ms)
+        self.start(timer_ms=timer_ms)
+
+    def stop(self):
+        """Stops timer if it's active."""
+        if self._update_timer.isActive():
+            self._update_timer.stop()
+
+    def start(self, timer_ms=UPDATE_TIMER_MS):
+        """Starts timer if it's inactive.
+
+        :param int timer_ms: time in ms.
+        """
+        if not self._update_timer.isActive():
+            self._update_timer.start(timer_ms)
 
 
 def safe_process_stop(func):

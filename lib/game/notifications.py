@@ -157,6 +157,10 @@ class Notifications:
             logger.warning("Network Error notification occurred, trying to restore connection.")
             self.emulator.click_button(ui.NETWORK_ERROR_NOTIFICATION)
             return True
+        if self.emulator.is_ui_element_on_screen(ui.NETWORK_ERROR_NOTIFICATION_2):
+            logger.warning("Network Error notice occurred, trying to restore connection.")
+            self.emulator.click_button(ui.NETWORK_ERROR_NOTIFICATION_2)
+            return True
         return False
 
     def close_lvl_up_notification(self):
