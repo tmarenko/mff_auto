@@ -243,6 +243,8 @@ class Game(Notifications):
             if self.emulator.is_image_on_screen(ui.HOME):
                 self.emulator.click_button(ui.HOME)
                 self.close_ads()
+            else:
+                logger.error("Can't go to main menu, HOME button is missing.")
         return self.is_main_menu()
 
     def go_to_content_status_board(self):
@@ -261,10 +263,14 @@ class Game(Notifications):
             return logger.error("Failed to open Content Status board.")
         mode = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_1, rows=3, cols=4)
         if mode:
+            self.go_to_main_menu()
             return mode
         self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
         r_sleep(1)
-        return self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_2, rows=3, cols=4)
+        mode = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_2, rows=3, cols=4)
+        if mode:
+            self.go_to_main_menu()
+            return mode
 
     def find_mode_on_board(self, mode_name, board, rows, cols):
         """Parses information from Content Status Board screen about game modes.

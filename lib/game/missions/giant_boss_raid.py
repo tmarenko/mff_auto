@@ -57,9 +57,12 @@ class GiantBossRaid(Missions):
     def end_missions(self):
         """Ends missions."""
         if not self.game.is_main_menu():
-            self.game.emulator.click_button(ui.HOME)
-            self.close_after_mission_notifications()
-            self.game.close_ads()
+            if self.emulator.is_image_on_screen(ui.HOME):
+                self.emulator.click_button(ui.HOME)
+                self.close_after_mission_notifications()
+                self.game.close_ads()
+            else:
+                logger.error("Can't return to main menu, HOME button is missing.")
 
     def open_giant_boss_raid(self):
         """Opens Giant Boss Raid mission lobby.

@@ -126,9 +126,12 @@ class Missions(Notifications):
         """Ends missions."""
         self.game.clear_modes()
         if not self.game.is_main_menu():
-            self.game.emulator.click_button(ui.HOME)
-            self.close_after_mission_notifications()
-            self.game.close_ads()
+            if self.emulator.is_image_on_screen(ui.HOME):
+                self.emulator.click_button(ui.HOME)
+                self.close_after_mission_notifications()
+                self.game.close_ads()
+            else:
+                logger.error("Can't return to main menu, HOME button is missing.")
 
     def do_missions(self, times=None):
         """Does missions."""
