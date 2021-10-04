@@ -240,7 +240,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.manager.start()
         self.game._modes = self.manager.dict()
         if self.game_app_rect:
-            ui.GAME_APP.button_rect = Rect(*self.game_app_rect)
+            self.game._game_app_ui.button_rect = Rect(*self.game_app_rect)
 
     def _create_menu_for_recorder(self):
         """Creates menu bar for emulator recording."""

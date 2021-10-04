@@ -53,6 +53,7 @@ class Game(Notifications):
         self.timeline_team = 1
         self.mission_team = 1
         self._modes = {}
+        self._game_app_ui = ui.GAME_APP.copy()
         super().__init__(self)
 
     def _do_after_loading_circle_decorator(self, func):
@@ -514,7 +515,7 @@ class Game(Notifications):
             return is_main_menu
 
         logger.debug("Starting game.")
-        self.emulator.click_button(ui.GAME_APP)
+        self.emulator.click_button(self._game_app_ui)
         if wait_until(confirm_condition_by_time, confirm_condition=is_game_started, timeout=120):
             logger.debug("Game started successfully.")
             return True
