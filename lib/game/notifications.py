@@ -117,7 +117,8 @@ class Notifications:
         """
 
         def close_ad(ad_ui):
-            if self.emulator.is_ui_element_on_screen(ad_ui):
+            if self.emulator.is_ui_element_on_screen(ad_ui) and not self.emulator.is_image_on_screen(ui.HOME):
+                logger.debug("Closing ads menu.")
                 self.emulator.click_button(ad_ui)
                 if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_AD_CLOSE):
                     self.emulator.click_button(ui.MAIN_MENU_AD_CLOSE)
