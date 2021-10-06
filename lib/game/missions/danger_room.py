@@ -66,7 +66,6 @@ class DangerRoom(Missions):
 
     def open_danger_room(self):
         """Opens Danger Room missions lobby."""
-        self.game.get_mode(name=self.mode_name)
         self.game.select_mode(self.mode_name)
         self._close_rewards_notifications()
         return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.DANGER_ROOM_LABEL)

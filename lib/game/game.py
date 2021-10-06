@@ -341,10 +341,10 @@ class Game(Notifications):
 
         :param str name: game mode's name.
         """
+        mode = self.get_mode(name=name)
         if not self.go_to_content_status_board():
             logger.error("Failed to open Content Status board.")
             return False
-        mode = self._modes[name]
         if mode.ui_board == ui.CONTENT_STATUS_BOARD_2.button_rect.value:
             logger.debug(f"Mode {name} is on second board. Dragging")
             self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.4)

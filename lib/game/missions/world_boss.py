@@ -82,8 +82,7 @@ class WorldBoss(Missions):
 
     def open_world_boss(self):
         """Opens World Boss mission lobby."""
-        if self.game.get_mode(self.mode_name):
-            self.game.select_mode(self.mode_name)
+        if self.game.select_mode(self.mode_name):
             return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.WB_MISSION_BUTTON)
 
     def start_missions(self, mode=MODE.ULTIMATE, difficulty=0, boss=BOSS.TODAYS_BOSS):

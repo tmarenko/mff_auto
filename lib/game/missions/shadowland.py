@@ -130,7 +130,6 @@ class Shadowland(Missions):
 
     def open_shadowland(self):
         """Opens Shadowland gamemode."""
-        self.game.get_mode(self.mode_name)
         self.game.select_mode(self.mode_name)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.SL_KING_OF_THE_HILL_REWARD):
             logger.debug("Closing `King of the Hill` rewards notification.")
