@@ -137,8 +137,8 @@ class SetupEmulator(QDialog, emulator_design.Ui_Dialog):
         if not self.selected_emulator or not self.setup_game:
             logger.error("Something went wrong while setting up emulator's name and app position.")
         emulator_name = self.selected_emulator_process
-        game_app = self.setup_game.game_app_rect if self.setup_game else None  # type: Rect
-        return emulator_name, self.selected_emulator.__class__.__name__, game_app.value
+        game_app = self.setup_game.game_app_rect.value if self.setup_game else None  # type: Rect
+        return emulator_name, self.selected_emulator.__class__.__name__, game_app
 
 
 class SetupGame(QDialog, game_design.Ui_Dialog):
