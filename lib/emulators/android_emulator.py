@@ -16,8 +16,8 @@ import win32ui
 from PIL import Image
 from numpy import array
 
-from lib.functions import get_text_from_image, is_strings_similar, get_position_inside_rectangle, is_images_similar, \
-    is_color_similar, r_sleep, get_file_properties, convert_colors_in_image
+from lib.functions import get_text_from_image, is_strings_similar, is_images_similar, is_color_similar, r_sleep, \
+    get_file_properties, convert_colors_in_image
 
 PW_CLIENTONLY = 1  # Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
 PW_RENDERFULLCONTENT = 2  # Properly capture DirectComposition window contents. Available from Windows 8.1
@@ -236,20 +236,17 @@ class AndroidEmulator(object):
         screen = screen if screen is not None else self._get_screen()
         return [screen.getpixel(position) for position in positions]
 
-    def get_position_inside_screen_rectangle(self, rect, mean_mod=2, sigma_mod=5):
+    def get_position_inside_screen_rectangle(self, rect):
         """Gets (x,y) position inside screen rectangle.
-         Using normal distribution position usually will be near rectangle center.
 
         :param tuple[float, float, float, float] | lib.game.ui.Rect rect: local rectangle inside (0, 0, 1, 1) range.
-        :param int mean_mod: mean for distribution.
-        :param int sigma_mod: standard deviation for distribution.
 
         :return: (x, y) position inside screen rectangle.
         :rtype: tuple[int, int]
         """
         if rect[0] == rect[2] and rect[1] == rect[3]:
             return int(rect[0] * self.width), int(rect[1] * self.height)
-        x, y = get_position_inside_rectangle(rect=rect, mean_mod=mean_mod, sigma_mod=sigma_mod)
+        x, y = random.uniform(rect[0], rect[2]), random.uniform(rect[1], rect[3])
         return int(x * self.width), int(y * self.height)
 
     def get_screen_text(self, ui_element, screen=None):

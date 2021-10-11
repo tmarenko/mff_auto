@@ -106,3 +106,6 @@ venv.bak/
 screenshots/*
 tesseract/*
 unittests/*
+
+# scipy _nd_image
+!_nd_image.cp36-win32.pyd

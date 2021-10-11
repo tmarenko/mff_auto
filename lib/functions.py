@@ -5,7 +5,6 @@ import time
 import cv2
 import win32api
 from numpy import concatenate, array
-from scipy.stats import truncnorm
 
 from lib.structural_similarity.ssim import compare_ssim
 from lib.tesseract3 import TesseractPool, AUTOMATIC_PAGE_SEGMENTATION, RAW_LINE_PAGE_SEGMENTATION
@@ -92,31 +91,6 @@ def wait_until(predicate, timeout=3, period=0.25, condition=True, *args, **kwarg
             return True
         time.sleep(period)
     return False
-
-
-def get_position_inside_rectangle(rect, mean_mod=2, sigma_mod=5):
-    """Gets (x,y) position inside rectangle.
-    Using normal distribution position usually will be near rectangle center.
-
-    :param tuple[float, float, float, float] rect: rectangle of screen.
-    :param int mean_mod: mean for distribution.
-    :param int sigma_mod: standard deviation for distribution.
-
-    :return: (x, y) position inside rectangle.
-    :rtype: tuple[float, float]
-    """
-
-    def get_truncated_normal(mean=0.0, sd=0.2, low=0.0, up=1.0):
-        """Get truncated normal distribution between low and up."""
-        return truncnorm((low - mean) / sd, (up - mean) / sd, loc=mean, scale=sd).rvs()
-
-    mean_x = (rect[0] + rect[2]) / mean_mod
-    mean_y = (rect[1] + rect[3]) / mean_mod
-    sd_x = (rect[2] - rect[0]) / sigma_mod
-    sd_y = (rect[3] - rect[1]) / sigma_mod
-    normal_x = get_truncated_normal(mean_x, sd_x, rect[0], rect[2])
-    normal_y = get_truncated_normal(mean_y, sd_y, rect[1], rect[3])
-    return normal_x, normal_y
 
 
 def r_sleep(seconds, radius_modifier=15.0):
