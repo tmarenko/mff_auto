@@ -332,7 +332,7 @@ class QueueList:
                 break
             progress_callback.emit(index)
             executor, settings = item.get_executor()
-            if item.mode_name == "RUN QUEUE":
+            if item.mode_name == "RUN QUEUE" and item.is_checked:
                 self.add_queue_by_index(queue=queue, **settings)
                 continue
             if not executor:
