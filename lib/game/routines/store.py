@@ -6,7 +6,18 @@ from lib.game.notifications import Notifications
 logger = logging.get_logger(__name__)
 
 
-class EnergyStore(Notifications):
+class Store(Notifications):
+
+    def is_store_open(self):
+        """Checks if Store is open.
+
+        :rtype: bool
+        """
+        return self.emulator.is_ui_element_on_screen(ui.STORE_LABEL) or \
+               self.emulator.is_ui_element_on_screen(ui.STORE_LABEL_2)
+
+
+class EnergyStore(Store):
     """Class for working with energy in store."""
 
     def open_energy_store(self):
@@ -14,7 +25,7 @@ class EnergyStore(Notifications):
         self.game.go_to_main_menu()
         self.emulator.click_button(ui.STORE_COLLECT_ENERGY_PLUS_SIGN)
         self.game.close_ads()
-        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_LABEL)
+        return wait_until(self.is_store_open)
 
     def collect_free_energy(self):
         """Collects free daily energy."""
@@ -81,7 +92,7 @@ class EnergyStore(Notifications):
         return False
 
 
-class CharacterStore(Notifications):
+class CharacterStore(Store):
     """Class for working with Character Store."""
 
     def open_character_store(self):

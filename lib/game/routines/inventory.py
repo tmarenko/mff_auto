@@ -58,33 +58,36 @@ class CustomGear(Notifications):
         """
         self.game.go_to_inventory()
         logger.info(f"Custom Gear: upgrading gear {times} times.")
+        self.emulator.click_button(ui.INVENTORY_UPGRADE_TAB)
         self.emulator.click_button(ui.INVENTORY_CUSTOM_GEAR_TAB)
-        if wait_until(self.is_custom_gear_tab, timeout=3, period=1):
+        if not wait_until(self.is_custom_gear_tab, timeout=3, period=1):
+            logger.error("Can't get into Custom Gear tab.")
+            return self.game.go_to_main_menu()
+        if not self.try_to_select_gear_for_upgrade():
+            logger.warning("Custom Gear: can't select gear for upgrade, probably you have none, exiting.")
+            return self.game.go_to_main_menu()
+        if not self.toggle_quick_upgrade():
+            logger.error(f"Custom Gear: can't find {ui.CUSTOM_GEAR_QUICK_UPGRADE} button, exiting.")
+            return self.game.go_to_main_menu()
+        for _ in range(times):
             if not self.try_to_select_gear_for_upgrade():
                 logger.warning("Custom Gear: can't select gear for upgrade, probably you have none, exiting.")
-                return self.game.go_to_main_menu()
-            if not self.toggle_quick_upgrade():
-                logger.error(f"Custom Gear: can't find {ui.CUSTOM_GEAR_QUICK_UPGRADE} button, exiting.")
-                return self.game.go_to_main_menu()
-            for _ in range(times):
-                if not self.try_to_select_gear_for_upgrade():
-                    logger.warning("Custom Gear: can't select gear for upgrade, probably you have none, exiting.")
-                    self.game.go_to_main_menu()
+                self.game.go_to_main_menu()
+                break
+            self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM):
+                logger.debug("Custom Gear: confirming upgrading.")
+                self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM)
+                if wait_until(self.emulator.is_ui_element_on_screen,
+                              ui_element=ui.CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED):
+                    logger.debug("Custom Gear: confirming to use upgraded gear.")
+                    self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED)
+                self.close_upgrade_result()
+            else:
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CUSTOM_GEAR_NO_MATERIALS):
+                    logger.info("Custom Gear: you have no materials for gear upgrade.")
+                    self.emulator.click_button(ui.CUSTOM_GEAR_NO_MATERIALS)
                     break
-                self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE)
-                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM):
-                    logger.debug("Custom Gear: confirming upgrading.")
-                    self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE_CONFIRM)
-                    if wait_until(self.emulator.is_ui_element_on_screen,
-                                  ui_element=ui.CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED):
-                        logger.debug("Custom Gear: confirming to use upgraded gear.")
-                        self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE_INCLUDE_UPGRADED)
-                    self.close_upgrade_result()
-                else:
-                    if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.CUSTOM_GEAR_NO_MATERIALS):
-                        logger.info("Custom Gear: you have no materials for gear upgrade.")
-                        self.emulator.click_button(ui.CUSTOM_GEAR_NO_MATERIALS)
-                        break
 
         # `self.is_quick_toggle is False` not working o_O
         if self.is_quick_toggle is not None and not self.is_quick_toggle:
@@ -120,7 +123,7 @@ class CustomGear(Notifications):
             if self.emulator.is_ui_element_on_screen(ui.CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2):
                 self.emulator.click_button(ui.CUSTOM_GEAR_QUICK_UPGRADE_RESULTS_2)
             self.close_after_mission_notifications()
-        if is_results_window() or not self.emulator.is_ui_element_on_screen(ui.CUSTOM_GEAR_SELL_ALL):
+        if is_results_window() or not self.emulator.is_ui_element_on_screen(ui.INVENTORY_CONVERT_BUTTON):
             return self.close_upgrade_result()
         logger.debug("Custom Gear: successfully upgraded custom gear.")
 
@@ -204,6 +207,7 @@ class Iso8(Notifications):
                    self.emulator.is_ui_element_on_screen(ui.ISO8_UPGRADE)
 
         self.game.go_to_inventory()
+        self.emulator.click_button(ui.INVENTORY_UPGRADE_TAB)
         self.emulator.click_button(ui.INVENTORY_ISO_8_TAB)
         return wait_until(is_iso8_tab, timeout=3, period=1)
 
