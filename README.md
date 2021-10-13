@@ -1,6 +1,6 @@
 # mff_auto
 Game bot for [Marvel Future Fight](https://play.google.com/store/apps/details?id=com.netmarble.mherosgb&hl=ru) game.
-Compatible with **7.4.0** version.
+Compatible with **7.5.0** version.
 
 ## FAQ
 **Q**: What this bot can do?
