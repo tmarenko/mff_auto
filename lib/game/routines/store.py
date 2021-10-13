@@ -96,7 +96,7 @@ class CharacterStore(Store):
     """Class for working with Character Store."""
 
     def open_character_store(self):
-        """Opens energy store using plus button near energy counter."""
+        """Opens Character store using Dimension Chest button in Main Menu."""
         self.game.go_to_main_menu()
         self.emulator.click_button(ui.MAIN_MENU)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
@@ -144,4 +144,48 @@ class CharacterStore(Store):
                             logger.info("Free Hero Chest acquired.")
                             self.emulator.click_button(ui.MENU_BACK)
                             r_sleep(1)  # Wait for animation
+        self.game.go_to_main_menu()
+
+
+class ArtifactStore(Store):
+    """Class for working with Artifact Store."""
+
+    def open_artifact_store(self):
+        """Opens Artifact store using Dimension Chest button in Main Menu."""
+        self.game.go_to_main_menu()
+        self.emulator.click_button(ui.MAIN_MENU)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU):
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_DIMENSION_CHEST):
+                self.emulator.click_button(ui.MAIN_MENU_DIMENSION_CHEST)
+                self.close_ads()
+                if wait_until(self.emulator.is_ui_element_on_screen,
+                              ui_element=ui.STORE_OPEN_ARTIFACT_FROM_DIMENSION_CHEST):
+                    logger.debug("Opening Artifact tab.")
+                    self.emulator.click_button(ui.STORE_OPEN_ARTIFACT_FROM_DIMENSION_CHEST)
+                    return True
+        return False
+
+    def acquire_free_artifact_chest(self):
+        """Acquires available Free Artifact Chest."""
+        self.open_artifact_store()
+        self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_ARTIFACT_FREE_CHEST_BUTTON_ACQUIRE):
+            logger.debug("Acquiring Free Artifact Chest.")
+            self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST_BUTTON_ACQUIRE)
+            if wait_until(self.emulator.is_ui_element_on_screen,
+                          ui_element=ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE):
+                self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.SKIP_CUTSCENE):
+                    self.emulator.click_button(ui.SKIP_CUTSCENE)
+                    if wait_until(self.emulator.is_ui_element_on_screen,
+                                  ui_element=ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE_CLOSE):
+                        self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE_CLOSE)
+                        r_sleep(1)  # Wait for animation
+                        logger.info("Free Artifact Chest acquired.")
+                        self.emulator.click_button(ui.MENU_BACK)
+                        r_sleep(1)  # Wait for animation
+        else:
+            logger.info("No available Free Artifact Chest, exiting.")
+            self.emulator.click_button(ui.MENU_BACK)
+            r_sleep(1)  # Wait for animation
         self.game.go_to_main_menu()

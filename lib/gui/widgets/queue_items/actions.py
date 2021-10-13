@@ -220,6 +220,13 @@ class _AcquireFreeHeroChest(Action):
         super().__init__(game, "STORE: ACQUIRE FREE HERO CHEST", self.store.acquire_free_hero_chest)
 
 
+class _AcquireFreeArtifactChest(Action):
+
+    def __init__(self, game):
+        self.store = routines.ArtifactStore(game)
+        super().__init__(game, "STORE: ACQUIRE FREE ARTIFACT CHEST", self.store.acquire_free_artifact_chest)
+
+
 class _AcquireAllChests(Action):
 
     def __init__(self, game):
