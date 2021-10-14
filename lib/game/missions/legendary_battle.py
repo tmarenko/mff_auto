@@ -141,6 +141,7 @@ class LegendaryBattle(Missions):
         else:
             logger.debug(f"{title.text} isn't selected, trying to found it.")
             self.emulator.drag(ui.LB_DRAG_FROM, ui.LB_DRAG_TO)
+            self.emulator.drag(ui.LB_DRAG_FROM, ui.LB_DRAG_TO)
             r_sleep(1)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=battle):
                 logger.debug(f"Found {title.text} battle. Selecting.")

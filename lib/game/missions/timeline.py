@@ -77,7 +77,6 @@ class TimelineBattle(Missions):
         self.select_team()
         self.emulator.click_button(ui.TL_SEARCH_BUTTON)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.TL_HONOR_TOKENS_LIMIT):
-            # TODO: seems no longer shows up after 7.0.0 update
             logger.debug("Your Honor Tokens is more than 60000. Can't acquire more but still playing battle.")
             self.emulator.click_button(ui.TL_HONOR_TOKENS_LIMIT)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.INVENTORY_FULL):
