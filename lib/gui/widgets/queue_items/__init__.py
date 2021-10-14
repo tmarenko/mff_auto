@@ -91,6 +91,7 @@ def get_missions_dict(mission_instances):
                                  find_instance(missions._RoadToMonastery), find_instance(missions._MysteriousAmbush),
                                  find_instance(missions._MonasteryInTrouble), find_instance(missions._PowerOfTheDark)]
         },
+        "STORY MISSION": find_instance(missions._StoryMission),
         "DIMENSION MISSION": find_instance(missions._DimensionMissions),
         "LEGENDARY BATTLE": find_instance(missions._LegendaryBattle),
         "SQUAD BATTLE": find_instance(missions._SquadBattles),

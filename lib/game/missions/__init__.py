@@ -13,6 +13,7 @@ from .giant_boss_raid import GiantBossRaid
 from .legendary_battle import LegendaryBattle
 from .shadowland import Shadowland
 from .squad_battle import SquadBattle
+from .story import Story
 from .timeline import TimelineBattle
 from .world_boss import WorldBoss
 from .world_boss_invasion import WorldBossInvasion

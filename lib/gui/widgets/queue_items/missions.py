@@ -688,3 +688,28 @@ class _Shadowland(GameMode):
                                                        setting_key="times",
                                                        text="Select how many floors to complete",
                                                        min=1, max=99))
+
+
+class _StoryMission(GameMode):
+    story_missions = {
+        "Dimensional Clash [Normal]": missions.Story.STORY_MISSION.DIMENSIONAL_CLASH_NORMAL,
+        "Dimensional Clash [Ultimate]": missions.Story.STORY_MISSION.DIMENSIONAL_CLASH_ULTIMATE
+    }
+
+    story_stage = {
+        "1-1 Emergency Dispatch": missions.Story.STORY_STAGE.DIMENSIONAL_CLASH_1_1
+    }
+
+    def __init__(self, game):
+        super().__init__(game, "STORY MISSION", missions.Story)
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="story_mission",
+                                                       text="Select Story Mission",
+                                                       values_dict=self.story_missions))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Combobox,
+                                                       setting_key="story_stage",
+                                                       text="Select mission stage",
+                                                       values_dict=self.story_stage))
