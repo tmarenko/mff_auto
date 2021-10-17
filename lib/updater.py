@@ -100,6 +100,10 @@ class Updater:
             return False
         new_version_module = self.import_version_file(version_file_path=self.new_version_file)
         self.new_version = Version(version_module=new_version_module)
+
+        logger.warning("Updates were suspended.")
+        return False
+
         if self.new_version.updater > self.current_version.updater:
             logger.info(f"Found new version of Updater {self.new_version.updater}, cannot update. "
                         f"Download last release from project homepage.")
