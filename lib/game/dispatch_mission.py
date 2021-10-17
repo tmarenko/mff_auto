@@ -29,9 +29,9 @@ class DispatchMission:
     def _drag_to_the_left(self):
         """Drags Dispatch sector menu to the left side."""
         logger.debug("Dragging to the left side.")
-        self.emulator.drag(ui.DISPATCH_DRAG_LEFT_POSITION, ui.DISPATCH_DRAG_RIGHT_POSITION)
+        self.emulator.swipe(ui.DISPATCH_DRAG_LEFT_POSITION, ui.DISPATCH_DRAG_RIGHT_POSITION)
         r_sleep(1)
-        self.emulator.drag(ui.DISPATCH_DRAG_LEFT_POSITION, ui.DISPATCH_DRAG_RIGHT_POSITION)
+        self.emulator.swipe(ui.DISPATCH_DRAG_LEFT_POSITION, ui.DISPATCH_DRAG_RIGHT_POSITION)
         r_sleep(1)
 
     def _acquire_rewards_from_sectors(self):

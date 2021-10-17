@@ -109,7 +109,7 @@ Check `example.py` for examples of running any modes.
 ### Capture video for debugging
 
 ```python
-from lib.emulators.nox_player import NoxPlayer
+from lib.emulators import NoxPlayer
 from lib.game.game import Game
 from lib.video_capture import EmulatorCapture
 

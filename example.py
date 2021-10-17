@@ -1,5 +1,5 @@
 import lib.logger as logging
-from lib.emulators.nox_player import NoxPlayer
+from lib.emulators import NoxPlayer, BlueStacks
 from lib.game.missions.legendary_battle import LegendaryBattle
 from lib.game.missions.alliance_battle import AllianceBattle
 from lib.game.missions.dimension_mission import DimensionMission

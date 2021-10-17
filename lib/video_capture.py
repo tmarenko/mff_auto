@@ -3,12 +3,9 @@ import time
 from datetime import datetime
 from threading import Thread
 
-import autoit
 import cv2
 import numpy
-import win32api
-import win32con
-from PIL import ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 from multiprocess.managers import SyncManager, RemoteError
 
 import lib.logger as logging
@@ -24,10 +21,11 @@ ELEMENTS_WIDTH = 10
 class ElementOnScreen:
     """Class for working with elements on screen."""
 
+    # BGR colors
     GREEN_COLOR = "#00ff00"
-    CYAN_COLOR = "#00ffff"
+    CYAN_COLOR = "#ffff00"
     MAGENTA_COLOR = "#ff00ff"
-    RED_COLOR = "#ff0000"
+    RED_COLOR = "#0000ff"
 
     def __init__(self, name=None, color=None, box=None, position=None):
         """Class initialization."""
@@ -65,8 +63,6 @@ class EmulatorImageSource:
         self._get_image_from_image = self.emulator.get_image_from_image
         self._is_ui_element_on_screen = self.emulator.is_ui_element_on_screen
         self._is_image_on_screen = self.emulator.is_image_on_screen
-        self._PostMessage = self.emulator.win32_api_post_message
-        self._control_click_by_handle = self.emulator.autoit_control_click_by_handle
 
         self.emulator.click_button = self.click_button_decorator(self.emulator, self.emulator.click_button)
         self.emulator.get_screen_text = self.get_screen_text_decorator(self.emulator, self.emulator.get_screen_text)
@@ -76,9 +72,6 @@ class EmulatorImageSource:
                                                                                        self.emulator.is_ui_element_on_screen)
         self.emulator.is_image_on_screen = self.is_image_on_screen_decorator(self.emulator,
                                                                              self.emulator.is_image_on_screen)
-        self.emulator.win32_api_post_message = self.win32api_post_message_decorator(self.emulator, win32api.PostMessage)
-        self.emulator.autoit_control_click_by_handle = self.control_click_by_handle_decorator(self.emulator,
-                                                                                              autoit.control_click_by_handle)
 
     def undecorate(self):
         logger.debug("Reverting functions to original state.")
@@ -87,8 +80,6 @@ class EmulatorImageSource:
         self.emulator.is_ui_element_on_screen = self._is_ui_element_on_screen
         self.emulator.is_image_on_screen = self._is_image_on_screen
         self.emulator.click_button = self._click_button
-        self.emulator.win32_api_post_message = self._PostMessage
-        self.emulator.autoit_control_click_by_handle = self._control_click_by_handle
 
     def frame(self):
         """Gets frame from emulator and converts it to RGB.
@@ -96,16 +87,15 @@ class EmulatorImageSource:
         :return: RGB frame.
         :rtype: numpy.ndarray
         """
-        image = numpy.array(self.get_emulator_screen())
-        return bgr_to_rgb(image)
+        return self.get_emulator_screen()
 
     def get_emulator_screen(self):
         """Get emulator's frame and add debug drawings on it from `screen_elements` list.
 
         :return: image with debug drawings.
-        :rtype: PIL.Image.Image
+        :rtype: numpy.ndarray
         """
-        screen = self.emulator._get_screen().copy()
+        screen = Image.fromarray(self.emulator.get_screen_directx().copy())
         try:
             self.emulator.screen_elements[:] = [element for element in self.emulator.screen_elements
                                                 if element.on_screen_seconds < ELEMENT_TIME_ON_SCREEN_SEC]
@@ -128,7 +118,7 @@ class EmulatorImageSource:
                     draw.text(xy=(x, y), text=element.name, font=self.font, fill=ElementOnScreen.GREEN_COLOR)
         except (KeyError, OSError, RemoteError, EOFError):
             logger.debug(f"{self.__class__.__name__} got an error during it's closing.")
-        return screen
+        return numpy.array(screen)
 
     def _hide_user_name(self, draw):
         ui_element = ui.USER_NAME
@@ -213,34 +203,6 @@ class EmulatorImageSource:
             if emulator.screen_elements is not None:
                 emulator.screen_elements.append(element)
             return on_screen
-
-        return wrapped
-
-    @staticmethod
-    def win32api_post_message_decorator(emulator, post_message):
-        """win32api.PostMessage decorator for debug drawing of click or drag."""
-
-        def wrapped(*args, **kwargs):
-            if args[1] == win32con.WM_MOUSEMOVE:
-                dword = args[3]
-                x, y = dword & 0xffff, dword >> 16
-                element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
-                if emulator.screen_elements is not None:
-                    emulator.screen_elements.append(element)
-            return post_message(*args, **kwargs)
-
-        return wrapped
-
-    @staticmethod
-    def control_click_by_handle_decorator(emulator, control_click_by_handle):
-        """autoit.control_click_by_handle decorator for debug drawing of click."""
-
-        def wrapped(hwnd, h_ctrl, **kwargs):
-            x, y = kwargs.get("x", 0), kwargs.get("y", 0)
-            element = ElementOnScreen(position=(x, y), color=ElementOnScreen.RED_COLOR)
-            if emulator.screen_elements is not None:
-                emulator.screen_elements.append(element)
-            return control_click_by_handle(hwnd, h_ctrl, **kwargs)
 
         return wrapped
 

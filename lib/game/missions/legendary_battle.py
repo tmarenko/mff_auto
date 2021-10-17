@@ -140,8 +140,7 @@ class LegendaryBattle(Missions):
             return self._select_battle_mode(mode=mode)
         else:
             logger.debug(f"{title.text} isn't selected, trying to found it.")
-            self.emulator.drag(ui.LB_DRAG_FROM, ui.LB_DRAG_TO)
-            self.emulator.drag(ui.LB_DRAG_FROM, ui.LB_DRAG_TO)
+            self.emulator.swipe(ui.LB_DRAG_FROM, ui.LB_DRAG_TO, duration=0.3)
             r_sleep(1)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=battle):
                 logger.debug(f"Found {title.text} battle. Selecting.")
@@ -161,7 +160,7 @@ class LegendaryBattle(Missions):
             return self._select_battle_mode(mode=mode)
         else:
             logger.debug(f"{title.text} isn't selected, trying to found it.")
-            self.emulator.drag(ui.LB_DRAG_TO, ui.LB_DRAG_FROM)
+            self.emulator.swipe(ui.LB_DRAG_TO, ui.LB_DRAG_FROM)
             r_sleep(1)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=battle):
                 logger.debug(f"Found {title.text} battle. Selecting.")

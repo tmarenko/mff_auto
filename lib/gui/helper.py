@@ -198,7 +198,7 @@ def screen_to_gui_image(screen):
     :rtype: PyQt5.QtGui.QPixmap.QPixmap
     """
     height, width, channel = screen.shape
-    return QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888))
+    return QPixmap(QImage(screen.data, width, height, 3 * width, QImage.Format_RGB888).rgbSwapped())
 
 
 def reset_emulator_and_logger(game):
@@ -215,7 +215,8 @@ def reset_emulator_and_logger(game):
                 logging.create_file_handler(file_name=game.file_logger_name)
             if not game.emulator.initialized:
                 name = func.__name__ if not func.__closure__ else func.__closure__[0].cell_contents.__module__
-                logging.get_logger(name).error(f"Can't find NoxWindow with name {game.emulator.name}.")
+                logging.get_logger(name).error(f"Can't find {game.emulator.__class__.__name__} "
+                                               f"with name {game.emulator.name}.")
                 return
             # Screen will never unlock itself inside side-process
             game.emulator.screen_locked = False

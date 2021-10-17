@@ -15,6 +15,7 @@ FNULL = open(os.devnull, 'w')
 SEVEN_ZIP_DOWNLOAD_URL = "https://sourceforge.net/projects/sevenzip/files/7-Zip/9.20/7z920.exe/download"
 TESSERACT_OCR_3_05_02_DOWNLOAD_URL = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.02-20180621.exe"
 PORTABLE_PYTHON_3_6_5_DOWNLOAD_URL = "https://sourceforge.net/projects/portable-python/files/Portable Python 3.6.5/Portable Python 3.6.5 Basic.7z/download"
+ANDROID_DEBUG_BRIDGE_DOWNLOAD_URL = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
 SEVEN_ZIP_FILE_NAME = "7z920.exe"
 SEVEN_ZIP_FILE_PATH = os.path.join(cur_dir(), SEVEN_ZIP_FILE_NAME)
 SEVEN_ZIP_FOLDER = "7zip"
@@ -26,6 +27,9 @@ PORTABLE_PYTHON_FOLDER = "Python 3.6.5 Portable"
 REQUIREMENTS_FILE_PATH = os.path.join(cur_dir(), "requirements.txt")
 BUILD_FOLDER = os.path.join(cur_dir(), "build")
 SEVEN_ZIP_EXE = os.path.join(cur_dir(), SEVEN_ZIP_FOLDER, "7z.exe")
+ANDROID_DEBUG_BRIDGE_FOLDER = "platform-tools"
+ANDROID_DEBUG_BRIDGE_FILE_NAME = "platform-tools.zip"
+ANDROID_DEBUG_BRIDGE_FILE_PATH = os.path.join(cur_dir(), ANDROID_DEBUG_BRIDGE_FILE_NAME)
 IMAGES_FOLDER = "images"
 LIB_FOLDER = "lib"
 SETTINGS_FOLDER = "settings"
@@ -92,6 +96,15 @@ def download_tesseract_ocr():
             file.write(url_file.read())
 
 
+def download_adb():
+    if os.path.isfile(ANDROID_DEBUG_BRIDGE_FILE_PATH):
+        return
+    print("Downloading Android Platform Tools.")
+    with urllib.request.urlopen(ANDROID_DEBUG_BRIDGE_DOWNLOAD_URL) as url_file:
+        with open(ANDROID_DEBUG_BRIDGE_FILE_NAME, "b+w") as file:
+            file.write(url_file.read())
+
+
 def extract_7zip():
     print("Extracting 7zip.")
     output_folder = os.path.join(cur_dir(), SEVEN_ZIP_FOLDER)
@@ -112,6 +125,12 @@ def extrace_tesseract_ocr():
     tesseract_folder = os.path.join(BUILD_FOLDER, TESSERACT_FOLDER)
     extract_tesseract_cmd = [SEVEN_ZIP_EXE, "x", TESSRACT_OCR_FILE_PATH, "-aoa", f"-o{tesseract_folder}"]
     subprocess.call(extract_tesseract_cmd, shell=True, stdout=FNULL)
+
+
+def extract_adb():
+    print("Extracting Android Platform Tools.")
+    extract_adb_cmd = [SEVEN_ZIP_EXE, "x", ANDROID_DEBUG_BRIDGE_FILE_PATH, "-aoa", f"-o{BUILD_FOLDER}"]
+    subprocess.call(extract_adb_cmd, shell=True, stdout=FNULL)
 
 
 def install_requirements():
@@ -171,7 +190,7 @@ def create_gui_start_file():
     print("Creating start.bat")
     python_cmd = os.path.join("%CD%", "python", "App", "Python", "python.exe")
     with open(os.path.join(BUILD_FOLDER, START_BAT_FILE), "w", encoding='utf-8') as f:
-        f.write(f"SET PATH=%CD%\\{TESSERACT_FOLDER}\n"
+        f.write(f"SET PATH=%CD%\\{TESSERACT_FOLDER};%CD%\\{ANDROID_DEBUG_BRIDGE_FOLDER}\n"
                 f"\"{python_cmd}\" {GUI_APP_FILE}\n")
 
 
@@ -197,9 +216,11 @@ def build_binaries():
     download_7zip()
     download_portable_python()
     download_tesseract_ocr()
+    download_adb()
     extract_7zip()
     extract_portable_python()
     extrace_tesseract_ocr()
+    extract_adb()
     install_requirements()
     remove_trash()
     create_gui_start_file()

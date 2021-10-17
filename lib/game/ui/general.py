@@ -123,5 +123,5 @@ def load_ui_image(path, images_folder="images"):
     :rtype: numpy.ndarray
     """
     # Emulator's screen operates in BGR mode. All loaded images must be converted
-    image = rgb_to_bgr(load_image(os.path.join(images_folder, path)))
+    image = load_image(os.path.join(images_folder, path))
     return image

@@ -21,7 +21,7 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, max_height
     """Get text from image using Tesseract OCR.
     https://github.com/tesseract-ocr/
 
-    :param numpy.ndarray image: image.
+    :param numpy.ndarray image: image in RGB format.
     :param int threshold: threshold of gray-scale for grabbing image's text.
     :param str chars: available character in image's text.
     :param str save_file: name of file for saving result of gray-scaling.
@@ -31,7 +31,7 @@ def get_text_from_image(image, threshold, chars=None, save_file=None, max_height
     :rtype: str
     """
     image = resize_and_keep_aspect_ratio(image, height=max_height)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     ret, threshold_img = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     if save_file:
         cv2.imwrite(f"logs/tesseract/{save_file}.png", threshold_img)
@@ -158,8 +158,8 @@ def is_color_similar(color1, color2, overlap=0.05):
 
     :rtype: bool
     """
-    r1, g1, b1 = color1
-    r2, g2, b2 = color2
+    r1, g1, b1, *rest = color1
+    r2, g2, b2, *rest = color2
     d = ((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2) ** (1 / 2.0)
     return d / 510 <= overlap
 
@@ -234,10 +234,8 @@ def convert_colors_in_image(image, colors, color_to_convert=(255, 255, 255), blu
     :rtype: numpy.ndarray
     """
     for color_low, color_high in colors:
-        if isinstance(color_low, (set, list)):
-            color_low = array(color_low)
-        if isinstance(color_high, (set, list)):
-            color_high = array(color_high)
+        color_low = bgr_to_rgb(array(color_low))
+        color_high = bgr_to_rgb(array(color_high))
         mask = cv2.inRange(image, color_low, color_high)
         image[mask > 0] = color_to_convert
     if blur_result:
@@ -260,3 +258,7 @@ def confirm_condition_by_time(confirm_condition, confirm_timeout=3, confirm_peri
         results.append(confirm_condition())
         r_sleep(confirm_period)
     return all(results)
+
+
+def crop_image_array(image, box):
+    return image[box[1]:box[3], box[0]:box[2]].copy()

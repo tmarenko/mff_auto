@@ -56,13 +56,13 @@ class EventMissions(Missions):
     def _drag_event_list_to_the_top(self):
         """Drags Event List to the top."""
         logger.debug("Dragging Event list to the top.")
-        self.emulator.drag(ui.EVENT_LIST_DRAG_FROM, ui.EVENT_LIST_DRAG_TO)
+        self.emulator.swipe(ui.EVENT_LIST_DRAG_FROM, ui.EVENT_LIST_DRAG_TO)
         r_sleep(1)
 
     def _drag_event_list_to_the_bottom(self):
         """Drags Event List to the bottom."""
         logger.debug("Dragging Event list to the bottom.")
-        self.emulator.drag(ui.EVENT_LIST_DRAG_TO, ui.EVENT_LIST_DRAG_FROM)
+        self.emulator.swipe(ui.EVENT_LIST_DRAG_TO, ui.EVENT_LIST_DRAG_FROM)
         r_sleep(1)
 
 

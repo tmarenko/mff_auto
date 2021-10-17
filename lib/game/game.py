@@ -53,7 +53,6 @@ class Game(Notifications):
         self.timeline_team = 1
         self.mission_team = 1
         self._modes = {}
-        self._game_app_ui = ui.GAME_APP.copy()
         super().__init__(self)
 
     def _do_after_loading_circle_decorator(self, func):
@@ -266,7 +265,7 @@ class Game(Notifications):
         if mode:
             self.go_to_main_menu()
             return mode
-        self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
+        self.emulator.swipe(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
         r_sleep(1)
         mode = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_2, rows=3, cols=4)
         if mode:
@@ -347,7 +346,7 @@ class Game(Notifications):
             return False
         if mode.ui_board == ui.CONTENT_STATUS_BOARD_2.button_rect.value:
             logger.debug(f"Mode {name} is on second board. Dragging")
-            self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.4)
+            self.emulator.swipe(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.4)
             r_sleep(1)
         self.emulator.click_button(mode.ui_button)
         return True
@@ -463,31 +462,18 @@ class Game(Notifications):
                     r_sleep(1)
                     return True
 
-    def restart_game(self, repeat_while=None):
+    def restart_game(self):
         """Restarts the game.
-
-        :param function repeat_while: function that returns bool. Tries to close game if condition is True.
 
         :return: was restart successful or not.
         :rtype: bool
         """
-        if self.emulator.restartable:
-            self.clear_modes()
-            self.close_game()
-            if repeat_while:
-                while repeat_while():
-                    r_sleep(1)
-                    self.close_game()
+        if not self.emulator.restartable:
+            return logger.warning("You need to connect Android Debug Bridge to your emulator first.")
+        self.clear_modes()
+        if self.emulator.close_marvel_future_fight():
             return self.start_game()
-        logger.warning(f"Current emulator {self.emulator.__class__.__name__} "
-                       f"version {self.emulator.get_version()} does not support closing apps.")
-        return False
-
-    def close_game(self):
-        """Closes the game."""
-        logger.debug("Closing game.")
-        self.emulator.close_current_app()
-        r_sleep(2)
+        logger.error("Failed to close the game.")
 
     def start_game(self):
         """Starts the game.
@@ -495,6 +481,8 @@ class Game(Notifications):
         :return: was game started or not.
         :rtype: bool
         """
+        if not self.emulator.restartable:
+            return logger.warning("You need to connect Android Debug Bridge to your emulator first.")
 
         def download_update():
             if self.emulator.is_ui_element_on_screen(ui_element=ui.DOWNLOAD_UPDATE):
@@ -514,10 +502,8 @@ class Game(Notifications):
             self.close_ads(timeout=1)
             return is_main_menu
 
-        logger.debug("Starting game.")
-        self.emulator.click_button(self._game_app_ui)
-        if wait_until(confirm_condition_by_time, confirm_condition=is_game_started, timeout=120):
-            logger.debug("Game started successfully.")
-            return True
-        logger.error("Failed to start game")
-        return False
+        if self.emulator.start_marvel_future_fight():
+            if wait_until(confirm_condition_by_time, confirm_condition=is_game_started, timeout=120):
+                logger.debug("Game started successfully.")
+                return True
+        logger.error("Failed to start the game.")

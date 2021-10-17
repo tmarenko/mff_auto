@@ -162,7 +162,7 @@ class Alliance(Notifications):
     def _drag_support_item_list(self):
         """Drags Support Items list from top to bottom."""
         logger.debug("Dragging list to the bottom.")
-        self.emulator.drag(ui.ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_BOTTOM, ui.ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_TOP)
+        self.emulator.swipe(ui.ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_BOTTOM, ui.ALLIANCE_SUPPORT_REQUEST_MENU_DRAG_TOP)
         r_sleep(1)
 
     def collect_energy_from_challenges(self, collect_daily=True, collect_weekly=True):

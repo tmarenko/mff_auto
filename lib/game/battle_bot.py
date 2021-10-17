@@ -323,7 +323,7 @@ class ManualBattleBot(BattleBot):
         """Moves character around."""
         logger.debug("Moving around.")
         next_position_from, next_position_to = self.moving_position_from, next(self.moving_positions)
-        self.emulator.drag(next_position_from, next_position_to, duration=0.5)
+        self.emulator.swipe(next_position_from, next_position_to, duration=0.5)
         self.moving_position_from = next_position_to
 
     def load_character(self):

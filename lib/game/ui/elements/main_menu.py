@@ -118,13 +118,6 @@ HOME.button_rect = Rect(0.9135416666666667, 0.026851851851851852, 0.939583333333
 HOME.image_threshold = 0.6
 HOME.image = load_ui_image("main_menu_button.png")
 
-GAME_APP = UIElement(name='GAME_APP')
-GAME_APP.description = "Position of the app name on emulator's desktop."
-GAME_APP.text_rect = Rect(0.5, 0.5, 0.5, 0.5)
-GAME_APP.button_rect = Rect(0.5, 0.5, 0.5, 0.5)
-GAME_APP.text = "Future Fight"
-GAME_APP.text_threshold = 125
-
 USER_NAME = UIElement(name='USER_NAME')
 USER_NAME.description = "Position of user name in top navigation bar."
 USER_NAME.text_rect = Rect(0.0040032316604412975, 0.02314495419664295, 0.1453217391509037, 0.07099884033097952)

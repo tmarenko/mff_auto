@@ -1,6 +1,5 @@
 import json
 from time import sleep
-from distutils.version import LooseVersion
 from os.path import exists
 
 from PyQt5.QtWidgets import QMainWindow
@@ -8,13 +7,9 @@ from multiprocess.managers import SyncManager
 
 import lib.gui.designes.main_window as design
 import lib.logger as logging
-from lib.emulators.bluestacks import BlueStacks
-from lib.emulators.nox_player import NoxPlayer
-from lib.functions import bgr_to_rgb
-from lib.game import ui
+from lib.emulators import AndroidEmulator, BlueStacks, NoxPlayer
 from lib.game.battle_bot import BattleBot
 from lib.game.game import Game
-from lib.game.ui.general import Rect
 from lib.gui.helper import TwoStateButton, set_default_icon, Timer, try_to_disconnect
 from lib.gui.logger import QTextEditFileLogger
 from lib.gui.queue_manager import QueueList
@@ -52,6 +47,8 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     """Class for working with main GUI window."""
 
     recorder = None
+    emulator = None  # type: AndroidEmulator
+    game = None  # type: Game
 
     @classmethod
     def pause_recorder(cls):
@@ -74,7 +71,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         set_default_icon(window=self)
         self.settings = settings
         self._init_window_settings()
-        self.emulator_name, self.emulator_type, self.game_app_rect, self.emulator, self.game = None, None, None, None, None
+        self.emulator_name, self.emulator_type, self.device_serial = None, None, None
         self.load_settings_from_file()
         self.game.file_logger_name = None
         if file_logger:
@@ -110,6 +107,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
                 if not self.game.go_to_main_menu():
                     logger.warning("Can't get to the main menu. Restarting the game just in case.")
                     self.restart_game_button.click()
+        self._create_menu_for_adb_setup()
         self._create_menu_for_recorder()
 
     def _init_window_settings(self):
@@ -177,6 +175,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         self.game_app_rect = game_settings.get("game_app_rect")
         self.emulator_name = game_settings.get("emulator_name")
         self.emulator_type = game_settings.get("emulator_type")
+        self.device_serial = game_settings.get("device_serial")
         self.timeline_team_spin_box.setValue(game_settings.get("timeline_team"))
         self.mission_team_spin_box.setValue(game_settings.get("mission_team"))
         self.acquire_heroic_quest_rewards_checkbox.setChecked(game_settings.get("acquire_heroic_quest_rewards", True))
@@ -195,7 +194,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "handle_network_errors": self.handle_network_errors_checkbox.isChecked(),
             "emulator_name": self.emulator_name,
             "emulator_type": self.emulator_type,
-            "game_app_rect": self.game_app_rect
+            "device_serial": self.device_serial
         }
         save_game_settings(game_settings)
         logger.debug("Game settings saved.")
@@ -203,9 +202,11 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     def setup_gui_first_time(self):
         """Setups GUI settings for first time.
         Runs `SetupEmulator` and retrieves information about emulator and game app."""
+        self.hide()
         setup = SetupEmulator()
         setup.run_emulator_setup()
-        self.emulator_name, self.emulator_type, self.game_app_rect = setup.get_emulator_and_game_app()
+        self.show()
+        self.emulator_name, self.emulator_type = setup.get_emulator_and_game_app()
         game_settings = {
             "timeline_team": self.timeline_team_spin_box.value(),
             "mission_team": self.mission_team_spin_box.value(),
@@ -213,7 +214,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             "handle_network_errors": self.handle_network_errors_checkbox.isChecked(),
             "emulator_name": self.emulator_name,
             "emulator_type": self.emulator_type,
-            "game_app_rect": self.game_app_rect
+            "device_serial": self.device_serial
         }
         save_game_settings(game_settings)
         logger.debug("Saving setting from first setup.")
@@ -224,23 +225,33 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
             self.setup_gui_first_time()
         if self.emulator_type == NoxPlayer.__name__:
             self.emulator = NoxPlayer(self.emulator_name)
-            if self.emulator.get_version() and self.emulator.get_version() < LooseVersion('7.0.0.0'):
-                menu = self.menuBar.addMenu("Emulator")
-                action = menu.addAction(f"Make {self.emulator.name} restartable")
-                action.triggered.connect(self.emulator.set_config_for_bot)
         if self.emulator_type == BlueStacks.__name__:
             self.emulator = BlueStacks(self.emulator_name)
+        if self.device_serial:
+            self.emulator.init_adb_device(serial=self.device_serial)
         if not self.emulator.restartable:
             self.restart_game_button.setEnabled(False)
             self.restart_game_button.setText(f"{self.restart_game_button.text()}\n"
-                                             "[Unavailable (check logs)]")
-            self.restart_game_button = None
+                                             "[You need to connect Android Debug Bridge]")
         self.game = Game(self.emulator)
         self.manager = SyncManager()
         self.manager.start()
         self.game._modes = self.manager.dict()
-        if self.game_app_rect:
-            self.game._game_app_ui.button_rect = Rect(*self.game_app_rect)
+
+    def _create_menu_for_adb_setup(self):
+        menu = self.menuBar.addMenu("Android Debug Bridge")
+        self.adb_action = menu.addAction("Setup connection")
+        self.adb_action.triggered.connect(self._setup_adb)
+
+    def _setup_adb(self):
+        self.emulator.start_android_debug_bridge(adb_path=self.emulator.adb_path)
+        mff_device = self.emulator.adb.get_device_with_mff_installed()
+        if mff_device:
+            logger.info(f"Found device over ADB with installed game: {mff_device.serial}")
+            self.device_serial = mff_device.serial
+            self.restart_game_button.setText("[Android Debug Bridge connected]")
+            self.save_settings_to_file()
+            logger.info(f"Restart to apply changes.")
 
     def _create_menu_for_recorder(self):
         """Creates menu bar for emulator recording."""
@@ -258,7 +269,7 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
         try_to_disconnect(self.recorder_action.triggered, self._start_recording)
         self.recorder_action.triggered.connect(self._stop_recording)
 
-        self.screen_image.get_image_func = lambda: bgr_to_rgb(MainWindow.recorder.video_capture.source.frame())
+        self.screen_image.get_image_func = MainWindow.recorder.video_capture.source.frame
 
     def _stop_recording(self):
         """Stops recording video from emulator."""

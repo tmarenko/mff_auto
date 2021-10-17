@@ -1,26 +1,30 @@
 ﻿import ctypes
-import logging
+import lib.logger as logging
+import os
 import random
+import subprocess
 import time
 from ctypes import windll
 from distutils.version import LooseVersion
 from platform import release
 
-import autoit
-import pywintypes
+import cv2
 import win32api
 import win32con
 import win32gui
 import win32process
 import win32ui
-from PIL import Image
-from numpy import array
+from numpy import frombuffer
+from ppadb.client import Client
 
 from lib.functions import get_text_from_image, is_strings_similar, is_images_similar, is_color_similar, r_sleep, \
-    get_file_properties, convert_colors_in_image
+    get_file_properties, convert_colors_in_image, crop_image_array, wait_until
+
+logger = logging.get_logger(__name__)
 
 PW_CLIENTONLY = 1  # Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
 PW_RENDERFULLCONTENT = 2  # Properly capture DirectComposition window contents. Available from Windows 8.1
+MARVEL_FUTURE_FIGHT_APK = 'com.netmarble.mherosgb'
 
 # Set process as high-DPI aware to get actual window's coordinates. Set WM_PAINT flag by OS version
 if release() == "10":
@@ -35,36 +39,47 @@ ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000040)  # Preve
 class AndroidEmulator(object):
     """Class for working with Android emulators."""
 
-    def __init__(self, name, child_name, key_handle_name):
+    hwnd, parent_hwnd = None, None
+    x, y = None, None
+    parent_x, parent_y = None, None
+    parent_width, parent_height = None, None
+    width, height = None, None
+    adb = None
+    mff_device = None
+    adb_width, adb_height = None, None
+    last_frame = None
+    screen_locked = False
+    _version = None
+
+    def __init__(self, name, child_name, adb_path):
         """Class initialization.
 
         :param str name: main window's name of the emulator.
         :param str child_name: child window's name of inner control window.
-        :param str key_handle_name: name of windows's key handler.
         """
-        self._init_variables()
-        self._version = None
+        self.adb_path = adb_path
         self.name = name
         self.child_name = child_name
-        self.key_handle_name = key_handle_name
-        self.screen_locked = False
-        self.last_frame = None
         self.update_handlers()
         self._set_params_by_version()
         if self.initialized:
-            logging.debug(f"Initialized {self.__class__.__name__} object with name {self.name} "
+            logger.debug(f"Initialized {self.__class__.__name__} object with name {self.name} "
                           f"version {self.get_version()} "
                           f"and resolution {self.width, self.height}; "
-                          f"main window: {self.x1, self.y1, self.x2, self.y2}, parent: {self.parent_x, self.parent_y}")
+                          f"main window: {self.x1, self.y1, self.x2, self.y2}, parent: {self.parent_x, self.parent_y};")
 
-    def _init_variables(self):
-        """Variables initialization."""
-        self.parent_x, self.parent_y, self.parent_width, self.parent_height, \
-        self.parent_hwnd, self.parent_thread, self.main_key_handle = (None,) * 7
-        self.x, self.y, self.width, self.height, self.hwnd, self.key_handle = (None,) * 6
-        # Storing external functions for process manager context (video_capture decorators)
-        self.autoit_control_click_by_handle = autoit.control_click_by_handle
-        self.win32_api_post_message = win32api.PostMessage
+    def start_android_debug_bridge(self, adb_path):
+        self.adb = AndroidDebugBridge()
+        self.adb.start_server(adb_path=adb_path)
+
+    def init_adb_device(self, serial):
+        self.start_android_debug_bridge(adb_path=self.adb_path)
+        if serial:
+            self.mff_device = self.adb.get_device_by_serial(serial=serial)
+        else:
+            self.mff_device = self.adb.get_device_with_mff_installed()
+        self.adb_width, self.adb_height = self.mff_device.wm_size().width, self.mff_device.wm_size().height
+        logger.info(f"Initialized Android Debug Bridge serial {self.mff_device.serial}")
 
     def get_process_exe(self):
         """Gets path of emulator's executable file.
@@ -76,7 +91,7 @@ class AndroidEmulator(object):
             process = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ, 0, process_id)
             process_exe = win32process.GetModuleFileNameEx(process, 0)
             return process_exe
-        except pywintypes.error:
+        except BaseException:
             return None
 
     def get_version(self):
@@ -99,7 +114,6 @@ class AndroidEmulator(object):
     def update_handlers(self):
         """Updates window's handlers and stores info from them."""
         win32gui.EnumWindows(self._get_window_info, None)
-        win32gui.EnumChildWindows(self.parent_hwnd, self._get_key_layout_handle, None)
         win32gui.EnumChildWindows(self.parent_hwnd, self._get_emulator_window_info, None)
 
     def update_window_rectangles(self):
@@ -117,7 +131,7 @@ class AndroidEmulator(object):
             self.parent_y = rect[1]
             self.parent_width = rect[2] - rect[0]
             self.parent_height = rect[3] - rect[1]
-        except pywintypes.error:
+        except BaseException:
             pass
 
     def _update_rect_from_main_hwnd(self):
@@ -134,7 +148,7 @@ class AndroidEmulator(object):
             self.y1 = self.y - self.parent_y
             self.x2 = self.width + self.x1
             self.y2 = self.height + self.y1
-        except pywintypes.error:
+        except BaseException:
             pass
 
     def _get_window_info(self, hwnd, wildcard):
@@ -147,10 +161,8 @@ class AndroidEmulator(object):
         if self.name == win32gui.GetWindowText(hwnd):
             try:
                 self.parent_hwnd = hwnd
-                self.parent_thread = win32process.GetWindowThreadProcessId(self.parent_hwnd)
-                self.main_key_handle = win32gui.GetDlgItem(self.parent_hwnd, 0)
                 self._update_rect_from_parent_hwnd()
-            except pywintypes.error:
+            except BaseException:
                 pass
 
     def _get_emulator_window_info(self, hwnd, wildcard):
@@ -164,15 +176,6 @@ class AndroidEmulator(object):
             self.hwnd = hwnd
             self._update_rect_from_main_hwnd()
 
-    def _get_key_layout_handle(self, hwnd, wildcard):
-        """Gets information about general key handler.
-        Should be implemented in child classes.
-
-        :param int hwnd: window handle.
-        :param str wildcard: wildcard.
-        """
-        raise NotImplementedError
-
     @property
     def initialized(self):
         """Property that checks whether emulator has active handlers.
@@ -183,10 +186,9 @@ class AndroidEmulator(object):
         hwnd_found = self.hwnd is not None and self.parent_hwnd is not None
         hwnd_active = win32gui.GetWindowText(self.parent_hwnd) == self.name and win32gui.GetWindowText(
             self.hwnd) == self.child_name
-        keys_found = self.key_handle is not None and self.main_key_handle is not None
         rect_found = self.x is not None and self.y is not None
         parent_found = self.parent_x is not None and self.parent_y is not None
-        return hwnd_found and hwnd_active and keys_found and rect_found and parent_found
+        return hwnd_found and hwnd_active and rect_found and parent_found
 
     @property
     def is_minimized(self):
@@ -204,10 +206,9 @@ class AndroidEmulator(object):
 
         :rtype: numpy.ndarray
         """
-        box = (rect[0] * self.width, rect[1] * self.height,
-               rect[2] * self.width, rect[3] * self.height)
-        screen = self._get_screen().crop(box)
-        return array(screen)
+        box = (int(rect[0] * self.width), int(rect[1] * self.height),
+               int(rect[2] * self.width), int(rect[3] * self.height))
+        return crop_image_array(self.get_screen_directx(), box)
 
     @staticmethod
     def get_image_from_image(image, rect):
@@ -218,11 +219,10 @@ class AndroidEmulator(object):
 
         :rtype: numpy.ndarray
         """
-        image = Image.fromarray(image)
-        box = (rect[0] * image.width, rect[1] * image.height,
-               rect[2] * image.width, rect[3] * image.height)
-        screen = image.crop(box)
-        return array(screen)
+        height, width, channel = image.shape
+        box = (rect[0] * width, rect[1] * height,
+               rect[2] * width, rect[3] * height)
+        return crop_image_array(image, box)
 
     def get_screen_color(self, positions, screen=None):
         """Gets color from emulator's screen by it position.
@@ -233,10 +233,11 @@ class AndroidEmulator(object):
         :return: list of (r,g,b) colors.
         :rtype: list[tuple[int, int, int]]
         """
-        screen = screen if screen is not None else self._get_screen()
-        return [screen.getpixel(position) for position in positions]
+        screen = screen if screen is not None else self.get_screen_directx()
+        positions = [(position[1], position[0]) for position in positions]  # cv2 image's shape is (height, width)
+        return [screen[position] for position in positions]
 
-    def get_position_inside_screen_rectangle(self, rect):
+    def get_position_inside_screen_rectangle(self, rect, global_coordinates=True):
         """Gets (x,y) position inside screen rectangle.
 
         :param tuple[float, float, float, float] | lib.game.ui.Rect rect: local rectangle inside (0, 0, 1, 1) range.
@@ -244,10 +245,11 @@ class AndroidEmulator(object):
         :return: (x, y) position inside screen rectangle.
         :rtype: tuple[int, int]
         """
+        width, height = (self.adb_width, self.adb_height) if global_coordinates else (self.width, self.height)
         if rect[0] == rect[2] and rect[1] == rect[3]:
-            return int(rect[0] * self.width), int(rect[1] * self.height)
+            return int(rect[0] * width), int(rect[1] * height)
         x, y = random.uniform(rect[0], rect[2]), random.uniform(rect[1], rect[3])
-        return int(x * self.width), int(y * self.height)
+        return int(x * width), int(y * height)
 
     def get_screen_text(self, ui_element, screen=None):
         """Gets text from emulator's screen.
@@ -298,7 +300,7 @@ class AndroidEmulator(object):
 
         :rtype: bool
         """
-        positions = [self.get_position_inside_screen_rectangle(rect) for rect in rects]
+        positions = [self.get_position_inside_screen_rectangle(rect, global_coordinates=False) for rect in rects]
         screen_colors = self.get_screen_color(positions=positions, screen=screen)
         similar = False
         for screen_color in screen_colors:
@@ -315,59 +317,37 @@ class AndroidEmulator(object):
         duration = random.uniform(min_duration, max_duration)
         r_sleep(duration)
         x, y = self.get_position_inside_screen_rectangle(ui_element.button_rect.global_rect)
-        self.autoit_control_click_by_handle(self.parent_hwnd, self.hwnd, x=x, y=y)
+        self.mff_device.input_tap(x, y)
         r_sleep(duration * 2)
 
-    def press_key(self, key, system_key=False):
-        """Presses key (keys should be configured inside emulator).
-
-        :param str key: key name.
-        :param bool system_key: is emulator's system (main) key or not.
-        """
-        handle = self.key_handle if not system_key else self.main_key_handle
-        autoit.control_send_by_handle(self.main_key_handle, handle, key)
-
-    def close_current_app(self):
+    def close_marvel_future_fight(self):
         """Closes current opened app in emulator. Should be implemented in child classes."""
-        raise NotImplementedError
+        return self.adb.stop_marvel_future_fight(self.mff_device)
+
+    def start_marvel_future_fight(self):
+        return self.adb.start_marvel_future_fight(self.mff_device)
 
     @property
     def restartable(self):
         """Checks if app can be restarted. Should be implemented in child classes."""
-        raise NotImplementedError
+        return self.adb and self.adb.client
 
-    def drag(self, from_ui, to_ui, duration=0.7, steps_count=100):
-        """Drags from one UI element to another.
+    def swipe(self, from_ui, to_ui, duration=1):
+        """Swipes from one UI element to another.
 
         :param lib.game.ui.UIElement from_ui: UI element of dragging position "From".
         :param lib.game.ui.UIElement to_ui: UI element of dragging position "To".
-        :param float duration: duration of dragging.
-        :param int steps_count: steps of dragging.
+        :param float duration: duration of swiping in seconds.
         """
-
-        def linear_point(x1, y1, x2, y2, n):
-            p_x = ((x2 - x1) * n) + x1
-            p_y = ((y2 - y1) * n) + y1
-            return int(p_x), int(p_y)
-
         from_position = self.get_position_inside_screen_rectangle(from_ui.button_rect.global_rect)
         to_position = self.get_position_inside_screen_rectangle(to_ui.button_rect.global_rect)
-        self.win32_api_post_message(self.hwnd, win32con.WM_MOUSEMOVE, 0, win32api.MAKELONG(*from_position))
-        self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONDOWN, 0, win32api.MAKELONG(*from_position))
+        self.mff_device.input_swipe(*from_position, *to_position, int(duration * 1000))
 
-        sleep_amount = duration / steps_count
-        steps = [linear_point(*from_position, *to_position, n / steps_count) for n in range(steps_count)]
-        for x, y in steps:
-            self.win32_api_post_message(self.hwnd, win32con.WM_MOUSEMOVE, win32con.WM_LBUTTONDOWN,
-                                        win32api.MAKELONG(x, y))
-            time.sleep(sleep_amount)
-        self.win32_api_post_message(self.hwnd, win32con.WM_LBUTTONUP, 0, win32api.MAKELONG(*to_position))
-
-    def _get_screen(self):
+    def get_screen_directx(self):
         """Get screen image from emulator's main window.
 
         :return: image from emulator in BGR format.
-        :rtype: PIL.Image.Image
+        :rtype: numpy.ndarray
         """
         if not self.initialized:
             return None
@@ -375,7 +355,7 @@ class AndroidEmulator(object):
             self.maximize()
         self.update_window_rectangles()
         while self.screen_locked:
-            if self.last_frame:
+            if self.last_frame is not None:
                 return self.last_frame
             time.sleep(0.1)
         self.screen_locked = True
@@ -399,7 +379,63 @@ class AndroidEmulator(object):
         win32gui.ReleaseDC(self.parent_hwnd, hwnd_dc)
 
         self.screen_locked = False
-        parent_img = Image.frombuffer('RGB', (bmp_info['bmWidth'], bmp_info['bmHeight']), bmp_arr, 'raw', 'BGRX', 0, 1)
-        img = parent_img.crop((self.x1, self.y1, self.x2, self.y2))
-        self.last_frame = img
-        return img
+        image = frombuffer(bmp_arr, dtype='uint8').reshape((bmp_info['bmHeight'], bmp_info['bmWidth'],
+                                                            int(bmp_info['bmWidthBytes'] / bmp_info['bmWidth'])))
+        image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+        image = crop_image_array(image, (self.x1, self.y1, self.x2, self.y2))
+        self.last_frame = image
+        return image
+
+
+class AndroidDebugBridge:
+
+    client = None
+
+    def start_server(self, adb_path):
+        call = subprocess.run([adb_path, "kill-server"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        logger.info(call.stdout)
+        call = subprocess.run([adb_path, "start-server"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        logger.info(call.stdout)
+        self.client = Client()
+
+    def get_device_by_serial(self, serial):
+        """
+
+        :param serial:
+        :return:
+        :rtype: ppadb.device.Device
+        """
+        self.client._execute_cmd(cmd=f"host:connect:{serial}")
+        return self.client.device(serial)
+
+    def get_device_with_mff_installed(self):
+        for device in self.client.devices():
+            try:
+                if MARVEL_FUTURE_FIGHT_APK in device.list_packages():
+                    return device
+            except RuntimeError as err:
+                logger.error(f"Error on device {device.serial}: {err}")
+
+    @staticmethod
+    def is_mff_running(device):
+        top_activity = device.get_top_activity()
+        if top_activity:
+            return MARVEL_FUTURE_FIGHT_APK in top_activity.package
+
+    def start_marvel_future_fight(self, device):
+        if self.is_mff_running(device):
+            logger.warning(f"Trying to start `{MARVEL_FUTURE_FIGHT_APK}` but it's already started.")
+        logger.info(f"Starting `{MARVEL_FUTURE_FIGHT_APK}` at device {device.serial}")
+        device.shell(f"am start {MARVEL_FUTURE_FIGHT_APK}/.SRNativeActivity")
+        if wait_until(self.is_mff_running, device=device):
+            return True
+        logger.error(f"`{MARVEL_FUTURE_FIGHT_APK}` haven't started.")
+
+    def stop_marvel_future_fight(self, device):
+        if not self.is_mff_running(device):
+            logger.warning(f"Trying to stop `{MARVEL_FUTURE_FIGHT_APK}` but it's already stopped.")
+        logger.info(f"Stopping `{MARVEL_FUTURE_FIGHT_APK}` at device {device.serial}")
+        device.shell(f"am force-stop {MARVEL_FUTURE_FIGHT_APK}")
+        if wait_until(self.is_mff_running, device=device, condition=False):
+            return True
+        logger.error(f"`{MARVEL_FUTURE_FIGHT_APK}` haven't stopped.")

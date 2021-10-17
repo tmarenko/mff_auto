@@ -35,7 +35,7 @@ class EpicQuest(Missions):
         ally_appeared = auto_battle_bot.wait_until_shifter_appeared() if farm_shifter_bios else True
         if farm_shifter_bios and not ally_appeared:
             logger.info("No shifter, restarting.")
-            if self.game.restart_game(repeat_while=auto_battle_bot.is_battle):
+            if self.game.restart_game():
                 self.game.select_mode(self.mode_name)
                 return stage_num
 
@@ -166,7 +166,7 @@ class TenStageEpicQuest(EpicQuest):
         if self.game.go_to_epic_quests():
             if self.mode_selector_ui in [ui.EQ_RISE_OF_X_MEN, ui.EQ_SORCERER_SUPREME, ui.EQ_X_FORCE]:
                 logger.debug("Epic Quests is referring to the second page. Trying to scroll.")
-                self.emulator.drag(ui.EQ_PAGE_DRAG_FROM, ui.EQ_PAGE_DRAG_TO)
+                self.emulator.swipe(ui.EQ_PAGE_DRAG_FROM, ui.EQ_PAGE_DRAG_TO)
                 r_sleep(1)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=self.mode_selector_ui):
                 logger.debug(f"Selecting Epic Quest: {self.mode_selector_ui.name}.")
@@ -222,7 +222,7 @@ class TenStageWithDifficultyEpicQuest(TenStageEpicQuest):
             self.emulator.click_button(self.stage_selector_ui)
             if "_2_" in difficulty_ui.name:  # TODO: that's not good at all
                 logger.debug("Difficulty is referring from the bottom of list. Trying to scroll.")
-                self.emulator.drag(ui.DIFFICULTY_DRAG_FROM, ui.DIFFICULTY_DRAG_TO)
+                self.emulator.swipe(ui.DIFFICULTY_DRAG_FROM, ui.DIFFICULTY_DRAG_TO)
                 r_sleep(1)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=difficulty_ui):
                 self.emulator.click_button(difficulty_ui)
