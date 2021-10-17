@@ -1,0 +1,20 @@
+name: mff_auto_ci
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.6.7'
+
+      - run: python build.py
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: mff_auto.7z
+          path: mff_auto-*.7z
