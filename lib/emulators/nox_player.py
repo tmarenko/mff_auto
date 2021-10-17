@@ -27,17 +27,3 @@ class NoxPlayer(AndroidEmulator):
         if version and version >= LooseVersion('7.0.1.1'):
             self.child_name = NOX_7_0_1_1_CHILD_NAME
         self.update_handlers()
-
-    def _get_emulator_window_info(self, hwnd, wildcard):
-        """Gets information about child emulator's window.
-        Child window usually receives mouse events (clicks, drags).
-
-        :param int hwnd: window handle.
-        :param str wildcard: wildcard.
-        """
-        if self.child_name in win32gui.GetWindowText(hwnd):
-            self.hwnd = hwnd
-            version = self.get_version()
-            if version and version >= LooseVersion('7.0.1.1'):
-                self.hwnd = win32gui.GetParent(hwnd)
-            self._update_rect_from_main_hwnd()
