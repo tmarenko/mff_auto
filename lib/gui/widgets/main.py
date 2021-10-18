@@ -246,12 +246,13 @@ class MainWindow(QMainWindow, design.Ui_MainWindow):
     def _setup_adb(self):
         self.emulator.start_android_debug_bridge(adb_path=self.emulator.adb_path)
         mff_device = self.emulator.adb.get_device_with_mff_installed()
-        if mff_device:
-            logger.info(f"Found device over ADB with installed game: {mff_device.serial}")
-            self.device_serial = mff_device.serial
-            self.restart_game_button.setText("[Android Debug Bridge connected]")
-            self.save_settings_to_file()
-            logger.info(f"Restart to apply changes.")
+        if not mff_device:
+            return logger.error("Can't find device over ADB with installed Marvel Future Fight.")
+        logger.info(f"Found device over ADB with installed game: {mff_device.serial}")
+        self.device_serial = mff_device.serial
+        self.restart_game_button.setText("[Android Debug Bridge connected]")
+        self.save_settings_to_file()
+        logger.info(f"Restart to apply changes.")
 
     def _create_menu_for_recorder(self):
         """Creates menu bar for emulator recording."""

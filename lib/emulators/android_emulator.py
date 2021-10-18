@@ -392,6 +392,7 @@ class AndroidDebugBridge:
     client = None
 
     def start_server(self, adb_path):
+        logger.debug(f"Restarting ADB server by path: {adb_path}")
         call = subprocess.run([adb_path, "kill-server"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         logger.info(call.stdout)
         call = subprocess.run([adb_path, "start-server"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -409,9 +410,13 @@ class AndroidDebugBridge:
         return self.client.device(serial)
 
     def get_device_with_mff_installed(self):
-        for device in self.client.devices():
+        devices = self.client.devices()
+        logger.debug(f"Found devices over ADB: {[device.serial for device in devices]}")
+        for device in devices:
             try:
-                if MARVEL_FUTURE_FIGHT_APK in device.list_packages():
+                list_packages = device.list_packages()
+                logger.debug(f"Packages on device {device.serial}: {list_packages}")
+                if MARVEL_FUTURE_FIGHT_APK in list_packages:
                     return device
             except RuntimeError as err:
                 logger.error(f"Error on device {device.serial}: {err}")
