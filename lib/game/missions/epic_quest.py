@@ -143,6 +143,8 @@ class TwoStageEpicQuest(EpicQuest):
 class TenStageEpicQuest(EpicQuest):
     """Class for working with Epic Quests with 10 stages (usual missions without difficulty)."""
 
+    SECOND_PAGE_EQ = [ui.EQ_RISE_OF_X_MEN.name, ui.EQ_SORCERER_SUPREME.name, ui.EQ_X_FORCE.name]
+
     def __init__(self, game, mode_selector_ui, mission_selector_ui, mission_selector_label_ui, stage_selector_ui,
                  stage_name=None):
         """Class initialization.
@@ -164,7 +166,7 @@ class TenStageEpicQuest(EpicQuest):
     def _select_epic_quest(self):
         """Selects Epic Quest."""
         if self.game.go_to_epic_quests():
-            if self.mode_selector_ui in [ui.EQ_RISE_OF_X_MEN, ui.EQ_SORCERER_SUPREME, ui.EQ_X_FORCE]:
+            if self.mode_selector_ui.name in self.SECOND_PAGE_EQ:
                 logger.debug("Epic Quests is referring to the second page. Trying to scroll.")
                 self.emulator.drag(ui.EQ_PAGE_DRAG_FROM, ui.EQ_PAGE_DRAG_TO)
                 r_sleep(1)
