@@ -227,6 +227,22 @@ class _AcquireFreeArtifactChest(Action):
         super().__init__(game, "STORE: ACQUIRE FREE ARTIFACT CHEST", self.store.acquire_free_artifact_chest)
 
 
+class _BuyArtifactChest(Action):
+    artifact_chest = {
+        "100k gold": routines.ArtifactStore.ARTIFACT_CHEST.GOLD_100,
+        "250k gold": routines.ArtifactStore.ARTIFACT_CHEST.GOLD_250,
+        "750k gold": routines.ArtifactStore.ARTIFACT_CHEST.GOLD_750,
+        "1250k gold": routines.ArtifactStore.ARTIFACT_CHEST.GOLD_1250
+    }
+
+    def __init__(self, game):
+        self.store = routines.ArtifactStore(game)
+        super().__init__(game, "STORE: BUY ARTIFACT CHEST", self.store.buy_artifact_chest)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="chests_to_buy",
+                                                     values_dict=self.artifact_chest))
+
+
 class _AcquireAllChests(Action):
 
     def __init__(self, game):

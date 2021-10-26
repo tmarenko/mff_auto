@@ -125,7 +125,8 @@ def get_actions_dict(action_instances):
                  find_instance(actions._Iso8Upgrade), find_instance(actions._Iso8Combine),
                  find_instance(actions._Iso8Lock)]
     store = [find_instance(actions._CollectFreeEnergy), find_instance(actions._CollectEnergyViaAssemblePoints),
-             find_instance(actions._AcquireFreeHeroChest), find_instance(actions._AcquireFreeArtifactChest)]
+             find_instance(actions._AcquireFreeHeroChest), find_instance(actions._AcquireFreeArtifactChest),
+             find_instance(actions._BuyArtifactChest)]
     menu_dict = {
         "[ACTIONS]": {
             "[QUEUE CONTROL]": [find_instance(actions._RunQueue)],

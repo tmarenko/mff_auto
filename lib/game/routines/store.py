@@ -8,6 +8,11 @@ logger = logging.get_logger(__name__)
 
 class Store(Notifications):
 
+    class FILTERS:
+        ARTIFACT = ui.STORE_FILTER_ARTIFACT
+
+    SECOND_LIST = [FILTERS.ARTIFACT.name]
+
     def is_store_open(self):
         """Checks if Store is open.
 
@@ -15,6 +20,38 @@ class Store(Notifications):
         """
         return self.emulator.is_ui_element_on_screen(ui.STORE_LABEL) or \
                self.emulator.is_ui_element_on_screen(ui.STORE_LABEL_2)
+
+    def _drag_store_list_to_the_right(self):
+        """Drags store' list of items to the right."""
+        self.emulator.drag(from_ui=ui.STORE_DRAG_RIGHT, to_ui=ui.STORE_DRAG_LEFT)
+
+    def _open_filter_menu(self):
+        """Opens store's filter menu.
+
+        :rtype: bool
+        """
+        if not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_FILTER):
+            return logger.error("Can't open store's filter.")
+        logger.debug("Opening store's filter.")
+        self.emulator.click_button(ui.STORE_FILTER)
+        return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_FILTER_LABEL)
+
+    def open_filter(self, ui_filter):
+        """Opens store's filter menu by it's UI element.
+
+        :param ui.UIElement ui_filter: UI element that represent store's filter. See `Store.FILTERS` for reference.
+        :rtype: bool
+        """
+        if self._open_filter_menu():
+            r_sleep(1)  # Wait for animations
+            if not self.emulator.is_ui_element_on_screen(ui_filter) and ui_filter.name in self.SECOND_LIST:
+                while not wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui_filter, timeout=1):
+                    logger.debug("Dragging to the bottom of the filters.")
+                    self.emulator.drag(from_ui=ui.STORE_FILTER_DRAG_BOTTOM, to_ui=ui.STORE_FILTER_DRAG_TOP)
+            if self.emulator.is_ui_element_on_screen(ui_filter):
+                logger.debug(f"Selecting by filter {ui_filter.name}")
+                self.emulator.click_button(ui_filter)
+                return wait_until(self.is_store_open)
 
 
 class EnergyStore(Store):
@@ -150,6 +187,12 @@ class CharacterStore(Store):
 class ArtifactStore(Store):
     """Class for working with Artifact Store."""
 
+    class ARTIFACT_CHEST:
+        GOLD_100 = ui.STORE_ARTIFACT_CHEST_1
+        GOLD_250 = ui.STORE_ARTIFACT_CHEST_2
+        GOLD_750 = ui.STORE_ARTIFACT_CHEST_3
+        GOLD_1250 = ui.STORE_ARTIFACT_CHEST_4
+
     def open_artifact_store(self):
         """Opens Artifact store using Dimension Chest button in Main Menu."""
         self.game.go_to_main_menu()
@@ -158,16 +201,13 @@ class ArtifactStore(Store):
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.MAIN_MENU_DIMENSION_CHEST):
                 self.emulator.click_button(ui.MAIN_MENU_DIMENSION_CHEST)
                 self.close_ads()
-                if wait_until(self.emulator.is_ui_element_on_screen,
-                              ui_element=ui.STORE_OPEN_ARTIFACT_FROM_DIMENSION_CHEST):
-                    logger.debug("Opening Artifact tab.")
-                    self.emulator.click_button(ui.STORE_OPEN_ARTIFACT_FROM_DIMENSION_CHEST)
-                    return True
+                return self.open_filter(self.FILTERS.ARTIFACT)
         return False
 
     def acquire_free_artifact_chest(self):
         """Acquires available Free Artifact Chest."""
-        self.open_artifact_store()
+        if not self.open_artifact_store():
+            return logger.error("Can't open Artifact Store.")
         self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST)
         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORE_ARTIFACT_FREE_CHEST_BUTTON_ACQUIRE):
             logger.debug("Acquiring Free Artifact Chest.")
@@ -188,4 +228,33 @@ class ArtifactStore(Store):
             logger.info("No available Free Artifact Chest, exiting.")
             self.emulator.click_button(ui.MENU_BACK)
             r_sleep(1)  # Wait for animation
+        self.game.go_to_main_menu()
+
+    def buy_artifact_chest(self, chests_to_buy=None):
+        """Buys artifact chest from the Store by it's UI element.
+
+        :param ui.UIElement | list[ui.UIElement] chests_to_buy: UI elements of chest to buy.
+        """
+        if not self.open_artifact_store():
+            return logger.error("Can't open Artifact Store.")
+        self._drag_store_list_to_the_right()
+        r_sleep(1)  # Wait for animations
+        self._drag_store_list_to_the_right()
+        for chest_ui in chests_to_buy:
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=chest_ui):
+                logger.debug(f"Buying Artifact Chest: {chest_ui.name}")
+                self.emulator.click_button(chest_ui)
+                if wait_until(self.emulator.is_ui_element_on_screen,
+                              ui_element=ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE):
+                    self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE)
+                    if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.SKIP_CUTSCENE):
+                        self.emulator.click_button(ui.SKIP_CUTSCENE)
+                        if wait_until(self.emulator.is_ui_element_on_screen,
+                                      ui_element=ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE_CLOSE):
+                            self.emulator.click_button(ui.STORE_ARTIFACT_FREE_CHEST_PURCHASE_CLOSE)
+                            logger.info(f"Artifact Chest {chest_ui.name} acquired.")
+                    if wait_until(self.emulator.is_ui_element_on_screen,
+                                  ui_element=ui.STORE_RECHARGE_ENERGY_VIA_POINTS_LIMIT):
+                        logger.info(f"Reached daily limit for {chest_ui.name}.")
+                        self.emulator.click_button(ui.STORE_RECHARGE_ENERGY_VIA_POINTS_LIMIT)
         self.game.go_to_main_menu()
