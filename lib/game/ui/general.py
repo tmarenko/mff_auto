@@ -106,6 +106,9 @@ class UIElement:
     def __str__(self):
         return self.name
 
+    def __repr__(self):
+        return f'{self.__str__()}: {super().__repr__()}'
+
     def copy(self):
         """Returns copy of an UI element.
 
