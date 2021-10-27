@@ -189,13 +189,6 @@ class Iso8(Notifications):
             return (cls.ALL_ATTACK_AND_ALL_DEFENCE, cls.ALL_ATTACK_AND_HP, cls.PHYSICAL_ATTACK_AND_HP,
                     cls.ENERGY_ATTACK_AND_HP)
 
-    def __init__(self, game):
-        """Class initialization.
-
-        :param lib.game.game.Game game: instance of the game.
-        """
-        super().__init__(game)
-
     def open_iso8_tab(self):
         """Opens ISO-8 tab in Inventory."""
 
@@ -465,3 +458,88 @@ class Iso8(Notifications):
                         if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ISO8_LOCK_CONFIRM):
                             logger.info(f"ISO-8 at {(row, col)} has locked.")
                             self.emulator.click_button(ui.ISO8_LOCK_CONFIRM)
+
+
+class Artifact(Notifications):
+    """Class for working with Artifacts."""
+
+    class ARTIFACT_STARS:
+        STAR_1 = ui.ARTIFACT_DISMANTLE_STAR_1
+        STAR_2 = ui.ARTIFACT_DISMANTLE_STAR_2
+        STAR_3 = ui.ARTIFACT_DISMANTLE_STAR_3
+        STAR_4 = ui.ARTIFACT_DISMANTLE_STAR_4
+        STAR_5 = ui.ARTIFACT_DISMANTLE_STAR_5
+        STAR_6 = ui.ARTIFACT_DISMANTLE_STAR_6
+
+    def open_artifact_tab(self):
+        """Opens Artifact tab in Inventory."""
+
+        def is_artifact_tab() -> bool:
+            return self.emulator.is_ui_element_on_screen(ui.ARTIFACT_DISMANTLE)
+
+        self.game.go_to_inventory()
+        self.emulator.click_button(ui.INVENTORY_UPGRADE_TAB)
+        self.emulator.click_button(ui.INVENTORY_ARTIFACT_TAB)
+        return wait_until(is_artifact_tab, timeout=3, period=1)
+
+    def _open_dismantle_menu(self):
+        """Opens Dismantle Artifact menu.
+
+        :rtype: bool
+        """
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE):
+            logger.debug("Opening Dismantle menu.")
+            self.emulator.click_button(ui.ARTIFACT_DISMANTLE)
+            return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_LABEL)
+
+    def _auto_select_for_dismantle(self, artifact_stars):
+        """Selects artifacts for dismantling using Auto Select menu.
+
+        :param ui.UIElement | list[ui.UIElement] artifact_stars: artifact's stars to dismantle.
+            See `ARTIFACT_STARS` for reference.
+
+        :rtype: bool
+        """
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_AUTO_SELECT):
+            logger.debug("Opening Auto Select menu.")
+            self.emulator.click_button(ui.ARTIFACT_DISMANTLE_AUTO_SELECT)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_AUTO_SELECT_LABEL):
+                for artifact_star in artifact_stars:
+                    logger.debug(f"Selecting {artifact_star}.")
+                    self.emulator.click_button(artifact_star)
+                self.emulator.click_button(ui.ARTIFACT_DISMANTLE_AUTO_SELECT_CONFIRM)
+                if wait_until(self.emulator.is_ui_element_on_screen,
+                              ui_element=ui.ARTIFACT_DISMANTLE_AUTO_SELECT_CANCEL):
+                    logger.info("No artifacts to dismantle.")
+                    self.emulator.click_button(ui.ARTIFACT_DISMANTLE_AUTO_SELECT_CANCEL)
+                    return False
+                return True
+
+    def dismantle_artifacts(self, artifact_stars):
+        """Dismantles artifacts.
+
+        :param ui.UIElement | list[ui.UIElement] artifact_stars: artifact's stars to dismantle.
+            See `ARTIFACT_STARS` for reference.
+        """
+        if not artifact_stars:
+            logger.warning("Nothing to dismantle.")
+            return self.game.go_to_main_menu()
+        if not self.open_artifact_tab():
+            logger.error("Can't get to Artifact tab in the inventory.")
+            return self.game.go_to_main_menu()
+        if not self._open_dismantle_menu():
+            logger.error("Can't open Dismantle menu.")
+            return self.game.go_to_main_menu()
+        if not self._auto_select_for_dismantle(artifact_stars=artifact_stars):
+            return self.game.go_to_main_menu()
+
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_CONFIRM):
+            logger.debug("Dismantling artifacts.")
+            self.emulator.click_button(ui.ARTIFACT_DISMANTLE_CONFIRM)
+            if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_CONFIRM_OK):
+                self.emulator.click_button(ui.ARTIFACT_DISMANTLE_CONFIRM_OK)
+                if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_CONFIRM_CLOSE,
+                              timeout=10):
+                    logger.info("Artifacts were dismantled.")
+                    self.emulator.click_button(ui.ARTIFACT_DISMANTLE_CONFIRM_CLOSE)
+        self.game.go_to_main_menu()

@@ -4,6 +4,6 @@ from .enhance_potential import EnhancePotential
 from .friends import Friends
 from .general import WaitUntil
 from .inbox import Inbox
-from .inventory import CustomGear, ComicCards, Iso8
+from .inventory import CustomGear, ComicCards, Iso8, Artifact
 from .store import EnergyStore, CharacterStore, ArtifactStore
 from .support_shop import SupportShop

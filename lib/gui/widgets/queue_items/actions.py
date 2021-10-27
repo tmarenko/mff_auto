@@ -414,3 +414,21 @@ class _Iso8Lock(Action):
                                                      setting_key="options_to_lock",
                                                      values_dict=self.options_to_lock,
                                                      add_to_next_column=True))
+
+
+class _ArtifactDismantle(Action):
+    stars_to_dismantle = {
+        "Dismantle 1 star": routines.Artifact.ARTIFACT_STARS.STAR_1,
+        "Dismantle 2 star": routines.Artifact.ARTIFACT_STARS.STAR_2,
+        "Dismantle 3 star": routines.Artifact.ARTIFACT_STARS.STAR_3,
+        "Dismantle 4 star": routines.Artifact.ARTIFACT_STARS.STAR_4,
+        "Dismantle 5 star": routines.Artifact.ARTIFACT_STARS.STAR_5,
+        "Dismantle 6 star": routines.Artifact.ARTIFACT_STARS.STAR_6
+    }
+
+    def __init__(self, game):
+        self.store = routines.Artifact(game)
+        super().__init__(game, "ARTIFACT: DISMANTLE", self.store.dismantle_artifacts)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.MultiCheckbox,
+                                                     setting_key="artifact_stars",
+                                                     values_dict=self.stars_to_dismantle))
