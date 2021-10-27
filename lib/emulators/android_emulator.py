@@ -236,17 +236,22 @@ class AndroidEmulator(object):
         screen = screen if screen is not None else self._get_screen()
         return [screen.getpixel(position) for position in positions]
 
-    def get_position_inside_screen_rectangle(self, rect):
-        """Gets (x,y) position inside screen rectangle.
+    def get_position_inside_screen_rectangle(self, rect, offset=0.1):
+        """Gets (x,y) position inside screen rectangle with padding offset.
 
         :param tuple[float, float, float, float] | lib.game.ui.Rect rect: local rectangle inside (0, 0, 1, 1) range.
+        :param float offset: padding offset inside rectangle.
 
         :return: (x, y) position inside screen rectangle.
         :rtype: tuple[int, int]
         """
-        if rect[0] == rect[2] and rect[1] == rect[3]:
-            return int(rect[0] * self.width), int(rect[1] * self.height)
-        x, y = random.uniform(rect[0], rect[2]), random.uniform(rect[1], rect[3])
+        x1, x2, dx = rect[0], rect[2], rect[2] - rect[0]
+        y1, y2, dy = rect[1], rect[3], rect[3] - rect[1]
+        if x1 == x2 and y1 == y2:
+            return int(x1 * self.width), int(y1 * self.height)
+        x1, x2 = x1 + dx * offset, x2 - dx * offset
+        y1, y2 = y1 + dy * offset, y2 - dy * offset
+        x, y = random.uniform(x1, x2), random.uniform(y1, y2)
         return int(x * self.width), int(y * self.height)
 
     def get_screen_text(self, ui_element, screen=None):
