@@ -11,11 +11,11 @@ class Story(Missions):
     """Class for working with Story missions."""
 
     class STORY_MISSION:
-        DIMENSIONAL_CLASH_NORMAL = ui.STORY_MISSION_DIMENSIONAL_CLASH_NORMAL
-        DIMENSIONAL_CLASH_ULTIMATE = ui.STORY_MISSION_DIMENSIONAL_CLASH_ULTIMATE
+        DIMENSIONAL_CLASH_NORMAL = "STORY_MISSION_DIMENSIONAL_CLASH_NORMAL"
+        DIMENSIONAL_CLASH_ULTIMATE = "STORY_MISSION_DIMENSIONAL_CLASH_ULTIMATE"
 
     class STORY_STAGE:
-        DIMENSIONAL_CLASH_1_1 = ui.STORY_MISSION_DIMENSIONAL_CLASH_1_1
+        DIMENSIONAL_CLASH_1_1 = "STORY_MISSION_DIMENSIONAL_CLASH_1_1"
 
     def __init__(self, game):
         """Class initialization.
@@ -52,23 +52,24 @@ class Story(Missions):
     def _open_story_mission(self, story_mission):
         """Opens given Story mission from Story lobby.
 
-        :param ui.UIElement story_mission: UI element that represent Story Mission.
+        :param str story_mission: UI element that represent Story Mission.
 
         :rtype: bool
         """
-        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=story_mission):
-            logger.debug(f"Opening Story mission {story_mission}")
-            self.emulator.click_button(story_mission)
+        story_mission_ui = ui.get_by_name(story_mission)
+        if wait_until(self.emulator.is_ui_element_on_screen, ui_element=story_mission_ui):
+            logger.debug(f"Opening Story mission {story_mission_ui}")
+            self.emulator.click_button(story_mission_ui)
             # TODO: normal start button
             return wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.STORY_ULTIMATE_START_BUTTON)
-        logger.error(f"Can't open Store mission {story_mission}")
+        logger.error(f"Can't open Store mission {story_mission_ui}")
 
     def _select_story_stage(self, story_stage):
         """Selects stage of Story mission.
 
-        :param ui.UIElement story_stage: UI element that represent mission stage.
+        :param str story_stage: UI element that represent mission stage.
         """
-        while not self.emulator.is_ui_element_on_screen(story_stage):
+        while not self.emulator.is_ui_element_on_screen(ui.get_by_name(story_stage)):
             # TODO: plus sign for next missions
             self.emulator.click_button(ui.STORY_STAGE_MINUS)
 
@@ -82,8 +83,8 @@ class Story(Missions):
         """Does missions.
 
         :param int times: how many stages to complete.
-        :param ui.UIElement story_mission: UI element that represent Story Mission.
-        :param ui.UIElement story_stage: UI element that represent mission stage.
+        :param str story_mission: UI element that represent Story Mission.
+        :param str story_stage: UI element that represent mission stage.
         """
         self.start_missions(times=times, story_mission=story_mission, story_stage=story_stage)
         self.end_missions()

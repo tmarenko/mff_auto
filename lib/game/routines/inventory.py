@@ -464,12 +464,12 @@ class Artifact(Notifications):
     """Class for working with Artifacts."""
 
     class ARTIFACT_STARS:
-        STAR_1 = ui.ARTIFACT_DISMANTLE_STAR_1
-        STAR_2 = ui.ARTIFACT_DISMANTLE_STAR_2
-        STAR_3 = ui.ARTIFACT_DISMANTLE_STAR_3
-        STAR_4 = ui.ARTIFACT_DISMANTLE_STAR_4
-        STAR_5 = ui.ARTIFACT_DISMANTLE_STAR_5
-        STAR_6 = ui.ARTIFACT_DISMANTLE_STAR_6
+        STAR_1 = "ARTIFACT_DISMANTLE_STAR_1"
+        STAR_2 = "ARTIFACT_DISMANTLE_STAR_2"
+        STAR_3 = "ARTIFACT_DISMANTLE_STAR_3"
+        STAR_4 = "ARTIFACT_DISMANTLE_STAR_4"
+        STAR_5 = "ARTIFACT_DISMANTLE_STAR_5"
+        STAR_6 = "ARTIFACT_DISMANTLE_STAR_6"
 
     def open_artifact_tab(self):
         """Opens Artifact tab in Inventory."""
@@ -495,8 +495,7 @@ class Artifact(Notifications):
     def _auto_select_for_dismantle(self, artifact_stars):
         """Selects artifacts for dismantling using Auto Select menu.
 
-        :param ui.UIElement | list[ui.UIElement] artifact_stars: artifact's stars to dismantle.
-            See `ARTIFACT_STARS` for reference.
+        :param str | list[str] artifact_stars: artifact's stars to dismantle. See `ARTIFACT_STARS` for reference.
 
         :rtype: bool
         """
@@ -505,8 +504,9 @@ class Artifact(Notifications):
             self.emulator.click_button(ui.ARTIFACT_DISMANTLE_AUTO_SELECT)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=ui.ARTIFACT_DISMANTLE_AUTO_SELECT_LABEL):
                 for artifact_star in artifact_stars:
-                    logger.debug(f"Selecting {artifact_star}.")
-                    self.emulator.click_button(artifact_star)
+                    artifact_star_ui = ui.get_by_name(artifact_star)
+                    logger.debug(f"Selecting {artifact_star_ui}.")
+                    self.emulator.click_button(artifact_star_ui)
                 self.emulator.click_button(ui.ARTIFACT_DISMANTLE_AUTO_SELECT_CONFIRM)
                 if wait_until(self.emulator.is_ui_element_on_screen,
                               ui_element=ui.ARTIFACT_DISMANTLE_AUTO_SELECT_CANCEL):
@@ -518,8 +518,7 @@ class Artifact(Notifications):
     def dismantle_artifacts(self, artifact_stars):
         """Dismantles artifacts.
 
-        :param ui.UIElement | list[ui.UIElement] artifact_stars: artifact's stars to dismantle.
-            See `ARTIFACT_STARS` for reference.
+        :param str | list[str] artifact_stars: artifact's stars to dismantle. See `ARTIFACT_STARS` for reference.
         """
         if not artifact_stars:
             logger.warning("Nothing to dismantle.")

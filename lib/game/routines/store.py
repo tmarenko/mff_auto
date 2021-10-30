@@ -188,10 +188,10 @@ class ArtifactStore(Store):
     """Class for working with Artifact Store."""
 
     class ARTIFACT_CHEST:
-        GOLD_100 = ui.STORE_ARTIFACT_CHEST_1
-        GOLD_250 = ui.STORE_ARTIFACT_CHEST_2
-        GOLD_750 = ui.STORE_ARTIFACT_CHEST_3
-        GOLD_1250 = ui.STORE_ARTIFACT_CHEST_4
+        GOLD_100 = "STORE_ARTIFACT_CHEST_1"
+        GOLD_250 = "STORE_ARTIFACT_CHEST_2"
+        GOLD_750 = "STORE_ARTIFACT_CHEST_3"
+        GOLD_1250 = "STORE_ARTIFACT_CHEST_4"
 
     def open_artifact_store(self):
         """Opens Artifact store using Dimension Chest button in Main Menu."""
@@ -233,14 +233,15 @@ class ArtifactStore(Store):
     def buy_artifact_chest(self, chests_to_buy=None):
         """Buys artifact chest from the Store by it's UI element.
 
-        :param ui.UIElement | list[ui.UIElement] chests_to_buy: UI elements of chest to buy.
+        :param str | list[str] chests_to_buy: UI elements of chest to buy.
         """
         if not self.open_artifact_store():
             return logger.error("Can't open Artifact Store.")
         self._drag_store_list_to_the_right()
         r_sleep(1)  # Wait for animations
         self._drag_store_list_to_the_right()
-        for chest_ui in chests_to_buy:
+        for chest in chests_to_buy:
+            chest_ui = ui.get_by_name(chest)
             if wait_until(self.emulator.is_ui_element_on_screen, ui_element=chest_ui):
                 logger.debug(f"Buying Artifact Chest: {chest_ui.name}")
                 self.emulator.click_button(chest_ui)
