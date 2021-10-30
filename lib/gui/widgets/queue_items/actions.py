@@ -177,11 +177,16 @@ class _CollectEnergyViaAssemblePoints(Action):
                                                      text="Use all available Assemble Points"))
 
 
-class _WaitMaxEnergy(Action):
+class _WaitEnergy(Action):
 
     def __init__(self, game):
         self.wait_until = routines.WaitUntil(game)
-        super().__init__(game, "WAIT FOR MAX ENERGY", self.wait_until.wait_until_max_energy)
+        super().__init__(game, "WAIT FOR ENERGY", self.wait_until.wait_until_energy)
+        self.mode_settings.append(Action.ModeSetting(setting_type=Action.ModeSetting.Spinbox,
+                                                     setting_key="value",
+                                                     text="Wait until energy value is equal or greater than",
+                                                     initial_value=120,
+                                                     max=9999))
 
 
 class _WaitDailyReset(Action):

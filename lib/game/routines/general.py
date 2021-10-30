@@ -23,10 +23,10 @@ class WaitUntil(Notifications):
             sleep(90)
         logger.debug(f"Current Boost points: {self.game.boost}, done.")
 
-    def wait_until_max_energy(self):
+    def wait_until_energy(self, value=120):
         """Waits until energy is max out."""
         logger.debug(f"Current energy: {self.game.energy}, waiting until: {self.game.energy_max}")
-        while int(self.game.energy) < int(self.game.energy_max):
+        while int(self.game.energy) < value:
             sleep(120)
         logger.debug(f"Current energy: {self.game.energy}, done.")
 
