@@ -362,6 +362,13 @@ class PlayingHero(OneStageEpicQuest):
         super().__init__(game=game, mode_label_ui=ui.EQ_PLAYING_HERO_STAGE_LABEL)
 
 
+class HeroesReunited(OneStageEpicQuest):
+    """Class for working with Epic Quest mission: Heroes Reunited: Madness Ensues."""
+
+    def __init__(self, game):
+        super().__init__(game=game, mode_label_ui=ui.EQ_HEROES_REUNITED_STAGE)
+
+
 class GoldenGods(TwoStageEpicQuest):
     """Class for working with Epic Quest mission: Golden Gods."""
 
@@ -580,3 +587,23 @@ class PowerOfTheDark(TenStageWithDifficultyEpicQuest):
     def __init__(self, game):
         super().__init__(game, ui.EQ_SORCERER_SUPREME, ui.EQ_MEMORY_MISSION, ui.EQ_MEMORY_MISSION_LABEL,
                          ui.EQ_POWER_OF_THE_DARK)
+
+
+class IndustrialComplex(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Industrial Complex."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, ui.EQ_FATE_OF_MANKIND, ui.EQ_RECLAIMED_MEMORY, ui.EQ_RECLAIMED_MEMORY_LABEL,
+                         ui.EQ_INDUSTRIAL_COMPLEX)
+
+
+class DeviantDiversion(TenStageWithDifficultyEpicQuest):
+    """Class for working with Epic Quest mission stages: Deviant Diversion."""
+
+    DIFFICULTY = Missions._DIFFICULTY_4
+
+    def __init__(self, game):
+        super().__init__(game, ui.EQ_FATE_OF_MANKIND, ui.EQ_RECLAIMED_MEMORY, ui.EQ_RECLAIMED_MEMORY_LABEL,
+                         ui.EQ_DEVIANT_DIVERSION)

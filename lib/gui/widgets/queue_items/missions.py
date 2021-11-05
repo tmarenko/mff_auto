@@ -713,3 +713,42 @@ class _StoryMission(GameMode):
                                                        setting_key="story_stage",
                                                        text="Select mission stage",
                                                        values_dict=self.story_stage))
+
+
+class _HeroesReunited(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "HEROES REUNITED", missions.HeroesReunited, "Heroes Reunited [Makkari]")
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Checkbox,
+                                                       setting_key="all_stages",
+                                                       text="All stages"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete",
+                                                       min=1, max=4))
+
+
+class _IndustrialComplex(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "INDUSTRIAL COMPLEX", missions.IndustrialComplex, "Industrial Complex [Sersi]")
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))
+
+
+class _DeviantDiversion(GameMode):
+
+    def __init__(self, game):
+        super().__init__(game, "DEVIANT DIVERSION", missions.DeviantDiversion, "Deviant Diversion [Black Panther]")
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="times",
+                                                       text="Select how many stages to complete"))
+        self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
+                                                       setting_key="difficulty",
+                                                       text="Select stage difficulty",
+                                                       min=1, max=4))

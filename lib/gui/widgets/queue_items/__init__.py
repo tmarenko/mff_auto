@@ -72,6 +72,8 @@ def get_missions_dict(mission_instances):
 
     menu_dict = {
         "EPIC QUESTS": {
+            "FATE OF MANKIND": [find_instance(missions._HeroesReunited), find_instance(missions._IndustrialComplex),
+                                find_instance(missions._DeviantDiversion)],
             "DARK REIGN": [find_instance(missions._PlayingHero), find_instance(missions._GoldenGods),
                            find_instance(missions._StingOfTheScorpion), find_instance(missions._SelfDefenseProtocol),
                            find_instance(missions._LegacyOfBlood)],
