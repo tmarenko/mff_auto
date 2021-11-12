@@ -233,7 +233,7 @@ class _TimelineBattle(GameMode):
         self.mode_settings.append(GameMode.ModeSetting(setting_type=GameMode.ModeSetting.Spinbox,
                                                        setting_key="skip_opponent_count",
                                                        text="Select how many opponents to skip before each battle",
-                                                       min=0))
+                                                       min=0, initial_value=0))
 
 
 class _WorldBosses(GameMode):
