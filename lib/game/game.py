@@ -268,6 +268,8 @@ class Game(Notifications):
             return mode
         self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
         r_sleep(1)
+        self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
+        r_sleep(1)
         mode = self.find_mode_on_board(mode_name=mode_name, board=ui.CONTENT_STATUS_BOARD_2, rows=3, cols=4)
         if mode:
             self.go_to_main_menu()
@@ -347,7 +349,9 @@ class Game(Notifications):
             return False
         if mode.ui_board == ui.CONTENT_STATUS_BOARD_2.button_rect.value:
             logger.debug(f"Mode {name} is on second board. Dragging")
-            self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.4)
+            self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
+            r_sleep(1)
+            self.emulator.drag(ui.CONTENT_STATUS_DRAG_FROM, ui.CONTENT_STATUS_DRAG_TO, duration=0.2)
             r_sleep(1)
         self.emulator.click_button(mode.ui_button)
         return True
